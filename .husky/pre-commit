@@ -1,0 +1,3 @@
+#!/bin/sh
+npx tsc --noEmit -p tsconfig.lint.json
+npx lint-staged

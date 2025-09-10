@@ -1,0 +1,16 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true
+	},
+	"include": [
+		"src",
+		"packages.d.ts", // 🔧 додано
+		"vite.config.ts",
+		"commitlint.config.ts",
+		"eslint.config.ts",
+		"project.config.ts",
+		"knip.config.ts"
+	],
+	"exclude": ["node_modules", "dist"]
+}

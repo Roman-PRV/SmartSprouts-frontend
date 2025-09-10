@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext", // краще для Vite, ніж NodeNext
+		"moduleResolution": "Bundler", // вирішує проблему з rollup/parseAst
+		"jsx": "react-jsx", // вирішує JSX-помилки
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./src/*"]
+		},
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"esModuleInterop": true, // вирішує TS1259
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"isolatedModules": true
+	},
+	"include": ["src", "vite.config.ts", "commitlint.config.ts", "packages.d.ts"],
+	"exclude": ["node_modules", "build"]
+}
