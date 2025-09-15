@@ -1,69 +1,93 @@
-# React + TypeScript + Vite
+# SmartSprouts Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SmartSprouts Frontend is a web application component developed for the SmartSprouts educational platform. Built on React, TypeScript, and Vite, it provides a comfortable working environment for developers and lightning-fast performance.
 
-Currently, two official plugins are available:
+## 1. Domain
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This app helps children improve their cognitive skills.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 2. Tech Stack
 
-```js
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+- React 18
+- TypeScript
+- Vite
+- TailwindCSS
+- Vitest
+- ESLint + Prettier
+- Husky + lint-staged
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## 3. Installation
+
+Clone the repository and install dependencies:
+
+```
+Frontend component:
+git clone git@github.com:Roman-PRV/SmartSprouts-frontend.git
+npm install
+npm run dev
+
+Backend component:
+git clone git@github.com:Roman-PRV/SmartSprouts-backend.git
+See the instructions in the corresponding repository.
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 4. Scripts
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+- `dev` Starts the Vite development server for local development.
+- `build` Runs a full TypeScript build (tsc -b) and then compiles the app with Vite for production.
+- `preview` Serves the production build locally using Vite’s preview server.
+- `lint` Runs ESLint on all .ts and .tsx files in src/, automatically fixing issues.
+- `format` Formats all .ts, .tsx, .css, and .md files in src/ using Prettier.
+- `typecheck` Performs a full TypeScript type check without emitting output files.
+- `check-config` Runs both linting and type checking to validate code quality before commits or builds.
 
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## 5. Database Schema
+
+## 6. Folder Structure
+
+## 7. Development Flow
+
+### 7.1 Pull Request Flow
+
 ```
+<type>: <ticket-title> <project-prefix>-<issue-number>
+```
+
+For the full list of types check [Conventional Commits](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
+
+Examples:
+
+- `feat: add dashboard screen ss-123`
+
+### 7.2 Branch Flow
+
+```
+<issue-number>-<type>-<short-desc>
+```
+
+Examples:
+
+- `123-feat-add-dashboard`
+- `12-feat-add-user-flow`
+- `34-fix-user-flow`
+
+### 7.3 Commit Flow
+
+We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0) to handle commit messages
+
+```
+<type>: <description> <project-prefix>-<issue-number>
+```
+
+Examples:
+
+- `feat: add dashboard component ss-45`
+- `fix: update dashboard card size ss-212`
+
+## Contributors:
+
+- **Prokopenko Roman** github: _roman-prv_, discord: _@roman_27794_
