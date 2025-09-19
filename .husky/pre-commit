@@ -1,3 +1,4 @@
 #!/bin/sh
 npx tsc --noEmit -p tsconfig.lint.json
 npx lint-staged
+npx knip --no-exit-code
