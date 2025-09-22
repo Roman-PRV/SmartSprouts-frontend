@@ -1,10 +1,10 @@
-import { Logo } from "~/libs/components/components";
+import { Logo, Navigation } from "~/libs/components/components";
 
 const Header: React.FC = () => {
 	return (
-		<header className="bg-red-50">
+		<header className="flex bg-red-50">
 			<Logo />
-			<h1>SmartSprouts header</h1>
+			<Navigation />
 		</header>
 	);
 };
