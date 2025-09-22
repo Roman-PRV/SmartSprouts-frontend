@@ -1,1 +1,1 @@
-import { LogoSize } from "./logo-size.enum";
+export { LogoSize } from "./logo-size.enum";
