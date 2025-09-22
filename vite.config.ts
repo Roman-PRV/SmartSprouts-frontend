@@ -1,7 +1,8 @@
-import reactPlugin from '@vitejs/plugin-react';
-import { fileURLToPath } from 'node:url';
-import { type ConfigEnv, defineConfig, loadEnv } from 'vite';
-import svgr from 'vite-plugin-svgr';
+import reactPlugin from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
+import { type ConfigEnv, defineConfig, loadEnv } from "vite";
+import svgr from "vite-plugin-svgr";
+import tailwindcss from "@tailwindcss/vite";
 
 const config = ({ mode }: ConfigEnv): ReturnType<typeof defineConfig> => {
 	const { VITE_APP_API_ORIGIN_URL, VITE_APP_DEVELOPMENT_PORT, VITE_APP_PROXY_SERVER_URL } = loadEnv(
@@ -11,14 +12,14 @@ const config = ({ mode }: ConfigEnv): ReturnType<typeof defineConfig> => {
 
 	return defineConfig({
 		build: {
-			outDir: 'build',
+			outDir: "build",
 		},
-		plugins: [reactPlugin(), svgr()],
+		plugins: [reactPlugin(), svgr(), tailwindcss()],
 		resolve: {
 			alias: [
 				{
-					find: '~',
-					replacement: fileURLToPath(new URL('src', import.meta.url)),
+					find: "~",
+					replacement: fileURLToPath(new URL("src", import.meta.url)),
 				},
 			],
 		},

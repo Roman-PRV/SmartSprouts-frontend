@@ -113,6 +113,7 @@ const config = [
 			"react/jsx-no-bind": ["error", { ignoreRefs: true }],
 			"react/react-in-jsx-scope": ["off"],
 			"unicorn/no-null": ["off"],
+			"sonarjs/todo-tag": "off",
 		},
 		settings: {
 			"import/parsers": {
