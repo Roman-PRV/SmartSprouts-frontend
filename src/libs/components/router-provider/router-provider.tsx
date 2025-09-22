@@ -1,14 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import { App } from "~/app.js";
-
-import { GamePage } from "../../../pages/game-page.js";
-import { GameSelectionPage } from "../../../pages/game-selection-page";
-import { HomePage } from "../../../pages/home-page";
-import { LoginPage } from "../../../pages/login-page";
-import { ProfilePage } from "../../../pages/profile-page";
-import { SignupPage } from "../../../pages/signup-page";
-import { MainLayout } from "../main-layout/main-layout.js";
+import { MainLayout } from "~/libs/components/components";
+import {
+	GamePage,
+	GameSelectionPage,
+	HomePage,
+	LoginPage,
+	ProfilePage,
+	SignupPage,
+} from "~/pages/pages";
 
 export const router = createBrowserRouter([
 	{

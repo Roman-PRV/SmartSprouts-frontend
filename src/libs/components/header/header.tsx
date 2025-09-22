@@ -1,4 +1,4 @@
-import { Logo } from "../logo/logo";
+import { Logo } from "~/libs/components/components";
 
 const Header: React.FC = () => {
 	return (

@@ -1,7 +1,7 @@
+import logo from "~/assets/img/logo.png";
+import { LogoSize } from "~/libs/enums/enums";
 import { type ValueOf } from "~/libs/types/types";
 
-import logo from "../../../assets/img/logo.png";
-import { LogoSize } from "../../enums/enums";
 import styles from "./styles.module.css";
 
 type Properties = {
