@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+import { Icon } from "../components";
+
 const Navigation: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -17,23 +19,12 @@ const Navigation: React.FC = () => {
 						className="sm:hidden text-gray-700 focus:outline-none"
 						onClick={handleBurgerClick}
 					>
-						<svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							{isOpen ? (
-								<path
-									d="M6 18L18 6M6 6l12 12"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-								/>
-							) : (
-								<path
-									d="M4 6h16M4 12h16M4 18h16"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-								/>
-							)}
-						</svg>
+						className?: string | undefined; color?: string | undefined; name: IconName;
+						{isOpen ? (
+							<Icon color="white" name="closeIcon" />
+						) : (
+							<Icon color="white" name="burgerMenu" />
+						)}
 					</button>
 
 					<ul className="hidden sm:flex gap-6 text-sm">
