@@ -3,6 +3,8 @@
 	margin: auto;
 	min-height: 100vh;
 	width: 100%;
+	border-radius: var(--border-radius-sm);
+	overflow: hidden;
 }
 
 .layout__main {
