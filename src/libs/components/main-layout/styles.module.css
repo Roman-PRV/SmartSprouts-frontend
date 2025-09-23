@@ -1,5 +1,10 @@
 .layout__container {
 	max-width: var(--container-max-width);
 	margin: auto;
-	@apply min-h-screen w-full flex flex-col;
+	min-height: 100vh;
+	width: 100%;
+}
+
+.layout__main {
+	background-color: var(--color-background-1);
 }
