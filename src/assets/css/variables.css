@@ -1,9 +1,9 @@
 :root {
-	--color-background-1: rgb(71 51 62);
+	--color-background-1: rgb(250, 234, 242);
 	--color-background-2: rgb(240 236 236);
 	--color-background-3: rgb(246 245 245);
 	--color-background-4: rgb(255 255 255);
-	--color-background-dark: rgb(50 34 43);
+	--color-background-dark: rgb(135, 93, 118);
 	--color-background-light-gray: rgb(236 237 238);
 	--color-background-accent: rgb(12 121 151);
 	--color-text-1: rgb(41 45 50);
@@ -12,8 +12,9 @@
 	--color-text-dark: rgb(19 34 56);
 	--color-text-primary: rgb(71 51 62);
 	--color-text-secondary: rgb(105 116 132);
-	--color-brand: rgb(16 173 216);
-	--color-brand-hover: rgb(15 143 178);
+	--color-text-secondary-hover: rgb(105 116 132);
+	--color-brand: rgb(255, 215, 0);
+	--color-brand-hover: rgb(255, 228, 51);
 	--color-accent-1: rgb(255 94 94);
 	--color-accent-2: rgb(170 235 152);
 	--color-accent-3: rgb(9 196 65);

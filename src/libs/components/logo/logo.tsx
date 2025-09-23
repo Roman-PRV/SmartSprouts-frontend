@@ -1,4 +1,4 @@
-import logo from "~/assets/img/logo.png";
+import logo from "~/assets/img/logo_gold_line.png";
 import { LogoSize } from "~/libs/enums/enums";
 import { type ValueOf } from "~/libs/types/types";
 

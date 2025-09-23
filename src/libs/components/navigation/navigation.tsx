@@ -1,7 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+import { getValidClassNames } from "~/libs/helpers/helpers";
+
 import { Icon } from "../components";
+import styles from "./styles.module.css";
 
 const Navigation: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -12,34 +15,28 @@ const Navigation: React.FC = () => {
 
 	return (
 		<nav>
-			<div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+			<div className="px-2 py-4 sm:px-4 lg:px-6">
 				<div className="flex items-center justify-between">
 					<button
 						aria-label="Toggle menu"
-						className="sm:hidden text-gray-700 focus:outline-none"
+						className={getValidClassNames(styles["burger-button"], "sm:hidden")}
 						onClick={handleBurgerClick}
 					>
-						className?: string | undefined; color?: string | undefined; name: IconName;
-						{isOpen ? (
-							<Icon color="white" name="closeIcon" />
-						) : (
-							<Icon color="white" name="burgerMenu" />
-						)}
+						{isOpen ? <Icon name="closeIcon" /> : <Icon name="burgerMenu" />}
 					</button>
-
-					<ul className="hidden sm:flex gap-6 text-sm">
+					<ul className={getValidClassNames(styles["nav"], "hidden sm:flex")}>
 						<li>
-							<NavLink className="hover:text-blue-600" to="/">
+							<NavLink className={getValidClassNames(styles["nav__item"])} to="/">
 								Home
 							</NavLink>
 						</li>
 						<li>
-							<NavLink className="hover:text-blue-600" to="/games">
+							<NavLink className={getValidClassNames(styles["nav__item"])} to="/games">
 								Games
 							</NavLink>
 						</li>
 						<li>
-							<NavLink className="hover:text-blue-600" to="/profile">
+							<NavLink className={getValidClassNames(styles["nav__item"])} to="/profile">
 								Profile
 							</NavLink>
 						</li>
@@ -47,19 +44,41 @@ const Navigation: React.FC = () => {
 				</div>
 
 				{isOpen && (
-					<ul className="mt-4 flex flex-col gap-4 sm:hidden text-sm">
+					<ul
+						className={getValidClassNames(
+							styles["menu"],
+							"sm:hidden",
+							"text-sm",
+							"flex",
+							"flex-col",
+							"items-end",
+							"gap-y-4"
+						)}
+					>
 						<li>
-							<NavLink onClick={handleBurgerClick} to="/">
+							<NavLink
+								className={getValidClassNames(styles["menu__item"])}
+								onClick={handleBurgerClick}
+								to="/"
+							>
 								Home
 							</NavLink>
 						</li>
 						<li>
-							<NavLink onClick={handleBurgerClick} to="/games">
+							<NavLink
+								className={getValidClassNames(styles["menu__item"])}
+								onClick={handleBurgerClick}
+								to="/games"
+							>
 								Games
 							</NavLink>
 						</li>
 						<li>
-							<NavLink onClick={handleBurgerClick} to="/profile">
+							<NavLink
+								className={getValidClassNames(styles["menu__item"])}
+								onClick={handleBurgerClick}
+								to="/profile"
+							>
 								Profile
 							</NavLink>
 						</li>
