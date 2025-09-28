@@ -1,5 +1,5 @@
 import { Logo, Navigation } from "~/libs/components/components";
-import { getValidClassNames } from "~/libs/helpers/get-valid-class-names.helper";
+import { getValidClassNames } from "~/libs/helpers/helpers";
 
 import styles from "./styles.module.css";
 
