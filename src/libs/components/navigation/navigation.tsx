@@ -10,8 +10,17 @@ const Navigation: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleBurgerClick = useCallback((): void => {
-		setIsOpen(!isOpen);
-	}, [isOpen]);
+		setIsOpen((previous) => !previous);
+	}, []);
+
+	const handleKeyDownToggle = useCallback(
+		(event: React.KeyboardEvent): void => {
+			if (event.key === "Enter" || event.key === " ") {
+				handleBurgerClick();
+			}
+		},
+		[handleBurgerClick]
+	);
 
 	return (
 		<nav>
@@ -59,6 +68,7 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["menu__item"])}
 								onClick={handleBurgerClick}
+								onKeyDown={handleKeyDownToggle}
 								to="/"
 							>
 								Home
