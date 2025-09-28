@@ -1,7 +1,6 @@
 .footer {
 	position: relative;
 	background-color: var(--color-background-dark);
-	color: var(--color-text-light);
 	font-family: var(--font-family);
 	height: var(--header-height-md);
 	z-index: var(--z-index-high);
