@@ -1,5 +1,5 @@
 @layer utilities {
-	/* 🎨 Background colors */
+	/* Background colors */
 	.bg-background-1 {
 		background-color: var(--color-background-1);
 	}
@@ -22,7 +22,7 @@
 		background-color: var(--color-background-accent);
 	}
 
-	/* 🖋️ Text colors */
+	/* Text colors */
 	.text-1 {
 		color: var(--color-text-1);
 	}
@@ -75,7 +75,7 @@
 		background-color: var(--color-accent-3);
 	}
 
-	/* 🧱 Border radius */
+	/* Border radius */
 	.rounded-sm-custom {
 		border-radius: var(--border-radius-sm);
 	}
@@ -89,7 +89,7 @@
 		border-radius: var(--border-radius-xl);
 	}
 
-	/* 🔤 Fonts */
+	/* Fonts */
 	.font-primary {
 		font-family: var(--font-family);
 	}
@@ -103,7 +103,7 @@
 		font-family: var(--fourth-font-family);
 	}
 
-	/* 🧭 Z-index */
+	/* Z-index */
 	.z-low {
 		z-index: var(--z-index-low);
 	}
@@ -114,12 +114,7 @@
 		z-index: var(--z-index-high);
 	}
 
-	/* 📐 Container */
-	/* .max-container {
-		max-width: var(--container-max);
-	} */
-
-	/* 📏 Header height */
+	/* Header height */
 	.h-header-md {
 		height: var(--header-height-md);
 	}
