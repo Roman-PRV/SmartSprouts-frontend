@@ -69,7 +69,6 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["menu__item"])}
 								onClick={handleBurgerClick}
-								onKeyDown={handleKeyDownToggle}
 								to="/"
 							>
 								Home
@@ -79,7 +78,6 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["menu__item"])}
 								onClick={handleBurgerClick}
-								onKeyDown={handleKeyDownToggle}
 								to="/games"
 							>
 								Games
@@ -89,7 +87,6 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["menu__item"])}
 								onClick={handleBurgerClick}
-								onKeyDown={handleKeyDownToggle}
 								to="/profile"
 							>
 								Profile
