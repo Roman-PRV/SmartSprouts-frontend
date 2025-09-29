@@ -30,6 +30,7 @@ const Navigation: React.FC = () => {
 						aria-label="Toggle menu"
 						className={getValidClassNames(styles["burger-button"], "sm:hidden")}
 						onClick={handleBurgerClick}
+						onKeyDown={handleKeyDownToggle}
 					>
 						{isOpen ? <Icon name="closeIcon" /> : <Icon name="burgerMenu" />}
 					</button>
@@ -78,6 +79,7 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["menu__item"])}
 								onClick={handleBurgerClick}
+								onKeyDown={handleKeyDownToggle}
 								to="/games"
 							>
 								Games
@@ -87,6 +89,7 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["menu__item"])}
 								onClick={handleBurgerClick}
+								onKeyDown={handleKeyDownToggle}
 								to="/profile"
 							>
 								Profile
