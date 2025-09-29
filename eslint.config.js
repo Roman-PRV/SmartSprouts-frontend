@@ -94,10 +94,22 @@ const config = [
 			"arrow-parens": ["error", "always"],
 			curly: ["error", "all"],
 			"import/exports-last": ["error"],
-			"import/extensions": ["error", { js: "ignorePackages", json: "always" }],
+			"import/extensions": [
+				"error",
+				"ignorePackages",
+				{
+					js: "never",
+					jsx: "never",
+					ts: "never",
+					tsx: "never",
+					json: "always",
+					css: "always",
+				},
+			],
 			"import/newline-after-import": ["error"],
 			"import/no-default-export": ["error"],
 			"import/no-duplicates": ["error"],
+			"import/no-unresolved": ["error", { ignore: ["\\.module\\.css$"] }],
 			"jsdoc/no-undefined-types": ["error"],
 			"max-params": ["error", JS_MAX_PARAMS_ALLOWED],
 			"no-console": ["error"],
@@ -111,8 +123,10 @@ const config = [
 			"perfectionist/sort-named-exports": ["error", { groupKind: "types-first" }],
 			quotes: ["error", "double"],
 			"react/jsx-no-bind": ["error", { ignoreRefs: true }],
+			"react/prop-types": "off",
 			"react/react-in-jsx-scope": ["off"],
 			"unicorn/no-null": ["off"],
+			"sonarjs/todo-tag": "off",
 		},
 		settings: {
 			"import/parsers": {
@@ -120,6 +134,9 @@ const config = [
 			},
 			"import/resolver": {
 				typescript: tsResolver,
+			},
+			node: {
+				extensions: [".js", ".jsx", ".ts", ".tsx", ".css"],
 			},
 			react: {
 				version: "detect",

@@ -5,7 +5,7 @@
 	},
 	"include": [
 		"src",
-		"packages.d.ts", // 🔧 додано
+		"packages.d.ts",
 		"vite.config.ts",
 		"commitlint.config.ts",
 		"eslint.config.ts",

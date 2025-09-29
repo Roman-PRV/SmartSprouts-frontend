@@ -1,0 +1,107 @@
+/* Inter */
+@font-face {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: 400;
+	src: url("../fonts/inter/Inter-Regular.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: 500;
+	src: url("../fonts/inter/Inter-Medium.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: 600;
+	src: url("../fonts/inter/Inter-SemiBold.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: 700;
+	src: url("../fonts/inter/Inter-Bold.woff2") format("woff2");
+	font-display: swap;
+}
+
+/* Nunito */
+@font-face {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: 400;
+	src: url("../fonts/nunito/Nunito-Regular.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: 600;
+	src: url("../fonts/nunito/Nunito-SemiBold.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: 700;
+	src: url("../fonts/nunito/Nunito-Bold.woff2") format("woff2");
+	font-display: swap;
+}
+
+/* Roboto */
+@font-face {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 400;
+	src: url("../fonts/roboto/Roboto-Regular.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	src: url("../fonts/roboto/Roboto-Medium.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 700;
+	src: url("../fonts/roboto/Roboto-Bold.woff2") format("woff2");
+	font-display: swap;
+}
+
+/* Plus Jakarta Sans */
+@font-face {
+	font-family: "Plus Jakarta Sans";
+	font-style: normal;
+	font-weight: 400;
+	src: url("../fonts/plus-jakarta-sans/PlusJakartaSans-Regular.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Plus Jakarta Sans";
+	font-style: normal;
+	font-weight: 500;
+	src: url("../fonts/plus-jakarta-sans/PlusJakartaSans-Medium.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Plus Jakarta Sans";
+	font-style: normal;
+	font-weight: 700;
+	src: url("../fonts/plus-jakarta-sans/PlusJakartaSans-Bold.woff2") format("woff2");
+	font-display: swap;
+}

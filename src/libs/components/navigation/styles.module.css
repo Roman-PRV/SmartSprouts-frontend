@@ -1,0 +1,42 @@
+.menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	z-index: var(--z-index-high);
+	padding: 1rem 1.5rem;
+	background-color: var(--color-background-1);
+	color: var(--color-text-primary);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu__item {
+	transition: color 0.2s ease-in-out;
+}
+
+.menu__item:hover {
+	color: var(--color-text-secondary-hover);
+}
+
+.burger-button {
+	color: var(--color-brand);
+	transition: color 0.2s ease-in-out;
+}
+
+.burger-button:hover {
+	color: var(--color-brand-hover);
+}
+
+.nav {
+	gap: 1.5rem;
+	font-size: 1rem;
+}
+
+.nav__item {
+	color: var(--color-brand);
+	transition: color 0.2s ease-in-out;
+}
+
+.nav__item:hover {
+	color: var(--color-brand-hover);
+}
