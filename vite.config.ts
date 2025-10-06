@@ -32,6 +32,12 @@ const config = ({ mode }: ConfigEnv): ReturnType<typeof defineConfig> => {
 				},
 			},
 		},
+		test: {
+			include: ["tests/**/*.spec.ts", "src/**/*.spec.ts"],
+			globals: true,
+			environment: "node",
+			setupFiles: "tests/setup.ts",
+		},
 	});
 };
 

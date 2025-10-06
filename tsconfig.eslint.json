@@ -5,6 +5,7 @@
 	},
 	"include": [
 		"src",
+		"tests",
 		"packages.d.ts",
 		"vite.config.ts",
 		"commitlint.config.ts",

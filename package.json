@@ -10,7 +10,10 @@
 		"lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
 		"format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
 		"typecheck": "tsc --noEmit",
-		"check-config": "npm run lint && npm run typecheck"
+		"check-config": "npm run lint && npm run typecheck",
+		"test": "vitest",
+		"test:watch": "vitest --watch",
+		"test:coverage": "vitest --coverage"
 	},
 	"lint-staged": {
 		"src/**/*.{ts,tsx}": [
@@ -60,6 +63,7 @@
 		"eslint-plugin-unicorn": "59.0.1",
 		"globals": "16.3.0",
 		"husky": "9.1.7",
+		"jsdom": "27.0.0",
 		"knip": "5.61.3",
 		"lint-staged": "16.1.2",
 		"prettier": "3.6.2",
@@ -72,6 +76,7 @@
 		"tsc-alias": "1.8.16",
 		"typescript": "5.8.3",
 		"vite": "7.0.3",
-		"vite-plugin-svgr": "4.3.0"
+		"vite-plugin-svgr": "4.3.0",
+		"vitest": "3.2.4"
 	}
 }
