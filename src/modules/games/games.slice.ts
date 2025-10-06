@@ -1,0 +1,37 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+import { DataStatus } from "~/libs/enums/enums.js";
+import { type ValueOf } from "~/libs/types/types.js";
+import { type GameDescriptionDto } from "~/types/game-description-dto.type.js";
+
+import { getAllGames } from "./actions.js";
+
+type State = {
+	dataStatus: ValueOf<typeof DataStatus>;
+	items: GameDescriptionDto[];
+};
+
+const initialState: State = {
+	dataStatus: DataStatus.IDLE,
+	items: [],
+};
+
+const { actions, name, reducer } = createSlice({
+	extraReducers(builder) {
+		builder.addCase(getAllGames.pending, (state) => {
+			state.dataStatus = DataStatus.PENDING;
+		});
+		builder.addCase(getAllGames.fulfilled, (state, action) => {
+			state.dataStatus = DataStatus.FULFILLED;
+			state.items = action.payload;
+		});
+		builder.addCase(getAllGames.rejected, (state) => {
+			state.dataStatus = DataStatus.REJECTED;
+		});
+	},
+	initialState,
+	name: "games",
+	reducers: {},
+});
+
+export { actions, name, reducer };
