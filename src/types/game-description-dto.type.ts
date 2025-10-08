@@ -1,7 +1,7 @@
 type GameDescriptionDto = {
 	description: string;
+	icon_url: string;
 	id: string;
-	imageUrl: string;
 	isActive?: boolean;
 	title: string;
 };

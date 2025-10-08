@@ -1,3 +1,4 @@
+export { AppEnvironment } from "./app-environment.enum";
 export { ContentType } from "./content-type.enum";
 export { DataStatus } from "./data-status.enum";
 export { LogoSize } from "./logo-size.enum";
