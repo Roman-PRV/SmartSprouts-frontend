@@ -1,4 +1,5 @@
-import React, { useCallback } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { type GameDescriptionDto } from "~/types/game-description-dto.type";
@@ -10,16 +11,14 @@ type Properties = {
 };
 
 const GameCard: React.FC<Properties> = ({ game }) => {
-	const handleClick = useCallback((): void => {}, []);
-
 	return (
-		<button className={getValidClassNames(styles["card"])} onClick={handleClick} type="button">
+		<Link className={getValidClassNames(styles["card"])} to={`/games/${game.id}`}>
 			<img alt={game.title} className={getValidClassNames(styles["image"])} src={game.icon_url} />
 			<div className={getValidClassNames(styles["content"])}>
 				<h2 className={getValidClassNames(styles["cardTitle"])}>{game.title}</h2>
 				<p className={getValidClassNames(styles["description"])}>{game.description}</p>
 			</div>
-		</button>
+		</Link>
 	);
 };
 
