@@ -1,3 +1,4 @@
+import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
@@ -21,9 +22,13 @@ const GameSelectionPage: React.FC = () => {
 			</header>
 
 			<main aria-live="polite" className={getValidClassNames(styles["grid"])}>
-				{games.map((game) => (
-					<GameCard game={game} key={game.id} />
-				))}
+				{games.length === EMPTY_ARRAY_LENGTH ? (
+					<div className={getValidClassNames(styles["no-games"])}>
+						No games available at the moment.
+					</div>
+				) : (
+					games.map((game) => <GameCard game={game} key={game.id} />)
+				)}
 			</main>
 		</div>
 	);
