@@ -1,9 +1,7 @@
-import React, { useCallback, useState } from "react";
-import { NavLink } from "react-router-dom";
-
+import { Icon } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
+import { NavLink, useCallback, useState } from "~/libs/hooks/hooks";
 
-import { Icon } from "../components";
 import styles from "./styles.module.css";
 
 const Navigation: React.FC = () => {

@@ -1,6 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import { Link } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { type GameDescriptionDto } from "~/types/game-description-dto.type";
 

@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector } from "~/libs/hooks/hooks";
+import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
 import { GameCard } from "./game-card";
