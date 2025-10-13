@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { HTTPError } from "~/libs/modules/http/http.js";
+import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
 import { type AsyncThunkConfig } from "~/libs/types/types.js";
-import { type GameDescriptionDto } from "~/types/game-description-dto.type.js";
 
 import { name as sliceName } from "./games.slice.js";
 

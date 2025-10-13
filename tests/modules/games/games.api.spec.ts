@@ -3,8 +3,8 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { type HTTP } from "~/libs/modules/http/http";
 import { type Storage } from "~/libs/modules/storage/storage";
+import { type GameDescriptionDto } from "~/libs/types/types";
 import { GamesApi } from "~/modules/games/games.api";
-import { type GameDescriptionDto } from "~/types/game-description-dto.type";
 
 const FAKE_TOKEN = "test-token";
 const EXPECT_HTTP_CALLS = 1;

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums.js";
+import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
 import { type ValueOf } from "~/libs/types/types.js";
-import { type GameDescriptionDto } from "~/types/game-description-dto.type.js";
 
 import { getAllGames } from "./actions.js";
 

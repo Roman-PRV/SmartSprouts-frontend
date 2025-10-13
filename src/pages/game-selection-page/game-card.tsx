@@ -1,6 +1,6 @@
 import { Link } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { type GameDescriptionDto } from "~/types/game-description-dto.type";
+import { type GameDescriptionDto } from "~/libs/types/types";
 
 import styles from "./styles.module.css";
 
