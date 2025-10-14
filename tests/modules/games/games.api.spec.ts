@@ -1,5 +1,5 @@
 // tests/modules/games/games.api.spec.ts
-import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { type HTTP } from "~/libs/modules/http/http";
 import { type Storage } from "~/libs/modules/storage/storage";
@@ -64,7 +64,7 @@ describe("GamesApi.getAll", () => {
 
 		expect(http.load).toHaveBeenCalledTimes(EXPECT_HTTP_CALLS);
 		expect(http.load).toHaveBeenCalledWith(
-			`${baseUrl}/games`,
+			`${baseUrl}/games/`,
 			expect.objectContaining({ method: "GET" })
 		);
 		expect(result).toEqual(games);
@@ -83,7 +83,7 @@ describe("GamesApi.getAll", () => {
 
 		await expect(api.getAll()).rejects.toThrow("network failed");
 		expect(http.load).toHaveBeenCalledWith(
-			`${baseUrl}/games`,
+			`${baseUrl}/games/`,
 			expect.objectContaining({ method: "GET" })
 		);
 	});
