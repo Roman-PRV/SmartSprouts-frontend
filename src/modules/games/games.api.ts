@@ -1,9 +1,11 @@
-import { ContentType } from "~/libs/enums/enums";
+import { APIPath, ContentType } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Storage } from "~/libs/modules/storage/storage";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type";
+
+import { GamesApiPath } from "./libs/enums/enums";
 
 type Constructor = {
 	baseUrl: string;
@@ -13,11 +15,12 @@ type Constructor = {
 
 class GamesApi extends BaseHTTPApi {
 	public constructor({ baseUrl, http, storage }: Constructor) {
-		super({ baseUrl, http, path: "/games", storage });
+		super({ baseUrl, http, path: APIPath.GAMES, storage });
 	}
 
 	public async getAll(): Promise<GameDescriptionDto[]> {
-		const response = await this.load("http://localhost:3000/api/games", {
+		const url = this.getFullEndpoint(GamesApiPath.ROOT, {});
+		const response = await this.load(url, {
 			contentType: ContentType.JSON,
 			hasAuth: true,
 			method: HTTPMethod.GET,
