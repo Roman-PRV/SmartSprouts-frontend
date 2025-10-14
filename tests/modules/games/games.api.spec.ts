@@ -15,8 +15,8 @@ type StorageMock = { get: ReturnType<typeof vi.fn>; set?: ReturnType<typeof vi.f
 const makeGame = (id: string): GameDescriptionDto =>
 	({
 		description: `Description ${id}`,
+		icon_url: `https://example.com/${id}.png`,
 		id,
-		imageUrl: `https://example.com/${id}.png`,
 		title: `Game ${id}`,
 	}) as unknown as GameDescriptionDto;
 

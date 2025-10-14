@@ -67,8 +67,6 @@
 /* Image */
 .image {
 	width: 100%;
-
-	object-fit: cover;
 	background: linear-gradient(180deg, var(--color-background-1), var(--color-background-2));
 }
 
