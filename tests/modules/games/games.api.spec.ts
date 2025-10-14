@@ -41,10 +41,6 @@ describe("GamesApi.getAll", () => {
 	let storage: StorageMock;
 	const baseUrl = "http://localhost:3000/api";
 
-	beforeAll(() => {
-		Object.defineProperty(navigator, "onLine", { configurable: true, value: true });
-	});
-
 	beforeEach(() => {
 		http = { load: vi.fn() };
 		storage = { get: vi.fn(), set: vi.fn() };
