@@ -1,5 +1,3 @@
-import React from "react";
-
 import { getValidClassNames } from "~/libs/helpers/helpers";
 
 import styles from "./styles.module.css";
