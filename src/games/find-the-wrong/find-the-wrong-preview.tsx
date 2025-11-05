@@ -1,5 +1,5 @@
 const FindTheWrongPreview: React.FC = () => {
-	return <h1>FindTheWrongPreview</h1>;
+	return <div>FindTheWrongPreview</div>;
 };
 
 export { FindTheWrongPreview };
