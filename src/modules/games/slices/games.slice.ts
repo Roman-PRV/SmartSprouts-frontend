@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums.js";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
@@ -7,11 +7,13 @@ import { type ValueOf } from "~/libs/types/types.js";
 import { getAllGames } from "./actions.js";
 
 type State = {
+	currentGame: GameDescriptionDto | null;
 	dataStatus: ValueOf<typeof DataStatus>;
 	games: GameDescriptionDto[];
 };
 
 const initialState: State = {
+	currentGame: null,
 	dataStatus: DataStatus.IDLE,
 	games: [],
 };
@@ -31,7 +33,14 @@ const { actions, name, reducer } = createSlice({
 	},
 	initialState,
 	name: "games",
-	reducers: {},
+	reducers: {
+		clearCurrentGame: (state) => {
+			state.currentGame = null;
+		},
+		setCurrentGame: (state, action: PayloadAction<GameDescriptionDto>) => {
+			state.currentGame = action.payload;
+		},
+	},
 });
 
 export { actions, name, reducer };
