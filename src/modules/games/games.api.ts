@@ -28,6 +28,18 @@ class GamesApi extends BaseHTTPApi {
 
 		return await response.json<GameDescriptionDto[]>();
 	}
+
+	public async getById(id: string): Promise<GameDescriptionDto> {
+		const url = this.getFullEndpoint(GamesApiPath.$ID, { id: String(id) });
+
+		const response = await this.load(url, {
+			contentType: ContentType.JSON,
+			hasAuth: true,
+			method: HTTPMethod.GET,
+		});
+
+		return await response.json<GameDescriptionDto>();
+	}
 }
 
 export { GamesApi };

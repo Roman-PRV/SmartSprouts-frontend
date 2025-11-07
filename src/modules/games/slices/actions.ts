@@ -23,4 +23,21 @@ const getAllGames = createAsyncThunk<GameDescriptionDto[], undefined, AsyncThunk
 	}
 );
 
-export { getAllGames };
+const getById = createAsyncThunk<GameDescriptionDto, string, AsyncThunkConfig>(
+	`${sliceName}/get-game-by-id`,
+	async (gameId, { extra, rejectWithValue }) => {
+		try {
+			const { gamesApi } = extra;
+
+			return await gamesApi.getById(gameId);
+		} catch (error: unknown) {
+			if (error instanceof HTTPError) {
+				return rejectWithValue({ message: error.message, status: error.status });
+			}
+
+			return rejectWithValue({ message: "Failed to fetch game details." });
+		}
+	}
+);
+
+export { getAllGames, getById };

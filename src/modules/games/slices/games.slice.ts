@@ -4,7 +4,7 @@ import { DataStatus } from "~/libs/enums/enums.js";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
 import { type ValueOf } from "~/libs/types/types.js";
 
-import { getAllGames } from "./actions.js";
+import { getAllGames, getById } from "./actions.js";
 
 type State = {
 	currentGame: GameDescriptionDto | null;
@@ -18,6 +18,16 @@ const initialState: State = {
 	games: [],
 };
 
+const normalizeGame = (game: GameDescriptionDto): GameDescriptionDto => {
+	return {
+		...game,
+		id: String((game as unknown as { id: number | string }).id),
+	};
+};
+
+const normalizeGames = (games: GameDescriptionDto[]): GameDescriptionDto[] =>
+	games.map((game) => normalizeGame(game));
+
 const { actions, name, reducer } = createSlice({
 	extraReducers(builder) {
 		builder.addCase(getAllGames.pending, (state) => {
@@ -25,9 +35,19 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(getAllGames.fulfilled, (state, action) => {
 			state.dataStatus = DataStatus.FULFILLED;
-			state.games = action.payload;
+			state.games = normalizeGames(action.payload);
 		});
 		builder.addCase(getAllGames.rejected, (state) => {
+			state.dataStatus = DataStatus.REJECTED;
+		});
+		builder.addCase(getById.pending, (state) => {
+			state.dataStatus = DataStatus.PENDING;
+		});
+		builder.addCase(getById.fulfilled, (state, action) => {
+			state.dataStatus = DataStatus.FULFILLED;
+			state.currentGame = normalizeGame(action.payload);
+		});
+		builder.addCase(getById.rejected, (state) => {
 			state.dataStatus = DataStatus.REJECTED;
 		});
 	},
