@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { HTTPError } from "~/libs/modules/http/http.js";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
-import { type AsyncThunkConfig } from "~/libs/types/types.js";
+import { type AsyncThunkConfig, type LevelDescriptionDto } from "~/libs/types/types.js";
 
 import { name as sliceName } from "./games.slice.js";
 
@@ -40,4 +40,21 @@ const getById = createAsyncThunk<GameDescriptionDto, string, AsyncThunkConfig>(
 	}
 );
 
-export { getAllGames, getById };
+const getLevelsList = createAsyncThunk<LevelDescriptionDto[], string, AsyncThunkConfig>(
+	`${sliceName}/get-levels-list`,
+	async (gameId, { extra, rejectWithValue }) => {
+		try {
+			const { gamesApi } = extra;
+
+			return await gamesApi.getLevelsList(gameId);
+		} catch (error: unknown) {
+			if (error instanceof HTTPError) {
+				return rejectWithValue({ message: error.message, status: error.status });
+			}
+
+			return rejectWithValue({ message: "Failed to fetch game levels." });
+		}
+	}
+);
+
+export { getAllGames, getById, getLevelsList };

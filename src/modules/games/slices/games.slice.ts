@@ -2,18 +2,20 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums.js";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
-import { type ValueOf } from "~/libs/types/types.js";
+import { type LevelDescriptionDto, type ValueOf } from "~/libs/types/types.js";
 
-import { getAllGames, getById } from "./actions.js";
+import { getAllGames, getById, getLevelsList } from "./actions.js";
 
 type State = {
 	currentGame: GameDescriptionDto | null;
+	currentGameLevels: LevelDescriptionDto[] | null;
 	dataStatus: ValueOf<typeof DataStatus>;
 	games: GameDescriptionDto[];
 };
 
 const initialState: State = {
 	currentGame: null,
+	currentGameLevels: null,
 	dataStatus: DataStatus.IDLE,
 	games: [],
 };
@@ -48,6 +50,16 @@ const { actions, name, reducer } = createSlice({
 			state.currentGame = normalizeGame(action.payload);
 		});
 		builder.addCase(getById.rejected, (state) => {
+			state.dataStatus = DataStatus.REJECTED;
+		});
+		builder.addCase(getLevelsList.pending, (state) => {
+			state.dataStatus = DataStatus.PENDING;
+		});
+		builder.addCase(getLevelsList.fulfilled, (state, action) => {
+			state.dataStatus = DataStatus.FULFILLED;
+			state.currentGameLevels = action.payload;
+		});
+		builder.addCase(getLevelsList.rejected, (state) => {
 			state.dataStatus = DataStatus.REJECTED;
 		});
 	},
