@@ -4,6 +4,7 @@ import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Storage } from "~/libs/modules/storage/storage";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type";
+import { type LevelDescriptionDto } from "~/libs/types/types";
 
 import { GamesApiPath } from "./libs/enums/enums";
 
@@ -39,6 +40,20 @@ class GamesApi extends BaseHTTPApi {
 		});
 
 		return await response.json<GameDescriptionDto>();
+	}
+
+	public async getLevelsList(id: string): Promise<LevelDescriptionDto[]> {
+		const url = this.getFullEndpoint(GamesApiPath.$ID, GamesApiPath.LEVELS, {
+			id: String(id),
+		});
+
+		const response = await this.load(url, {
+			contentType: ContentType.JSON,
+			hasAuth: true,
+			method: HTTPMethod.GET,
+		});
+
+		return await response.json<LevelDescriptionDto[]>();
 	}
 }
 
