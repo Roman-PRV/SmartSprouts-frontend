@@ -1,0 +1,83 @@
+.game-title {
+	margin-bottom: 16px;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--color-text-dark);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 12px;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	background: var(--color-background-4);
+	border: 1px solid var(--color-background-light-gray);
+	border-radius: var(--border-radius-md);
+	overflow: hidden;
+	cursor: pointer;
+	outline: none;
+	transition:
+		box-shadow 120ms ease,
+		transform 120ms ease;
+	position: relative;
+	min-height: 160px;
+}
+
+.card:focus {
+	box-shadow: 0 0 0 3px rgba(12, 121, 151, 0.12);
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.card__image {
+	width: 100%;
+	background: linear-gradient(180deg, var(--color-background-1), var(--color-background-2));
+}
+
+.card__number {
+	margin: 0;
+	font-size: 1rem;
+	line-height: 1.2;
+	color: var(--color-text-dark);
+}
+.card__content {
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	flex: 1;
+}
+
+.card__title {
+	margin: 0;
+	font-size: 1.2rem;
+	line-height: 1.2;
+	color: var(--color-text-dark);
+	font-weight: 600;
+}
+
+.no-content {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 20px;
+	border-radius: var(--border-radius-md);
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--color-background-accent) 6%, transparent),
+		color-mix(in srgb, var(--color-text-primary) 2%, transparent)
+	);
+	color: var(--color-text-primary);
+	font-size: 1rem;
+	font-weight: 600;
+	border: 1px dashed color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+}
