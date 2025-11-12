@@ -1,8 +1,8 @@
 type LevelDescriptionDto = {
-	description: string;
-	icon_url: string;
 	id: string;
-	nuber: number;
+	image_url: string;
+	number: number;
+	title: string;
 };
 
 export type { LevelDescriptionDto };
