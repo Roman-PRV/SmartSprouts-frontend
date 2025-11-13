@@ -25,10 +25,18 @@ const GameContentPage: React.FC = () => {
 		}
 	}, [dispatch, id, currentGame, isGameLoading]);
 
-	if (!currentGame) {
+	if (isGameLoading) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
 				<h1>Loading game content...</h1>
+			</div>
+		);
+	}
+
+	if (!currentGame) {
+		return (
+			<div className={getValidClassNames(styles["loading-container"])}>
+				<h1>Game content not found.</h1>
 			</div>
 		);
 	}

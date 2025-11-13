@@ -5,7 +5,7 @@ import { GameKey } from "~/libs/enums/enums";
 
 type GameKeyType = (typeof GameKey)[keyof typeof GameKey];
 
-type GamePreviewComponent = React.FC;
+type GamePreviewComponent = React.ComponentType<Record<string, never>>;
 
 const GamePreviewComponentMap: Record<GameKeyType, GamePreviewComponent> = {
 	[GameKey.FIND_THE_WRONG]: FindTheWrongPreview,
