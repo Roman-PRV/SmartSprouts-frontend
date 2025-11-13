@@ -23,7 +23,7 @@ const initialState: State = {
 const normalizeGame = (game: GameDescriptionDto): GameDescriptionDto => {
 	return {
 		...game,
-		id: String((game as unknown as { id: number | string }).id),
+		id: String(game.id),
 	};
 };
 
