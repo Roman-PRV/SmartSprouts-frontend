@@ -2,11 +2,10 @@ import { FindTheWrongPreview } from "~/games/find-the-wrong/find-the-wrong-previ
 import { TrueFalseImagePreview } from "~/games/true-false-image/true-false-image-preview";
 import { TrueFalseTextPreview } from "~/games/true-false-text/true-false-text-preview";
 import { GameKey } from "~/libs/enums/enums";
-import { type GameDescriptionDto } from "~/libs/types/types";
 
 type GameKeyType = (typeof GameKey)[keyof typeof GameKey];
 
-type GamePreviewComponent = React.FC<{ game: GameDescriptionDto }>;
+type GamePreviewComponent = React.FC;
 
 const GamePreviewComponentMap: Record<GameKeyType, GamePreviewComponent> = {
 	[GameKey.FIND_THE_WRONG]: FindTheWrongPreview,

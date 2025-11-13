@@ -37,7 +37,7 @@ const GameContentPage: React.FC = () => {
 	return (
 		<div>
 			<h1>Game Content Page: {id}</h1>
-			<GamePreviewComponent game={currentGame} />
+			<GamePreviewComponent />
 		</div>
 	);
 };
