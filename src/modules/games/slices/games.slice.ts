@@ -24,16 +24,6 @@ const initialState: State = {
 	levelsStatus: DataStatus.IDLE,
 };
 
-const normalizeGame = (game: GameDescriptionDto): GameDescriptionDto => {
-	return {
-		...game,
-		id: String(game.id),
-	};
-};
-
-const normalizeGames = (games: GameDescriptionDto[]): GameDescriptionDto[] =>
-	games.map((game) => normalizeGame(game));
-
 const { actions, name, reducer } = createSlice({
 	extraReducers(builder) {
 		builder.addCase(getAllGames.pending, (state) => {
@@ -41,7 +31,7 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(getAllGames.fulfilled, (state, action) => {
 			state.gamesStatus = DataStatus.FULFILLED;
-			state.games = normalizeGames(action.payload);
+			state.games = action.payload;
 		});
 		builder.addCase(getAllGames.rejected, (state) => {
 			state.gamesStatus = DataStatus.REJECTED;
@@ -51,7 +41,7 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(getById.fulfilled, (state, action) => {
 			state.currentGameStatus = DataStatus.FULFILLED;
-			state.currentGame = normalizeGame(action.payload);
+			state.currentGame = action.payload;
 		});
 		builder.addCase(getById.rejected, (state) => {
 			state.currentGameStatus = DataStatus.REJECTED;
