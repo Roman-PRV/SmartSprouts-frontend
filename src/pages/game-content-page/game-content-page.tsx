@@ -13,7 +13,9 @@ const GameContentPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const currentGame = useAppSelector((state) => state.games.currentGame);
-	const isGameLoading = useAppSelector((state) => state.games.dataStatus === DataStatus.PENDING);
+	const isGameLoading = useAppSelector(
+		(state) => state.games.currentGameStatus === DataStatus.PENDING
+	);
 
 	useEffect(() => {
 		const isDataCached = currentGame && currentGame.id === id;

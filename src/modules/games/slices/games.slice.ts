@@ -9,15 +9,19 @@ import { getAllGames, getById, getLevelsList } from "./actions.js";
 type State = {
 	currentGame: GameDescriptionDto | null;
 	currentGameLevels: LevelDescriptionDto[] | null;
-	dataStatus: ValueOf<typeof DataStatus>;
+	currentGameStatus: ValueOf<typeof DataStatus>;
 	games: GameDescriptionDto[];
+	gamesStatus: ValueOf<typeof DataStatus>;
+	levelsStatus: ValueOf<typeof DataStatus>;
 };
 
 const initialState: State = {
 	currentGame: null,
 	currentGameLevels: null,
-	dataStatus: DataStatus.IDLE,
+	currentGameStatus: DataStatus.IDLE,
 	games: [],
+	gamesStatus: DataStatus.IDLE,
+	levelsStatus: DataStatus.IDLE,
 };
 
 const normalizeGame = (game: GameDescriptionDto): GameDescriptionDto => {
@@ -33,34 +37,34 @@ const normalizeGames = (games: GameDescriptionDto[]): GameDescriptionDto[] =>
 const { actions, name, reducer } = createSlice({
 	extraReducers(builder) {
 		builder.addCase(getAllGames.pending, (state) => {
-			state.dataStatus = DataStatus.PENDING;
+			state.gamesStatus = DataStatus.PENDING;
 		});
 		builder.addCase(getAllGames.fulfilled, (state, action) => {
-			state.dataStatus = DataStatus.FULFILLED;
+			state.gamesStatus = DataStatus.FULFILLED;
 			state.games = normalizeGames(action.payload);
 		});
 		builder.addCase(getAllGames.rejected, (state) => {
-			state.dataStatus = DataStatus.REJECTED;
+			state.gamesStatus = DataStatus.REJECTED;
 		});
 		builder.addCase(getById.pending, (state) => {
-			state.dataStatus = DataStatus.PENDING;
+			state.currentGameStatus = DataStatus.PENDING;
 		});
 		builder.addCase(getById.fulfilled, (state, action) => {
-			state.dataStatus = DataStatus.FULFILLED;
+			state.currentGameStatus = DataStatus.FULFILLED;
 			state.currentGame = normalizeGame(action.payload);
 		});
 		builder.addCase(getById.rejected, (state) => {
-			state.dataStatus = DataStatus.REJECTED;
+			state.currentGameStatus = DataStatus.REJECTED;
 		});
 		builder.addCase(getLevelsList.pending, (state) => {
-			state.dataStatus = DataStatus.PENDING;
+			state.levelsStatus = DataStatus.PENDING;
 		});
 		builder.addCase(getLevelsList.fulfilled, (state, action) => {
-			state.dataStatus = DataStatus.FULFILLED;
+			state.levelsStatus = DataStatus.FULFILLED;
 			state.currentGameLevels = action.payload;
 		});
 		builder.addCase(getLevelsList.rejected, (state) => {
-			state.dataStatus = DataStatus.REJECTED;
+			state.levelsStatus = DataStatus.REJECTED;
 		});
 	},
 	initialState,
