@@ -1,18 +1,16 @@
 import { useParams } from "react-router-dom";
 
-import { DataStatus, type GameKey } from "~/libs/enums/enums";
+import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
-import { GamePreviewComponentMap } from "./game-preview-component-map";
+import { type GameKeyType, GamePreviewComponentMap } from "./game-preview-component-map";
 import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
-
-	type GameKeyType = (typeof GameKey)[keyof typeof GameKey];
 
 	const currentGame = useAppSelector((state) => state.games.currentGame);
 	const isGameLoading = useAppSelector((state) => state.games.dataStatus === DataStatus.PENDING);
@@ -37,10 +35,10 @@ const GameContentPage: React.FC = () => {
 	const GamePreviewComponent = GamePreviewComponentMap[gameKey];
 
 	return (
-		<h1>
-			Game Content Page: {id}
+		<div>
+			<h1>Game Content Page: {id}</h1>
 			<GamePreviewComponent game={currentGame} />
-		</h1>
+		</div>
 	);
 };
 

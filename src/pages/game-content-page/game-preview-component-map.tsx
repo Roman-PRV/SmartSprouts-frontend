@@ -14,4 +14,4 @@ const GamePreviewComponentMap: Record<GameKeyType, GamePreviewComponent> = {
 	[GameKey.TRUE_FALSE_TEXT]: TrueFalseTextPreview,
 };
 
-export { GamePreviewComponentMap };
+export { type GameKeyType, GamePreviewComponentMap };

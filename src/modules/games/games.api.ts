@@ -44,7 +44,7 @@ class GamesApi extends BaseHTTPApi {
 
 	public async getLevelsList(id: string): Promise<LevelDescriptionDto[]> {
 		const url = this.getFullEndpoint(GamesApiPath.$ID, GamesApiPath.LEVELS, {
-			id: String(id),
+			id,
 		});
 
 		const response = await this.load(url, {
