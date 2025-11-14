@@ -1,10 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { HTTPError } from "~/libs/modules/http/http.js";
-import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
-import { type AsyncThunkConfig, type LevelDescriptionDto } from "~/libs/types/types.js";
+import type {
+	AsyncThunkConfig,
+	GameDescriptionDto,
+	GameWithLevelsDto,
+	LevelDescriptionDto,
+} from "~/libs/types/types.js";
 
-import { name as sliceName } from "./games.slice.js";
+import { normalizeError } from "~/libs/helpers/normalize-error/normalize-error.js";
+
+import { actions as gamesSliceActions, name as sliceName } from "./games.slice.js";
 
 const getAllGames = createAsyncThunk<GameDescriptionDto[], undefined, AsyncThunkConfig>(
 	`${sliceName}/get-all-games`,
@@ -14,11 +19,7 @@ const getAllGames = createAsyncThunk<GameDescriptionDto[], undefined, AsyncThunk
 
 			return await gamesApi.getAll();
 		} catch (error: unknown) {
-			if (error instanceof HTTPError) {
-				return rejectWithValue({ message: error.message, status: error.status });
-			}
-
-			return rejectWithValue({ message: "Something went wrong" });
+			return rejectWithValue(normalizeError(error));
 		}
 	}
 );
@@ -31,11 +32,7 @@ const getById = createAsyncThunk<GameDescriptionDto, string, AsyncThunkConfig>(
 
 			return await gamesApi.getById(gameId);
 		} catch (error: unknown) {
-			if (error instanceof HTTPError) {
-				return rejectWithValue({ message: error.message, status: error.status });
-			}
-
-			return rejectWithValue({ message: "Failed to fetch game details." });
+			return rejectWithValue(normalizeError(error));
 		}
 	}
 );
@@ -48,13 +45,26 @@ const getLevelsList = createAsyncThunk<LevelDescriptionDto[], string, AsyncThunk
 
 			return await gamesApi.getLevelsList(gameId);
 		} catch (error: unknown) {
-			if (error instanceof HTTPError) {
-				return rejectWithValue({ message: error.message, status: error.status });
-			}
-
-			return rejectWithValue({ message: "Failed to fetch game levels." });
+			return rejectWithValue(normalizeError(error));
 		}
 	}
 );
 
-export { getAllGames, getById, getLevelsList };
+const loadGameWithLevels = createAsyncThunk<GameWithLevelsDto, string, AsyncThunkConfig>(
+	`${sliceName}/load-game-with-levels`,
+	async (gameId, { dispatch, rejectWithValue }) => {
+		try {
+			dispatch(gamesSliceActions.clearCurrentGame());
+			const game = await dispatch(getById(gameId)).unwrap();
+			const levels = await dispatch(getLevelsList(gameId)).unwrap();
+
+			return { game, levels };
+		} catch (error: unknown) {
+			const normalized = normalizeError(error);
+
+			return rejectWithValue(normalized);
+		}
+	}
+);
+
+export { getAllGames, getById, getLevelsList, loadGameWithLevels };
