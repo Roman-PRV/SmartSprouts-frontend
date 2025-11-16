@@ -1,88 +1,57 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect, useParams, useRef } from "~/libs/hooks/hooks";
-import { loadGameWithLevels } from "~/modules/games/slices/actions";
+import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
+import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type";
+import { getLevelsList } from "~/modules/games/slices/actions";
 
 import { LevelPreviewCard } from "./level-preview-card";
 import styles from "./styles.module.css";
 
-const TrueFalseImagePreview: React.FC = () => {
-	const { id: gameId } = useParams();
+type Properties = { game: GameDescriptionDto };
+
+const TrueFalseImagePreview: React.FC<Properties> = ({ game }) => {
 	const dispatch = useAppDispatch();
-
-	const inFlightIdReference = useRef<null | string>(null);
-
-	const currentGame = useAppSelector((s) => s.games.currentGame);
-	const currentGameLevels = useAppSelector((s) => s.games.currentGameLevels);
-	const currentGameStatus = useAppSelector((s) => s.games.currentGameStatus);
-	const levelsStatus = useAppSelector((s) => s.games.levelsStatus);
+	const { currentGameLevels, currentGameStatus, levelsStatus } = useAppSelector((s) => s.games);
 
 	useEffect(() => {
-		if (!gameId) {
-			return;
+		void dispatch(getLevelsList(game.id));
+	}, [dispatch, game.id]);
+
+	const isLoading = currentGameStatus === DataStatus.PENDING || levelsStatus === DataStatus.PENDING;
+	const hasError =
+		currentGameStatus === DataStatus.REJECTED || levelsStatus === DataStatus.REJECTED;
+	const hasLevels = currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH;
+
+	const renderContent = (): React.JSX.Element => {
+		if (isLoading) {
+			return <div className={getValidClassNames(styles["no-content"])}>Loading levels…</div>;
 		}
 
-		if (inFlightIdReference.current === gameId) {
-			return;
+		if (hasError) {
+			return (
+				<div className={getValidClassNames(styles["no-content"])}>
+					Failed to load levels. Please try again.
+				</div>
+			);
 		}
 
-		const alreadyLoaded =
-			currentGame &&
-			currentGame.id === gameId &&
-			Array.isArray(currentGameLevels) &&
-			currentGameLevels.length > EMPTY_ARRAY_LENGTH &&
-			currentGameStatus === DataStatus.FULFILLED &&
-			levelsStatus === DataStatus.FULFILLED;
-
-		if (alreadyLoaded) {
-			return;
+		if (!hasLevels) {
+			return (
+				<div className={getValidClassNames(styles["no-content"])}>
+					No levels available at the moment.
+				</div>
+			);
 		}
 
-		inFlightIdReference.current = gameId;
-
-		void dispatch(loadGameWithLevels(gameId))
-			.unwrap()
-			.catch(() => {
-				/* swallow — slice handles statuses */
-			})
-			.finally(() => {
-				if (inFlightIdReference.current === gameId) {
-					inFlightIdReference.current = null;
-				}
-			});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [dispatch, gameId]);
-
-	let content: React.ReactNode;
-
-	if (currentGameStatus === DataStatus.PENDING || levelsStatus === DataStatus.PENDING) {
-		content = <div className={getValidClassNames(styles["no-content"])}>Loading levels…</div>;
-	} else if (currentGameStatus === DataStatus.REJECTED || levelsStatus === DataStatus.REJECTED) {
-		content = (
-			<div className={getValidClassNames(styles["no-content"])}>
-				<p>Failed to load levels. Please try again.</p>
-			</div>
-		);
-	} else if (
-		currentGame &&
-		Array.isArray(currentGameLevels) &&
-		currentGameLevels.length > EMPTY_ARRAY_LENGTH
-	) {
-		content = (
+		return (
 			<>
 				{currentGameLevels.map((level, index) => (
-					<LevelPreviewCard game={currentGame} key={level.id} level={level} number={index} />
+					<LevelPreviewCard game={game} key={level.id} level={level} number={index} />
 				))}
 			</>
 		);
-	} else {
-		content = (
-			<div className={getValidClassNames(styles["no-content"])}>
-				No levels available at the moment.
-			</div>
-		);
-	}
+	};
 
 	return (
 		<div>
@@ -90,7 +59,7 @@ const TrueFalseImagePreview: React.FC = () => {
 				Select a level for the TrueFalseImage game
 			</h2>
 			<main aria-live="polite" className={getValidClassNames(styles["grid"])}>
-				{content}
+				{renderContent()}
 			</main>
 		</div>
 	);
