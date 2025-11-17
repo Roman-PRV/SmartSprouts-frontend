@@ -25,6 +25,12 @@ const GameContentPage: React.FC = () => {
 		}
 	}, [dispatch, id, currentGame, isGameLoading]);
 
+	useEffect(() => {
+		return (): void => {
+			dispatch(gamesActions.clearCurrentGame());
+		};
+	}, [dispatch]);
+
 	if (isGameLoading) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
