@@ -5,7 +5,7 @@ import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
-import { type GameKeyType, GamePreviewComponentMap } from "./game-preview-component-map";
+import { getGamePreviewComponent } from "./game-preview-component-selector";
 import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
@@ -47,8 +47,15 @@ const GameContentPage: React.FC = () => {
 		);
 	}
 
-	const gameKey = currentGame.key as GameKeyType;
-	const GamePreviewComponent = GamePreviewComponentMap[gameKey];
+	const GamePreviewComponent = getGamePreviewComponent(currentGame.key);
+
+	if (!GamePreviewComponent) {
+		return (
+			<div className={getValidClassNames(styles["loading-container"])}>
+				<h1>Unsupported game type: {currentGame.key}</h1>
+			</div>
+		);
+	}
 
 	return (
 		<div>

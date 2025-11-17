@@ -4,4 +4,6 @@ const GameKey = {
 	TRUE_FALSE_TEXT: "true_false_text",
 } as const;
 
-export { GameKey };
+type GameKeyType = (typeof GameKey)[keyof typeof GameKey];
+
+export { type GameKeyType, GameKey };

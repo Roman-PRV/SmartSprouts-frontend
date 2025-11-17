@@ -1,12 +1,8 @@
 import { FindTheWrongPreview } from "~/games/find-the-wrong/find-the-wrong-preview";
 import { TrueFalseImagePreview } from "~/games/true-false-image/true-false-image-preview";
 import { TrueFalseTextPreview } from "~/games/true-false-text/true-false-text-preview";
-import { GameKey } from "~/libs/enums/enums";
-import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type";
-
-type GameKeyType = (typeof GameKey)[keyof typeof GameKey];
-
-type GamePreviewComponent = React.ComponentType<{ game: GameDescriptionDto }>;
+import { GameKey, type GameKeyType } from "~/libs/enums/enums";
+import { type GamePreviewComponent } from "~/libs/types/types";
 
 const GamePreviewComponentMap: Record<GameKeyType, GamePreviewComponent> = {
 	[GameKey.FIND_THE_WRONG]: FindTheWrongPreview,
@@ -14,4 +10,16 @@ const GamePreviewComponentMap: Record<GameKeyType, GamePreviewComponent> = {
 	[GameKey.TRUE_FALSE_TEXT]: TrueFalseTextPreview,
 };
 
-export { type GameKeyType, GamePreviewComponentMap };
+const isValidGameKey = (key: string): key is GameKeyType => {
+	return key in GamePreviewComponentMap;
+};
+
+const getGamePreviewComponent = (key: string): GamePreviewComponent | null => {
+	if (!isValidGameKey(key)) {
+		return null;
+	}
+
+	return GamePreviewComponentMap[key];
+};
+
+export { GamePreviewComponentMap, getGamePreviewComponent, isValidGameKey };
