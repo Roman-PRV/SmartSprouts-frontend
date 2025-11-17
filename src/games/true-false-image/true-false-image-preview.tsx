@@ -55,7 +55,7 @@ const TrueFalseImagePreview: React.FC<Properties> = ({ game }) => {
 	return (
 		<div>
 			<h2 className={getValidClassNames(styles["game-title"])}>
-				Select a level for the TrueFalseImage game
+				Select a level for the {game.title} game
 			</h2>
 			<main aria-live="polite" className={getValidClassNames(styles["grid"])}>
 				{renderContent()}

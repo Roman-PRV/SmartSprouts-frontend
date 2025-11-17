@@ -41,6 +41,17 @@
 	background: linear-gradient(180deg, var(--color-background-1), var(--color-background-2));
 }
 
+.card__image-fallback {
+	width: 200px;
+	height: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--color-background-light-gray);
+	color: var(--color-text-muted);
+	font-size: 14px;
+}
+
 .card__number {
 	margin: 0;
 	font-size: 1rem;

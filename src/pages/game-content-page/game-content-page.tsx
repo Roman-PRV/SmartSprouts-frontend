@@ -1,8 +1,6 @@
-import { useParams } from "react-router-dom";
-
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
+import { useAppDispatch, useAppSelector, useEffect, useParams } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
 import { getGamePreviewComponent } from "./game-preview-component-selector";
