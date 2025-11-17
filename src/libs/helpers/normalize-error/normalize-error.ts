@@ -3,11 +3,7 @@ import { type ThunkErrorPayload } from "~/libs/types/types.js";
 
 const normalizeError = (error: unknown): ThunkErrorPayload => {
 	if (error instanceof HTTPError) {
-		const payload: ThunkErrorPayload = { message: error.message };
-
-		if (typeof (error as { status?: unknown }).status === "number") {
-			payload.status = (error as { status: number }).status;
-		}
+		const payload: ThunkErrorPayload = { message: error.message, status: error.status };
 
 		return payload;
 	}

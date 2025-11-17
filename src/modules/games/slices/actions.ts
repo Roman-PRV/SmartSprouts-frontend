@@ -3,13 +3,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type {
 	AsyncThunkConfig,
 	GameDescriptionDto,
-	GameWithLevelsDto,
 	LevelDescriptionDto,
 } from "~/libs/types/types.js";
 
 import { normalizeError } from "~/libs/helpers/normalize-error/normalize-error.js";
 
-import { actions as gamesSliceActions, name as sliceName } from "./games.slice.js";
+import { name as sliceName } from "./games.slice.js";
 
 const getAllGames = createAsyncThunk<GameDescriptionDto[], undefined, AsyncThunkConfig>(
 	`${sliceName}/get-all-games`,
@@ -50,21 +49,4 @@ const getLevelsList = createAsyncThunk<LevelDescriptionDto[], string, AsyncThunk
 	}
 );
 
-const loadGameWithLevels = createAsyncThunk<GameWithLevelsDto, string, AsyncThunkConfig>(
-	`${sliceName}/load-game-with-levels`,
-	async (gameId, { dispatch, rejectWithValue }) => {
-		try {
-			dispatch(gamesSliceActions.clearCurrentGame());
-			const game = await dispatch(getById(gameId)).unwrap();
-			const levels = await dispatch(getLevelsList(gameId)).unwrap();
-
-			return { game, levels };
-		} catch (error: unknown) {
-			const normalized = normalizeError(error);
-
-			return rejectWithValue(normalized);
-		}
-	}
-);
-
-export { getAllGames, getById, getLevelsList, loadGameWithLevels };
+export { getAllGames, getById, getLevelsList };

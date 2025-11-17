@@ -63,6 +63,8 @@ const { actions, name, reducer } = createSlice({
 		clearCurrentGame: (state) => {
 			state.currentGame = null;
 			state.currentGameLevels = null;
+			state.currentGameStatus = DataStatus.IDLE;
+			state.levelsStatus = DataStatus.IDLE;
 		},
 		setCurrentGame: (state, action: PayloadAction<GameDescriptionDto>) => {
 			state.currentGame = action.payload;
