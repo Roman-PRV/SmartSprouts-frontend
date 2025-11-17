@@ -20,7 +20,9 @@ const LevelPreviewCard: React.FC<Properties> = ({ game, level, number }) => {
 			<img
 				alt={level.title}
 				className={getValidClassNames(styles["card__image"])}
+				height={120}
 				src={level.image_url}
+				width={200}
 			/>
 			<div className={getValidClassNames(styles["card__content"])}>
 				<p className={getValidClassNames(styles["card__number"])}>Level {number + UI_INDEX_BASE}</p>
