@@ -12,15 +12,14 @@ type Properties = { game: GameDescriptionDto };
 
 const TrueFalseImagePreview: React.FC<Properties> = ({ game }) => {
 	const dispatch = useAppDispatch();
-	const { currentGameLevels, currentGameStatus, levelsStatus } = useAppSelector((s) => s.games);
+	const { currentGameLevels, levelsStatus } = useAppSelector((s) => s.games);
 
 	useEffect(() => {
 		void dispatch(getLevelsList(game.id));
 	}, [dispatch, game.id]);
 
-	const isLoading = currentGameStatus === DataStatus.PENDING || levelsStatus === DataStatus.PENDING;
-	const hasError =
-		currentGameStatus === DataStatus.REJECTED || levelsStatus === DataStatus.REJECTED;
+	const isLoading = levelsStatus === DataStatus.PENDING;
+	const hasError = levelsStatus === DataStatus.REJECTED;
 	const hasLevels = currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH;
 
 	const renderContent = (): React.JSX.Element => {
