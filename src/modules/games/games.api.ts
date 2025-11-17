@@ -31,7 +31,7 @@ class GamesApi extends BaseHTTPApi {
 	}
 
 	public async getById(id: string): Promise<GameDescriptionDto> {
-		const url = this.getFullEndpoint(GamesApiPath.$ID, { id: id });
+		const url = this.getFullEndpoint(GamesApiPath.$ID, { id });
 
 		const response = await this.load(url, {
 			contentType: ContentType.JSON,
