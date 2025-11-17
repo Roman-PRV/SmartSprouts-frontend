@@ -42,8 +42,8 @@
 }
 
 .card__image-fallback {
-	width: 200px;
-	height: 120px;
+	width: 100%;
+	aspect-ratio: 200/120;
 	display: flex;
 	align-items: center;
 	justify-content: center;

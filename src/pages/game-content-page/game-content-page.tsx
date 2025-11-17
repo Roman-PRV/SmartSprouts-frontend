@@ -8,6 +8,7 @@ import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
 	const { id } = useParams();
+
 	const dispatch = useAppDispatch();
 
 	const currentGame = useAppSelector((state) => state.games.currentGame);
@@ -27,7 +28,15 @@ const GameContentPage: React.FC = () => {
 		return (): void => {
 			dispatch(gamesActions.clearCurrentGame());
 		};
-	}, [dispatch]);
+	}, [dispatch, id]);
+
+	if (!id) {
+		return (
+			<div className={getValidClassNames(styles["loading-container"])}>
+				<h1>Invalid or missing game ID.</h1>
+			</div>
+		);
+	}
 
 	if (isGameLoading) {
 		return (

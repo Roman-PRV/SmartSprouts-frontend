@@ -15,8 +15,10 @@ const TrueFalseImagePreview: React.FC<Properties> = ({ game }) => {
 	const { currentGameLevels, levelsStatus } = useAppSelector((s) => s.games);
 
 	useEffect(() => {
-		void dispatch(getLevelsList(game.id));
-	}, [dispatch, game.id]);
+		if (levelsStatus !== DataStatus.PENDING && levelsStatus !== DataStatus.FULFILLED) {
+			void dispatch(getLevelsList(game.id));
+		}
+	}, [dispatch, game.id, levelsStatus]);
 
 	const isLoading = levelsStatus === DataStatus.PENDING;
 	const hasError = levelsStatus === DataStatus.REJECTED;
