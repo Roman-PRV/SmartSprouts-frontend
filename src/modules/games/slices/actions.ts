@@ -6,7 +6,7 @@ import type {
 	LevelDescriptionDto,
 } from "~/libs/types/types.js";
 
-import { normalizeError } from "~/libs/helpers/normalize-error/normalize-error.js";
+import { normalizeError } from "~/libs/helpers/helpers.js";
 
 import { name as sliceName } from "./games.slice.js";
 
