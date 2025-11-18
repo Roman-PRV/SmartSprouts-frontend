@@ -1,8 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { HTTPError } from "~/libs/modules/http/http.js";
-import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
-import { type AsyncThunkConfig } from "~/libs/types/types.js";
+import { normalizeError } from "~/libs/helpers/helpers.js";
+import {
+	type AsyncThunkConfig,
+	type GameDescriptionDto,
+	type LevelDescriptionDto,
+} from "~/libs/types/types.js";
 
 import { name as sliceName } from "./games.slice.js";
 
@@ -14,13 +17,35 @@ const getAllGames = createAsyncThunk<GameDescriptionDto[], undefined, AsyncThunk
 
 			return await gamesApi.getAll();
 		} catch (error: unknown) {
-			if (error instanceof HTTPError) {
-				return rejectWithValue({ message: error.message, status: error.status });
-			}
-
-			return rejectWithValue({ message: "Something went wrong" });
+			return rejectWithValue(normalizeError(error));
 		}
 	}
 );
 
-export { getAllGames };
+const getById = createAsyncThunk<GameDescriptionDto, string, AsyncThunkConfig>(
+	`${sliceName}/get-game-by-id`,
+	async (gameId, { extra, rejectWithValue }) => {
+		try {
+			const { gamesApi } = extra;
+
+			return await gamesApi.getById(gameId);
+		} catch (error: unknown) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+const getLevelsList = createAsyncThunk<LevelDescriptionDto[], string, AsyncThunkConfig>(
+	`${sliceName}/get-levels-list`,
+	async (gameId, { extra, rejectWithValue }) => {
+		try {
+			const { gamesApi } = extra;
+
+			return await gamesApi.getLevelsList(gameId);
+		} catch (error: unknown) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+export { getAllGames, getById, getLevelsList };
