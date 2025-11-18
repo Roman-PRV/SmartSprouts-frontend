@@ -31,6 +31,7 @@ const LevelPreviewCard: React.FC<Properties> = ({ game, level, number }) => {
 			) : (
 				<img
 					alt={level.title}
+					aria-label={`Image unavailable: ${level.title}`}
 					className={getValidClassNames(styles["card__image"])}
 					height={120}
 					loading="lazy"

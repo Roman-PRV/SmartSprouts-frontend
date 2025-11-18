@@ -1,12 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import type {
-	AsyncThunkConfig,
-	GameDescriptionDto,
-	LevelDescriptionDto,
-} from "~/libs/types/types.js";
-
 import { normalizeError } from "~/libs/helpers/helpers.js";
+import {
+	type AsyncThunkConfig,
+	type GameDescriptionDto,
+	type LevelDescriptionDto,
+} from "~/libs/types/types.js";
 
 import { name as sliceName } from "./games.slice.js";
 

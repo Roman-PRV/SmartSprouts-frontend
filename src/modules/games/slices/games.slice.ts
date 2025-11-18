@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums.js";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
@@ -65,9 +65,6 @@ const { actions, name, reducer } = createSlice({
 			state.currentGameLevels = null;
 			state.currentGameStatus = DataStatus.IDLE;
 			state.levelsStatus = DataStatus.IDLE;
-		},
-		setCurrentGame: (state, action: PayloadAction<GameDescriptionDto>) => {
-			state.currentGame = action.payload;
 		},
 	},
 });

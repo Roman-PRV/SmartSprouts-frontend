@@ -1,7 +1,7 @@
 export { type AsyncThunkConfig } from "./async-thunk-config.type.js";
 export { type Config } from "./config.type.js";
 export { type GameDescriptionDto } from "./game-description-dto.type.js";
-export type { GamePreviewComponent } from "./game-preview-component.type.js";
+export { type GamePreviewComponent } from "./game-preview-component.type.js";
 export { type IconName } from "./icon-name.type.js";
 export { type LevelDescriptionDto } from "./level-description-dto.type.js";
 export { type ServerErrorDetail } from "./server-error-detail.type.js";
