@@ -1,4 +1,5 @@
 import { actions as trueFalseImageActions } from "~/games/true-false-image/api/true-false-image-game";
+import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
@@ -9,7 +10,8 @@ import {
 } from "~/libs/hooks/hooks";
 import { type LevelCardProperties } from "~/libs/types/types";
 
-import { type TrueFalseImageResultDto } from "../types/types";
+import { type TrueFalseImageResultDto } from "../../types/types";
+import { TrueFalseImageStatement } from "../true-false-image-statement/true-false-image-statement";
 import styles from "./styles.module.css";
 
 const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) => {
@@ -63,7 +65,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 	);
 
 	const createSelectHandler = useCallback(
-		(statementId: number, value: boolean) => (): void => {
+		(statementId: number) => (value: boolean): void => {
 			handleSelect(statementId, value);
 		},
 		[handleSelect]
@@ -73,9 +75,8 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 		return <div>Loading level...</div>;
 	}
 
-	const MINIMUM_STATEMENTS = 0;
 	const allAnswered: boolean =
-		level.statements.length > MINIMUM_STATEMENTS &&
+		level.statements.length > EMPTY_ARRAY_LENGTH &&
 		level.statements.every((s) => answers[s.id] !== undefined);
 
 	return (
@@ -92,42 +93,14 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 					const result = results?.find((r) => r.statement_id === s.id);
 
 					return (
-						<div className={getValidClassNames(styles["statement"])} key={s.id}>
-							<p className={getValidClassNames(styles["statement__text"])}>{s.statement}</p>
-
-							<div className={getValidClassNames(styles["statement__buttons"])}>
-								<button
-									className={getValidClassNames(
-										selected === true ? styles["statement__button--selected-true"] : styles["statement__button"]
-									)}
-									disabled={results !== null}
-									onClick={createSelectHandler(s.id, true)}
-								>
-									✅
-								</button>
-
-								<button
-									className={getValidClassNames(
-										selected === false ? styles["statement__button--selected-false"] : styles["statement__button"]
-									)}
-									disabled={results !== null}
-									onClick={createSelectHandler(s.id, false)}
-								>
-									❌
-								</button>
-							</div>
-
-							{result && (
-								<div
-									className={getValidClassNames(
-										styles["statement__result"],
-										result.correct ? styles["statement__result--correct"] : styles["statement__result--incorrect"]
-									)}
-								>
-									{result.correct ? "Correct" : "Incorrect"} — {result.explanation}
-								</div>
-							)}
-						</div>
+						<TrueFalseImageStatement
+							disabled={results !== null}
+							key={s.id}
+							onSelect={createSelectHandler(s.id)}
+							result={result}
+							selected={selected}
+							statement={s}
+						/>
 					);
 				})}
 			</div>
