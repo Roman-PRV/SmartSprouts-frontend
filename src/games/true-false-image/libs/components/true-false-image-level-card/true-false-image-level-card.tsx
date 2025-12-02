@@ -19,26 +19,34 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 	const dispatch = useAppDispatch();
 
 	const level = useAppSelector((state) => state.trueFalseImageLevels.currentLevel);
-	const [answers, setAnswers] = useState<Record<number, boolean>>({});
-	const [results] = useState<null | TrueFalseImageResultDto[]>(null);
-	const [isSubmitting] = useState<boolean>(false);
 
-	// TODO: Implement answer submission functionality
-	// const handleSubmit = useCallback(() => { ... }, []);
-	// This will use setResults and setIsSubmitting
-
-	useEffect((): void => {
+	const loadAnswers = useCallback((): Record<number, boolean> => {
 		const saved = localStorage.getItem(storageKey);
 
 		if (saved) {
 			try {
-				const parsed = JSON.parse(saved) as Record<number, boolean>;
-				setAnswers(parsed);
+				return JSON.parse(saved) as Record<number, boolean>;
 			} catch {
-				localStorage.removeItem(storageKey);
+				return {};
 			}
 		}
+
+		return {};
 	}, [storageKey]);
+
+	const [answers, setAnswers] = useState<Record<number, boolean>>(loadAnswers);
+	const [previousKey, setPreviousKey] = useState<string>(storageKey);
+	const [results] = useState<null | TrueFalseImageResultDto[]>(null);
+	const [isSubmitting] = useState<boolean>(false);
+
+	if (storageKey !== previousKey) {
+		setPreviousKey(storageKey);
+		setAnswers(loadAnswers());
+	}
+
+	// TODO: Implement answer submission functionality
+	// const handleSubmit = useCallback(() => { ... }, []);
+	// This will use setResults and setIsSubmitting
 
 	useEffect(() => {
 		void dispatch(
