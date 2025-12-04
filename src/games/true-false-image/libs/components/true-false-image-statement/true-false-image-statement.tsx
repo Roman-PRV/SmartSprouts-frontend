@@ -66,7 +66,7 @@ const TrueFalseImageStatement: React.FC<Properties> = ({
                             : styles["statement__result--incorrect"]
                     )}
                 >
-                    {result.correct ? "Correct" : "Incorrect"} — {result.explanation}
+                    {result.correct ? "Correct" : "Incorrect"}: {result.explanation}
                 </div>
             )}
         </div>

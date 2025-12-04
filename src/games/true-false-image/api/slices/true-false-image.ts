@@ -1,8 +1,9 @@
-import { getLevelById } from "./true-false-image-actions";
+import { checkAnswers, getLevelById } from "./true-false-image-actions";
 import { actions } from "./true-false-image.slice";
 
 const allActions = {
 	...actions,
+	checkAnswers,
 	getLevelById,
 };
 

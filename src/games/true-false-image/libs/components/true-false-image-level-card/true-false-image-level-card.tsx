@@ -36,17 +36,47 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 
 	const [answers, setAnswers] = useState<Record<number, boolean>>(loadAnswers);
 	const [previousKey, setPreviousKey] = useState<string>(storageKey);
-	const [results] = useState<null | TrueFalseImageResultDto[]>(null);
-	const [isSubmitting] = useState<boolean>(false);
+	const [results, setResults] = useState<null | TrueFalseImageResultDto[]>(null);
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
 	if (storageKey !== previousKey) {
 		setPreviousKey(storageKey);
 		setAnswers(loadAnswers());
 	}
 
-	// TODO: Implement answer submission functionality
-	// const handleSubmit = useCallback(() => { ... }, []);
-	// This will use setResults and setIsSubmitting
+	const handleSubmit = useCallback(async (): Promise<void> => {
+		if (!level || isSubmitting || results !== null) {
+			return;
+		}
+
+		setIsSubmitting(true);
+
+		try {
+			const answersArray = Object.entries(answers).map(([statementId, answer]) => ({
+				answer,
+				statement_id: Number(statementId),
+			}));
+
+			const result = await dispatch(
+				trueFalseImageActions.checkAnswers({
+					gameId: game.id,
+					levelId: String(levelId),
+					payload: {
+						answers: answersArray,
+						level_id: level.id,
+					},
+				})
+			).unwrap();
+
+			setResults(result.results);
+		} finally {
+			setIsSubmitting(false);
+		}
+	}, [level, isSubmitting, results, answers, dispatch, game.id, levelId]);
+
+	const handleSubmitClick = useCallback((): void => {
+		void handleSubmit();
+	}, [handleSubmit]);
 
 	useEffect(() => {
 		void dispatch(
@@ -116,6 +146,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 			<button
 				className={getValidClassNames(styles["level-card__submit"])}
 				disabled={!allAnswered || isSubmitting || results !== null}
+				onClick={handleSubmitClick}
 			>
 				{isSubmitting ? "Checking..." : "Check Answers"}
 			</button>
