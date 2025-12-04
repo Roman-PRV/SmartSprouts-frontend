@@ -1,4 +1,5 @@
 import { actions as trueFalseImageActions } from "~/games/true-false-image/api/true-false-image-game";
+import { Link } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
@@ -78,6 +79,12 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 		void handleSubmit();
 	}, [handleSubmit]);
 
+	const handleReset = useCallback((): void => {
+		setAnswers({});
+		setResults(null);
+		localStorage.removeItem(storageKey);
+	}, [storageKey]);
+
 	useEffect(() => {
 		void dispatch(
 			trueFalseImageActions.getLevelById({ gameId: game.id, levelId: String(levelId) })
@@ -150,6 +157,22 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 			>
 				{isSubmitting ? "Checking..." : "Check Answers"}
 			</button>
+
+			<div className={getValidClassNames(styles["level-card__actions"])}>
+				<Link
+					className={getValidClassNames(styles["level-card__action-button"])}
+					to={`/games/${game.id}`}
+				>
+					Back to Levels
+				</Link>
+
+				<button
+					className={getValidClassNames(styles["level-card__action-button"])}
+					onClick={handleReset}
+				>
+					Reset Level
+				</button>
+			</div>
 		</div>
 	);
 };

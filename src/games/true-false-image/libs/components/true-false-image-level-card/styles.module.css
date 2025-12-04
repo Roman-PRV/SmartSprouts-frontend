@@ -68,6 +68,48 @@
 .level-card__submit:focus {
 	box-shadow: 0 0 0 3px rgba(12, 121, 151, 0.3);
 }
+
+/* Element: level-card__actions */
+.level-card__actions {
+	display: flex;
+	gap: 12px;
+	margin-top: 16px;
+	justify-content: center;
+}
+
+/* Element: level-card__action-button */
+.level-card__action-button {
+	flex: 1;
+	max-width: 200px;
+	padding: 12px 24px;
+	font-size: 1rem;
+	font-weight: 500;
+	text-align: center;
+	text-decoration: none;
+	color: var(--color-text-dark);
+	background: var(--color-background-2);
+	border: 2px solid var(--color-background-3);
+	border-radius: var(--border-radius-md);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	outline: none;
+}
+
+.level-card__action-button:hover {
+	background: var(--color-background-3);
+	border-color: var(--color-background-accent);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.level-card__action-button:active {
+	transform: translateY(0);
+}
+
+.level-card__action-button:focus {
+	box-shadow: 0 0 0 3px rgba(12, 121, 151, 0.2);
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
 	.level-card {
@@ -85,6 +127,15 @@
 	.level-card__submit {
 		padding: 14px 24px;
 		font-size: 1.1rem;
+	}
+
+	.level-card__actions {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.level-card__action-button {
+		max-width: 100%;
 	}
 }
 
