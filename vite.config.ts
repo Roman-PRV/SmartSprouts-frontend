@@ -1,26 +1,24 @@
-import reactPlugin from "@vitejs/plugin-react";
-import { fileURLToPath } from "node:url";
-import { type ConfigEnv, defineConfig, loadEnv } from "vite";
-import svgr from "vite-plugin-svgr";
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig as defineVitestConfig } from "vitest/config";
+import reactPlugin from '@vitejs/plugin-react';
+import { fileURLToPath } from 'node:url';
+import { type ConfigEnv, defineConfig, loadEnv } from 'vite';
+import svgr from 'vite-plugin-svgr';
 
-const config = ({ mode }: ConfigEnv) => {
+const config = ({ mode }: ConfigEnv): ReturnType<typeof defineConfig> => {
 	const { VITE_APP_API_ORIGIN_URL, VITE_APP_DEVELOPMENT_PORT, VITE_APP_PROXY_SERVER_URL } = loadEnv(
 		mode,
 		process.cwd()
 	);
 
-	return defineVitestConfig({
+	return defineConfig({
 		build: {
-			outDir: "build",
+			outDir: 'build',
 		},
-		plugins: [reactPlugin(), svgr(), tailwindcss()],
+		plugins: [reactPlugin(), svgr()],
 		resolve: {
 			alias: [
 				{
-					find: "~",
-					replacement: fileURLToPath(new URL("src", import.meta.url)),
+					find: '~',
+					replacement: fileURLToPath(new URL('src', import.meta.url)),
 				},
 			],
 		},
@@ -32,12 +30,6 @@ const config = ({ mode }: ConfigEnv) => {
 					target: VITE_APP_PROXY_SERVER_URL,
 				},
 			},
-		},
-		test: {
-			include: ["tests/**/*.spec.ts", "src/**/*.spec.ts"],
-			globals: true,
-			environment: "node",
-			setupFiles: "tests/setup.ts",
 		},
 	});
 };
