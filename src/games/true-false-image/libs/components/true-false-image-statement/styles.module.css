@@ -1,0 +1,157 @@
+/* Block: statement */
+.statement {
+	padding: 16px;
+	background: var(--color-background-3);
+	border-radius: var(--border-radius-md);
+	border: 1px solid var(--color-background-light-gray);
+	transition: all 0.2s ease;
+}
+
+.statement:hover {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Element: statement__text */
+.statement__text {
+	margin: 0 0 12px;
+	font-size: 1.1rem;
+	line-height: 1.5;
+	color: var(--color-text-dark);
+	font-weight: 500;
+}
+
+/* Element: statement__buttons */
+.statement__buttons {
+	display: flex;
+	gap: 12px;
+}
+
+/* Element: statement__button */
+.statement__button {
+	flex: 1;
+	padding: 12px 24px;
+	font-size: 1.5rem;
+	border: 2px solid var(--color-background-light-gray);
+	border-radius: var(--border-radius-md);
+	background: var(--color-background-4);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	outline: none;
+}
+
+.statement__button:hover:not(:disabled) {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	border-color: var(--color-text-secondary);
+}
+
+.statement__button:active:not(:disabled) {
+	transform: translateY(0);
+}
+
+.statement__button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.statement__button:focus {
+	box-shadow: 0 0 0 3px rgba(12, 121, 151, 0.12);
+}
+
+/* Modifier: statement__button--selected-true */
+.statement__button--selected-true {
+	flex: 1;
+	padding: 12px 24px;
+	font-size: 1.5rem;
+	border: 2px solid var(--color-accent-3);
+	border-radius: var(--border-radius-md);
+	background: color-mix(in srgb, var(--color-accent-2) 30%, var(--color-background-4));
+	cursor: pointer;
+	transition: all 0.2s ease;
+	outline: none;
+	transform: scale(1.05);
+}
+
+/* Modifier: statement__button--selected-false */
+.statement__button--selected-false {
+	flex: 1;
+	padding: 12px 24px;
+	font-size: 1.5rem;
+	border: 2px solid var(--color-accent-1);
+	border-radius: var(--border-radius-md);
+	background: color-mix(in srgb, var(--color-accent-1) 20%, var(--color-background-4));
+	cursor: pointer;
+	transition: all 0.2s ease;
+	outline: none;
+	transform: scale(1.05);
+}
+
+/* Element: statement__result */
+.statement__result {
+	margin-top: 12px;
+	padding: 12px;
+	border-radius: var(--border-radius-sm);
+	color: var(--color-text-dark);
+	font-weight: 500;
+	animation: slideIn 0.3s ease-out;
+}
+
+/* Modifier: statement__result--correct */
+.statement__result--correct {
+	background: color-mix(in srgb, var(--color-accent-2) 40%, var(--color-background-4));
+	border-left: 4px solid var(--color-accent-3);
+}
+
+/* Modifier: statement__result--incorrect */
+.statement__result--incorrect {
+	background: color-mix(in srgb, var(--color-accent-1) 15%, var(--color-background-4));
+	border-left: 4px solid var(--color-accent-1);
+}
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translateX(-10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+	.statement__text {
+		font-size: 1rem;
+	}
+
+	.statement__button,
+	.statement__button--selected-true,
+	.statement__button--selected-false {
+		padding: 10px 16px;
+		font-size: 1.3rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.statement {
+		padding: 12px;
+	}
+
+	.statement__text {
+		font-size: 0.95rem;
+		margin-bottom: 10px;
+	}
+
+	.statement__buttons {
+		gap: 8px;
+	}
+
+	.statement__button,
+	.statement__button--selected-true,
+	.statement__button--selected-false {
+		padding: 8px 12px;
+		font-size: 1.2rem;
+	}
+}

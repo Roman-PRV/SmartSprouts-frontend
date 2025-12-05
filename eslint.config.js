@@ -4,7 +4,6 @@ import ts from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import { resolve as tsResolver } from "eslint-import-resolver-typescript";
 import importPlugin from "eslint-plugin-import";
-import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import perfectionist from "eslint-plugin-perfectionist";
 import react from "eslint-plugin-react";
@@ -56,7 +55,6 @@ const config = [
 			"@stylistic": stylistic,
 			"@typescript-eslint": ts,
 			import: importPlugin,
-			jsdoc,
 			"jsx-a11y": jsxA11y,
 			perfectionist,
 			react,
@@ -74,7 +72,6 @@ const config = [
 			...react.configs.recommended.rules,
 			...reactHooks.configs.recommended.rules,
 			...jsxA11y.configs.recommended.rules,
-			...jsdoc.configs["recommended-typescript-flavor-error"].rules,
 			...perfectionist.configs["recommended-natural"].rules,
 
 			"@typescript-eslint/consistent-type-exports": ["error"],
@@ -94,11 +91,22 @@ const config = [
 			"arrow-parens": ["error", "always"],
 			curly: ["error", "all"],
 			"import/exports-last": ["error"],
-			"import/extensions": ["error", { js: "ignorePackages", json: "always" }],
+			"import/extensions": [
+				"error",
+				"ignorePackages",
+				{
+					js: "never",
+					jsx: "never",
+					ts: "never",
+					tsx: "never",
+					json: "always",
+					css: "always",
+				},
+			],
 			"import/newline-after-import": ["error"],
 			"import/no-default-export": ["error"],
 			"import/no-duplicates": ["error"],
-			"jsdoc/no-undefined-types": ["error"],
+			"import/no-unresolved": ["error", { ignore: ["\\.module\\.css$"] }],
 			"max-params": ["error", JS_MAX_PARAMS_ALLOWED],
 			"no-console": ["error"],
 			"no-multiple-empty-lines": ["error", { max: 1 }],
@@ -111,8 +119,10 @@ const config = [
 			"perfectionist/sort-named-exports": ["error", { groupKind: "types-first" }],
 			quotes: ["error", "double"],
 			"react/jsx-no-bind": ["error", { ignoreRefs: true }],
+			"react/prop-types": "off",
 			"react/react-in-jsx-scope": ["off"],
 			"unicorn/no-null": ["off"],
+			"sonarjs/todo-tag": "off",
 		},
 		settings: {
 			"import/parsers": {
@@ -120,6 +130,9 @@ const config = [
 			},
 			"import/resolver": {
 				typescript: tsResolver,
+			},
+			node: {
+				extensions: [".js", ".jsx", ".ts", ".tsx", ".css"],
 			},
 			react: {
 				version: "detect",
