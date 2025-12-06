@@ -4,18 +4,15 @@ import { DataStatus } from "~/libs/enums/enums.js";
 import { type ValueOf } from "~/libs/types/types.js";
 
 import { type TrueFalseImageLevelDto } from "../../libs/types/true-false-image-level-dto.type";
-import { type TrueFalseImageStatementDto } from "../../libs/types/true-false-image-statement-dto.type";
 import { getLevelById } from "./true-false-image-actions";
 
 type State = {
 	currentLevel: null | TrueFalseImageLevelDto;
-	currentStatements: null | TrueFalseImageStatementDto[];
 	currentStatus: ValueOf<typeof DataStatus>;
 };
 
 const initialState: State = {
 	currentLevel: null,
-	currentStatements: null,
 	currentStatus: DataStatus.IDLE,
 };
 
@@ -37,7 +34,6 @@ const { actions, name, reducer } = createSlice({
 	reducers: {
 		clearCurrentLevel: (state) => {
 			state.currentLevel = null;
-			state.currentStatements = null;
 			state.currentStatus = DataStatus.IDLE;
 		},
 	},

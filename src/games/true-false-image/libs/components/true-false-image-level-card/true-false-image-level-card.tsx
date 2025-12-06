@@ -113,7 +113,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 
 	const allAnswered: boolean =
 		level.statements.length > EMPTY_ARRAY_LENGTH &&
-		level.statements.every((s) => answers[s.id] !== undefined);
+		level.statements.every((s) => s.id in answers);
 
 	return (
 		<div className={getValidClassNames(styles["level-card"])}>
