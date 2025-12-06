@@ -1,6 +1,6 @@
 import { actions as trueFalseImageActions } from "~/games/true-false-image/api/true-false-image-game";
 import { Link } from "~/libs/components/components";
-import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
+import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
