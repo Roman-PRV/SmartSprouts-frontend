@@ -1,5 +1,5 @@
 import { type GameDescriptionDto } from "./game-description-dto.type";
 
-type GamePreviewComponent = (properties: { game: GameDescriptionDto }) => React.JSX.Element;
+type GamePreviewComponent = React.FC<{ game: GameDescriptionDto }>;
 
 export { type GamePreviewComponent };
