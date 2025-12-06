@@ -1,6 +1,7 @@
 import { actions as trueFalseImageActions } from "~/games/true-false-image/api/true-false-image-game";
 import { Link } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
+import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
@@ -20,10 +21,12 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 	const dispatch = useAppDispatch();
 
 	const level = useAppSelector((state) => state.trueFalseImageLevels.currentLevel);
+	const currentStatus = useAppSelector((state) => state.trueFalseImageLevels.currentStatus);
 
 	const [answers, setAnswers] = useState<Record<number, boolean>>({});
 	const [results, setResults] = useState<null | TrueFalseImageResultDto[]>(null);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+	const [submitError, setSubmitError] = useState<null | string>(null);
 
 	const handleSubmit = useCallback(async (): Promise<void> => {
 		if (!level || isSubmitting || results !== null) {
@@ -31,6 +34,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 		}
 
 		setIsSubmitting(true);
+		setSubmitError(null);
 
 		try {
 			const answersArray = Object.entries(answers).map(([statementId, answer]) => ({
@@ -50,6 +54,8 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 			).unwrap();
 
 			setResults(result.results);
+		} catch {
+			setSubmitError("Failed to check answers. Please try again.");
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -108,8 +114,16 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 		[results]
 	);
 
-	if (!level) {
+	if (currentStatus === DataStatus.PENDING) {
 		return <div>Loading level...</div>;
+	}
+
+	if (currentStatus === DataStatus.REJECTED) {
+		return <div>Error loading level. Please try again.</div>;
+	}
+
+	if (!level) {
+		return <div>Level not found.</div>;
 	}
 
 	const allAnswered: boolean =
@@ -149,6 +163,12 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 			>
 				{isSubmitting ? "Checking..." : "Check Answers"}
 			</button>
+
+			{submitError && (
+				<div className={getValidClassNames(styles["level-card__error"])}>
+					{submitError}
+				</div>
+			)}
 
 			<div className={getValidClassNames(styles["level-card__actions"])}>
 				<Link
