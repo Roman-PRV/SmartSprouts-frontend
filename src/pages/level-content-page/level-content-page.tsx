@@ -65,7 +65,11 @@ const LevelContentPage: React.FC = () => {
 	}
 
 	if (!levelId) {
-		return <div>No level selected</div>;
+		return (
+			<div className={getValidClassNames(styles["loading-container"])}>
+				<h1>No level selected</h1>
+			</div>
+		);
 	}
 
 	return (

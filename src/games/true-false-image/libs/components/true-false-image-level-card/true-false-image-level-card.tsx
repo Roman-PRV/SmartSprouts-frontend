@@ -21,21 +21,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 
 	const level = useAppSelector((state) => state.trueFalseImageLevels.currentLevel);
 
-	const loadAnswers = useCallback((): Record<number, boolean> => {
-		const saved = localStorage.getItem(storageKey);
-
-		if (saved) {
-			try {
-				return JSON.parse(saved) as Record<number, boolean>;
-			} catch {
-				return {};
-			}
-		}
-
-		return {};
-	}, [storageKey]);
-
-	const [answers, setAnswers] = useState<Record<number, boolean>>(loadAnswers);
+	const [answers, setAnswers] = useState<Record<number, boolean>>({});
 	const [results, setResults] = useState<null | TrueFalseImageResultDto[]>(null);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -89,9 +75,24 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 		);
 	}, [dispatch, game.id, levelId]);
 
-	useEffect((): void => {
-		localStorage.setItem(storageKey, JSON.stringify(answers));
-	}, [answers, storageKey]);
+	useEffect(() => {
+		const saved = localStorage.getItem(storageKey);
+
+		if (saved) {
+			try {
+				const parsed = JSON.parse(saved) as Record<number, boolean>;
+				setAnswers(parsed);
+			} catch {
+				// Invalid JSON, ignore
+			}
+		}
+	}, [storageKey]);
+
+	useEffect(() => {
+		if (Object.keys(answers).length > EMPTY_ARRAY_LENGTH || results !== null) {
+			localStorage.setItem(storageKey, JSON.stringify(answers));
+		}
+	}, [answers, storageKey, results]);
 
 	const handleSelect = useCallback(
 		(statementId: number, value: boolean): void => {
