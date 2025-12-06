@@ -107,13 +107,6 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 		[results]
 	);
 
-	const createSelectHandler = useCallback(
-		(statementId: number) => (value: boolean): void => {
-			handleSelect(statementId, value);
-		},
-		[handleSelect]
-	);
-
 	if (!level) {
 		return <div>Loading level...</div>;
 	}
@@ -139,7 +132,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 						<TrueFalseImageStatement
 							disabled={results !== null}
 							key={s.id}
-							onSelect={createSelectHandler(s.id)}
+							onSelect={handleSelect}
 							result={result}
 							selected={selected}
 							statement={s}

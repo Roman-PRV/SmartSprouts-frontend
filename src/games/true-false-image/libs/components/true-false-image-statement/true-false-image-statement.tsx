@@ -6,7 +6,7 @@ import styles from "./styles.module.css";
 
 type Properties = {
     disabled: boolean;
-    onSelect: (value: boolean) => void;
+    onSelect: (statementId: number, value: boolean) => void;
     result?: TrueFalseImageResultDto | undefined;
     selected?: boolean | undefined;
     statement: { id: number; statement: string };
@@ -20,12 +20,12 @@ const TrueFalseImageStatement: React.FC<Properties> = ({
     statement,
 }) => {
     const handleTrueClick = useCallback(() => {
-        onSelect(true);
-    }, [onSelect]);
+        onSelect(statement.id, true);
+    }, [onSelect, statement.id]);
 
     const handleFalseClick = useCallback(() => {
-        onSelect(false);
-    }, [onSelect]);
+        onSelect(statement.id, false);
+    }, [onSelect, statement.id]);
 
     return (
         <div className={getValidClassNames(styles["statement"])}>
