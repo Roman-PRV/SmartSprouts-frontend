@@ -127,15 +127,18 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 	}
 
 	const allAnswered: boolean =
-		level.statements.length > EMPTY_ARRAY_LENGTH &&
-		level.statements.every((s) => s.id in answers);
+		level.statements.length > EMPTY_ARRAY_LENGTH && level.statements.every((s) => s.id in answers);
 
 	return (
 		<div className={getValidClassNames(styles["level-card"])}>
 			<h2 className={getValidClassNames(styles["level-card__title"])}>{level.title}</h2>
 
 			{level.image_url && (
-				<img alt={level.title} className={getValidClassNames(styles["level-card__image"])} src={level.image_url} />
+				<img
+					alt={level.title}
+					className={getValidClassNames(styles["level-card__image"])}
+					src={level.image_url}
+				/>
 			)}
 
 			<div className={getValidClassNames(styles["level-card__statements"])}>
@@ -165,9 +168,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 			</button>
 
 			{submitError && (
-				<div className={getValidClassNames(styles["level-card__error"])}>
-					{submitError}
-				</div>
+				<div className={getValidClassNames(styles["level-card__error"])}>{submitError}</div>
 			)}
 
 			<div className={getValidClassNames(styles["level-card__actions"])}>

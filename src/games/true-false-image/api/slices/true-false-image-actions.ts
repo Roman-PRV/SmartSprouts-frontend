@@ -3,7 +3,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { normalizeError } from "~/libs/helpers/helpers.js";
 import { type AsyncThunkConfig } from "~/libs/types/types.js";
 
-import { type TrueFalseImageAnswerRequestDto, type TrueFalseImageCheckResponseDto, type TrueFalseImageLevelDto } from "../../libs/types/types.js";
+import {
+	type TrueFalseImageAnswerRequestDto,
+	type TrueFalseImageCheckResponseDto,
+	type TrueFalseImageLevelDto,
+} from "../../libs/types/types.js";
 import { name as sliceName } from "./true-false-image.slice.js";
 
 type CheckAnswersPayload = {
@@ -35,14 +39,17 @@ const checkAnswers = createAsyncThunk<
 	TrueFalseImageCheckResponseDto,
 	CheckAnswersPayload,
 	AsyncThunkConfig
->(`${sliceName}/check-answers`, async ({ gameId, levelId, payload }, { extra, rejectWithValue }) => {
-	try {
-		const { trueFalseImageApi } = extra;
+>(
+	`${sliceName}/check-answers`,
+	async ({ gameId, levelId, payload }, { extra, rejectWithValue }) => {
+		try {
+			const { trueFalseImageApi } = extra;
 
-		return await trueFalseImageApi.checkAnswers(gameId, levelId, payload);
-	} catch (error: unknown) {
-		return rejectWithValue(normalizeError(error));
+			return await trueFalseImageApi.checkAnswers(gameId, levelId, payload);
+		} catch (error: unknown) {
+			return rejectWithValue(normalizeError(error));
+		}
 	}
-});
+);
 
 export { checkAnswers, getLevelById };
