@@ -79,6 +79,10 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 		void dispatch(
 			trueFalseImageActions.getLevelById({ gameId: game.id, levelId: String(levelId) })
 		);
+
+		return (): void => {
+			dispatch(trueFalseImageActions.clearCurrentLevel());
+		};
 	}, [dispatch, game.id, levelId]);
 
 	useEffect(() => {
