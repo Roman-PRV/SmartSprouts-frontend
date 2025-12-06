@@ -33,6 +33,7 @@ const TrueFalseImageStatement: React.FC<Properties> = ({
 
             <div className={getValidClassNames(styles["statement__buttons"])}>
                 <button
+                    aria-label="Mark as true"
                     className={getValidClassNames(
                         selected === true
                             ? styles["statement__button--selected-true"]
@@ -45,6 +46,7 @@ const TrueFalseImageStatement: React.FC<Properties> = ({
                 </button>
 
                 <button
+                    aria-label="Mark as false"
                     className={getValidClassNames(
                         selected === false
                             ? styles["statement__button--selected-false"]

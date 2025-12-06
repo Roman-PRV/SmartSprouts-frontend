@@ -77,7 +77,11 @@ const LevelContentPage: React.FC = () => {
 			</header>
 
 			<main className={getValidClassNames(styles["page__content"])}>
-				<LevelComponent game={currentGame} levelId={Number(levelId)} />
+				<LevelComponent
+					game={currentGame}
+					key={`${currentGame.id}-${levelId}`}
+					levelId={Number(levelId)}
+				/>
 			</main>
 		</div>
 	);

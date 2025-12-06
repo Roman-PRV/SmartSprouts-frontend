@@ -78,6 +78,10 @@
 	animation-delay: 0.3s;
 }
 
+.card:nth-child(n + 7) {
+	animation-delay: 0.35s;
+}
+
 .card:focus {
 	box-shadow: 0 0 0 3px rgba(12, 121, 151, 0.12);
 }
@@ -109,6 +113,7 @@
 	line-height: 1.2;
 	color: var(--color-text-dark);
 }
+
 .card__content {
 	padding: 12px;
 	display: flex;

@@ -36,14 +36,8 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 	}, [storageKey]);
 
 	const [answers, setAnswers] = useState<Record<number, boolean>>(loadAnswers);
-	const [previousKey, setPreviousKey] = useState<string>(storageKey);
 	const [results, setResults] = useState<null | TrueFalseImageResultDto[]>(null);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-	if (storageKey !== previousKey) {
-		setPreviousKey(storageKey);
-		setAnswers(loadAnswers());
-	}
 
 	const handleSubmit = useCallback(async (): Promise<void> => {
 		if (!level || isSubmitting || results !== null) {

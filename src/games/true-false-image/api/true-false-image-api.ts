@@ -46,7 +46,7 @@ class TrueFalseImageApi extends BaseHTTPApi {
 			payload: JSON.stringify(payload),
 		});
 
-		const data = (await response.json()) as TrueFalseImageCheckResponseDto;
+		const data = await response.json<TrueFalseImageCheckResponseDto>();
 
 		return data;
 	}
