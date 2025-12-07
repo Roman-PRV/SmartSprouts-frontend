@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 import { actions as trueFalseImageActions } from "~/games/true-false-image/api/true-false-image-game";
-import { Link } from "~/libs/components/components";
+import { type TrueFalseImageResultDto } from "~/games/true-false-image/libs/types/types";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
-import { DataStatus } from "~/libs/enums/enums";
+import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
@@ -12,12 +14,11 @@ import {
 } from "~/libs/hooks/hooks";
 import { type LevelCardProperties } from "~/libs/types/types";
 
-import { type TrueFalseImageResultDto } from "../../types/types";
-import { TrueFalseImageStatement } from "../true-false-image-statement/true-false-image-statement";
 import styles from "./styles.module.css";
+import { TrueFalseStatement } from "./true-false-statement/true-false-statement";
 
-const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) => {
-	const storageKey = `tfi-${game.id}-${String(levelId)}`;
+const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) => {
+	const storageKey = `tf-${game.id}-${String(levelId)}`;
 	const dispatch = useAppDispatch();
 
 	const level = useAppSelector((state) => state.trueFalseImageLevels.currentLevel);
@@ -133,17 +134,23 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 	const allAnswered: boolean =
 		level.statements.length > EMPTY_ARRAY_LENGTH && level.statements.every((s) => s.id in answers);
 
+	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;
+	const cardModiferClass = isTextMode ? styles["level-card--text-mode"] : "";
+	const imageModifierClass = isTextMode ? styles["level-card__image--small"] : "";
+
 	return (
-		<div className={getValidClassNames(styles["level-card"])}>
+		<div className={getValidClassNames(styles["level-card"], cardModiferClass)}>
 			<h2 className={getValidClassNames(styles["level-card__title"])}>{level.title}</h2>
 
 			{level.image_url && (
 				<img
 					alt={level.title}
-					className={getValidClassNames(styles["level-card__image"])}
+					className={getValidClassNames(styles["level-card__image"], imageModifierClass)}
 					src={level.image_url}
 				/>
 			)}
+
+			{level.text && <p className={getValidClassNames(styles["level-card__text"])}>{level.text}</p>}
 
 			<div className={getValidClassNames(styles["level-card__statements"])}>
 				{level.statements.map((s) => {
@@ -151,7 +158,7 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 					const result = results?.find((r) => r.statement_id === s.id);
 
 					return (
-						<TrueFalseImageStatement
+						<TrueFalseStatement
 							disabled={results !== null}
 							key={s.id}
 							onSelect={handleSelect}
@@ -177,7 +184,10 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 
 			<div className={getValidClassNames(styles["level-card__actions"])}>
 				<Link
-					className={getValidClassNames(styles["level-card__action-button"])}
+					className={getValidClassNames(
+						styles["level-card__action-button"],
+						styles["level-card__action-button--secondary"]
+					)}
 					onClick={handleBackToLevels}
 					to={`/games/${game.id}`}
 				>
@@ -185,7 +195,10 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 				</Link>
 
 				<button
-					className={getValidClassNames(styles["level-card__action-button"])}
+					className={getValidClassNames(
+						styles["level-card__action-button"],
+						styles["level-card__action-button--accent"]
+					)}
 					onClick={handleReset}
 				>
 					Reset Level
@@ -195,4 +208,4 @@ const TrueFalseImageLevelCard: React.FC<LevelCardProperties> = ({ game, levelId 
 	);
 };
 
-export { TrueFalseImageLevelCard };
+export { TrueFalseLevelCard };

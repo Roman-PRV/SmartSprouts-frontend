@@ -9,63 +9,63 @@ import { getLevelsList } from "~/modules/games/slices/actions";
 import styles from "./styles.module.css";
 
 type Properties = {
-    game: GameDescriptionDto;
+	game: GameDescriptionDto;
 };
 
 const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
-    const dispatch = useAppDispatch();
-    const { currentGameLevels, levelsStatus } = useAppSelector((state) => state.games);
+	const dispatch = useAppDispatch();
+	const { currentGameLevels, levelsStatus } = useAppSelector((state) => state.games);
 
-    useEffect(() => {
-        if (levelsStatus === DataStatus.IDLE) {
-            void dispatch(getLevelsList(game.id));
-        }
-    }, [dispatch, game.id, levelsStatus]);
+	useEffect(() => {
+		if (levelsStatus === DataStatus.IDLE) {
+			void dispatch(getLevelsList(game.id));
+		}
+	}, [dispatch, game.id, levelsStatus]);
 
-    const isLoading = levelsStatus === DataStatus.PENDING;
-    const hasError = levelsStatus === DataStatus.REJECTED;
-    const hasLevels = currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH;
+	const isLoading = levelsStatus === DataStatus.PENDING;
+	const hasError = levelsStatus === DataStatus.REJECTED;
+	const hasLevels = currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH;
 
-    const renderContent = (): React.JSX.Element => {
-        if (isLoading) {
-            return <div className={getValidClassNames(styles["no-content"])}>Loading levels…</div>;
-        }
+	const renderContent = (): React.JSX.Element => {
+		if (isLoading) {
+			return <div className={getValidClassNames(styles["no-content"])}>Loading levels…</div>;
+		}
 
-        if (hasError) {
-            return (
-                <div className={getValidClassNames(styles["no-content"])}>
-                    Failed to load levels. Please try again.
-                </div>
-            );
-        }
+		if (hasError) {
+			return (
+				<div className={getValidClassNames(styles["no-content"])}>
+					Failed to load levels. Please try again.
+				</div>
+			);
+		}
 
-        if (!hasLevels) {
-            return (
-                <div className={getValidClassNames(styles["no-content"])}>
-                    No levels available at the moment.
-                </div>
-            );
-        }
+		if (!hasLevels) {
+			return (
+				<div className={getValidClassNames(styles["no-content"])}>
+					No levels available at the moment.
+				</div>
+			);
+		}
 
-        return (
-            <>
-                {currentGameLevels.map((level, index) => (
-                    <LevelPreviewCard game={game} key={level.id} level={level} number={index} />
-                ))}
-            </>
-        );
-    };
+		return (
+			<>
+				{currentGameLevels.map((level, index) => (
+					<LevelPreviewCard game={game} key={level.id} level={level} number={index} />
+				))}
+			</>
+		);
+	};
 
-    return (
-        <div>
-            <h2 className={getValidClassNames(styles["game-title"])}>
-                Select a level for the {game.title} game
-            </h2>
-            <main aria-live="polite" className={getValidClassNames(styles["grid"])}>
-                {renderContent()}
-            </main>
-        </div>
-    );
+	return (
+		<div>
+			<h2 className={getValidClassNames(styles["game-title"])}>
+				Select a level for the {game.title} game
+			</h2>
+			<main aria-live="polite" className={getValidClassNames(styles["grid"])}>
+				{renderContent()}
+			</main>
+		</div>
+	);
 };
 
 export { GameLevelsPreview };

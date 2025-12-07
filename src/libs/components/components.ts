@@ -5,5 +5,5 @@ export { LevelPreviewCard } from "./level-preview-card/level-preview-card";
 export { Logo } from "./logo/logo";
 export { MainLayout } from "./main-layout/main-layout";
 export { Navigation } from "./navigation/navigation";
-export { router } from "./router-provider/router-provider";
+export { TrueFalseLevelCard } from "./true-false-level-card/true-false-level-card";
 export { Link } from "react-router-dom";

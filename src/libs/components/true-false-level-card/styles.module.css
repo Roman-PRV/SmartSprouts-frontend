@@ -27,6 +27,15 @@
 	background: linear-gradient(180deg, var(--color-background-1), var(--color-background-2));
 }
 
+.level-card__image--small {
+	max-width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	background: none;
+	box-shadow: none;
+}
+
 /* Element: level-card__statements */
 .level-card__statements {
 	display: flex;
@@ -175,4 +184,11 @@
 		padding: 12px 20px;
 		font-size: 1rem;
 	}
+}
+
+.level-card--text-mode .level-card__text {
+	font-size: 1.8rem;
+	font-weight: 600;
+	margin-bottom: 24px;
+	text-align: left;
 }

@@ -1,7 +1,7 @@
+import { type TrueFalseImageResultDto } from "~/games/true-false-image/libs/types/types";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback } from "~/libs/hooks/hooks";
 
-import { type TrueFalseImageResultDto } from "../../types/types";
 import styles from "./styles.module.css";
 
 type Properties = {
@@ -12,7 +12,7 @@ type Properties = {
 	statement: { id: number; statement: string };
 };
 
-const TrueFalseImageStatement: React.FC<Properties> = ({
+const TrueFalseStatement: React.FC<Properties> = ({
 	disabled,
 	onSelect,
 	result,
@@ -75,4 +75,4 @@ const TrueFalseImageStatement: React.FC<Properties> = ({
 	);
 };
 
-export { TrueFalseImageStatement };
+export { TrueFalseStatement };
