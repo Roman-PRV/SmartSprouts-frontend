@@ -7,45 +7,45 @@ import { type GameDescriptionDto, type LevelDescriptionDto } from "~/libs/types/
 import styles from "./styles.module.css";
 
 type Properties = {
-    game: GameDescriptionDto;
-    level: LevelDescriptionDto;
-    number: number;
+	game: GameDescriptionDto;
+	level: LevelDescriptionDto;
+	number: number;
 };
 
 const LevelPreviewCard: React.FC<Properties> = ({ game, level, number }) => {
-    const [imageError, setImageError] = useState(false);
+	const [imageError, setImageError] = useState(false);
 
-    const handleImageError = useCallback((): void => {
-        setImageError(true);
-    }, []);
+	const handleImageError = useCallback((): void => {
+		setImageError(true);
+	}, []);
 
-    return (
-        <Link
-            className={getValidClassNames(styles["card"])}
-            to={`/games/${game.id}/levels/${level.id}`}
-        >
-            {imageError ? (
-                <div className={getValidClassNames(styles["card__image-fallback"])}>
-                    <span>Image unavailable</span>
-                </div>
-            ) : (
-                <img
-                    alt={level.title}
-                    aria-label={`Image unavailable: ${level.title}`}
-                    className={getValidClassNames(styles["card__image"])}
-                    height={120}
-                    loading="lazy"
-                    onError={handleImageError}
-                    src={level.image_url}
-                    width={200}
-                />
-            )}
-            <div className={getValidClassNames(styles["card__content"])}>
-                <p className={getValidClassNames(styles["card__number"])}>Level {number + UI_INDEX_BASE}</p>
-                <p className={getValidClassNames(styles["card__title"])}>{level.title}</p>
-            </div>
-        </Link>
-    );
+	return (
+		<Link
+			className={getValidClassNames(styles["card"])}
+			to={`/games/${game.id}/levels/${level.id}`}
+		>
+			{imageError ? (
+				<div className={getValidClassNames(styles["card__image-fallback"])}>
+					<span>Image unavailable</span>
+				</div>
+			) : (
+				<img
+					alt={level.title}
+					aria-label={`Image unavailable: ${level.title}`}
+					className={getValidClassNames(styles["card__image"])}
+					height={120}
+					loading="lazy"
+					onError={handleImageError}
+					src={level.image_url}
+					width={200}
+				/>
+			)}
+			<div className={getValidClassNames(styles["card__content"])}>
+				<p className={getValidClassNames(styles["card__number"])}>Level {number + UI_INDEX_BASE}</p>
+				<p className={getValidClassNames(styles["card__title"])}>{level.title}</p>
+			</div>
+		</Link>
+	);
 };
 
 export { LevelPreviewCard };
