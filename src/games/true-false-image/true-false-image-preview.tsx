@@ -1,3 +1,4 @@
+import { LevelPreviewCard } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
@@ -5,7 +6,6 @@ import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type";
 import { getLevelsList } from "~/modules/games/slices/actions";
 
-import { LevelPreviewCard } from "./level-preview-card";
 import styles from "./styles.module.css";
 
 type Properties = { game: GameDescriptionDto };
