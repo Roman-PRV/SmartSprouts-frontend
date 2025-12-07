@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { getLevelById } from "~/games/true-false-image/api/slices/true-false-image-actions";
-import { actions, reducer } from "~/games/true-false-image/api/slices/true-false-image.slice";
+import { getLevelById } from "~/games/true-false-game/api/slices/true-false-game-actions";
+import { actions, reducer } from "~/games/true-false-game/api/slices/true-false-game.slice";
 import { DataStatus } from "~/libs/enums/enums";
-import { type TrueFalseImageLevelDto } from "~/games/true-false-image/libs/types/true-false-image-level-dto.type";
+import { type TrueFalseGameLevelDto } from "~/games/true-false-game/libs/types/true-false-game-level-dto.type";
 
-describe("true-false-image slice", () => {
+describe("true-false-game slice", () => {
     const initialState = {
         currentLevel: null,
         currentStatus: DataStatus.IDLE,
@@ -17,7 +17,7 @@ describe("true-false-image slice", () => {
 
     it("should handle clearCurrentLevel", () => {
         const modifiedState = {
-            currentLevel: { id: 1, title: "Test Level" } as unknown as TrueFalseImageLevelDto,
+            currentLevel: { id: 1, title: "Test Level" } as unknown as TrueFalseGameLevelDto,
             currentStatus: DataStatus.FULFILLED,
         };
         expect(reducer(modifiedState, actions.clearCurrentLevel())).toEqual(initialState);
@@ -34,7 +34,7 @@ describe("true-false-image slice", () => {
             id: 1,
             title: "Level 1",
             statements: [],
-        } as unknown as TrueFalseImageLevelDto;
+        } as unknown as TrueFalseGameLevelDto;
         const action = { payload: mockLevel, type: getLevelById.fulfilled.type };
         const state = reducer(initialState, action);
 

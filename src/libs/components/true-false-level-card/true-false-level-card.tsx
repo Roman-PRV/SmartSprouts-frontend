@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import { actions as trueFalseImageActions } from "~/games/true-false-image/api/true-false-image-game";
-import { type TrueFalseImageResultDto } from "~/games/true-false-image/libs/types/types";
+import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
+import { type TrueFalseGameResultDto } from "~/games/true-false-game/libs/types/types";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
@@ -21,11 +21,11 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	const storageKey = `tf-${game.id}-${String(levelId)}`;
 	const dispatch = useAppDispatch();
 
-	const level = useAppSelector((state) => state.trueFalseImageLevels.currentLevel);
-	const currentStatus = useAppSelector((state) => state.trueFalseImageLevels.currentStatus);
+	const level = useAppSelector((state) => state.trueFalseLevels.currentLevel);
+	const currentStatus = useAppSelector((state) => state.trueFalseLevels.currentStatus);
 
 	const [answers, setAnswers] = useState<Record<number, boolean>>({});
-	const [results, setResults] = useState<null | TrueFalseImageResultDto[]>(null);
+	const [results, setResults] = useState<null | TrueFalseGameResultDto[]>(null);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 	const [submitError, setSubmitError] = useState<null | string>(null);
 
@@ -44,7 +44,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			}));
 
 			const result = await dispatch(
-				trueFalseImageActions.checkAnswers({
+				trueFalseGameActions.checkAnswers({
 					gameId: game.id,
 					levelId: String(levelId),
 					payload: {
@@ -77,12 +77,10 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	}, [storageKey]);
 
 	useEffect(() => {
-		void dispatch(
-			trueFalseImageActions.getLevelById({ gameId: game.id, levelId: String(levelId) })
-		);
+		void dispatch(trueFalseGameActions.getLevelById({ gameId: game.id, levelId: String(levelId) }));
 
 		return (): void => {
-			dispatch(trueFalseImageActions.clearCurrentLevel());
+			dispatch(trueFalseGameActions.clearCurrentLevel());
 		};
 	}, [dispatch, game.id, levelId]);
 

@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { DataStatus } from "~/libs/enums/enums.js";
 import { type ValueOf } from "~/libs/types/types.js";
 
-import { type TrueFalseImageLevelDto } from "../../libs/types/true-false-image-level-dto.type";
-import { getLevelById } from "./true-false-image-actions";
+import { type TrueFalseGameLevelDto } from "../../libs/types/true-false-game-level-dto.type";
+import { getLevelById } from "./true-false-game-actions";
 
 type State = {
-	currentLevel: null | TrueFalseImageLevelDto;
+	currentLevel: null | TrueFalseGameLevelDto;
 	currentStatus: ValueOf<typeof DataStatus>;
 };
 
@@ -30,7 +30,7 @@ const { actions, name, reducer } = createSlice({
 		});
 	},
 	initialState,
-	name: "true-false-image",
+	name: "true-false-game",
 	reducers: {
 		clearCurrentLevel: (state) => {
 			state.currentLevel = null;

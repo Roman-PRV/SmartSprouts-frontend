@@ -5,12 +5,12 @@ import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Storage } from "~/libs/modules/storage/storage";
 
 import type {
-	TrueFalseImageAnswerRequestDto,
-	TrueFalseImageCheckResponseDto,
-	TrueFalseImageLevelDto,
+	TrueFalseGameAnswerRequestDto,
+	TrueFalseGameCheckResponseDto,
+	TrueFalseGameLevelDto,
 } from "../libs/types/types";
 
-import { TrueFalseImageApiPath } from "../libs/enums/enums";
+import { TrueFalseGameApiPath } from "../libs/enums/enums";
 
 type Constructor = {
 	baseUrl: string;
@@ -18,7 +18,7 @@ type Constructor = {
 	storage: Storage;
 };
 
-class TrueFalseImageApi extends BaseHTTPApi {
+class TrueFalseGameApi extends BaseHTTPApi {
 	public constructor({ baseUrl, http, storage }: Constructor) {
 		super({ baseUrl, http, path: APIPath.GAMES, storage });
 	}
@@ -29,13 +29,13 @@ class TrueFalseImageApi extends BaseHTTPApi {
 	public async checkAnswers(
 		gameId: string,
 		levelId: string,
-		payload: TrueFalseImageAnswerRequestDto
-	): Promise<TrueFalseImageCheckResponseDto> {
+		payload: TrueFalseGameAnswerRequestDto
+	): Promise<TrueFalseGameCheckResponseDto> {
 		const url = this.getFullEndpoint(
-			TrueFalseImageApiPath.$GAME_ID,
-			TrueFalseImageApiPath.LEVELS,
-			TrueFalseImageApiPath.$LEVEL_ID,
-			TrueFalseImageApiPath.CHECK,
+			TrueFalseGameApiPath.$GAME_ID,
+			TrueFalseGameApiPath.LEVELS,
+			TrueFalseGameApiPath.$LEVEL_ID,
+			TrueFalseGameApiPath.CHECK,
 			{ gameId, levelId }
 		);
 
@@ -46,7 +46,7 @@ class TrueFalseImageApi extends BaseHTTPApi {
 			payload: JSON.stringify(payload),
 		});
 
-		const data = await response.json<TrueFalseImageCheckResponseDto>();
+		const data = await response.json<TrueFalseGameCheckResponseDto>();
 
 		return data;
 	}
@@ -54,11 +54,11 @@ class TrueFalseImageApi extends BaseHTTPApi {
 	/**
 	 * GET /games/{gameId}/levels/{levelId}
 	 */
-	public async getLevelById(gameId: string, levelId: string): Promise<TrueFalseImageLevelDto> {
+	public async getLevelById(gameId: string, levelId: string): Promise<TrueFalseGameLevelDto> {
 		const url = this.getFullEndpoint(
-			TrueFalseImageApiPath.$GAME_ID,
-			TrueFalseImageApiPath.LEVELS,
-			TrueFalseImageApiPath.$LEVEL_ID,
+			TrueFalseGameApiPath.$GAME_ID,
+			TrueFalseGameApiPath.LEVELS,
+			TrueFalseGameApiPath.$LEVEL_ID,
 			{ gameId, levelId }
 		);
 
@@ -68,8 +68,8 @@ class TrueFalseImageApi extends BaseHTTPApi {
 			method: HTTPMethod.GET,
 		});
 
-		return await response.json<TrueFalseImageLevelDto>();
+		return await response.json<TrueFalseGameLevelDto>();
 	}
 }
 
-export { TrueFalseImageApi };
+export { TrueFalseGameApi };

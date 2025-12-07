@@ -1,4 +1,4 @@
-import { type TrueFalseImageResultDto } from "~/games/true-false-image/libs/types/types";
+import { type TrueFalseGameResultDto } from "~/games/true-false-game/libs/types/types";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback } from "~/libs/hooks/hooks";
 
@@ -7,7 +7,7 @@ import styles from "./styles.module.css";
 type Properties = {
 	disabled: boolean;
 	onSelect: (statementId: number, value: boolean) => void;
-	result?: TrueFalseImageResultDto | undefined;
+	result?: TrueFalseGameResultDto | undefined;
 	selected?: boolean | undefined;
 	statement: { id: number; statement: string };
 };

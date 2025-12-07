@@ -1,4 +1,4 @@
-type TrueFalseImageStatementDto = {
+type TrueFalseGameStatementDto = {
 	explanation: null | string;
 	id: number;
 	is_true: boolean;
@@ -6,4 +6,4 @@ type TrueFalseImageStatementDto = {
 	statement: string;
 };
 
-export type { TrueFalseImageStatementDto };
+export type { TrueFalseGameStatementDto };
