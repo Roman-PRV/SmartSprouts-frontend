@@ -192,3 +192,15 @@
 	margin-bottom: 24px;
 	text-align: left;
 }
+
+@media (max-width: 768px) {
+	.level-card--text-mode .level-card__text {
+		font-size: 1.2rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.level-card--text-mode .level-card__text {
+		font-size: 1rem;
+	}
+}
