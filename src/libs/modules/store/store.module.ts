@@ -7,9 +7,9 @@ import {
 import { configureStore } from "@reduxjs/toolkit";
 
 import {
-	trueFalseImageApi,
-	reducer as trueFalseImageReducer,
-} from "~/games/true-false-image/api/true-false-image-game";
+	trueFalseGameApi,
+	reducer as trueFalseGameReducer,
+} from "~/games/true-false-game/api/true-false-game";
 import { AppEnvironment } from "~/libs/enums/enums.js";
 import { type Config } from "~/libs/modules/config/config.js";
 import { storage } from "~/libs/modules/storage/storage.js";
@@ -18,17 +18,17 @@ import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 type ExtraArguments = {
 	gamesApi: typeof gamesApi;
 	storage: typeof storage;
-	trueFalseImageApi: typeof trueFalseImageApi;
+	trueFalseGameApi: typeof trueFalseGameApi;
 };
 
 type RootReducer = {
 	games: ReturnType<typeof gamesReducer>;
-	trueFalseImageLevels: ReturnType<typeof trueFalseImageReducer>;
+	trueFalseLevels: ReturnType<typeof trueFalseGameReducer>;
 };
 
 const rootReducer = combineReducers({
 	games: gamesReducer,
-	trueFalseImageLevels: trueFalseImageReducer,
+	trueFalseLevels: trueFalseGameReducer,
 });
 
 const resettableRootReducer = (
@@ -51,7 +51,7 @@ class Store {
 		return {
 			gamesApi,
 			storage,
-			trueFalseImageApi,
+			trueFalseGameApi,
 		};
 	}
 

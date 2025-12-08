@@ -1,9 +1,9 @@
+import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppDispatch, useAppSelector, useEffect, useParams } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
-import { getGamePreviewComponent } from "./game-preview-component-selector";
 import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
@@ -54,20 +54,10 @@ const GameContentPage: React.FC = () => {
 		);
 	}
 
-	const GamePreviewComponent = getGamePreviewComponent(currentGame.key);
-
-	if (!GamePreviewComponent) {
-		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Unsupported game type: {currentGame.key}</h1>
-			</div>
-		);
-	}
-
 	return (
 		<div>
 			<h1>Game Content Page: {id}</h1>
-			<GamePreviewComponent game={currentGame} />
+			<GameLevelsPreview game={currentGame} />
 		</div>
 	);
 };
