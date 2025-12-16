@@ -1,3 +1,5 @@
+export { Button } from "./button/button";
+export type { ButtonProperties, ButtonSize, ButtonType, ButtonVariant } from "./button/types";
 export { Footer } from "./footer/footer";
 export { Header } from "./header/header";
 export { Icon } from "./icon/icon";

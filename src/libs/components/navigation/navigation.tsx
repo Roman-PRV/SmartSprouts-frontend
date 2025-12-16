@@ -30,7 +30,7 @@ const Navigation: React.FC = () => {
 						onClick={handleBurgerClick}
 						onKeyDown={handleKeyDownToggle}
 					>
-						{isOpen ? <Icon name="closeIcon" /> : <Icon name="burgerMenu" />}
+						{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
 					</button>
 					<ul className={getValidClassNames(styles["nav"], "hidden sm:flex")}>
 						<li>

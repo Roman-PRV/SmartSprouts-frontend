@@ -1,0 +1,10 @@
+<svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+	<rect fill="currentColor" height="9" rx="1.5" width="12" x="4" y="9" />
+	<path
+		d="M6 9V6C6 3.79086 7.79086 2 10 2C12.2091 2 14 3.79086 14 6V9"
+		stroke="currentColor"
+		strokeLinecap="round"
+		strokeWidth="2"
+	/>
+	<circle cx="10" cy="13.5" fill="white" r="1.5" />
+</svg>

@@ -18,6 +18,15 @@
 	--color-accent-1: rgb(255 94 94);
 	--color-accent-2: rgb(170 235 152);
 	--color-accent-3: rgb(9 196 65);
+	--color-shadow-accent: rgba(12, 121, 151, 0.3);
+	--color-shadow-accent-light: rgba(12, 121, 151, 0.2);
+	--color-shadow-accent-focus: rgba(12, 121, 151, 0.2);
+	--color-shadow-danger: rgba(255, 94, 94, 0.3);
+	--color-shadow-danger-light: rgba(255, 94, 94, 0.2);
+	--color-shadow-dark: rgba(0, 0, 0, 0.1);
+	--color-shadow-dark-light: rgba(0, 0, 0, 0.05);
+	--color-shadow-dark-medium: rgba(0, 0, 0, 0.08);
+	--color-shadow-dark-subtle: rgba(0, 0, 0, 0.04);
 	--border-radius-sm: 5px;
 	--border-radius-md: 8px;
 	--border-radius-lg: 10px;
