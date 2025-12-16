@@ -81,7 +81,6 @@ const Button: React.FC<ButtonProperties> = ({
     return (
         <button
             aria-busy={isLoading}
-            aria-disabled={isDisabled}
             className={buttonClasses}
             disabled={isDisabled}
             onClick={handleClick}

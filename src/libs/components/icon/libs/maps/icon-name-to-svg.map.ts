@@ -11,7 +11,7 @@ const iconNameToSvg: Record<IconName, React.FC<React.SVGProps<SVGSVGElement>>> =
 	arrowRight: ArrowRight,
 	burgerMenu: BurgerMenu,
 	check: Check,
-	closeIcon: CloseIcon,
+	close: CloseIcon,
 	lock: Lock,
 	login: Login,
 	logout: Logout,
