@@ -58,101 +58,101 @@ import { type InputProperties } from "./types";
  * ```
  */
 const Input: React.FC<InputProperties> = ({
-    className = "",
-    disabled = false,
-    error = null,
-    iconLeft,
-    iconRight,
-    id,
-    label,
-    name,
-    onBlur,
-    onChange,
-    placeholder,
-    required = false,
-    type = "text",
-    value,
+	className = "",
+	disabled = false,
+	error = null,
+	iconLeft,
+	iconRight,
+	id,
+	label,
+	name,
+	onBlur,
+	onChange,
+	placeholder,
+	required = false,
+	type = "text",
+	value,
 }) => {
-    const reactId = useId();
-    const inputId = id || reactId;
-    const errorId = `${inputId}-error`;
+	const reactId = useId();
+	const inputId = id || reactId;
+	const errorId = `${inputId}-error`;
 
-    const handleChange = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>): void => {
-            onChange(event.target.value);
-        },
-        [onChange]
-    );
+	const handleChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>): void => {
+			onChange(event.target.value);
+		},
+		[onChange]
+	);
 
-    const handleBlur = useCallback((): void => {
-        if (onBlur) {
-            onBlur();
-        }
-    }, [onBlur]);
+	const handleBlur = useCallback((): void => {
+		if (onBlur) {
+			onBlur();
+		}
+	}, [onBlur]);
 
-    const hasError = Boolean(error);
+	const hasError = Boolean(error);
 
-    const wrapperClasses = getValidClassNames(
-        styles["input-wrapper"],
-        hasError && styles["input-wrapper--error"],
-        disabled && styles["input-wrapper--disabled"],
-        className
-    );
+	const wrapperClasses = getValidClassNames(
+		styles["input-wrapper"],
+		hasError && styles["input-wrapper--error"],
+		disabled && styles["input-wrapper--disabled"],
+		className
+	);
 
-    const inputClasses = getValidClassNames(
-        styles["input"],
-        hasError && styles["input--error"],
-        disabled && styles["input--disabled"],
-        iconLeft && styles["input--with-icon-left"],
-        iconRight && styles["input--with-icon-right"]
-    );
+	const inputClasses = getValidClassNames(
+		styles["input"],
+		hasError && styles["input--error"],
+		disabled && styles["input--disabled"],
+		iconLeft && styles["input--with-icon-left"],
+		iconRight && styles["input--with-icon-right"]
+	);
 
-    return (
-        <div className={wrapperClasses}>
-            {label && (
-                <label className={styles["input-label"]} htmlFor={inputId}>
-                    {label}
-                    {required && <span className={styles["input-label__required"]}> *</span>}
-                </label>
-            )}
+	return (
+		<div className={wrapperClasses}>
+			{label && (
+				<label className={styles["input-label"]} htmlFor={inputId}>
+					{label}
+					{required && <span className={styles["input-label__required"]}> *</span>}
+				</label>
+			)}
 
-            <div className={styles["input-container"]}>
-                {iconLeft && (
-                    <span className={getValidClassNames(styles["input-icon"], styles["input-icon--left"])}>
-                        <Icon name={iconLeft} />
-                    </span>
-                )}
+			<div className={styles["input-container"]}>
+				{iconLeft && (
+					<span className={getValidClassNames(styles["input-icon"], styles["input-icon--left"])}>
+						<Icon name={iconLeft} />
+					</span>
+				)}
 
-                <input
-                    aria-describedby={hasError ? errorId : undefined}
-                    aria-invalid={hasError}
-                    aria-required={required}
-                    className={inputClasses}
-                    disabled={disabled}
-                    id={inputId}
-                    name={name}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder={placeholder}
-                    required={required}
-                    type={type}
-                    value={value}
-                />
+				<input
+					aria-describedby={hasError ? errorId : undefined}
+					aria-invalid={hasError}
+					aria-required={required}
+					className={inputClasses}
+					disabled={disabled}
+					id={inputId}
+					name={name}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					placeholder={placeholder}
+					required={required}
+					type={type}
+					value={value}
+				/>
 
-                {iconRight && (
-                    <span className={getValidClassNames(styles["input-icon"], styles["input-icon--right"])}>
-                        <Icon name={iconRight} />
-                    </span>
-                )}
-            </div>
+				{iconRight && (
+					<span className={getValidClassNames(styles["input-icon"], styles["input-icon--right"])}>
+						<Icon name={iconRight} />
+					</span>
+				)}
+			</div>
 
-            {hasError && (
-                <span className={styles["input-error"]} id={errorId} role="alert">
-                    {error}
-                </span>
-            )}
-        </div>
-    );
+			{hasError && (
+				<span className={styles["input-error"]} id={errorId} role="alert">
+					{error}
+				</span>
+			)}
+		</div>
+	);
 };
 
 export { Input };

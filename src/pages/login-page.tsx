@@ -93,6 +93,7 @@ const LoginPage: React.FC = () => {
 				/>
 
 				<Input
+					iconLeft="search"
 					iconRight="arrowRight"
 					onChange={setSearchValue}
 					placeholder="Search with icon..."
