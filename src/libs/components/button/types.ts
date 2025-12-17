@@ -22,41 +22,41 @@ import { type IconName } from "~/libs/types/types";
  * ```
  */
 type ButtonProperties = {
-    /** Content to be rendered inside the button */
-    children: React.ReactNode;
+	/** Content to be rendered inside the button */
+	children: React.ReactNode;
 
-    /** Additional CSS classes to apply to the button */
-    className?: string;
+	/** Additional CSS classes to apply to the button */
+	className?: string;
 
-    /** Whether the button is disabled and cannot be interacted with */
-    disabled?: boolean;
+	/** Whether the button is disabled and cannot be interacted with */
+	disabled?: boolean;
 
-    /** Whether the button should take up the full width of its container */
-    fullWidth?: boolean;
+	/** Whether the button should take up the full width of its container */
+	fullWidth?: boolean;
 
-    /** Icon name to display on the left side of the button text */
-    iconLeft?: IconName;
+	/** Icon name to display on the left side of the button text */
+	iconLeft?: IconName;
 
-    /** Icon name to display on the right side of the button text */
-    iconRight?: IconName;
+	/** Icon name to display on the right side of the button text */
+	iconRight?: IconName;
 
-    /**
-     * Whether the button is in a loading state.
-     * When true, displays a spinner and disables interaction.
-     */
-    isLoading?: boolean;
+	/**
+	 * Whether the button is in a loading state.
+	 * When true, displays a spinner and disables interaction.
+	 */
+	isLoading?: boolean;
 
-    /** Click handler function called when the button is clicked */
-    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+	/** Click handler function called when the button is clicked */
+	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 
-    /** Size variant of the button. Defaults to "md" */
-    size?: ButtonSize;
+	/** Size variant of the button. Defaults to "md" */
+	size?: ButtonSize;
 
-    /** HTML button type attribute. Defaults to "button" */
-    type?: ButtonType;
+	/** HTML button type attribute. Defaults to "button" */
+	type?: ButtonType;
 
-    /** Visual style variant of the button. Defaults to "primary" */
-    variant?: ButtonVariant;
+	/** Visual style variant of the button. Defaults to "primary" */
+	variant?: ButtonVariant;
 };
 
 /**
