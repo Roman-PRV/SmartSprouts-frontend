@@ -121,12 +121,10 @@
 }
 
 /* Icon color changes on focus */
-.input:focus ~ .input-icon,
 .input-container:has(.input:focus) .input-icon {
 	color: var(--color-background-accent);
 }
 
-.input--error ~ .input-icon,
 .input-container:has(.input--error) .input-icon {
 	color: var(--color-accent-1);
 }

@@ -94,7 +94,6 @@ const Input: React.FC<InputProperties> = ({
 
 	const wrapperClasses = getValidClassNames(
 		styles["input-wrapper"],
-		hasError && styles["input-wrapper--error"],
 		disabled && styles["input-wrapper--disabled"],
 		className
 	);
