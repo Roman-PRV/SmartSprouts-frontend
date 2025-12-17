@@ -3,6 +3,8 @@ export type { ButtonProperties, ButtonSize, ButtonType, ButtonVariant } from "./
 export { Footer } from "./footer/footer";
 export { Header } from "./header/header";
 export { Icon } from "./icon/icon";
+export { Input } from "./input/input";
+export type { InputProperties, InputType } from "./input/types";
 export { LevelPreviewCard } from "./level-preview-card/level-preview-card";
 export { Logo } from "./logo/logo";
 export { MainLayout } from "./main-layout/main-layout";
