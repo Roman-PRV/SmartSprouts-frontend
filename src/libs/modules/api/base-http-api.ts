@@ -109,6 +109,7 @@ class BaseHTTPApi implements HTTPApi {
 
 		throw new HTTPError({
 			details: "details" in parsedException ? parsedException.details : [],
+			errors: "errors" in parsedException ? parsedException.errors : undefined,
 			errorType: isCustomException ? parsedException.errorType : ServerErrorType.COMMON,
 			message: parsedException.message,
 			status: response.status as ValueOf<typeof HTTPCode>,
