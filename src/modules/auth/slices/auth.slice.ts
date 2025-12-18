@@ -55,4 +55,4 @@ const { actions, name, reducer } = createSlice({
 });
 
 export { actions, name, reducer };
-export {register} from "./actions";
+export { register } from "./actions";
