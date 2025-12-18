@@ -10,6 +10,7 @@ type ServerErrorResponse = ServerCommonErrorResponse | ServerValidationErrorResp
 
 type ServerValidationErrorResponse = {
 	details: ServerErrorDetail[];
+	errors?: Record<string, string[]>;
 	errorType: typeof ServerErrorType.VALIDATION;
 	message: string;
 };
