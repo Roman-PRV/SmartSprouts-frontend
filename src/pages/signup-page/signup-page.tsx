@@ -42,12 +42,20 @@ const SignupPage: React.FC = () => {
 
 	const handlePasswordChange = useCallback((value: string): void => {
 		setPassword(value);
-		setFieldErrors((previous) => ({ ...previous, password: "" }));
+		setFieldErrors((previous) => ({
+			...previous,
+			password: "",
+			password_confirmation: "",
+		}));
 	}, []);
 
 	const handleConfirmPasswordChange = useCallback((value: string): void => {
 		setConfirmPassword(value);
-		setFieldErrors((previous) => ({ ...previous, password_confirmation: "" }));
+		setFieldErrors((previous) => ({
+			...previous,
+			password: "",
+			password_confirmation: "",
+		}));
 	}, []);
 
 	const handleSubmit = useCallback(
