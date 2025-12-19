@@ -50,61 +50,52 @@ const SignupPage: React.FC = () => {
 	}, []);
 
 	const handleSubmit = useCallback(
-		async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+		(event: React.FormEvent<HTMLFormElement>): void => {
 			event.preventDefault();
 
-			// Clear previous errors
-			setFieldErrors({});
-			dispatch(authActions.clearError());
+			const executeSubmit = async (): Promise<void> => {
+				setFieldErrors({});
+				dispatch(authActions.clearError());
 
-			// Client-side validation
-			if (password !== confirmPassword) {
-				setFieldErrors({
-					password_confirmation: VALIDATION_MATCH_ERROR,
-				});
+				if (password !== confirmPassword) {
+					setFieldErrors({
+						password_confirmation: VALIDATION_MATCH_ERROR,
+					});
 
-				return;
-			}
-
-			// Dispatch register action
-			const result = await dispatch(
-				register({
-					email,
-					name,
-					password,
-					password_confirmation: confirmPassword,
-				})
-			);
-
-			// Handle validation errors from backend
-			if (result.meta.requestStatus === "rejected") {
-				const errorPayload = result.payload as {
-					errors?: Record<string, string[]>;
-				};
-
-				if (errorPayload.errors) {
-					const errors: Record<string, string> = {};
-
-					// Convert array of errors to single string (take first error)
-					for (const [field, messages] of Object.entries(errorPayload.errors)) {
-						errors[field] = messages[FIRST_INDEX] ?? "Validation error";
-					}
-
-					setFieldErrors(errors);
+					return;
 				}
-			}
+
+				const result = await dispatch(
+					register({
+						email,
+						name,
+						password,
+						password_confirmation: confirmPassword,
+					})
+				);
+
+				if (result.meta.requestStatus === "rejected") {
+					const errorPayload = result.payload as {
+						errors?: Record<string, string[]>;
+					};
+
+					if (errorPayload.errors) {
+						const errors: Record<string, string> = {};
+
+						for (const [field, messages] of Object.entries(errorPayload.errors)) {
+							errors[field] = messages[FIRST_INDEX] ?? "Validation error";
+						}
+
+						setFieldErrors(errors);
+					}
+				}
+			};
+
+			void executeSubmit();
 		},
 		[name, email, password, confirmPassword, dispatch]
 	);
 
-	const handleFormSubmit = useCallback(
-		(event: React.FormEvent<HTMLFormElement>): void => {
-			void handleSubmit(event);
-		},
-		[handleSubmit]
-	);
-
-	// Redirect to home page after successful registration
 	useEffect(() => {
 		if (isAuthenticated) {
 			void navigate("/");
@@ -118,7 +109,7 @@ const SignupPage: React.FC = () => {
 					<h1 className={getValidClassNames(styles["title"])}>Create Account</h1>
 					<p className={getValidClassNames(styles["subtitle"])}>Sign up to get started</p>
 
-					<form className={getValidClassNames(styles["form"])} onSubmit={handleFormSubmit}>
+					<form className={getValidClassNames(styles["form"])} onSubmit={handleSubmit}>
 						{error && (
 							<div className={getValidClassNames(styles["error-message"])} role="alert">
 								{error}
