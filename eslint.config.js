@@ -157,6 +157,12 @@ const config = [
 			"@typescript-eslint/explicit-function-return-type": ["off"],
 		},
 	},
+	{
+		files: ["**/*.tsx"],
+		rules: {
+			"sonarjs/void-use": "off",
+		},
+	},
 ];
 
 export default config;
