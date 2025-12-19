@@ -107,11 +107,7 @@ const SignupPage: React.FC = () => {
 	// Redirect to home page after successful registration
 	useEffect(() => {
 		if (isAuthenticated) {
-			const handleRedirect = async (): Promise<void> => {
-				await navigate("/");
-			};
-
-			void handleRedirect();
+			void navigate("/");
 		}
 	}, [isAuthenticated, navigate]);
 
