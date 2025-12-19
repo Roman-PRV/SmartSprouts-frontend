@@ -1,4 +1,4 @@
-import { Button, Input } from "~/libs/components/components";
+import { Button, Input, Link } from "~/libs/components/components";
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
@@ -178,9 +178,9 @@ const SignupPage: React.FC = () => {
 
 					<p className={getValidClassNames(styles["footer-text"])}>
 						Already have an account?{" "}
-						<a className={getValidClassNames(styles["link"])} href="/login">
+						<Link className={getValidClassNames(styles["link"])} to="/login">
 							Sign in
-						</a>
+						</Link>
 					</p>
 				</div>
 			</div>
