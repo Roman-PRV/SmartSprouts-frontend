@@ -65,14 +65,14 @@
 }
 
 .link {
-	color: var(--color-background-accent);
+	color: var(--color-accent-1);
 	font-weight: 600;
 	text-decoration: none;
 	transition: color 0.2s;
 }
 
 .link:hover {
-	color: var(--color-background-dark);
+	color: var(--color-text-dark);
 	text-decoration: underline;
 }
 
