@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+import { normalizeError } from "~/libs/helpers/helpers.js";
 import { StorageKey } from "~/libs/modules/storage/storage.js";
 import { type AsyncThunkConfig } from "~/libs/types/types.js";
 
@@ -17,17 +18,7 @@ const register = createAsyncThunk<RegisterResponseDto, RegisterRequestDto, Async
 
 			return response;
 		} catch (error) {
-			// Check if it's an HTTPError with validation errors
-			if (error && typeof error === "object" && "errors" in error) {
-				const httpError = error as { errors?: Record<string, string[]>; message: string };
-
-				return rejectWithValue({
-					errors: httpError.errors,
-					message: httpError.message,
-				});
-			}
-
-			throw error;
+			return rejectWithValue(normalizeError(error));
 		}
 	}
 );
