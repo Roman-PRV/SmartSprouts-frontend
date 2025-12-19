@@ -10,6 +10,7 @@ import {
 	useNavigate,
 	useState,
 } from "~/libs/hooks/hooks";
+import { type ThunkErrorPayload } from "~/libs/types/types.js";
 import { actions as authActions, register } from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
@@ -75,11 +76,9 @@ const SignupPage: React.FC = () => {
 				);
 
 				if (result.meta.requestStatus === "rejected") {
-					const errorPayload = result.payload as {
-						errors?: Record<string, string[]>;
-					};
+					const errorPayload = result.payload as ThunkErrorPayload | undefined;
 
-					if (errorPayload.errors) {
+					if (errorPayload?.errors) {
 						const errors: Record<string, string> = {};
 
 						for (const [field, messages] of Object.entries(errorPayload.errors)) {
