@@ -129,7 +129,7 @@ const LoginPage: React.FC = () => {
 
 				<h3>Complex Example</h3>
 				<Input
-					error={emailValue && !emailValue.includes("@") ? "Please enter a valid email" : null}
+					error={emailValue && !emailValue.includes("@") ? "Please enter a valid email" : undefined}
 					iconLeft="login"
 					label="Email Address"
 					onChange={setEmailValue}

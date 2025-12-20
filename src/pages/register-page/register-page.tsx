@@ -124,7 +124,7 @@ const RegisterPage: React.FC = () => {
 						)}
 
 						<Input
-							error={fieldErrors["name"] || null}
+							error={fieldErrors["name"]}
 							label="Name"
 							name="name"
 							onChange={handleNameChange}
@@ -135,7 +135,7 @@ const RegisterPage: React.FC = () => {
 						/>
 
 						<Input
-							error={fieldErrors["email"] || null}
+							error={fieldErrors["email"]}
 							label="Email"
 							name="email"
 							onChange={handleEmailChange}
@@ -146,7 +146,7 @@ const RegisterPage: React.FC = () => {
 						/>
 
 						<Input
-							error={fieldErrors["password"] || null}
+							error={fieldErrors["password"]}
 							iconLeft="lock"
 							label="Password"
 							name="password"
@@ -158,7 +158,7 @@ const RegisterPage: React.FC = () => {
 						/>
 
 						<Input
-							error={fieldErrors["password_confirmation"] || null}
+							error={fieldErrors["password_confirmation"]}
 							iconLeft="lock"
 							label="Confirm Password"
 							name="password_confirmation"
