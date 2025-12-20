@@ -1,4 +1,4 @@
-import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
+import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { HTTPError } from "~/libs/modules/http/http.js";
 import { type ThunkErrorPayload } from "~/libs/types/types.js";
 
