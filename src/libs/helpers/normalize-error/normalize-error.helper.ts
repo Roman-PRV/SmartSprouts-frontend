@@ -12,7 +12,7 @@ const isErrorRecord = (value: unknown): value is Record<string, string[]> => {
 	}
 
 	return Object.values(value).every(
-		(value_) => Array.isArray(value_) && value_.every((v) => typeof v === "string"),
+		(value_) => Array.isArray(value_) && value_.every((v) => typeof v === "string")
 	);
 };
 

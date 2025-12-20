@@ -30,49 +30,33 @@ const RegisterPage: React.FC = () => {
 
 	const isLoading = dataStatus === DataStatus.PENDING;
 
-	const handleNameChange = useCallback(
-		(value: string): void => {
-			setName(value);
-			setFieldErrors((previous) => ({ ...previous, name: "" }));
-			void dispatch(authActions.clearError());
-		},
-		[dispatch]
-	);
+	const handleNameChange = useCallback((value: string): void => {
+		setName(value);
+		setFieldErrors((previous) => ({ ...previous, name: "" }));
+	}, []);
 
-	const handleEmailChange = useCallback(
-		(value: string): void => {
-			setEmail(value);
-			setFieldErrors((previous) => ({ ...previous, email: "" }));
-			void dispatch(authActions.clearError());
-		},
-		[dispatch]
-	);
+	const handleEmailChange = useCallback((value: string): void => {
+		setEmail(value);
+		setFieldErrors((previous) => ({ ...previous, email: "" }));
+	}, []);
 
-	const handlePasswordChange = useCallback(
-		(value: string): void => {
-			setPassword(value);
-			setFieldErrors((previous) => ({
-				...previous,
-				password: "",
-				password_confirmation: "",
-			}));
-			void dispatch(authActions.clearError());
-		},
-		[dispatch]
-	);
+	const handlePasswordChange = useCallback((value: string): void => {
+		setPassword(value);
+		setFieldErrors((previous) => ({
+			...previous,
+			password: "",
+			password_confirmation: "",
+		}));
+	}, []);
 
-	const handleConfirmPasswordChange = useCallback(
-		(value: string): void => {
-			setConfirmPassword(value);
-			setFieldErrors((previous) => ({
-				...previous,
-				password: "",
-				password_confirmation: "",
-			}));
-			void dispatch(authActions.clearError());
-		},
-		[dispatch]
-	);
+	const handleConfirmPasswordChange = useCallback((value: string): void => {
+		setConfirmPassword(value);
+		setFieldErrors((previous) => ({
+			...previous,
+			password: "",
+			password_confirmation: "",
+		}));
+	}, []);
 
 	const handleSubmit = useCallback(
 		(event: React.FormEvent<HTMLFormElement>): void => {
