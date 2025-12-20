@@ -17,7 +17,7 @@ import styles from "./styles.module.css";
 
 const VALIDATION_MATCH_ERROR = "Passwords do not match";
 
-const SignupPage: React.FC = () => {
+const RegisterPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { dataStatus, error, isAuthenticated } = useAppSelector((state) => state.auth);
@@ -114,7 +114,7 @@ const SignupPage: React.FC = () => {
 			<div className={getValidClassNames(styles["container"])}>
 				<div className={getValidClassNames(styles["form-wrapper"])}>
 					<h1 className={getValidClassNames(styles["title"])}>Create Account</h1>
-					<p className={getValidClassNames(styles["subtitle"])}>Sign up to get started</p>
+					<p className={getValidClassNames(styles["subtitle"])}>Register to get started</p>
 
 					<form className={getValidClassNames(styles["form"])} onSubmit={handleSubmit}>
 						{error && (
@@ -170,7 +170,7 @@ const SignupPage: React.FC = () => {
 						/>
 
 						<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">
-							Sign Up
+							Register
 						</Button>
 					</form>
 
@@ -186,4 +186,4 @@ const SignupPage: React.FC = () => {
 	);
 };
 
-export { SignupPage };
+export { RegisterPage };
