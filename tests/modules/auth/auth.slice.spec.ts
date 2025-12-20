@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { DataStatus } from "~/libs/enums/enums";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type ThunkErrorPayload } from "~/libs/types/types";
-import { register } from "~/modules/auth/auth";
+import { actions, register } from "~/modules/auth/auth";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 describe("auth slice", () => {
@@ -62,6 +62,33 @@ describe("auth slice", () => {
 
             expect(state.dataStatus).toBe(DataStatus.REJECTED);
             expect(state.error).toBe("Network error");
+        });
+
+        it("handles clearError action", () => {
+            const stateWithError = {
+                ...initialState,
+                error: "Some error",
+            };
+            const action = { type: actions.clearError.type };
+            const state = reducer(stateWithError, action);
+
+            expect(state.error).toBeNull();
+        });
+
+        it("handles logout action", () => {
+            const authenticatedState = {
+                dataStatus: DataStatus.FULFILLED,
+                error: "Some error",
+                isAuthenticated: true,
+                user: { email: "test@example.com", id: 1, name: "Test User" },
+            };
+            const action = { type: actions.logout.type };
+            const state = reducer(authenticatedState, action);
+
+            expect(state.isAuthenticated).toBe(false);
+            expect(state.user).toBeNull();
+            expect(state.error).toBeNull();
+            expect(state.dataStatus).toBe(DataStatus.IDLE);
         });
     });
 
