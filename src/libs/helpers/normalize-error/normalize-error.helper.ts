@@ -1,8 +1,13 @@
+import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
 import { HTTPError } from "~/libs/modules/http/http.js";
 import { type ThunkErrorPayload } from "~/libs/types/types.js";
 
 const isErrorRecord = (value: unknown): value is Record<string, string[]> => {
 	if (typeof value !== "object" || value === null || Array.isArray(value)) {
+		return false;
+	}
+
+	if (Object.keys(value).length === EMPTY_ARRAY_LENGTH) {
 		return false;
 	}
 
@@ -13,11 +18,16 @@ const isErrorRecord = (value: unknown): value is Record<string, string[]> => {
 
 const normalizeError = (error: unknown): ThunkErrorPayload => {
 	if (error instanceof HTTPError) {
-		return {
-			errors: error.errors,
+		const payload: ThunkErrorPayload = {
 			message: error.message,
 			status: error.status,
 		};
+
+		if (isErrorRecord(error.errors)) {
+			payload.errors = error.errors;
+		}
+
+		return payload;
 	}
 
 	if (error instanceof Error) {
