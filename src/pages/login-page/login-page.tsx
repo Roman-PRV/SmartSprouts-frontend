@@ -115,14 +115,14 @@ const LoginPage: React.FC = () => {
 						/>
 
 						<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">
-                            Login
+							Login
 						</Button>
 					</form>
 
 					<p className={getValidClassNames(styles["footer-text"])}>
-                        Don&apos;t have an account? &nbsp;
+						Don&apos;t have an account? {""}
 						<Link className={getValidClassNames(styles["link"])} to="/register">
-                            Register
+							Register
 						</Link>
 					</p>
 				</div>
