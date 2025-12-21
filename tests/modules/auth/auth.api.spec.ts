@@ -6,7 +6,12 @@ import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Storage } from "~/libs/modules/storage/storage";
 import { AuthApi } from "~/modules/auth/auth.api";
 import { AuthApiPath } from "~/modules/auth/libs/enums/enums";
-import { type RegisterRequestDto, type RegisterResponseDto } from "~/modules/auth/libs/types/types";
+import {
+	type LoginRequestDto,
+	type LoginResponseDto,
+	type RegisterRequestDto,
+	type RegisterResponseDto,
+} from "~/modules/auth/libs/types/types";
 
 const EXPECT_HTTP_CALLS = 1;
 
@@ -98,5 +103,79 @@ describe("AuthApi.register", () => {
 		});
 
 		await expect(api.register(payload)).rejects.toThrow(errorMessage);
+	});
+});
+
+describe("AuthApi.login", () => {
+	let http: HttpMock;
+	let storage: StorageMock;
+	const baseUrl = "http://localhost:3000/api";
+
+	beforeEach(() => {
+		http = { load: vi.fn() };
+		storage = { get: vi.fn() };
+	});
+
+	it("sends correct request and returns data on success", async () => {
+		const payload: LoginRequestDto = {
+			email: "test@example.com",
+			password: "password123",
+		};
+
+		const responseData: LoginResponseDto = {
+			access_token: "fake-token",
+			user: {
+				email: "test@example.com",
+				id: 1,
+				name: "Test User",
+			},
+		};
+
+		http.load.mockResolvedValueOnce(makeResponse(responseData));
+
+		const api = new AuthApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		const result = await api.login(payload);
+
+		expect(http.load).toHaveBeenCalledTimes(EXPECT_HTTP_CALLS);
+		expect(http.load).toHaveBeenCalledWith(
+			`${baseUrl}${APIPath.AUTH}${AuthApiPath.LOGIN}`,
+			expect.objectContaining({
+				headers: expect.any(Headers),
+				method: HTTPMethod.POST,
+				payload: JSON.stringify(payload),
+			})
+		);
+
+		const firstCallArguments = http.load.mock.calls[0];
+		const [_, options] = firstCallArguments as [
+			string,
+			{ headers: Headers; method: string; payload: string },
+		];
+		expect(options.headers.get("content-type")).toBe(ContentType.JSON);
+
+		expect(result).toEqual(responseData);
+	});
+
+	it("propagates error when request fails", async () => {
+		const payload: LoginRequestDto = {
+			email: "test@example.com",
+			password: "password123",
+		};
+
+		const errorMessage = "Invalid credentials";
+		http.load.mockRejectedValueOnce(new Error(errorMessage));
+
+		const api = new AuthApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		await expect(api.login(payload)).rejects.toThrow(errorMessage);
 	});
 });

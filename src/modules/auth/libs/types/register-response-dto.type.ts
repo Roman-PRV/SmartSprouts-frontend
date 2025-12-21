@@ -1,3 +1,5 @@
+import { type User } from "./user.type.js";
+
 type RegisterResponseDto = {
 	access_token: string;
 	message?: string;
@@ -5,10 +7,4 @@ type RegisterResponseDto = {
 	user: User;
 };
 
-type User = {
-	email: string;
-	id: number;
-	name: string;
-};
-
-export { type RegisterResponseDto, type User };
+export { type RegisterResponseDto };

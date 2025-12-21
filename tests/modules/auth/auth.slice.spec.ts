@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { DataStatus } from "~/libs/enums/enums";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type ThunkErrorPayload } from "~/libs/types/types";
-import { actions, register } from "~/modules/auth/auth";
+import { actions, login, register } from "~/modules/auth/auth";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 describe("auth slice", () => {
@@ -17,6 +17,51 @@ describe("auth slice", () => {
 	describe("reducer", () => {
 		it("returns the initial state", () => {
 			expect(reducer(undefined, { type: "UNKNOWN_ACTION" })).toEqual(initialState);
+		});
+
+		it("handles login.pending action", () => {
+			const action = { type: login.pending.type };
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.PENDING);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles login.fulfilled action", () => {
+			const mockUser = { email: "test@example.com", id: 1, name: "Test User" };
+			const action = {
+				payload: { access_token: "fake-token", user: mockUser },
+				type: login.fulfilled.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
+			expect(state.isAuthenticated).toBe(true);
+			expect(state.user).toEqual(mockUser);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles login.rejected action with payload message", () => {
+			const errorMessage = "Invalid credentials";
+			const action = {
+				payload: { message: errorMessage } as ThunkErrorPayload,
+				type: login.rejected.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.REJECTED);
+			expect(state.error).toBe(errorMessage);
+		});
+
+		it("handles login.rejected action with default error message", () => {
+			const action = {
+				error: { message: "Network error" },
+				type: login.rejected.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.REJECTED);
+			expect(state.error).toBe("Network error");
 		});
 
 		it("handles register.pending action", () => {
@@ -135,6 +180,52 @@ describe("auth slice", () => {
 			};
 
 			const thunk = register(payload);
+			const result = await thunk(dispatch, getState, extra as any);
+
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as any).message).toBe(errorMessage);
+		});
+	});
+
+	describe("login thunk", () => {
+		it("calls authApi.login and stores token in storage on success", async () => {
+			const mockResponse = {
+				access_token: "fake-token",
+				user: { email: "test@example.com", id: 1, name: "Test User" },
+			};
+			const authApiMock = { login: vi.fn().mockResolvedValue(mockResponse) };
+			const storageMock = { set: vi.fn().mockResolvedValue(undefined) };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const payload = {
+				email: "test@example.com",
+				password: "password123",
+			};
+
+			const thunk = login(payload);
+			const result = await thunk(dispatch, getState, extra as any);
+
+			expect(authApiMock.login).toHaveBeenCalledWith(payload);
+			expect(storageMock.set).toHaveBeenCalledWith(StorageKey.TOKEN, mockResponse.access_token);
+			expect(result.payload).toEqual(mockResponse);
+		});
+
+		it("returns rejected value on api error", async () => {
+			const errorMessage = "API error";
+			const authApiMock = { login: vi.fn().mockRejectedValue(new Error(errorMessage)) };
+			const storageMock = { set: vi.fn() };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const payload = {
+				email: "test@example.com",
+				password: "password123",
+			};
+
+			const thunk = login(payload);
 			const result = await thunk(dispatch, getState, extra as any);
 
 			expect(result.meta.requestStatus).toBe("rejected");
