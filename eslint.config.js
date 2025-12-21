@@ -123,6 +123,8 @@ const config = [
 			"react/react-in-jsx-scope": ["off"],
 			"unicorn/no-null": ["off"],
 			"sonarjs/todo-tag": "off",
+			indent: ["error", "tab"],
+			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 		},
 		settings: {
 			"import/parsers": {
@@ -155,6 +157,12 @@ const config = [
 		files: ["*.js"],
 		rules: {
 			"@typescript-eslint/explicit-function-return-type": ["off"],
+		},
+	},
+	{
+		files: ["**/*.tsx"],
+		rules: {
+			"sonarjs/void-use": "off",
 		},
 	},
 ];

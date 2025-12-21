@@ -41,7 +41,7 @@ type InputProperties = {
 	disabled?: boolean;
 
 	/** Error message to display. When set, input shows error state */
-	error?: null | string;
+	error?: string | undefined;
 
 	/** Icon name to display on the left side of the input */
 	iconLeft?: IconName;

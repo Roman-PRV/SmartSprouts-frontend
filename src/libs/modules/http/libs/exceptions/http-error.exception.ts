@@ -7,6 +7,7 @@ import { ApplicationError } from "./application-error.exception";
 type Constructor = {
 	cause?: unknown;
 	details: ServerErrorDetail[];
+	errors?: Record<string, string[]> | undefined;
 	errorType: ValueOf<typeof ServerErrorType>;
 	message: string;
 	status: ValueOf<typeof HTTPCode>;
@@ -14,11 +15,12 @@ type Constructor = {
 
 class HTTPError extends ApplicationError {
 	public details: ServerErrorDetail[];
+	public errors?: Record<string, string[]> | undefined;
 	public errorType: ValueOf<typeof ServerErrorType>;
 
 	public status: ValueOf<typeof HTTPCode>;
 
-	public constructor({ cause, details, errorType, message, status }: Constructor) {
+	public constructor({ cause, details, errors, errorType, message, status }: Constructor) {
 		super({
 			cause,
 			message,
@@ -26,6 +28,7 @@ class HTTPError extends ApplicationError {
 		this.status = status;
 		this.errorType = errorType;
 		this.details = details;
+		this.errors = errors;
 	}
 }
 
