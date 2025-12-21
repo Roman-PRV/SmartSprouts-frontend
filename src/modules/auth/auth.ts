@@ -11,5 +11,5 @@ const authApi = new AuthApi({
 });
 
 export { authApi };
-export { register } from "./slices/actions.js";
+export { login, register } from "./slices/actions.js";
 export { actions, reducer } from "./slices/auth.slice.js";
