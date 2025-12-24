@@ -1,0 +1,6 @@
+const VALIDATION_RULES = {
+	MIN_NAME_LENGTH: 1,
+	MIN_PASSWORD_LENGTH: 6,
+} as const;
+
+export { VALIDATION_RULES };
