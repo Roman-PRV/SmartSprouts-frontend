@@ -14,7 +14,7 @@ const getFormValidationErrors = <T>(data: T, schema: ZodType<T>): null | Record<
 	for (const issue of validationResult.error.issues) {
 		const pathKey = issue.path.join(".");
 
-		if (pathKey && !errors[pathKey]) {
+		if (!errors[pathKey]) {
 			errors[pathKey] = issue.message;
 		}
 	}

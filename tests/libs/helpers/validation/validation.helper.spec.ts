@@ -59,4 +59,26 @@ describe("getFormValidationErrors", () => {
 			"user.details.age": "Too young",
 		});
 	});
+
+	it("should return error record for root-level validation errors", () => {
+		const schema = z
+			.object({
+				password: z.string(),
+				confirmPassword: z.string(),
+			})
+			.refine((data) => data.password === data.confirmPassword, {
+				message: "Passwords must match",
+				path: [],
+			});
+		const data = {
+			password: "password123",
+			confirmPassword: "password456",
+		};
+
+		const result = getFormValidationErrors(data, schema);
+
+		expect(result).toEqual({
+			"": "Passwords must match",
+		});
+	});
 });
