@@ -2,10 +2,10 @@ import { z } from "zod";
 
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
 
-const emailSchema = z.preprocess(
-	(value: string) => value.trim(),
-	z.email(VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT).toLowerCase()
-);
+const emailSchema = z
+	.string()
+	.trim()
+	.pipe(z.email(VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT).toLowerCase());
 
 const nameSchema = z
 	.string()
