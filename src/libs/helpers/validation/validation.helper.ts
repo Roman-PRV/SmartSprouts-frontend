@@ -2,10 +2,7 @@ import { type ZodType } from "zod";
 
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
 
-const getFormValidationErrors = <T>(
-	data: T,
-	schema: ZodType<T>
-): null | Record<string, string> => {
+const getFormValidationErrors = <T>(data: T, schema: ZodType<T>): null | Record<string, string> => {
 	const validationResult = schema.safeParse(data);
 
 	if (validationResult.success) {
