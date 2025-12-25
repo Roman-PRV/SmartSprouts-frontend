@@ -1,8 +1,11 @@
 import { type ZodType } from "zod";
 
-import { FIRST_INDEX } from "~/libs/constants/constants";
+import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
 
-const getFormValidationErrors = <T>(data: T, schema: ZodType<T>): null | Record<string, string> => {
+const getFormValidationErrors = <T>(
+	data: T,
+	schema: ZodType<T>
+): null | Record<string, string> => {
 	const validationResult = schema.safeParse(data);
 
 	if (validationResult.success) {
@@ -12,14 +15,14 @@ const getFormValidationErrors = <T>(data: T, schema: ZodType<T>): null | Record<
 	const errors: Record<string, string> = {};
 
 	for (const issue of validationResult.error.issues) {
-		const path = issue.path[FIRST_INDEX];
+		const pathKey = issue.path.join(".");
 
-		if (path) {
-			errors[String(path)] = issue.message;
+		if (pathKey && !errors[pathKey]) {
+			errors[pathKey] = issue.message;
 		}
 	}
 
-	return errors;
+	return Object.keys(errors).length > EMPTY_ARRAY_LENGTH ? errors : null;
 };
 
 export { getFormValidationErrors };
