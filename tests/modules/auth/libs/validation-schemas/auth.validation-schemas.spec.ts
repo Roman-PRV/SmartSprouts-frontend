@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { VALIDATION_MESSAGES } from "~/libs/constants/validation.constants";
+import { FIRST_INDEX, VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import {
 	loginSchema,
 	registerSchema,
@@ -23,12 +23,13 @@ describe("Auth Validation Schemas", () => {
 				password: "password123",
 			};
 			const result = loginSchema.safeParse(data);
-			if (result.success) {
-				expect(result.success).toBe(false);
-				return;
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find((i) => i.path[FIRST_INDEX] === "email");
+				expect(issue?.message).toBe(VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT);
 			}
-			const issue = result.error.issues.find((i) => i.path[0] === "email");
-			expect(issue?.message).toBe(VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT);
 		});
 	});
 
@@ -52,14 +53,15 @@ describe("Auth Validation Schemas", () => {
 				password_confirmation: "password456",
 			};
 			const result = registerSchema.safeParse(data);
-			if (result.success) {
-				expect(result.success).toBe(false);
-				return;
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.path[FIRST_INDEX] === "password_confirmation"
+				);
+				expect(issue?.message).toBe(VALIDATION_MESSAGES.PW_DO_NOT_MATCH);
 			}
-			const issue = result.error.issues.find(
-				(i) => i.path[0] === "password_confirmation"
-			);
-			expect(issue?.message).toBe(VALIDATION_MESSAGES.PW_DO_NOT_MATCH);
 		});
 
 		it("should fail validation for individual fields", () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { VALIDATION_MESSAGES } from "~/libs/constants/validation.constants";
+import { FIRST_INDEX, VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import {
 	emailSchema,
 	nameSchema,
@@ -24,13 +24,14 @@ describe("Validation Schemas", () => {
 
 		it("should fail for invalid email format", () => {
 			const result = emailSchema.safeParse("invalid-email");
-			if (result.success) {
-				expect(result.success).toBe(false);
-				return;
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				expect(result.error.issues[FIRST_INDEX]?.message).toBe(
+					VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT
+				);
 			}
-			expect(result.error.issues[0]?.message).toBe(
-				VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT
-			);
 		});
 
 		it("should fail for empty string", () => {
@@ -55,13 +56,14 @@ describe("Validation Schemas", () => {
 
 		it("should fail for empty string", () => {
 			const result = nameSchema.safeParse("");
-			if (result.success) {
-				expect(result.success).toBe(false);
-				return;
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				expect(result.error.issues[FIRST_INDEX]?.message).toBe(
+					VALIDATION_MESSAGES.MIN_NAME_LENGTH
+				);
 			}
-			expect(result.error.issues[0]?.message).toBe(
-				VALIDATION_MESSAGES.MIN_NAME_LENGTH
-			);
 		});
 	});
 
@@ -73,25 +75,27 @@ describe("Validation Schemas", () => {
 
 		it("should fail if password is too short", () => {
 			const result = passwordSchema.safeParse("12345");
-			if (result.success) {
-				expect(result.success).toBe(false);
-				return;
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				expect(result.error.issues[FIRST_INDEX]?.message).toBe(
+					VALIDATION_MESSAGES.MIN_PW_LENGTH
+				);
 			}
-			expect(result.error.issues[0]?.message).toBe(
-				VALIDATION_MESSAGES.MIN_PW_LENGTH
-			);
 		});
 
 		it("should fail if password does not contain a number", () => {
 			const result = passwordSchema.safeParse("password");
-			if (result.success) {
-				expect(result.success).toBe(false);
-				return;
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.message === VALIDATION_MESSAGES.PW_CONTAINS_NUMBER
+				);
+				expect(issue).toBeDefined();
 			}
-			const issue = result.error.issues.find(
-				(i) => i.message === VALIDATION_MESSAGES.PW_CONTAINS_NUMBER
-			);
-			expect(issue).toBeDefined();
 		});
 	});
 });
