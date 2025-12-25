@@ -1,19 +1,21 @@
 import { z } from "zod";
 
-import { VALIDATION_RULES } from "~/libs/constants/constants";
+import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
 
-const emailSchema = z
-	.email("Invalid email format")
+const emailSchema = z.preprocess(
+	(value: string) => value.trim(),
+	z.email(VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT).toLowerCase()
+);
+
+const nameSchema = z
+	.string()
 	.trim()
-	.min(VALIDATION_RULES.MIN_NAME_LENGTH, "Email is required");
+	.min(VALIDATION_RULES.MIN_NAME_LENGTH, VALIDATION_MESSAGES.MIN_NAME_LENGTH);
 
 const passwordSchema = z
 	.string()
 	.trim()
-	.min(
-		VALIDATION_RULES.MIN_PASSWORD_LENGTH,
-		`Password must be at least ${String(VALIDATION_RULES.MIN_PASSWORD_LENGTH)} characters`
-	)
-	.regex(/\d/, "Password must contain at least one number");
+	.min(VALIDATION_RULES.MIN_PASSWORD_LENGTH, VALIDATION_MESSAGES.MIN_PW_LENGTH)
+	.regex(/\d/, VALIDATION_MESSAGES.PW_CONTAINS_NUMBER);
 
-export { emailSchema, passwordSchema };
+export { emailSchema, nameSchema, passwordSchema };

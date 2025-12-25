@@ -1,7 +1,11 @@
 import { z } from "zod";
 
-import { VALIDATION_RULES } from "~/libs/constants/constants";
-import { emailSchema, passwordSchema } from "~/libs/validation-schemas/validation-schemas";
+import { VALIDATION_MESSAGES } from "~/libs/constants/validation.constants";
+import {
+	emailSchema,
+	nameSchema,
+	passwordSchema,
+} from "~/libs/validation-schemas/validation-schemas";
 
 const loginSchema = z.object({
 	email: emailSchema,
@@ -11,12 +15,12 @@ const loginSchema = z.object({
 const registerSchema = z
 	.object({
 		email: emailSchema,
-		name: z.string().trim().min(VALIDATION_RULES.MIN_NAME_LENGTH, "Name is required"),
+		name: nameSchema,
 		password: passwordSchema,
-		password_confirmation: z.string(),
+		password_confirmation: passwordSchema,
 	})
 	.refine((data) => data.password === data.password_confirmation, {
-		message: "Passwords do not match",
+		message: VALIDATION_MESSAGES.PW_DO_NOT_MATCH,
 		path: ["password_confirmation"],
 	});
 
