@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { getFormValidationErrors } from "~/libs/helpers/helpers";
+import { validateFormData } from "~/libs/helpers/helpers";
 
-describe("getFormValidationErrors", () => {
-	it("should return null for valid data", () => {
+describe("validateFormData", () => {
+	it("should return data and null errors for valid data", () => {
 		const schema = z.object({
 			email: z.string().email(),
 			name: z.string().min(1),
@@ -14,12 +14,39 @@ describe("getFormValidationErrors", () => {
 			name: "Test User",
 		};
 
-		const result = getFormValidationErrors(data, schema);
+		const result = validateFormData(data, schema);
 
-		expect(result).toBeNull();
+		expect(result).toEqual({
+			data: {
+				email: "test@example.com",
+				name: "Test User",
+			},
+			errors: null,
+		});
 	});
 
-	it("should return error record for invalid data", () => {
+	it("should return transformed data for valid data with transformations", () => {
+		const schema = z.object({
+			email: z.string().trim().toLowerCase().pipe(z.string().email()),
+			name: z.string().trim(),
+		});
+		const data = {
+			email: "  Test@Example.Com  ",
+			name: "  Test User  ",
+		};
+
+		const result = validateFormData(data, schema);
+
+		expect(result).toEqual({
+			data: {
+				email: "test@example.com",
+				name: "Test User",
+			},
+			errors: null,
+		});
+	});
+
+	it("should return error record and null data for invalid data", () => {
 		const schema = z.object({
 			email: z.string().email("Invalid email"),
 			name: z.string().min(1, "Name is required"),
@@ -29,11 +56,14 @@ describe("getFormValidationErrors", () => {
 			name: "",
 		};
 
-		const result = getFormValidationErrors(data, schema);
+		const result = validateFormData(data, schema);
 
 		expect(result).toEqual({
-			email: "Invalid email",
-			name: "Name is required",
+			data: null,
+			errors: {
+				email: "Invalid email",
+				name: "Name is required",
+			},
 		});
 	});
 
@@ -53,10 +83,13 @@ describe("getFormValidationErrors", () => {
 			},
 		};
 
-		const result = getFormValidationErrors(data, schema);
+		const result = validateFormData(data, schema);
 
 		expect(result).toEqual({
-			"user.details.age": "Too young",
+			data: null,
+			errors: {
+				"user.details.age": "Too young",
+			},
 		});
 	});
 
@@ -75,10 +108,13 @@ describe("getFormValidationErrors", () => {
 			confirmPassword: "password456",
 		};
 
-		const result = getFormValidationErrors(data, schema);
+		const result = validateFormData(data, schema);
 
 		expect(result).toEqual({
-			"": "Passwords must match",
+			data: null,
+			errors: {
+				"": "Passwords must match",
+			},
 		});
 	});
 });

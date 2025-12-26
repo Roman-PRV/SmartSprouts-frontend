@@ -1,7 +1,7 @@
 import { Button, Input, Link } from "~/libs/components/components";
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
-import { getFormValidationErrors, getValidClassNames } from "~/libs/helpers/helpers";
+import { getValidClassNames, validateFormData } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -11,7 +11,12 @@ import {
 	useState,
 } from "~/libs/hooks/hooks";
 import { type ThunkErrorPayload } from "~/libs/types/types.js";
-import { actions as authActions, login, loginSchema } from "~/modules/auth/auth";
+import {
+	actions as authActions,
+	login,
+	type LoginRequestDto,
+	loginSchema,
+} from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
 
@@ -43,7 +48,10 @@ const LoginPage: React.FC = () => {
 			const executeSubmit = async (): Promise<void> => {
 				setFieldErrors({});
 				dispatch(authActions.clearError());
-				const validationErrors = getFormValidationErrors({ email, password }, loginSchema);
+				const { data: validatedData, errors: validationErrors } = validateFormData(
+					{ email, password },
+					loginSchema
+				);
 
 				if (validationErrors) {
 					setFieldErrors(validationErrors);
@@ -51,12 +59,7 @@ const LoginPage: React.FC = () => {
 					return;
 				}
 
-				const result = await dispatch(
-					login({
-						email,
-						password,
-					})
-				);
+				const result = await dispatch(login(validatedData as LoginRequestDto));
 
 				if (result.meta.requestStatus === "rejected") {
 					const errorPayload = result.payload as ThunkErrorPayload | undefined;

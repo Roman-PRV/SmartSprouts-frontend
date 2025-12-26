@@ -1,7 +1,7 @@
 import { Button, Input, Link } from "~/libs/components/components";
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
-import { getFormValidationErrors, getValidClassNames } from "~/libs/helpers/helpers";
+import { getValidClassNames, validateFormData } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -11,7 +11,12 @@ import {
 	useState,
 } from "~/libs/hooks/hooks";
 import { type ThunkErrorPayload } from "~/libs/types/types.js";
-import { actions as authActions, register, registerSchema } from "~/modules/auth/auth";
+import {
+	actions as authActions,
+	register,
+	type RegisterRequestDto,
+	registerSchema,
+} from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
 
@@ -64,7 +69,7 @@ const RegisterPage: React.FC = () => {
 				setFieldErrors({});
 				dispatch(authActions.clearError());
 
-				const validationErrors = getFormValidationErrors(
+				const { data: validatedData, errors: validationErrors } = validateFormData(
 					{ email, name, password, password_confirmation: confirmPassword },
 					registerSchema
 				);
@@ -75,14 +80,7 @@ const RegisterPage: React.FC = () => {
 					return;
 				}
 
-				const result = await dispatch(
-					register({
-						email,
-						name,
-						password,
-						password_confirmation: confirmPassword,
-					})
-				);
+				const result = await dispatch(register(validatedData as RegisterRequestDto));
 
 				if (result.meta.requestStatus === "rejected") {
 					const errorPayload = result.payload as ThunkErrorPayload | undefined;
