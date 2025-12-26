@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { VALIDATION_MESSAGES } from "~/libs/constants/validation.constants";
+import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import {
 	emailSchema,
 	nameSchema,
