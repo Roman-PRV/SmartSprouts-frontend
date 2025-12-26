@@ -31,6 +31,23 @@ describe("Auth Validation Schemas", () => {
 				expect(issue?.message).toBe(VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT);
 			}
 		});
+
+		it("should fail if password does not contain a number", () => {
+			const data = {
+				email: "test@example.com",
+				password: "password",
+			};
+			const result = loginSchema.safeParse(data);
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_NUMBER
+				);
+				expect(issue).toBeDefined();
+			}
+		});
 	});
 
 	describe("registerSchema", () => {
