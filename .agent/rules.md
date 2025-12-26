@@ -2,11 +2,6 @@
 
 This file defines the behavior and preferences for the AI assistant in this project.
 
-## General
-
-- **Language**: Communicate in Ukrainian unless asked otherwise.
-- **Tone**: Professional, helpful, and concise.
-
 ## Coding Standards
 
 - Follow the existing project structure.
