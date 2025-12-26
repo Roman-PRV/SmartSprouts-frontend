@@ -1,7 +1,7 @@
 import { Button, Input, Link } from "~/libs/components/components";
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
-import { getValidClassNames } from "~/libs/helpers/helpers";
+import { getValidClassNames, validateFormData } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -11,11 +11,13 @@ import {
 	useState,
 } from "~/libs/hooks/hooks";
 import { type ThunkErrorPayload } from "~/libs/types/types.js";
-import { actions as authActions, register } from "~/modules/auth/auth";
+import {
+	actions as authActions,
+	register,
+	registerSchema,
+} from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
-
-const VALIDATION_MATCH_ERROR = "Passwords do not match";
 
 const RegisterPage: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -66,22 +68,18 @@ const RegisterPage: React.FC = () => {
 				setFieldErrors({});
 				dispatch(authActions.clearError());
 
-				if (password !== confirmPassword) {
-					setFieldErrors({
-						password_confirmation: VALIDATION_MATCH_ERROR,
-					});
+				const { data: validatedData, errors: validationErrors } = validateFormData(
+					{ email, name, password, password_confirmation: confirmPassword },
+					registerSchema
+				);
+
+				if (validationErrors) {
+					setFieldErrors(validationErrors);
 
 					return;
 				}
 
-				const result = await dispatch(
-					register({
-						email,
-						name,
-						password,
-						password_confirmation: confirmPassword,
-					})
-				);
+				const result = await dispatch(register(validatedData));
 
 				if (result.meta.requestStatus === "rejected") {
 					const errorPayload = result.payload as ThunkErrorPayload | undefined;
