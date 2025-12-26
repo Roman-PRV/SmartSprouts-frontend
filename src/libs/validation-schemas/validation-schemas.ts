@@ -28,7 +28,6 @@ const nameSchema = z
 /**
  * Schema for password validation.
  * Rules:
- * - Trims whitespace
  * - Minimum length: {@link VALIDATION_RULES.MIN_PASSWORD_LENGTH}
  * - Must contain at least one digit
  */
