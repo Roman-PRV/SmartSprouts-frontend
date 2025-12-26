@@ -34,7 +34,6 @@ const nameSchema = z
  */
 const passwordSchema = z
 	.string()
-	.trim()
 	.min(VALIDATION_RULES.MIN_PASSWORD_LENGTH, VALIDATION_MESSAGES.MIN_PW_LENGTH)
 	.regex(/\d/, VALIDATION_MESSAGES.PW_CONTAINS_NUMBER);
 

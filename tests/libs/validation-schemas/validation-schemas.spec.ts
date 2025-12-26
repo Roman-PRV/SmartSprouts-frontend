@@ -73,6 +73,16 @@ describe("Validation Schemas", () => {
 			expect(result.success).toBe(true);
 		});
 
+		it("should preserve leading and trailing spaces", () => {
+			const passwordWithSpaces = "  password123  ";
+			const result = passwordSchema.safeParse(passwordWithSpaces);
+
+			expect(result.success).toBe(true);
+			if (result.success) {
+				expect(result.data).toBe(passwordWithSpaces);
+			}
+		});
+
 		it("should fail if password is too short", () => {
 			const result = passwordSchema.safeParse("12345");
 
