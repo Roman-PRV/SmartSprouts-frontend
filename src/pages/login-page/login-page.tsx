@@ -14,7 +14,6 @@ import { type ThunkErrorPayload } from "~/libs/types/types.js";
 import {
 	actions as authActions,
 	login,
-	type LoginRequestDto,
 	loginSchema,
 } from "~/modules/auth/auth";
 
@@ -59,7 +58,7 @@ const LoginPage: React.FC = () => {
 					return;
 				}
 
-				const result = await dispatch(login(validatedData as LoginRequestDto));
+				const result = await dispatch(login(validatedData));
 
 				if (result.meta.requestStatus === "rejected") {
 					const errorPayload = result.payload as ThunkErrorPayload | undefined;

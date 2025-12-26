@@ -14,7 +14,6 @@ import { type ThunkErrorPayload } from "~/libs/types/types.js";
 import {
 	actions as authActions,
 	register,
-	type RegisterRequestDto,
 	registerSchema,
 } from "~/modules/auth/auth";
 
@@ -80,7 +79,7 @@ const RegisterPage: React.FC = () => {
 					return;
 				}
 
-				const result = await dispatch(register(validatedData as RegisterRequestDto));
+				const result = await dispatch(register(validatedData));
 
 				if (result.meta.requestStatus === "rejected") {
 					const errorPayload = result.payload as ThunkErrorPayload | undefined;

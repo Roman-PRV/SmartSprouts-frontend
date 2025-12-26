@@ -1,11 +1,10 @@
 import { type ZodType } from "zod";
 
-import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
-
 /**
  * Validates data against a Zod schema and returns formatted error messages and transformed data.
  *
- * @template T - The type of the data to validate.
+ * @template Output - The type of the transformed output data (after Zod transformations like trim, toLowerCase, etc.).
+ * @template Input - The type of the input data to validate.
  * @param data - The data to be validated.
  * @param schema - The Zod schema to validate against.
  * @returns An object containing:
@@ -20,12 +19,13 @@ import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/empty-array-length";
  *   loginSchema
  * );
  * // If successful: errors is null, data is { email: "user@example.com" }
+ * // TypeScript correctly infers that data.email is lowercase and trimmed
  * ```
  */
-const validateFormData = <T>(
-	data: T,
-	schema: ZodType<T>
-): { data: null | T; errors: null | Record<string, string> } => {
+const validateFormData = <Output = unknown, Input = Output>(
+	data: Input,
+	schema: ZodType<Output, Input>
+): { data: null; errors: Record<string, string> } | { data: Output; errors: null } => {
 	const validationResult = schema.safeParse(data);
 
 	if (validationResult.success) {
@@ -47,7 +47,7 @@ const validateFormData = <T>(
 
 	return {
 		data: null,
-		errors: Object.keys(errors).length > EMPTY_ARRAY_LENGTH ? errors : null,
+		errors,
 	};
 };
 
