@@ -14,8 +14,8 @@ describe("Validation Schemas", () => {
 			expect(result.success).toBe(true);
 		});
 
-		it("should validate email with whitespace (trimming)", () => {
-			const result = emailSchema.safeParse("  test@example.com  ");
+		it("should normalize email (trimming and lowercasing)", () => {
+			const result = emailSchema.safeParse("  Test@Example.COM  ");
 			expect(result.success).toBe(true);
 			if (result.success) {
 				expect(result.data).toBe("test@example.com");
