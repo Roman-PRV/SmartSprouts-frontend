@@ -11,11 +11,7 @@ import {
 	useState,
 } from "~/libs/hooks/hooks";
 import { type ThunkErrorPayload } from "~/libs/types/types.js";
-import {
-	actions as authActions,
-	register,
-	registerSchema,
-} from "~/modules/auth/auth";
+import { actions as authActions, register, registerSchema } from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
 
