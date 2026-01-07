@@ -70,6 +70,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-md);
+	position: relative;
+	z-index: var(--z-index-low);
 }
 
 /* Base element for both cards */
@@ -130,6 +132,28 @@
 	flex-wrap: wrap;
 	gap: var(--spacing-sm);
 	margin-top: var(--spacing-sm);
+	align-items: center;
+}
+
+.hero-section__auth-prompt {
+	font-family: "Nunito", sans-serif;
+	font-size: var(--font-size-lg);
+	color: var(--color-text-primary);
+	line-height: 1.4;
+}
+
+.hero-section__auth-link {
+	font-family: "Nunito", sans-serif;
+	color: var(--color-text-1);
+	font-weight: 800;
+	transition: all 0.2s ease;
+	text-decoration: underline;
+}
+
+.hero-section__auth-link:hover {
+	color: var(--color-background-dark);
+	text-decoration: underline;
+	opacity: 0.8;
 }
 
 .hero-section__visual {

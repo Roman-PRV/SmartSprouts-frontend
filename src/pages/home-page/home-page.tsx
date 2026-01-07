@@ -37,11 +37,19 @@ const HomePage: React.FC = () => {
 								Jugar Ahora
 							</Button>
 						</Link>
-						<Link to="/register">
-							<Button size="lg" variant="secondary">
-								Crear Cuenta Gratis
-							</Button>
-						</Link>
+
+						<p className={styles["hero-section__auth-prompt"]}>
+							¿Ya tienes cuenta?
+							<br />
+							<Link className={styles["hero-section__auth-link"]} to="/login">
+								Inicia sesión
+							</Link>{" "}
+							o{" "}
+							<Link className={styles["hero-section__auth-link"]} to="/register">
+								regístrate gratis
+							</Link>{" "}
+							en segundos.
+						</p>
 					</div>
 				</div>
 
