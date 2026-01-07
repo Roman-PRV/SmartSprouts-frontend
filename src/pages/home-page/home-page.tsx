@@ -115,27 +115,27 @@ const HomePage: React.FC = () => {
 				</div>
 
 				<div className={styles["categories-section__grid"]}>
-					<div className={styles["category-card"]}>
+					<Link className={styles["category-card"]} to="/games?category=math">
 						<div className={styles["category-card__icon-wrapper"]}>🧮</div>
 						<h3 className={styles["category-card__title"]}>Matemáticas</h3>
 						<p className={styles["category-card__description"]}>
 							Números, formas y lógica divertida.
 						</p>
-					</div>
-					<div className={styles["category-card"]}>
+					</Link>
+					<Link className={styles["category-card"]} to="/games?category=reading">
 						<div className={styles["category-card__icon-wrapper"]}>📚</div>
 						<h3 className={styles["category-card__title"]}>Lectura</h3>
 						<p className={styles["category-card__description"]}>
 							Cuentos, letras y vocabulario nuevo.
 						</p>
-					</div>
-					<div className={styles["category-card"]}>
+					</Link>
+					<Link className={styles["category-card"]} to="/games?category=logic">
 						<div className={styles["category-card__icon-wrapper"]}>🧩</div>
 						<h3 className={styles["category-card__title"]}>Lógica</h3>
 						<p className={styles["category-card__description"]}>
 							Puzzles, secuencias y retos mentales.
 						</p>
-					</div>
+					</Link>
 				</div>
 			</section>
 

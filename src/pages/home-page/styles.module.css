@@ -258,12 +258,21 @@
 	transition: all 0.3s ease;
 	border: 2px solid transparent;
 	cursor: pointer;
+	text-decoration: none;
+	color: inherit;
+	display: block;
 }
 
 .category-card:hover {
 	transform: translateY(-10px);
 	border-color: var(--color-dark-border-subtle);
 	box-shadow: var(--shadow-subtle);
+}
+
+.category-card:focus-visible {
+	outline: 2px solid var(--color-brand);
+	outline-offset: 4px;
+	transform: translateY(-5px);
 }
 
 .category-card__title {
