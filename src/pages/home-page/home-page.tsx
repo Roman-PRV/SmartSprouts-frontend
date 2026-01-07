@@ -60,7 +60,10 @@ const HomePage: React.FC = () => {
 							styles["hero-section__floating-card--top"]
 						)}
 					>
-						🎉 Diversión educativa para todos
+						<span aria-label="Fiesta" role="img">
+							🎉
+						</span>{" "}
+						Diversión educativa para todos
 					</span>
 					<img
 						alt="Niños jugando y aprendiendo"
@@ -92,7 +95,11 @@ const HomePage: React.FC = () => {
 							styles["hero-section__floating-card--bottom"]
 						)}
 					>
-						<div className={styles["hero-section__floating-card-icon"]}>🚀</div>
+						<div className={styles["hero-section__floating-card-icon"]}>
+							<span aria-label="Cohete" role="img">
+								🚀
+							</span>
+						</div>
 						<div className={styles["hero-section__floating-card-content"]}>
 							<span className={styles["hero-section__floating-card-label"]}>Juegos de</span>
 							<span className={styles["hero-section__floating-card-title"]}>
@@ -116,21 +123,33 @@ const HomePage: React.FC = () => {
 
 				<div className={styles["categories-section__grid"]}>
 					<Link className={styles["category-card"]} to="/games?category=math">
-						<div className={styles["category-card__icon-wrapper"]}>🧮</div>
+						<div className={styles["category-card__icon-wrapper"]}>
+							<span aria-label="Ábaco" role="img">
+								🧮
+							</span>
+						</div>
 						<h3 className={styles["category-card__title"]}>Matemáticas</h3>
 						<p className={styles["category-card__description"]}>
 							Números, formas y lógica divertida.
 						</p>
 					</Link>
 					<Link className={styles["category-card"]} to="/games?category=reading">
-						<div className={styles["category-card__icon-wrapper"]}>📚</div>
+						<div className={styles["category-card__icon-wrapper"]}>
+							<span aria-label="Libros" role="img">
+								📚
+							</span>
+						</div>
 						<h3 className={styles["category-card__title"]}>Lectura</h3>
 						<p className={styles["category-card__description"]}>
 							Cuentos, letras y vocabulario nuevo.
 						</p>
 					</Link>
 					<Link className={styles["category-card"]} to="/games?category=logic">
-						<div className={styles["category-card__icon-wrapper"]}>🧩</div>
+						<div className={styles["category-card__icon-wrapper"]}>
+							<span aria-label="Rompecabezas" role="img">
+								🧩
+							</span>
+						</div>
 						<h3 className={styles["category-card__title"]}>Lógica</h3>
 						<p className={styles["category-card__description"]}>
 							Puzzles, secuencias y retos mentales.
