@@ -9,7 +9,7 @@ const MainLayout: React.FC = () => {
 	return (
 		<div className={getValidClassNames(styles["layout__container"], "flex flex-col")}>
 			<Header />
-			<main className={getValidClassNames(styles["layout__main"], "flex-1 p-4 sm:p-6 lg:p-8")}>
+			<main className={getValidClassNames(styles["layout__main"], "flex-1")}>
 				<Outlet />
 			</main>
 
