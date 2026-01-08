@@ -26,15 +26,21 @@ const LoginPage: React.FC = () => {
 
 	const isLoading = dataStatus === DataStatus.PENDING;
 
-	const handleEmailChange = useCallback((value: string): void => {
-		setEmail(value);
-		setFieldErrors((previous) => ({ ...previous, email: "" }));
-	}, []);
+	const handleEmailChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>): void => {
+			setEmail(event.target.value);
+			setFieldErrors((previous) => ({ ...previous, email: "" }));
+		},
+		[]
+	);
 
-	const handlePasswordChange = useCallback((value: string): void => {
-		setPassword(value);
-		setFieldErrors((previous) => ({ ...previous, password: "" }));
-	}, []);
+	const handlePasswordChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>): void => {
+			setPassword(event.target.value);
+			setFieldErrors((previous) => ({ ...previous, password: "" }));
+		},
+		[]
+	);
 
 	const handleSubmit = useCallback(
 		(event: React.FormEvent<HTMLFormElement>): void => {

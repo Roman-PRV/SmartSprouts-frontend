@@ -56,13 +56,13 @@ type InputProperties = {
 	label?: string;
 
 	/** Name attribute for the input (useful for forms) */
-	name?: string;
+	name: string;
 
 	/** Optional callback function called when the input loses focus */
-	onBlur?: () => void;
+	onBlur?: React.FocusEventHandler<HTMLInputElement>;
 
 	/** Callback function called when the input value changes */
-	onChange: (value: string) => void;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 
 	/** Placeholder text displayed when input is empty */
 	placeholder?: string;
@@ -74,7 +74,7 @@ type InputProperties = {
 	type?: InputType;
 
 	/** Current value of the input */
-	value: string;
+	value?: string;
 };
 
 /**
