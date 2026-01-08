@@ -14,8 +14,7 @@ import {
 	type LoginRequestDto,
 	loginSchema,
 } from "~/modules/auth/auth";
-
-import styles from "./styles.module.css";
+import styles from "~/modules/auth/styles/auth-form.module.css";
 
 const LoginForm: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -69,9 +68,9 @@ const LoginForm: React.FC = () => {
 	);
 
 	return (
-		<form className={getValidClassNames(styles["form"])} onSubmit={handleOnSubmit}>
+		<form className={getValidClassNames(styles["auth-form"])} onSubmit={handleOnSubmit}>
 			{error && (
-				<div className={getValidClassNames(styles["error-message"])} role="alert">
+				<div className={getValidClassNames(styles["auth-form__error"])} role="alert">
 					{error}
 				</div>
 			)}

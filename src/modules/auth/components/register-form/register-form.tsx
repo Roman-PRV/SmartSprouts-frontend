@@ -14,8 +14,7 @@ import {
 	type RegisterRequestDto,
 	registerSchema,
 } from "~/modules/auth/auth";
-
-import styles from "./styles.module.css";
+import styles from "~/modules/auth/styles/auth-form.module.css";
 
 const RegisterForm: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -71,9 +70,9 @@ const RegisterForm: React.FC = () => {
 	);
 
 	return (
-		<form className={getValidClassNames(styles["form"])} onSubmit={handleOnSubmit}>
+		<form className={getValidClassNames(styles["auth-form"])} onSubmit={handleOnSubmit}>
 			{error && (
-				<div className={getValidClassNames(styles["error-message"])} role="alert">
+				<div className={getValidClassNames(styles["auth-form__error"])} role="alert">
 					{error}
 				</div>
 			)}
@@ -117,7 +116,7 @@ const RegisterForm: React.FC = () => {
 			/>
 
 			<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">
-                Register
+				Register
 			</Button>
 		</form>
 	);

@@ -1,10 +1,12 @@
-.form {
+/* Block: auth-form */
+.auth-form {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
 }
 
-.error-message {
+/* Element: auth-form__error */
+.auth-form__error {
 	background-color: var(--color-background-error);
 	border-left: 4px solid var(--color-accent-1);
 	border-radius: var(--border-radius-sm);
