@@ -11,6 +11,7 @@ const authApi = new AuthApi({
 });
 
 export { authApi };
+export { LoginForm } from "./components/components.js";
 export { type LoginRequestDto, type RegisterRequestDto } from "./libs/types/types.js";
 export { loginSchema, registerSchema } from "./libs/validation-schemas/auth.validation-schemas.js";
 export { login, register } from "./slices/actions.js";
