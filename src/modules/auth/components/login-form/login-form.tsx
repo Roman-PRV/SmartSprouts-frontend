@@ -47,9 +47,11 @@ const LoginForm: React.FC = () => {
 
 					if (errorPayload?.errors) {
 						for (const [field, messages] of Object.entries(errorPayload.errors)) {
-							setError(field as keyof LoginRequestDto, {
-								message: messages[FIRST_INDEX] ?? "Validation error",
-							});
+							if (Object.hasOwn(payload, field)) {
+								setError(field as keyof LoginRequestDto, {
+									message: messages[FIRST_INDEX] ?? "Validation error",
+								});
+							}
 						}
 					}
 				}
