@@ -125,6 +125,7 @@ const config = [
 			"sonarjs/todo-tag": "off",
 			indent: ["error", "tab"],
 			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+			"@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: { attributes: false, }, },],
 		},
 		settings: {
 			"import/parsers": {

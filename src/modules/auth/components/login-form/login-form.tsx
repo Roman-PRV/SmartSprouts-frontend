@@ -62,15 +62,8 @@ const LoginForm: React.FC = () => {
 		[dispatch, setError]
 	);
 
-	const handleOnSubmit = useCallback(
-		(event: React.FormEvent<HTMLFormElement>): void => {
-			void handleSubmit(handleFormSubmit)(event);
-		},
-		[handleFormSubmit, handleSubmit]
-	);
-
 	return (
-		<form className={getValidClassNames(styles["auth-form"])} onSubmit={handleOnSubmit}>
+		<form className={getValidClassNames(styles["auth-form"])} onSubmit={handleSubmit(handleFormSubmit)}>
 			{error && (
 				<div className={getValidClassNames(styles["auth-form__error"])} role="alert">
 					{error}
