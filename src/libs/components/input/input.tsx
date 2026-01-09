@@ -16,6 +16,49 @@ import { type InputProperties } from "./types";
  * - Full accessibility (ARIA attributes, label association)
  * - Error message display
  * - Responsive design
+ *
+ * @example
+ * // Basic usage
+ * <Input
+ *   label="Username"
+ *   placeholder="Enter your username"
+ *   onChange={(e) => console.log(e.target.value)}
+ * />
+ *
+ * @example
+ * // With react-hook-form
+ * const { register, formState: { errors } } = useForm();
+ * <Input
+ *   label="Email"
+ *   type="email"
+ *   error={errors.email?.message}
+ *   {...register("email")}
+ * />
+ *
+ * @example
+ * // With validation error
+ * <Input
+ *   label="Username"
+ *   value="invalid"
+ *   error="Username already taken"
+ * />
+ *
+ * @example
+ * // With icons
+ * <Input
+ *   label="Search"
+ *   iconLeft="search"
+ *   iconRight="close"
+ *   placeholder="Search..."
+ * />
+ *
+ * @example
+ * // Password input
+ * <Input
+ *   type="password"
+ *   label="Password"
+ *   placeholder="Enter password"
+ * />
  */
 const Input = forwardRef<HTMLInputElement, InputProperties>(
 	(
