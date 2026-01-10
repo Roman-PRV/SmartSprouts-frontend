@@ -9,6 +9,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import "@testing-library/jest-dom/vitest";
 
+import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { LoginForm } from "~/modules/auth/components/components";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
@@ -133,7 +134,7 @@ describe("LoginForm", () => {
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(/password must contain at least one number/i)
+					screen.getByText(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER)
 				).toBeInTheDocument();
 			});
 		});
@@ -153,7 +154,7 @@ describe("LoginForm", () => {
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(/password must be at least 6 characters/i)
+					screen.getByText(VALIDATION_MESSAGES.MIN_PW_LENGTH)
 				).toBeInTheDocument();
 			});
 		});
