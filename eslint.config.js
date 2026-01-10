@@ -127,7 +127,7 @@ const config = [
 			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 			"@typescript-eslint/no-misused-promises": [
 				"error",
-				{ checksVoidReturn: { attributes: false, }, },
+				{ checksVoidReturn: { attributes: false } },
 			],
 		},
 		settings: {
