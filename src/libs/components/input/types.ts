@@ -7,6 +7,7 @@ import { type IconName } from "~/libs/types/types";
  * ```tsx
  * // Basic text input
  * <Input
+ *   name="email"
  *   value={email}
  *   onChange={setEmail}
  *   label="Email"
@@ -16,6 +17,7 @@ import { type IconName } from "~/libs/types/types";
  * // Password input with error
  * <Input
  *   type="password"
+ *   name="password"
  *   value={password}
  *   onChange={setPassword}
  *   label="Password"
@@ -26,6 +28,7 @@ import { type IconName } from "~/libs/types/types";
  * // Search input with icon
  * <Input
  *   type="search"
+ *   name="search"
  *   value={searchQuery}
  *   onChange={setSearchQuery}
  *   placeholder="Search..."

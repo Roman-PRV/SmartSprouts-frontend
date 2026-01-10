@@ -21,6 +21,7 @@ import { type InputProperties } from "./types";
  * // Basic usage
  * <Input
  *   label="Username"
+ *   name="username"
  *   placeholder="Enter your username"
  *   onChange={(e) => console.log(e.target.value)}
  * />
@@ -39,6 +40,7 @@ import { type InputProperties } from "./types";
  * // With validation error
  * <Input
  *   label="Username"
+ *   name="username"
  *   value="invalid"
  *   error="Username already taken"
  * />
@@ -47,6 +49,7 @@ import { type InputProperties } from "./types";
  * // With icons
  * <Input
  *   label="Search"
+ *   name="search"
  *   iconLeft="search"
  *   iconRight="close"
  *   placeholder="Search..."
@@ -57,6 +60,7 @@ import { type InputProperties } from "./types";
  * <Input
  *   type="password"
  *   label="Password"
+ *   name="password"
  *   placeholder="Enter password"
  * />
  */
