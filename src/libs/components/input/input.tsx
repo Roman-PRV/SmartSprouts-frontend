@@ -111,9 +111,7 @@ const Input = forwardRef<HTMLInputElement, InputProperties>(
 
 				<div className={styles["input-container"]}>
 					{iconLeft && (
-						<span
-							className={getValidClassNames(styles["input-icon"], styles["input-icon--left"])}
-						>
+						<span className={getValidClassNames(styles["input-icon"], styles["input-icon--left"])}>
 							<Icon name={iconLeft} />
 						</span>
 					)}
@@ -136,9 +134,7 @@ const Input = forwardRef<HTMLInputElement, InputProperties>(
 					/>
 
 					{iconRight && (
-						<span
-							className={getValidClassNames(styles["input-icon"], styles["input-icon--right"])}
-						>
+						<span className={getValidClassNames(styles["input-icon"], styles["input-icon--right"])}>
 							<Icon name={iconRight} />
 						</span>
 					)}

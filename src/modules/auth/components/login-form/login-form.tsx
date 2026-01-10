@@ -63,7 +63,10 @@ const LoginForm: React.FC = () => {
 	);
 
 	return (
-		<form className={getValidClassNames(styles["auth-form"])} onSubmit={handleSubmit(handleFormSubmit)}>
+		<form
+			className={getValidClassNames(styles["auth-form"])}
+			onSubmit={handleSubmit(handleFormSubmit)}
+		>
 			{error && (
 				<div className={getValidClassNames(styles["auth-form__error"])} role="alert">
 					{error}
