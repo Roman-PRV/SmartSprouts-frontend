@@ -1,15 +1,12 @@
-import { useAppSelector, useEffect, useNavigate } from "~/libs/hooks/hooks";
+import { useCallback, useNavigate } from "~/libs/hooks/hooks";
 import { AuthLayout, RegisterForm } from "~/modules/auth/auth";
 
 const RegisterPage: React.FC = () => {
 	const navigate = useNavigate();
-	const { isAuthenticated } = useAppSelector((state) => state.auth);
 
-	useEffect(() => {
-		if (isAuthenticated) {
-			void navigate("/");
-		}
-	}, [isAuthenticated, navigate]);
+	const handleRegisterSuccess = useCallback((): void => {
+		void navigate("/");
+	}, [navigate]);
 
 	return (
 		<AuthLayout
@@ -19,9 +16,10 @@ const RegisterPage: React.FC = () => {
 			subtitle="Register to get started"
 			title="Create Account"
 		>
-			<RegisterForm />
+			<RegisterForm onSuccess={handleRegisterSuccess} />
 		</AuthLayout>
 	);
 };
 
 export { RegisterPage };
+

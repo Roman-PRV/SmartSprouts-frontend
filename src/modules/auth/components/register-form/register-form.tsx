@@ -1,23 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button, Input } from "~/libs/components/components";
-import { FIRST_INDEX } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector } from "~/libs/hooks/hooks";
-import { type ThunkErrorPayload } from "~/libs/types/types";
+import { useAppSelector } from "~/libs/hooks/hooks";
 import {
-	actions as authActions,
 	register as registerAction,
 	type RegisterRequestDto,
 	registerSchema,
+	useAuthFormSubmit,
 } from "~/modules/auth/auth";
 import styles from "~/modules/auth/styles/auth-form.module.css";
 
-const RegisterForm: React.FC = () => {
-	const dispatch = useAppDispatch();
+type Properties = {
+	onSuccess?: () => void;
+};
+
+const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 	const { dataStatus, error } = useAppSelector((state) => state.auth);
 
 	const {
@@ -37,32 +37,11 @@ const RegisterForm: React.FC = () => {
 
 	const isLoading = dataStatus === DataStatus.PENDING;
 
-	const handleFormSubmit = useCallback(
-		(payload: RegisterRequestDto): void => {
-			const executeSubmit = async (): Promise<void> => {
-				dispatch(authActions.clearError());
-
-				const result = await dispatch(registerAction(payload));
-
-				if (result.meta.requestStatus === "rejected") {
-					const errorPayload = result.payload as ThunkErrorPayload | undefined;
-
-					if (errorPayload?.errors) {
-						for (const [field, messages] of Object.entries(errorPayload.errors)) {
-							if (Object.hasOwn(payload, field)) {
-								setError(field as keyof RegisterRequestDto, {
-									message: messages[FIRST_INDEX] ?? "Validation error",
-								});
-							}
-						}
-					}
-				}
-			};
-
-			void executeSubmit();
-		},
-		[dispatch, setError]
-	);
+	const handleFormSubmit = useAuthFormSubmit({
+		action: registerAction,
+		onSuccess,
+		setError,
+	});
 
 	return (
 		<form

@@ -1,15 +1,12 @@
-import { useAppSelector, useEffect, useNavigate } from "~/libs/hooks/hooks";
+import { useCallback, useNavigate } from "~/libs/hooks/hooks";
 import { AuthLayout, LoginForm } from "~/modules/auth/auth";
 
 const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
-	const { isAuthenticated } = useAppSelector((state) => state.auth);
 
-	useEffect(() => {
-		if (isAuthenticated) {
-			void navigate("/");
-		}
-	}, [isAuthenticated, navigate]);
+	const handleLoginSuccess = useCallback((): void => {
+		void navigate("/");
+	}, [navigate]);
 
 	return (
 		<AuthLayout
@@ -19,9 +16,10 @@ const LoginPage: React.FC = () => {
 			subtitle="Login to continue"
 			title="Welcome Back"
 		>
-			<LoginForm />
+			<LoginForm onSuccess={handleLoginSuccess} />
 		</AuthLayout>
 	);
 };
 
 export { LoginPage };
+
