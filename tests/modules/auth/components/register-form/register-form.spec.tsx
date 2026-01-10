@@ -132,7 +132,12 @@ describe("RegisterForm", () => {
 			renderWithProvider(<RegisterForm />, { dataStatus: DataStatus.PENDING });
 
 			const submitButton = screen.getByRole("button", { name: /register/i });
+			const spinner = screen.getByRole("status");
+
 			expect(submitButton).toBeInTheDocument();
+			expect(submitButton).toBeDisabled();
+			expect(submitButton).toHaveAttribute("aria-busy", "true");
+			expect(spinner).toBeInTheDocument();
 		});
 	});
 
