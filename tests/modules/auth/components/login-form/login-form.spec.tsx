@@ -114,7 +114,12 @@ describe("LoginForm", () => {
 			renderWithProvider(<LoginForm />, { dataStatus: DataStatus.PENDING });
 
 			const submitButton = screen.getByRole("button", { name: /login/i });
+			const spinner = screen.getByRole("status");
+
 			expect(submitButton).toBeInTheDocument();
+			expect(submitButton).toBeDisabled();
+			expect(submitButton).toHaveAttribute("aria-busy", "true");
+			expect(spinner).toBeInTheDocument();
 		});
 	});
 
