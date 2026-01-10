@@ -67,6 +67,7 @@ const RegisterForm: React.FC = () => {
 	return (
 		<form
 			className={getValidClassNames(styles["auth-form"])}
+			noValidate
 			onSubmit={handleSubmit(handleFormSubmit)}
 		>
 			{error && (
