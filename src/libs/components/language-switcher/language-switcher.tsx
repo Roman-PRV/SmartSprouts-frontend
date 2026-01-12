@@ -8,7 +8,7 @@ const getLanguageLabel = (language: Language): string => {
 	const labels: Record<Language, string> = {
 		[Language.EN]: "EN",
 		[Language.ES]: "ES",
-		[Language.UK]: "UA",
+		[Language.UK]: "УКР",
 	};
 
 	return labels[language];
