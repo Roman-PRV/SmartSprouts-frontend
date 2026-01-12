@@ -1,8 +1,7 @@
-import { useId } from "react";
+import { forwardRef, useId } from "react";
 
 import { Icon } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
 import { type InputProperties } from "./types";
@@ -19,139 +18,142 @@ import { type InputProperties } from "./types";
  * - Responsive design
  *
  * @example
- * ```tsx
  * // Basic usage
  * <Input
- *   value={name}
- *   onChange={setName}
- *   label="Full Name"
- *   placeholder="Enter your name"
+ *   label="Username"
+ *   name="username"
+ *   placeholder="Enter your username"
+ *   onChange={(e) => console.log(e.target.value)}
  * />
  *
+ * @example
+ * // With react-hook-form
+ * const { register, formState: { errors } } = useForm();
+ * <Input
+ *   label="Email"
+ *   type="email"
+ *   error={errors.email?.message}
+ *   {...register("email")}
+ * />
+ *
+ * @example
  * // With validation error
  * <Input
- *   type="email"
- *   value={email}
- *   onChange={setEmail}
- *   label="Email"
- *   error={emailError}
- *   required
+ *   label="Username"
+ *   name="username"
+ *   value="invalid"
+ *   error="Username already taken"
  * />
  *
+ * @example
  * // With icons
  * <Input
- *   type="search"
- *   value={query}
- *   onChange={setQuery}
- *   placeholder="Search..."
+ *   label="Search"
+ *   name="search"
  *   iconLeft="search"
+ *   iconRight="close"
+ *   placeholder="Search..."
  * />
  *
+ * @example
  * // Password input
  * <Input
  *   type="password"
- *   value={password}
- *   onChange={setPassword}
  *   label="Password"
- *   required
+ *   name="password"
+ *   placeholder="Enter password"
  * />
- * ```
  */
-const Input: React.FC<InputProperties> = ({
-	className = "",
-	disabled = false,
-	error = null,
-	iconLeft,
-	iconRight,
-	id,
-	label,
-	name,
-	onBlur,
-	onChange,
-	placeholder,
-	required = false,
-	type = "text",
-	value,
-}) => {
-	const reactId = useId();
-	const inputId = id || reactId;
-	const errorId = `${inputId}-error`;
-
-	const handleChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>): void => {
-			onChange(event.target.value);
+const Input = forwardRef<HTMLInputElement, InputProperties>(
+	(
+		{
+			className = "",
+			disabled = false,
+			error = null,
+			iconLeft,
+			iconRight,
+			id,
+			label,
+			name,
+			onBlur,
+			onChange,
+			placeholder,
+			required = false,
+			type = "text",
+			value,
 		},
-		[onChange]
-	);
+		reference
+	) => {
+		const reactId = useId();
+		const inputId = id || reactId;
+		const errorId = `${inputId}-error`;
 
-	const handleBlur = useCallback((): void => {
-		if (onBlur) {
-			onBlur();
-		}
-	}, [onBlur]);
+		const hasError = Boolean(error);
 
-	const hasError = Boolean(error);
+		const wrapperClasses = getValidClassNames(
+			styles["input-wrapper"],
+			disabled && styles["input-wrapper--disabled"],
+			className
+		);
 
-	const wrapperClasses = getValidClassNames(
-		styles["input-wrapper"],
-		disabled && styles["input-wrapper--disabled"],
-		className
-	);
+		const inputClasses = getValidClassNames(
+			styles["input"],
+			hasError && styles["input--error"],
+			disabled && styles["input--disabled"],
+			iconLeft && styles["input--with-icon-left"],
+			iconRight && styles["input--with-icon-right"]
+		);
 
-	const inputClasses = getValidClassNames(
-		styles["input"],
-		hasError && styles["input--error"],
-		disabled && styles["input--disabled"],
-		iconLeft && styles["input--with-icon-left"],
-		iconRight && styles["input--with-icon-right"]
-	);
-
-	return (
-		<div className={wrapperClasses}>
-			{label && (
-				<label className={styles["input-label"]} htmlFor={inputId}>
-					{label}
-					{required && <span className={styles["input-label__required"]}> *</span>}
-				</label>
-			)}
-
-			<div className={styles["input-container"]}>
-				{iconLeft && (
-					<span className={getValidClassNames(styles["input-icon"], styles["input-icon--left"])}>
-						<Icon name={iconLeft} />
-					</span>
+		return (
+			<div className={wrapperClasses}>
+				{label && (
+					<label className={styles["input-label"]} htmlFor={inputId}>
+						{label}
+						{required && <span className={styles["input-label__required"]}> *</span>}
+					</label>
 				)}
 
-				<input
-					aria-describedby={hasError ? errorId : undefined}
-					aria-invalid={hasError}
-					aria-required={required}
-					className={inputClasses}
-					disabled={disabled}
-					id={inputId}
-					name={name}
-					onBlur={handleBlur}
-					onChange={handleChange}
-					placeholder={placeholder}
-					required={required}
-					type={type}
-					value={value}
-				/>
+				<div className={styles["input-container"]}>
+					{iconLeft && (
+						<span className={getValidClassNames(styles["input-icon"], styles["input-icon--left"])}>
+							<Icon name={iconLeft} />
+						</span>
+					)}
 
-				{iconRight && (
-					<span className={getValidClassNames(styles["input-icon"], styles["input-icon--right"])}>
-						<Icon name={iconRight} />
+					<input
+						aria-describedby={hasError ? errorId : undefined}
+						aria-invalid={hasError}
+						aria-required={required}
+						className={inputClasses}
+						disabled={disabled}
+						id={inputId}
+						name={name}
+						onBlur={onBlur}
+						onChange={onChange}
+						placeholder={placeholder}
+						ref={reference}
+						required={required}
+						type={type}
+						value={value}
+					/>
+
+					{iconRight && (
+						<span className={getValidClassNames(styles["input-icon"], styles["input-icon--right"])}>
+							<Icon name={iconRight} />
+						</span>
+					)}
+				</div>
+
+				{hasError && (
+					<span className={styles["input-error"]} id={errorId} role="alert">
+						{error}
 					</span>
 				)}
 			</div>
+		);
+	}
+);
 
-			{hasError && (
-				<span className={styles["input-error"]} id={errorId} role="alert">
-					{error}
-				</span>
-			)}
-		</div>
-	);
-};
+Input.displayName = "Input";
 
 export { Input };

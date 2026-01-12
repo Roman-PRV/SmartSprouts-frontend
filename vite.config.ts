@@ -34,7 +34,7 @@ const config = ({ mode }: ConfigEnv) => {
 			},
 		},
 		test: {
-			include: ["tests/**/*.spec.ts", "src/**/*.spec.ts"],
+			include: ["tests/**/*.spec.{ts,tsx}", "src/**/*.spec.{ts,tsx}"],
 			globals: true,
 			environment: "node",
 			setupFiles: "tests/setup.ts",

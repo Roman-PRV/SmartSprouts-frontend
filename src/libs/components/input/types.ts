@@ -7,6 +7,7 @@ import { type IconName } from "~/libs/types/types";
  * ```tsx
  * // Basic text input
  * <Input
+ *   name="email"
  *   value={email}
  *   onChange={setEmail}
  *   label="Email"
@@ -16,6 +17,7 @@ import { type IconName } from "~/libs/types/types";
  * // Password input with error
  * <Input
  *   type="password"
+ *   name="password"
  *   value={password}
  *   onChange={setPassword}
  *   label="Password"
@@ -26,6 +28,7 @@ import { type IconName } from "~/libs/types/types";
  * // Search input with icon
  * <Input
  *   type="search"
+ *   name="search"
  *   value={searchQuery}
  *   onChange={setSearchQuery}
  *   placeholder="Search..."
@@ -56,13 +59,13 @@ type InputProperties = {
 	label?: string;
 
 	/** Name attribute for the input (useful for forms) */
-	name?: string;
+	name: string;
 
 	/** Optional callback function called when the input loses focus */
-	onBlur?: () => void;
+	onBlur?: React.FocusEventHandler<HTMLInputElement>;
 
 	/** Callback function called when the input value changes */
-	onChange: (value: string) => void;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 
 	/** Placeholder text displayed when input is empty */
 	placeholder?: string;
@@ -74,7 +77,7 @@ type InputProperties = {
 	type?: InputType;
 
 	/** Current value of the input */
-	value: string;
+	value?: string;
 };
 
 /**
