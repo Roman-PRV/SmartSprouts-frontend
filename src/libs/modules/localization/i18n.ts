@@ -12,7 +12,7 @@ void i18n
 	.use(initReactI18next)
 	.init({
 		debug: import.meta.env.DEV,
-		fallbackLng: Language.ES,
+		fallbackLng: Language.EN,
 		interpolation: {
 			escapeValue: false,
 		},
