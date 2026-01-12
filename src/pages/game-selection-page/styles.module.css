@@ -1,5 +1,5 @@
 /* Page container */
-.container {
+.game-selection-page__container {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -11,35 +11,35 @@
 }
 
 /* Header */
-.header {
+.game-selection-page__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
 }
 
-.title {
+.game-selection-page__title {
 	margin: 0;
 	font-size: 1.5rem;
 	color: var(--color-text-primary);
 	font-weight: 600;
 }
 
-.controls {
+.game-selection-page__controls {
 	display: flex;
 	gap: 8px;
 	align-items: center;
 }
 
 /* Grid of cards */
-.grid {
+.game-selection-page__grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 	gap: 12px;
 }
 
 /* Card */
-.card {
+.game-card {
 	display: flex;
 	flex-direction: column;
 	background: var(--color-background-4);
@@ -55,23 +55,23 @@
 	min-height: 160px;
 }
 
-.card:focus {
+.game-card:focus {
 	box-shadow: 0 0 0 3px rgba(12, 121, 151, 0.12);
 }
 
-.card:hover {
+.game-card:hover {
 	transform: translateY(-4px);
 	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 /* Image */
-.image {
+.game-card__image {
 	width: 100%;
 	background: linear-gradient(180deg, var(--color-background-1), var(--color-background-2));
 }
 
 /* Content */
-.content {
+.game-card__content {
 	padding: 12px;
 	display: flex;
 	flex-direction: column;
@@ -80,7 +80,7 @@
 }
 
 /* Title and description */
-.cardTitle {
+.game-card__title {
 	margin: 0;
 	font-size: 1rem;
 	line-height: 1.2;
@@ -88,7 +88,7 @@
 	font-weight: 600;
 }
 
-.description {
+.game-card__description {
 	margin: 0;
 	color: var(--color-text-secondary);
 	font-size: 0.875rem;
@@ -142,7 +142,7 @@
 	align-items: center;
 }
 
-.no-games {
+.game-selection-page__no-games {
 	grid-column: 1 / -1;
 	display: flex;
 	align-items: center;

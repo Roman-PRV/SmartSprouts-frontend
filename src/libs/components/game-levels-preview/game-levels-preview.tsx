@@ -35,7 +35,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 	const renderContent = (): React.JSX.Element => {
 		if (isLoading) {
 			return (
-				<div className={getValidClassNames(styles["no-content"])}>
+				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
 					{t("games.levels.loading")}
 				</div>
 			);
@@ -43,7 +43,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 
 		if (hasError) {
 			return (
-				<div className={getValidClassNames(styles["no-content"])}>
+				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
 					{t("games.levels.error")}
 				</div>
 			);
@@ -51,7 +51,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 
 		if (!hasLevels) {
 			return (
-				<div className={getValidClassNames(styles["no-content"])}>
+				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
 					{t("games.levels.empty")}
 				</div>
 			);
@@ -68,10 +68,13 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 
 	return (
 		<div>
-			<h2 className={getValidClassNames(styles["game-title"])}>
+			<h2 className={getValidClassNames(styles["game-levels-preview__title"])}>
 				{t("games.levels.title", { title: game.title })}
 			</h2>
-			<main aria-live="polite" className={getValidClassNames(styles["grid"])}>
+			<main
+				aria-live="polite"
+				className={getValidClassNames(styles["game-levels-preview__grid"])}
+			>
 				{renderContent()}
 			</main>
 		</div>

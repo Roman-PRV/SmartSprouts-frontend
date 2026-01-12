@@ -21,17 +21,20 @@ const GameSelectionPage: React.FC = () => {
 	}, [dispatch]);
 
 	return (
-		<div className={getValidClassNames(styles["container"])}>
-			<header className={getValidClassNames(styles["header"])}>
-				<h1 className={getValidClassNames(styles["title"])}>
+		<div className={getValidClassNames(styles["game-selection-page__container"])}>
+			<header className={getValidClassNames(styles["game-selection-page__header"])}>
+				<h1 className={getValidClassNames(styles["game-selection-page__title"])}>
 					{t("games.selection.title")}
 				</h1>
-				<div className={getValidClassNames(styles["controls"])}></div>
+				<div className={getValidClassNames(styles["game-selection-page__controls"])}></div>
 			</header>
 
-			<main aria-live="polite" className={getValidClassNames(styles["grid"])}>
+			<main
+				aria-live="polite"
+				className={getValidClassNames(styles["game-selection-page__grid"])}
+			>
 				{games.length === EMPTY_ARRAY_LENGTH ? (
-					<div className={getValidClassNames(styles["no-games"])}>
+					<div className={getValidClassNames(styles["game-selection-page__no-games"])}>
 						{t("games.selection.empty")}
 					</div>
 				) : (

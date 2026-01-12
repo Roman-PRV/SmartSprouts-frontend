@@ -1,31 +1,31 @@
-.game-title {
+.game-levels-preview__title {
 	margin-bottom: 16px;
 	font-size: 1.5rem;
 	font-weight: 700;
 	color: var(--color-text-dark);
 }
 
-.grid {
+.game-levels-preview__grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 	gap: 12px;
 }
 
 @media (max-width: 768px) {
-	.grid {
+	.game-levels-preview__grid {
 		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 		gap: 10px;
 	}
 }
 
 @media (max-width: 480px) {
-	.grid {
+	.game-levels-preview__grid {
 		grid-template-columns: 1fr;
 		gap: 12px;
 	}
 }
 
-.no-content {
+.game-levels-preview__no-content {
 	grid-column: 1 / -1;
 	display: flex;
 	align-items: center;
