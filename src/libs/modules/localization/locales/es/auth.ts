@@ -4,7 +4,7 @@ const auth = {
 		fields: {
 			email: {
 				label: "Correo electrónico",
-				placeholder: "correo@ejemplo.com",
+				placeholder: "your@email.com",
 			},
 			password: {
 				label: "Contraseña",
@@ -25,7 +25,7 @@ const auth = {
 			},
 			email: {
 				label: "Correo electrónico",
-				placeholder: "correo@ejemplo.com",
+				placeholder: "your@email.com",
 			},
 			name: {
 				label: "Nombre",
