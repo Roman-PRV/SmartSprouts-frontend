@@ -7,7 +7,10 @@ const common = {
 		// Add footer translations here
 	},
 	navigation: {
-		// Add navigation translations here
+		games: "Games",
+		home: "Home",
+		profile: "Profile",
+		toggleMenu: "Toggle menu",
 	},
 };
 

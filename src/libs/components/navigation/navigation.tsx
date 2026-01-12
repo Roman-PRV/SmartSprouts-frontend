@@ -1,10 +1,11 @@
 import { Icon } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { NavLink, useCallback, useState } from "~/libs/hooks/hooks";
+import { NavLink, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
 
 const Navigation: React.FC = () => {
+	const { t } = useTranslation();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleBurgerClick = useCallback((): void => {
@@ -25,7 +26,7 @@ const Navigation: React.FC = () => {
 			<div className="px-2 py-4 sm:px-4 lg:px-6">
 				<div className="flex items-center justify-between">
 					<button
-						aria-label="Toggle menu"
+						aria-label={t("common.navigation.toggleMenu")}
 						className={getValidClassNames(styles["burger-button"], "sm:hidden")}
 						onClick={handleBurgerClick}
 						onKeyDown={handleKeyDownToggle}
@@ -35,17 +36,17 @@ const Navigation: React.FC = () => {
 					<ul className={getValidClassNames(styles["nav"], "hidden sm:flex")}>
 						<li>
 							<NavLink className={getValidClassNames(styles["nav__item"])} to="/">
-								Home
+								{t("common.navigation.home")}
 							</NavLink>
 						</li>
 						<li>
 							<NavLink className={getValidClassNames(styles["nav__item"])} to="/games">
-								Games
+								{t("common.navigation.games")}
 							</NavLink>
 						</li>
 						<li>
 							<NavLink className={getValidClassNames(styles["nav__item"])} to="/profile">
-								Profile
+								{t("common.navigation.profile")}
 							</NavLink>
 						</li>
 					</ul>
@@ -69,7 +70,7 @@ const Navigation: React.FC = () => {
 								onClick={handleBurgerClick}
 								to="/"
 							>
-								Home
+								{t("common.navigation.home")}
 							</NavLink>
 						</li>
 						<li>
@@ -78,7 +79,7 @@ const Navigation: React.FC = () => {
 								onClick={handleBurgerClick}
 								to="/games"
 							>
-								Games
+								{t("common.navigation.games")}
 							</NavLink>
 						</li>
 						<li>
@@ -87,7 +88,7 @@ const Navigation: React.FC = () => {
 								onClick={handleBurgerClick}
 								to="/profile"
 							>
-								Profile
+								{t("common.navigation.profile")}
 							</NavLink>
 						</li>
 					</ul>
