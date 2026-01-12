@@ -1,16 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import { Button, Input } from "~/libs/components/components";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppSelector } from "~/libs/hooks/hooks";
-import {
-	login,
-	type LoginRequestDto,
-	loginSchema,
-	useAuthFormSubmit,
-} from "~/modules/auth/auth";
+import { useAppSelector, useForm, useTranslation } from "~/libs/hooks/hooks";
+import { login, type LoginRequestDto, loginSchema, useAuthFormSubmit } from "~/modules/auth/auth";
 import styles from "~/modules/auth/styles/auth-form.module.css";
 
 type Properties = {
@@ -18,6 +12,7 @@ type Properties = {
 };
 
 const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
+	const { t } = useTranslation();
 	const { dataStatus, error } = useAppSelector((state) => state.auth);
 
 	const {
@@ -55,8 +50,8 @@ const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
 
 			<Input
 				error={errors.email?.message}
-				label="Email"
-				placeholder="your@email.com"
+				label={t("auth.login.fields.email.label")}
+				placeholder={t("auth.login.fields.email.placeholder")}
 				required
 				type="email"
 				{...register("email")}
@@ -65,15 +60,15 @@ const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
 			<Input
 				error={errors.password?.message}
 				iconLeft="lock"
-				label="Password"
-				placeholder="Enter password"
+				label={t("auth.login.fields.password.label")}
+				placeholder={t("auth.login.fields.password.placeholder")}
 				required
 				type="password"
 				{...register("password")}
 			/>
 
 			<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">
-				Login
+				{t("auth.login.button")}
 			</Button>
 		</form>
 	);

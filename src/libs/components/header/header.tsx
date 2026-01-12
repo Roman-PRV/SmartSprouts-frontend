@@ -1,4 +1,4 @@
-import { Logo, Navigation } from "~/libs/components/components";
+import { LanguageSwitcher, Logo, Navigation } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 
 import styles from "./styles.module.css";
@@ -12,7 +12,10 @@ const Header: React.FC = () => {
 			)}
 		>
 			<Logo />
-			<Navigation />
+			<div className="flex items-center gap-4">
+				<Navigation />
+				<LanguageSwitcher />
+			</div>
 		</header>
 	);
 };
