@@ -1,12 +1,19 @@
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect, useParams } from "~/libs/hooks/hooks";
+import {
+	useAppDispatch,
+	useAppSelector,
+	useEffect,
+	useParams,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
 import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
+	const { t } = useTranslation();
 	const { id } = useParams();
 
 	const dispatch = useAppDispatch();
@@ -33,7 +40,7 @@ const GameContentPage: React.FC = () => {
 	if (!id) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Invalid or missing game ID.</h1>
+				<h1>{t("games.content.invalidId")}</h1>
 			</div>
 		);
 	}
@@ -41,7 +48,7 @@ const GameContentPage: React.FC = () => {
 	if (isGameLoading) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Loading game content...</h1>
+				<h1>{t("games.content.loading")}</h1>
 			</div>
 		);
 	}
@@ -49,14 +56,13 @@ const GameContentPage: React.FC = () => {
 	if (!currentGame) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Game content not found.</h1>
+				<h1>{t("games.content.notFound")}</h1>
 			</div>
 		);
 	}
 
 	return (
 		<div>
-			<h1>Game Content Page: {id}</h1>
 			<GameLevelsPreview game={currentGame} />
 		</div>
 	);
