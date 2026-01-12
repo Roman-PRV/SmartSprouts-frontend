@@ -10,10 +10,12 @@ const useLanguageSwitcher = (): LanguageSwitcher => {
 		await i18n.changeLanguage(language);
 	};
 
+	const isSupportedLanguage = Object.values(Language).includes(i18n.language as Language);
+
 	return {
 		availableLanguages: [Language.ES, Language.EN, Language.UK],
 		changeLanguage,
-		currentLanguage: i18n.language as Language,
+		currentLanguage: isSupportedLanguage ? (i18n.language as Language) : Language.EN,
 	};
 };
 
