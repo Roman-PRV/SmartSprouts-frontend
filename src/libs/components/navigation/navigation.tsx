@@ -27,25 +27,25 @@ const Navigation: React.FC = () => {
 				<div className="flex items-center justify-between">
 					<button
 						aria-label={t("common.navigation.toggleMenu")}
-						className={getValidClassNames(styles["burger-button"], "sm:hidden")}
+						className={getValidClassNames(styles["navigation__burger-button"], "sm:hidden")}
 						onClick={handleBurgerClick}
 						onKeyDown={handleKeyDownToggle}
 					>
 						{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
 					</button>
-					<ul className={getValidClassNames(styles["nav"], "hidden sm:flex")}>
+					<ul className={getValidClassNames(styles["navigation__nav"], "hidden sm:flex")}>
 						<li>
-							<NavLink className={getValidClassNames(styles["nav__item"])} to="/">
+							<NavLink className={getValidClassNames(styles["navigation__nav-item"])} to="/">
 								{t("common.navigation.home")}
 							</NavLink>
 						</li>
 						<li>
-							<NavLink className={getValidClassNames(styles["nav__item"])} to="/games">
+							<NavLink className={getValidClassNames(styles["navigation__nav-item"])} to="/games">
 								{t("common.navigation.games")}
 							</NavLink>
 						</li>
 						<li>
-							<NavLink className={getValidClassNames(styles["nav__item"])} to="/profile">
+							<NavLink className={getValidClassNames(styles["navigation__nav-item"])} to="/profile">
 								{t("common.navigation.profile")}
 							</NavLink>
 						</li>
@@ -55,7 +55,7 @@ const Navigation: React.FC = () => {
 				{isOpen && (
 					<ul
 						className={getValidClassNames(
-							styles["menu"],
+							styles["navigation__menu"],
 							"sm:hidden",
 							"text-sm",
 							"flex",
@@ -66,7 +66,7 @@ const Navigation: React.FC = () => {
 					>
 						<li>
 							<NavLink
-								className={getValidClassNames(styles["menu__item"])}
+								className={getValidClassNames(styles["navigation__menu-item"])}
 								onClick={handleBurgerClick}
 								to="/"
 							>
@@ -75,7 +75,7 @@ const Navigation: React.FC = () => {
 						</li>
 						<li>
 							<NavLink
-								className={getValidClassNames(styles["menu__item"])}
+								className={getValidClassNames(styles["navigation__menu-item"])}
 								onClick={handleBurgerClick}
 								to="/games"
 							>
@@ -84,7 +84,7 @@ const Navigation: React.FC = () => {
 						</li>
 						<li>
 							<NavLink
-								className={getValidClassNames(styles["menu__item"])}
+								className={getValidClassNames(styles["navigation__menu-item"])}
 								onClick={handleBurgerClick}
 								to="/profile"
 							>

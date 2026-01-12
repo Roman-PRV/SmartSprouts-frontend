@@ -1,4 +1,4 @@
-.menu {
+.navigation__menu {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -10,33 +10,33 @@
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.menu__item {
+.navigation__menu-item {
 	transition: color 0.2s ease-in-out;
 }
 
-.menu__item:hover {
+.navigation__menu-item:hover {
 	color: var(--color-text-secondary-hover);
 }
 
-.burger-button {
+.navigation__burger-button {
 	color: var(--color-brand);
 	transition: color 0.2s ease-in-out;
 }
 
-.burger-button:hover {
+.navigation__burger-button:hover {
 	color: var(--color-brand-hover);
 }
 
-.nav {
+.navigation__nav {
 	gap: 1.5rem;
 	font-size: 1rem;
 }
 
-.nav__item {
+.navigation__nav-item {
 	color: var(--color-brand);
 	transition: color 0.2s ease-in-out;
 }
 
-.nav__item:hover {
+.navigation__nav-item:hover {
 	color: var(--color-brand-hover);
 }
