@@ -20,11 +20,7 @@ type LanguageButtonProperties = {
 	onClick: (language: Language) => void;
 };
 
-const LanguageButton: React.FC<LanguageButtonProperties> = ({
-	isActive,
-	language,
-	onClick,
-}) => {
+const LanguageButton: React.FC<LanguageButtonProperties> = ({ isActive, language, onClick }) => {
 	const handleOnClick = useCallback((): void => {
 		onClick(language);
 	}, [onClick, language]);

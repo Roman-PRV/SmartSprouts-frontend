@@ -18,9 +18,7 @@ const GameCard: React.FC<Properties> = ({ game }) => {
 			/>
 			<div className={getValidClassNames(styles["game-card__content"])}>
 				<h2 className={getValidClassNames(styles["game-card__title"])}>{game.title}</h2>
-				<p className={getValidClassNames(styles["game-card__description"])}>
-					{game.description}
-				</p>
+				<p className={getValidClassNames(styles["game-card__description"])}>{game.description}</p>
 			</div>
 		</Link>
 	);

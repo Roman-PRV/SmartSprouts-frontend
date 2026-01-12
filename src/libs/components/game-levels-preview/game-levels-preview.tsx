@@ -2,12 +2,7 @@ import { LevelPreviewCard } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import {
-	useAppDispatch,
-	useAppSelector,
-	useEffect,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useAppDispatch, useAppSelector, useEffect, useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto } from "~/libs/types/types";
 import { getLevelsList } from "~/modules/games/slices/actions";
 
@@ -71,10 +66,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 			<h2 className={getValidClassNames(styles["game-levels-preview__title"])}>
 				{t("games.levels.title", { title: game.title })}
 			</h2>
-			<main
-				aria-live="polite"
-				className={getValidClassNames(styles["game-levels-preview__grid"])}
-			>
+			<main aria-live="polite" className={getValidClassNames(styles["game-levels-preview__grid"])}>
 				{renderContent()}
 			</main>
 		</div>
