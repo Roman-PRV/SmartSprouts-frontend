@@ -1,39 +1,45 @@
 const auth = {
 	login: {
-		button: "Login",
+		button: "Iniciar Sesión",
 		fields: {
 			email: {
-				label: "Email",
-				placeholder: "your@email.com",
+				label: "Correo electrónico",
+				placeholder: "correo@ejemplo.com",
 			},
 			password: {
-				label: "Password",
-				placeholder: "Enter password",
+				label: "Contraseña",
+				placeholder: "Ingresa tu contraseña",
 			},
 		},
-		title: "Iniciar Sesión",
+		footerLinkText: "Registrarse",
+		footerText: "¿No tienes una cuenta?",
+		subtitle: "Inicia sesión para continuar",
+		title: "Bienvenido de nuevo",
 	},
 	register: {
-		button: "Register",
+		button: "Registrarse",
 		fields: {
 			confirmPassword: {
-				label: "Confirm Password",
-				placeholder: "Confirm password",
+				label: "Confirmar contraseña",
+				placeholder: "Confirma tu contraseña",
 			},
 			email: {
-				label: "Email",
-				placeholder: "your@email.com",
+				label: "Correo electrónico",
+				placeholder: "correo@ejemplo.com",
 			},
 			name: {
-				label: "Name",
-				placeholder: "Your name",
+				label: "Nombre",
+				placeholder: "Tu nombre",
 			},
 			password: {
-				label: "Password",
-				placeholder: "Enter password",
+				label: "Contraseña",
+				placeholder: "Ingresa tu contraseña",
 			},
 		},
-		title: "Registrarse",
+		footerLinkText: "Iniciar sesión",
+		footerText: "¿Ya tienes una cuenta?",
+		subtitle: "Regístrate para comenzar",
+		title: "Crear cuenta",
 	},
 };
 

@@ -11,7 +11,10 @@ const auth = {
 				placeholder: "Enter password",
 			},
 		},
-		title: "Log In",
+		footerLinkText: "Register",
+		footerText: "Don't have an account?",
+		subtitle: "Login to continue",
+		title: "Welcome Back",
 	},
 	register: {
 		button: "Register",
@@ -33,7 +36,10 @@ const auth = {
 				placeholder: "Enter password",
 			},
 		},
-		title: "Sign Up",
+		footerLinkText: "Sign in",
+		footerText: "Already have an account?",
+		subtitle: "Register to get started",
+		title: "Create Account",
 	},
 };
 

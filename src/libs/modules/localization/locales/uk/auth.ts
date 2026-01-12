@@ -11,7 +11,10 @@ const auth = {
 				placeholder: "Введіть пароль",
 			},
 		},
-		title: "Вхід",
+		footerLinkText: "Зареєструватися",
+		footerText: "Немає облікового запису?",
+		subtitle: "Увійдіть, щоб продовжити",
+		title: "З поверненням",
 	},
 	register: {
 		button: "Зареєструватися",
@@ -33,7 +36,10 @@ const auth = {
 				placeholder: "Введіть пароль",
 			},
 		},
-		title: "Реєстрація",
+		footerLinkText: "Увійти",
+		footerText: "Вже маєте акаунт?",
+		subtitle: "Зареєструйтеся, щоб розпочати",
+		title: "Створити акаунт",
 	},
 };
 
