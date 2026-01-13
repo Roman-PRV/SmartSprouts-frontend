@@ -1,5 +1,5 @@
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback } from "~/libs/hooks/hooks";
+import { useCallback, useTranslation } from "~/libs/hooks/hooks";
 import { Language, useLanguageSwitcher } from "~/libs/modules/localization/localization";
 
 import styles from "./styles.module.css";
@@ -21,12 +21,22 @@ type LanguageButtonProperties = {
 };
 
 const LanguageButton: React.FC<LanguageButtonProperties> = ({ isActive, language, onClick }) => {
+	const { t } = useTranslation();
+
 	const handleOnClick = useCallback((): void => {
 		onClick(language);
 	}, [onClick, language]);
 
+	const switchToLabels: Record<Language, string> = {
+		[Language.EN]: t("common.localization.switchTo.en"),
+		[Language.ES]: t("common.localization.switchTo.es"),
+		[Language.UK]: t("common.localization.switchTo.uk"),
+	};
+
 	return (
 		<button
+			aria-current={isActive ? "true" : undefined}
+			aria-label={switchToLabels[language]}
 			className={getValidClassNames(
 				styles["language-switcher__button"],
 				isActive && styles["language-switcher__button--active"]

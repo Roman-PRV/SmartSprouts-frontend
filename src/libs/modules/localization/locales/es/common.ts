@@ -6,6 +6,13 @@ const common = {
 	footer: {
 		// Add footer translations here
 	},
+	localization: {
+		switchTo: {
+			en: "Cambiar a Inglés",
+			es: "Cambiar a Español",
+			uk: "Cambiar a Ucraniano",
+		},
+	},
 	navigation: {
 		games: "Juegos",
 		home: "Inicio",
