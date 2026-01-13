@@ -1,6 +1,6 @@
 import { Button, Link } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useTranslation } from "~/libs/hooks/hooks";
+import { Trans, useTranslation } from "~/libs/hooks/hooks";
 
 import { images } from "./libs/constants/images.constants";
 import styles from "./styles.module.css";
@@ -36,16 +36,25 @@ const HomePage: React.FC = () => {
 						</Link>
 
 						<p className={styles["hero-section__auth-prompt"]}>
-							{t("home.hero.actions.authPrompt")}
-							<br />
-							<Link className={styles["hero-section__auth-link"]} to="/login">
-								{t("home.hero.actions.login")}
-							</Link>{" "}
-							{t("home.hero.actions.or")}{" "}
-							<Link className={styles["hero-section__auth-link"]} to="/register">
-								{t("home.hero.actions.register")}
-							</Link>{" "}
-							{t("home.hero.actions.seconds")}
+							<Trans
+								components={[
+									<br key="0" />,
+									<Link className={styles["hero-section__auth-link"]} key="1" to="/login" />,
+									<Link className={styles["hero-section__auth-link"]} key="2" to="/register" />,
+								]}
+								i18nKey="home.hero.actions.authPrompt"
+							>
+								Already have an account?
+								<br />
+								<Link className={styles["hero-section__auth-link"]} to="/login">
+									Log in
+								</Link>{" "}
+								or{" "}
+								<Link className={styles["hero-section__auth-link"]} to="/register">
+									sign up for free
+								</Link>{" "}
+								in seconds.
+							</Trans>
 						</p>
 					</div>
 				</div>
@@ -57,13 +66,13 @@ const HomePage: React.FC = () => {
 							styles["hero-section__floating-card--top"]
 						)}
 					>
-						<span aria-label="Fiesta" role="img">
+						<span aria-label={t("home.hero.floatingCards.top.iconAriaLabel")} role="img">
 							🎉
 						</span>{" "}
 						{t("home.hero.floatingCards.top")}
 					</span>
 					<img
-						alt="Niños jugando y aprendiendo"
+						alt={t("home.hero.images.landing1")}
 						className={getValidClassNames(
 							styles["hero-section__image"],
 							styles["hero-section__image--tilt-right"]
@@ -71,7 +80,7 @@ const HomePage: React.FC = () => {
 						src={images.landing1}
 					/>
 					<img
-						alt="Juegos coloridos de bloques"
+						alt={t("home.hero.images.landing2")}
 						className={getValidClassNames(
 							styles["hero-section__image"],
 							styles["hero-section__image--tilt-left"]
@@ -79,7 +88,7 @@ const HomePage: React.FC = () => {
 						src={images.landing2}
 					/>
 					<img
-						alt="Niña sonriendo con tablet"
+						alt={t("home.hero.images.landing3")}
 						className={getValidClassNames(
 							styles["hero-section__image"],
 							styles["hero-section__image--wide"]
@@ -93,7 +102,7 @@ const HomePage: React.FC = () => {
 						)}
 					>
 						<div className={styles["hero-section__floating-card-icon"]}>
-							<span aria-label="Cohete" role="img">
+							<span aria-label={t("home.hero.floatingCards.bottom.iconAriaLabel")} role="img">
 								🚀
 							</span>
 						</div>
@@ -123,7 +132,7 @@ const HomePage: React.FC = () => {
 				<div className={styles["categories-section__grid"]}>
 					<Link className={styles["category-card"]} to="/games?category=math">
 						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label="Ábaco" role="img">
+							<span aria-label={t("home.categories.math.iconAriaLabel")} role="img">
 								🧮
 							</span>
 						</div>
@@ -134,7 +143,7 @@ const HomePage: React.FC = () => {
 					</Link>
 					<Link className={styles["category-card"]} to="/games?category=reading">
 						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label="Libros" role="img">
+							<span aria-label={t("home.categories.reading.iconAriaLabel")} role="img">
 								📚
 							</span>
 						</div>
@@ -145,7 +154,7 @@ const HomePage: React.FC = () => {
 					</Link>
 					<Link className={styles["category-card"]} to="/games?category=logic">
 						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label="Rompecabezas" role="img">
+							<span aria-label={t("home.categories.logic.iconAriaLabel")} role="img">
 								🧩
 							</span>
 						</div>

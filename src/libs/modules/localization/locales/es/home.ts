@@ -3,14 +3,17 @@ const home = {
 		description: "Encuentra el desafío perfecto para cada etapa de crecimiento",
 		logic: {
 			description: "Puzzles, secuencias y retos mentales.",
+			iconAriaLabel: "Rompecabezas",
 			title: "Lógica",
 		},
 		math: {
 			description: "Números, formas y lógica divertida.",
+			iconAriaLabel: "Ábaco",
 			title: "Matemáticas",
 		},
 		reading: {
 			description: "Cuentos, letras y vocabulario nuevo.",
+			iconAriaLabel: "Libros",
 			title: "Lectura",
 		},
 		title: "Explora por Categoría",
@@ -21,20 +24,26 @@ const home = {
 	},
 	hero: {
 		actions: {
-			authPrompt: "¿Ya tienes cuenta?",
-			login: "Inicia sesión",
-			or: "o",
-			register: "regístrate gratis",
-			seconds: "en segundos.",
+			authPrompt:
+				"¿Ya tienes cuenta?<0/> <1>Inicia sesión</1> o <2>regístrate gratis</2> en segundos.",
 		},
 		description:
-			"Descubre un mundo de juegos interactivos diseñados para estimular la mente de tus pequeños exploradores. ¡Matemáticas, lectura y lógica en un solo lugar!",
+			"Descubre un world de juegos interactivos diseñados para estimular la mente de tus pequeños exploradores. ¡Matemáticas, lectura y lógica en un solo lugar!",
 		floatingCards: {
 			bottom: {
+				iconAriaLabel: "Cohete",
 				label: "Juegos de",
 				title: "Matemáticas, Lectura y Lógica",
 			},
-			top: "Diversión educativa para todos",
+			top: {
+				iconAriaLabel: "Fiesta",
+				title: "Diversión educativa para todos",
+			},
+		},
+		images: {
+			landing1: "Niños jugando y aprendiendo",
+			landing2: "Juegos coloridos de bloques",
+			landing3: "Niña sonriendo con tablet",
 		},
 		title: "Aprende Jugando, Crece Brillando",
 	},
