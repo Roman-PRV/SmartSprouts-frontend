@@ -28,7 +28,7 @@ const home = {
 				"¿Ya tienes cuenta?<0/> <1>Inicia sesión</1> o <2>regístrate gratis</2> en segundos.",
 		},
 		description:
-			"Descubre un world de juegos interactivos diseñados para estimular la mente de tus pequeños exploradores. ¡Matemáticas, lectura y lógica en un solo lugar!",
+			"Descubre un mundo de juegos interactivos diseñados para estimular la mente de tus pequeños exploradores. ¡Matemáticas, lectura y lógica en un solo lugar!",
 		floatingCards: {
 			bottom: {
 				iconAriaLabel: "Cohete",
