@@ -1,6 +1,6 @@
-import { Button, Link } from "~/libs/components/components";
+import { Button, Link, Trans } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { Trans, useTranslation } from "~/libs/hooks/hooks";
+import { useTranslation } from "~/libs/hooks/hooks";
 
 import { images } from "./libs/constants/images.constants";
 import styles from "./styles.module.css";

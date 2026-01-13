@@ -1,6 +1,6 @@
-import { Icon } from "~/libs/components/components";
+import { Icon, NavLink } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { NavLink, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
+import { useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
 

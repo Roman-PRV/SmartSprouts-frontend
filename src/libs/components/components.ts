@@ -11,4 +11,5 @@ export { Logo } from "./logo/logo";
 export { MainLayout } from "./main-layout/main-layout";
 export { Navigation } from "./navigation/navigation";
 export { TrueFalseLevelCard } from "./true-false-level-card/true-false-level-card";
-export { Link } from "react-router-dom";
+export { Trans } from "react-i18next";
+export { Link, NavLink } from "react-router-dom";
