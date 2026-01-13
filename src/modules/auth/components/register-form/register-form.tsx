@@ -71,7 +71,7 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 			/>
 
 			<Input
-				error={errors.email?.message}
+				error={errors.email?.message && t(errors.email.message)}
 				label={t("auth.register.fields.email.label")}
 				placeholder={t("auth.register.fields.email.placeholder")}
 				required

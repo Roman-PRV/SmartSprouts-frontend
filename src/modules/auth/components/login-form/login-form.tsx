@@ -50,7 +50,7 @@ const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
 			)}
 
 			<Input
-				error={errors.email?.message}
+				error={errors.email?.message && t(errors.email.message)}
 				label={t("auth.login.fields.email.label")}
 				placeholder={t("auth.login.fields.email.placeholder")}
 				required
