@@ -69,7 +69,7 @@ const HomePage: React.FC = () => {
 						<span aria-label={t("home.hero.floatingCards.top.iconAriaLabel")} role="img">
 							🎉
 						</span>{" "}
-						{t("home.hero.floatingCards.top")}
+						{t("home.hero.floatingCards.top.title")}
 					</span>
 					<img
 						alt={t("home.hero.images.landing1")}
