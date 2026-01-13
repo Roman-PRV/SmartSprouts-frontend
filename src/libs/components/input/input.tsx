@@ -2,7 +2,6 @@ import { forwardRef, useId } from "react";
 
 import { Icon } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useTranslation } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
 import { type InputProperties } from "./types";
@@ -85,7 +84,6 @@ const Input = forwardRef<HTMLInputElement, InputProperties>(
 		},
 		reference
 	) => {
-		const { t } = useTranslation();
 		const reactId = useId();
 		const inputId = id || reactId;
 		const errorId = `${inputId}-error`;
@@ -148,7 +146,7 @@ const Input = forwardRef<HTMLInputElement, InputProperties>(
 
 				{hasError && (
 					<span className={styles["input-error"]} id={errorId} role="alert">
-						{t(error as string)}
+						{error}
 					</span>
 				)}
 			</div>
