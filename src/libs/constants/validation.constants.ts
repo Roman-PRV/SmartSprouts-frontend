@@ -4,11 +4,12 @@ const VALIDATION_RULES = {
 } as const;
 
 const VALIDATION_MESSAGES = {
-	INVALID_EMAIL_FORMAT: "Invalid email format",
-	MIN_NAME_LENGTH: "Name is required",
-	MIN_PW_LENGTH: "Password must be at least 6 characters",
-	PW_CONTAINS_NUMBER: "Password must contain at least one number",
-	PW_DO_NOT_MATCH: "Passwords do not match",
+	INVALID_EMAIL_FORMAT: "validation.email.invalid",
+	MIN_NAME_LENGTH: "validation.name.required",
+	MIN_PW_LENGTH: "validation.password.minLength",
+	PW_CONTAINS_LETTER: "validation.password.mustContainLetter",
+	PW_CONTAINS_NUMBER: "validation.password.mustContainNumber",
+	PW_DO_NOT_MATCH: "validation.passwordConfirmation.mustMatch",
 } as const;
 
 export { VALIDATION_MESSAGES, VALIDATION_RULES };

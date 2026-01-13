@@ -2,7 +2,7 @@ import { LevelPreviewCard } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
+import { useAppDispatch, useAppSelector, useEffect, useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto } from "~/libs/types/types";
 import { getLevelsList } from "~/modules/games/slices/actions";
 
@@ -13,6 +13,7 @@ type Properties = {
 };
 
 const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
+	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
 	const { currentGameLevels, levelsStatus } = useAppSelector((state) => state.games);
 
@@ -28,21 +29,25 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 
 	const renderContent = (): React.JSX.Element => {
 		if (isLoading) {
-			return <div className={getValidClassNames(styles["no-content"])}>Loading levels…</div>;
+			return (
+				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
+					{t("games.levels.loading")}
+				</div>
+			);
 		}
 
 		if (hasError) {
 			return (
-				<div className={getValidClassNames(styles["no-content"])}>
-					Failed to load levels. Please try again.
+				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
+					{t("games.levels.error")}
 				</div>
 			);
 		}
 
 		if (!hasLevels) {
 			return (
-				<div className={getValidClassNames(styles["no-content"])}>
-					No levels available at the moment.
+				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
+					{t("games.levels.empty")}
 				</div>
 			);
 		}
@@ -58,10 +63,10 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 
 	return (
 		<div>
-			<h2 className={getValidClassNames(styles["game-title"])}>
-				Select a level for the {game.title} game
+			<h2 className={getValidClassNames(styles["game-levels-preview__title"])}>
+				{t("games.levels.title", { title: game.title })}
 			</h2>
-			<main aria-live="polite" className={getValidClassNames(styles["grid"])}>
+			<main aria-live="polite" className={getValidClassNames(styles["game-levels-preview__grid"])}>
 				{renderContent()}
 			</main>
 		</div>

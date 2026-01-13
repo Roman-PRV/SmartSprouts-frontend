@@ -1,10 +1,13 @@
-import { Button, Link } from "~/libs/components/components";
+import { Button, Link, Trans } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
+import { useTranslation } from "~/libs/hooks/hooks";
 
 import { images } from "./libs/constants/images.constants";
 import styles from "./styles.module.css";
 
 const HomePage: React.FC = () => {
+	const { t } = useTranslation();
+
 	return (
 		<div className={styles["home-page"]}>
 			{/* Hero Section */}
@@ -23,32 +26,35 @@ const HomePage: React.FC = () => {
 				/>
 
 				<div className={styles["hero-section__content"]}>
-					<h1 className={styles["hero-section__title"]}>
-						Aprende Jugando,
-						<br /> Crece Brillando
-					</h1>
-					<p className={styles["hero-section__description"]}>
-						Descubre un mundo de juegos interactivos diseñados para estimular la mente de tus
-						pequeños exploradores. ¡Matemáticas, lectura y lógica en un solo lugar!
-					</p>
+					<h1 className={styles["hero-section__title"]}>{t("home.hero.title")}</h1>
+					<p className={styles["hero-section__description"]}>{t("home.hero.description")}</p>
 					<div className={styles["hero-section__actions"]}>
 						<Link to="/games">
 							<Button iconLeft="arrowRight" size="lg">
-								Jugar Ahora
+								{t("common.button.playNow")}
 							</Button>
 						</Link>
 
 						<p className={styles["hero-section__auth-prompt"]}>
-							¿Ya tienes cuenta?
-							<br />
-							<Link className={styles["hero-section__auth-link"]} to="/login">
-								Inicia sesión
-							</Link>{" "}
-							o{" "}
-							<Link className={styles["hero-section__auth-link"]} to="/register">
-								regístrate gratis
-							</Link>{" "}
-							en segundos.
+							<Trans
+								components={[
+									<br key="0" />,
+									<Link className={styles["hero-section__auth-link"]} key="1" to="/login" />,
+									<Link className={styles["hero-section__auth-link"]} key="2" to="/register" />,
+								]}
+								i18nKey="home.hero.actions.authPrompt"
+							>
+								Already have an account?
+								<br />
+								<Link className={styles["hero-section__auth-link"]} to="/login">
+									Log in
+								</Link>{" "}
+								or{" "}
+								<Link className={styles["hero-section__auth-link"]} to="/register">
+									sign up for free
+								</Link>{" "}
+								in seconds.
+							</Trans>
 						</p>
 					</div>
 				</div>
@@ -60,13 +66,13 @@ const HomePage: React.FC = () => {
 							styles["hero-section__floating-card--top"]
 						)}
 					>
-						<span aria-label="Fiesta" role="img">
+						<span aria-label={t("home.hero.floatingCards.top.iconAriaLabel")} role="img">
 							🎉
 						</span>{" "}
-						Diversión educativa para todos
+						{t("home.hero.floatingCards.top.title")}
 					</span>
 					<img
-						alt="Niños jugando y aprendiendo"
+						alt={t("home.hero.images.landing1")}
 						className={getValidClassNames(
 							styles["hero-section__image"],
 							styles["hero-section__image--tilt-right"]
@@ -74,7 +80,7 @@ const HomePage: React.FC = () => {
 						src={images.landing1}
 					/>
 					<img
-						alt="Juegos coloridos de bloques"
+						alt={t("home.hero.images.landing2")}
 						className={getValidClassNames(
 							styles["hero-section__image"],
 							styles["hero-section__image--tilt-left"]
@@ -82,7 +88,7 @@ const HomePage: React.FC = () => {
 						src={images.landing2}
 					/>
 					<img
-						alt="Niña sonriendo con tablet"
+						alt={t("home.hero.images.landing3")}
 						className={getValidClassNames(
 							styles["hero-section__image"],
 							styles["hero-section__image--wide"]
@@ -96,14 +102,16 @@ const HomePage: React.FC = () => {
 						)}
 					>
 						<div className={styles["hero-section__floating-card-icon"]}>
-							<span aria-label="Cohete" role="img">
+							<span aria-label={t("home.hero.floatingCards.bottom.iconAriaLabel")} role="img">
 								🚀
 							</span>
 						</div>
 						<div className={styles["hero-section__floating-card-content"]}>
-							<span className={styles["hero-section__floating-card-label"]}>Juegos de</span>
+							<span className={styles["hero-section__floating-card-label"]}>
+								{t("home.hero.floatingCards.bottom.label")}
+							</span>
 							<span className={styles["hero-section__floating-card-title"]}>
-								Matemáticas, Lectura y Lógica
+								{t("home.hero.floatingCards.bottom.title")}
 							</span>
 						</div>
 					</div>
@@ -115,44 +123,44 @@ const HomePage: React.FC = () => {
 				className={getValidClassNames(styles["categories-section"], styles["section--overlap"])}
 			>
 				<div className={styles["categories-section__header"]}>
-					<h2 className={styles["categories-section__title"]}>Explora por Categoría</h2>
+					<h2 className={styles["categories-section__title"]}>{t("home.categories.title")}</h2>
 					<p className={styles["categories-section__description"]}>
-						Encuentra el desafío perfecto para cada etapa de crecimiento
+						{t("home.categories.description")}
 					</p>
 				</div>
 
 				<div className={styles["categories-section__grid"]}>
 					<Link className={styles["category-card"]} to="/games?category=math">
 						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label="Ábaco" role="img">
+							<span aria-label={t("home.categories.math.iconAriaLabel")} role="img">
 								🧮
 							</span>
 						</div>
-						<h3 className={styles["category-card__title"]}>Matemáticas</h3>
+						<h3 className={styles["category-card__title"]}>{t("home.categories.math.title")}</h3>
 						<p className={styles["category-card__description"]}>
-							Números, formas y lógica divertida.
+							{t("home.categories.math.description")}
 						</p>
 					</Link>
 					<Link className={styles["category-card"]} to="/games?category=reading">
 						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label="Libros" role="img">
+							<span aria-label={t("home.categories.reading.iconAriaLabel")} role="img">
 								📚
 							</span>
 						</div>
-						<h3 className={styles["category-card__title"]}>Lectura</h3>
+						<h3 className={styles["category-card__title"]}>{t("home.categories.reading.title")}</h3>
 						<p className={styles["category-card__description"]}>
-							Cuentos, letras y vocabulario nuevo.
+							{t("home.categories.reading.description")}
 						</p>
 					</Link>
 					<Link className={styles["category-card"]} to="/games?category=logic">
 						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label="Rompecabezas" role="img">
+							<span aria-label={t("home.categories.logic.iconAriaLabel")} role="img">
 								🧩
 							</span>
 						</div>
-						<h3 className={styles["category-card__title"]}>Lógica</h3>
+						<h3 className={styles["category-card__title"]}>{t("home.categories.logic.title")}</h3>
 						<p className={styles["category-card__description"]}>
-							Puzzles, secuencias y retos mentales.
+							{t("home.categories.logic.description")}
 						</p>
 					</Link>
 				</div>
@@ -161,12 +169,10 @@ const HomePage: React.FC = () => {
 			{/* CTA Section */}
 			<section className={getValidClassNames(styles["cta-section"], styles["section--overlap"])}>
 				<div className={styles["cta-section__container"]}>
-					<h2 className={styles["cta-section__title"]}>¿Listo para comenzar?</h2>
-					<p className={styles["cta-section__description"]}>
-						Únete a miles de familias que ya están aprendiendo con SmartSprouts.
-					</p>
+					<h2 className={styles["cta-section__title"]}>{t("home.cta.title")}</h2>
+					<p className={styles["cta-section__description"]}>{t("home.cta.description")}</p>
 					<Link to="/register">
-						<Button size="lg">Regístrate Gratis</Button>
+						<Button size="lg">{t("common.button.register")}</Button>
 					</Link>
 				</div>
 			</section>

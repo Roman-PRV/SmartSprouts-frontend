@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import { Button, Input } from "~/libs/components/components";
+import { VALIDATION_RULES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppSelector } from "~/libs/hooks/hooks";
+import { useAppSelector, useForm, useTranslation } from "~/libs/hooks/hooks";
 import {
 	register as registerAction,
 	type RegisterRequestDto,
@@ -18,6 +18,7 @@ type Properties = {
 };
 
 const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
+	const { t } = useTranslation();
 	const { dataStatus, error } = useAppSelector((state) => state.auth);
 
 	const {
@@ -56,45 +57,50 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 			)}
 
 			<Input
-				error={errors.name?.message}
-				label="Name"
-				placeholder="Your name"
+				error={errors.name?.message && t(errors.name.message)}
+				label={t("auth.register.fields.name.label")}
+				placeholder={t("auth.register.fields.name.placeholder")}
 				required
 				type="text"
 				{...register("name")}
 			/>
 
 			<Input
-				error={errors.email?.message}
-				label="Email"
-				placeholder="your@email.com"
+				error={errors.email?.message && t(errors.email.message)}
+				label={t("auth.register.fields.email.label")}
+				placeholder={t("auth.register.fields.email.placeholder")}
 				required
 				type="email"
 				{...register("email")}
 			/>
 
 			<Input
-				error={errors.password?.message}
+				error={
+					errors.password?.message &&
+					t(errors.password.message, {
+						min: VALIDATION_RULES.MIN_PASSWORD_LENGTH,
+					})
+				}
 				iconLeft="lock"
-				label="Password"
-				placeholder="Enter password"
+				label={t("auth.register.fields.password.label")}
+				placeholder={t("auth.register.fields.password.placeholder")}
 				required
 				type="password"
 				{...register("password")}
 			/>
 
 			<Input
-				error={errors.password_confirmation?.message}
+				error={errors.password_confirmation?.message && t(errors.password_confirmation.message)}
 				iconLeft="lock"
-				label="Confirm Password"
-				placeholder="Confirm password"
+				label={t("auth.register.fields.confirmPassword.label")}
+				placeholder={t("auth.register.fields.confirmPassword.placeholder")}
 				required
 				type="password"
 				{...register("password_confirmation")}
 			/>
 
 			<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">
-				Register
+				{t("auth.register.button")}
 			</Button>
 		</form>
 	);

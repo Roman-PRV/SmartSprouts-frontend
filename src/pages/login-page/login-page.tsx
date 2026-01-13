@@ -1,8 +1,9 @@
-import { useCallback, useNavigate } from "~/libs/hooks/hooks";
+import { useCallback, useNavigate, useTranslation } from "~/libs/hooks/hooks";
 import { AuthLayout, LoginForm } from "~/modules/auth/auth";
 
 const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const handleLoginSuccess = useCallback((): void => {
 		void navigate("/");
@@ -10,11 +11,11 @@ const LoginPage: React.FC = () => {
 
 	return (
 		<AuthLayout
-			footerLinkText="Register"
+			footerLinkText={t("auth.login.footerLinkText")}
 			footerLinkTo="/register"
-			footerText="Don't have an account?"
-			subtitle="Login to continue"
-			title="Welcome Back"
+			footerText={t("auth.login.footerText")}
+			subtitle={t("auth.login.subtitle")}
+			title={t("auth.login.title")}
 		>
 			<LoginForm onSuccess={handleLoginSuccess} />
 		</AuthLayout>
@@ -22,4 +23,3 @@ const LoginPage: React.FC = () => {
 };
 
 export { LoginPage };
-

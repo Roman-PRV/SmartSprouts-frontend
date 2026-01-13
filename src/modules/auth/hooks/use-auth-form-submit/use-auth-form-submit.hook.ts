@@ -44,7 +44,7 @@ const useAuthFormSubmit = <T extends FieldValues, R>({
 
 			onSuccess?.();
 		},
-		[action, dispatch, onSuccess, setError],
+		[action, dispatch, onSuccess, setError]
 	);
 
 	return handleFormSubmit;

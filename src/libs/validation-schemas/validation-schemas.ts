@@ -29,11 +29,13 @@ const nameSchema = z
  * Schema for password validation.
  * Rules:
  * - Minimum length: {@link VALIDATION_RULES.MIN_PASSWORD_LENGTH}
+ * - Must contain at least one letter
  * - Must contain at least one digit
  */
 const passwordSchema = z
 	.string()
 	.min(VALIDATION_RULES.MIN_PASSWORD_LENGTH, VALIDATION_MESSAGES.MIN_PW_LENGTH)
+	.regex(/[a-zA-Z]/, VALIDATION_MESSAGES.PW_CONTAINS_LETTER)
 	.regex(/\d/, VALIDATION_MESSAGES.PW_CONTAINS_NUMBER);
 
 export { emailSchema, nameSchema, passwordSchema };

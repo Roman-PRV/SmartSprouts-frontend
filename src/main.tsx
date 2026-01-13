@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 
 import { router } from "~/libs/components/router-provider/router-provider";
 import { store } from "~/libs/modules/store/store";
+import "~/libs/modules/localization/i18n";
 
 import "./assets/css/styles.css";
 
