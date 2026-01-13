@@ -6,6 +6,4 @@ type LanguageSwitcher = {
 	currentLanguage: Language;
 };
 
-type TranslationNamespace = "auth" | "common" | "games" | "home" | "validation";
-
-export { type LanguageSwitcher, type TranslationNamespace };
+export { type LanguageSwitcher };
