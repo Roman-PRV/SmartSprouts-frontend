@@ -48,6 +48,23 @@ describe("Auth Validation Schemas", () => {
 				expect(issue).toBeDefined();
 			}
 		});
+
+		it("should fail if password does not contain a letter", () => {
+			const data = {
+				email: "test@example.com",
+				password: "123456",
+			};
+			const result = loginSchema.safeParse(data);
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_LETTER
+				);
+				expect(issue).toBeDefined();
+			}
+		});
 	});
 
 	describe("registerSchema", () => {
@@ -90,6 +107,25 @@ describe("Auth Validation Schemas", () => {
 			};
 			const result = registerSchema.safeParse(data);
 			expect(result.success).toBe(false);
+		});
+
+		it("should fail if password does not contain a letter", () => {
+			const data = {
+				email: "test@example.com",
+				name: "Test User",
+				password: "123456",
+				password_confirmation: "123456",
+			};
+			const result = registerSchema.safeParse(data);
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_LETTER
+				);
+				expect(issue).toBeDefined();
+			}
 		});
 	});
 });
