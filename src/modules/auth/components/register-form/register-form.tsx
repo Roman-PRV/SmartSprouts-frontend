@@ -57,12 +57,7 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 			)}
 
 			<Input
-				error={
-					errors.name?.message &&
-					t(errors.name.message, {
-						min: VALIDATION_RULES.MIN_NAME_LENGTH,
-					})
-				}
+				error={errors.name?.message && t(errors.name.message)}
 				label={t("auth.register.fields.name.label")}
 				placeholder={t("auth.register.fields.name.placeholder")}
 				required
