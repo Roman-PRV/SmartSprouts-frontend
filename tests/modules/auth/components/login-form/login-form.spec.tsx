@@ -9,10 +9,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import "@testing-library/jest-dom/vitest";
 
-import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
+import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
+import { i18n } from "~/libs/modules/localization/localization";
 import { LoginForm } from "~/modules/auth/components/components";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
+import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 
 type AuthState = {
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
@@ -62,25 +64,25 @@ describe("LoginForm", () => {
 		it("renders email input field", () => {
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(/email/i);
+			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
 			expect(emailInput).toBeInTheDocument();
 			expect(emailInput).toHaveAttribute("type", "email");
-			expect(emailInput).toHaveAttribute("placeholder", "your@email.com");
+			expect(emailInput).toHaveAttribute("placeholder", i18n.t("auth.login.fields.email.placeholder"));
 		});
 
 		it("renders password input field", () => {
 			renderWithProvider(<LoginForm />);
 
-			const passwordInput = screen.getByLabelText(/password/i);
+			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
 			expect(passwordInput).toBeInTheDocument();
 			expect(passwordInput).toHaveAttribute("type", "password");
-			expect(passwordInput).toHaveAttribute("placeholder", "Enter password");
+			expect(passwordInput).toHaveAttribute("placeholder", i18n.t("auth.login.fields.password.placeholder"));
 		});
 
 		it("renders submit button with correct text", () => {
 			renderWithProvider(<LoginForm />);
 
-			const submitButton = screen.getByRole("button", { name: /login/i });
+			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			expect(submitButton).toBeInTheDocument();
 			expect(submitButton).toHaveAttribute("type", "submit");
 		});
@@ -113,7 +115,7 @@ describe("LoginForm", () => {
 		it("shows loading state on button when request is pending", () => {
 			renderWithProvider(<LoginForm />, { dataStatus: DataStatus.PENDING });
 
-			const submitButton = screen.getByRole("button", { name: /login/i });
+			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			const spinner = screen.getByRole("status");
 
 			expect(submitButton).toBeInTheDocument();
@@ -128,18 +130,18 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(/email/i);
-			const passwordInput = screen.getByLabelText(/password/i);
+			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
+			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
 
 			await user.type(emailInput, "test@example.com");
 			await user.type(passwordInput, "passwordonly");
 
-			const submitButton = screen.getByRole("button", { name: /login/i });
+			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			await user.click(submitButton);
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER)
+					screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER))
 				).toBeInTheDocument();
 			});
 		});
@@ -148,18 +150,18 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(/email/i);
-			const passwordInput = screen.getByLabelText(/password/i);
+			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
+			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
 
 			await user.type(emailInput, "test@example.com");
 			await user.type(passwordInput, "pa1");
 
-			const submitButton = screen.getByRole("button", { name: /login/i });
+			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			await user.click(submitButton);
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(VALIDATION_MESSAGES.MIN_PW_LENGTH)
+					screen.getByText(i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH }))
 				).toBeInTheDocument();
 			});
 		});
@@ -170,7 +172,7 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(/email/i);
+			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
 			await user.type(emailInput, "test@example.com");
 
 			expect(emailInput).toHaveValue("test@example.com");
@@ -180,7 +182,7 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const passwordInput = screen.getByLabelText(/password/i);
+			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
 			await user.type(passwordInput, "password123");
 
 			expect(passwordInput).toHaveValue("password123");
@@ -191,14 +193,14 @@ describe("LoginForm", () => {
 		it("has accessible email input with correct label", () => {
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(/email/i);
+			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
 			expect(emailInput).toHaveAttribute("aria-required", "true");
 		});
 
 		it("has accessible password input with correct label", () => {
 			renderWithProvider(<LoginForm />);
 
-			const passwordInput = screen.getByLabelText(/password/i);
+			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
 			expect(passwordInput).toHaveAttribute("aria-required", "true");
 		});
 

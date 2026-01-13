@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button, Input } from "~/libs/components/components";
+import { VALIDATION_RULES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useForm, useTranslation } from "~/libs/hooks/hooks";
@@ -58,7 +59,12 @@ const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
 			/>
 
 			<Input
-				error={errors.password?.message}
+				error={
+					errors.password?.message &&
+					t(errors.password.message, {
+						min: VALIDATION_RULES.MIN_PASSWORD_LENGTH,
+					})
+				}
 				iconLeft="lock"
 				label={t("auth.login.fields.password.label")}
 				placeholder={t("auth.login.fields.password.placeholder")}

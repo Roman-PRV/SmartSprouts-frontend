@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button, Input } from "~/libs/components/components";
+import { VALIDATION_RULES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useForm, useTranslation } from "~/libs/hooks/hooks";
@@ -56,7 +57,12 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 			)}
 
 			<Input
-				error={errors.name?.message}
+				error={
+					errors.name?.message &&
+					t(errors.name.message, {
+						min: VALIDATION_RULES.MIN_NAME_LENGTH,
+					})
+				}
 				label={t("auth.register.fields.name.label")}
 				placeholder={t("auth.register.fields.name.placeholder")}
 				required
@@ -74,7 +80,12 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 			/>
 
 			<Input
-				error={errors.password?.message}
+				error={
+					errors.password?.message &&
+					t(errors.password.message, {
+						min: VALIDATION_RULES.MIN_PASSWORD_LENGTH,
+					})
+				}
 				iconLeft="lock"
 				label={t("auth.register.fields.password.label")}
 				placeholder={t("auth.register.fields.password.placeholder")}
@@ -84,7 +95,7 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 			/>
 
 			<Input
-				error={errors.password_confirmation?.message}
+				error={errors.password_confirmation?.message && t(errors.password_confirmation.message)}
 				iconLeft="lock"
 				label={t("auth.register.fields.confirmPassword.label")}
 				placeholder={t("auth.register.fields.confirmPassword.placeholder")}
