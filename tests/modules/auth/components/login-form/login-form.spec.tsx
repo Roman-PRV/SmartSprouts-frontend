@@ -40,10 +40,7 @@ const createMockStore = (initialAuthState?: Partial<AuthState>) => {
 	});
 };
 
-const renderWithProvider = (
-	ui: React.ReactElement,
-	initialAuthState?: Partial<AuthState>
-) => {
+const renderWithProvider = (ui: React.ReactElement, initialAuthState?: Partial<AuthState>) => {
 	const store = createMockStore(initialAuthState);
 	return {
 		...render(<Provider store={store}>{ui}</Provider>),
@@ -64,19 +61,29 @@ describe("LoginForm", () => {
 		it("renders email input field", () => {
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))
+			);
 			expect(emailInput).toBeInTheDocument();
 			expect(emailInput).toHaveAttribute("type", "email");
-			expect(emailInput).toHaveAttribute("placeholder", i18n.t("auth.login.fields.email.placeholder"));
+			expect(emailInput).toHaveAttribute(
+				"placeholder",
+				i18n.t("auth.login.fields.email.placeholder")
+			);
 		});
 
 		it("renders password input field", () => {
 			renderWithProvider(<LoginForm />);
 
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))
+			);
 			expect(passwordInput).toBeInTheDocument();
 			expect(passwordInput).toHaveAttribute("type", "password");
-			expect(passwordInput).toHaveAttribute("placeholder", i18n.t("auth.login.fields.password.placeholder"));
+			expect(passwordInput).toHaveAttribute(
+				"placeholder",
+				i18n.t("auth.login.fields.password.placeholder")
+			);
 		});
 
 		it("renders submit button with correct text", () => {
@@ -130,8 +137,12 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))
+			);
 
 			await user.type(emailInput, "test@example.com");
 			await user.type(passwordInput, "passwordonly");
@@ -150,8 +161,12 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))
+			);
 
 			await user.type(emailInput, "test@example.com");
 			await user.type(passwordInput, "pa1");
@@ -161,7 +176,9 @@ describe("LoginForm", () => {
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH }))
+					screen.getByText(
+						i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH })
+					)
 				).toBeInTheDocument();
 			});
 		});
@@ -172,7 +189,9 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))
+			);
 			await user.type(emailInput, "test@example.com");
 
 			expect(emailInput).toHaveValue("test@example.com");
@@ -182,7 +201,9 @@ describe("LoginForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))
+			);
 			await user.type(passwordInput, "password123");
 
 			expect(passwordInput).toHaveValue("password123");
@@ -193,14 +214,18 @@ describe("LoginForm", () => {
 		it("has accessible email input with correct label", () => {
 			renderWithProvider(<LoginForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))
+			);
 			expect(emailInput).toHaveAttribute("aria-required", "true");
 		});
 
 		it("has accessible password input with correct label", () => {
 			renderWithProvider(<LoginForm />);
 
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label")));
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))
+			);
 			expect(passwordInput).toHaveAttribute("aria-required", "true");
 		});
 

@@ -40,10 +40,7 @@ const createMockStore = (initialAuthState?: Partial<AuthState>) => {
 	});
 };
 
-const renderWithProvider = (
-	ui: React.ReactElement,
-	initialAuthState?: Partial<AuthState>
-) => {
+const renderWithProvider = (ui: React.ReactElement, initialAuthState?: Partial<AuthState>) => {
 	const store = createMockStore(initialAuthState);
 	return {
 		...render(<Provider store={store}>{ui}</Provider>),
@@ -64,37 +61,57 @@ describe("RegisterForm", () => {
 		it("renders name input field", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const nameInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label")));
+			const nameInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))
+			);
 			expect(nameInput).toBeInTheDocument();
 			expect(nameInput).toHaveAttribute("type", "text");
-			expect(nameInput).toHaveAttribute("placeholder", i18n.t("auth.register.fields.name.placeholder"));
+			expect(nameInput).toHaveAttribute(
+				"placeholder",
+				i18n.t("auth.register.fields.name.placeholder")
+			);
 		});
 
 		it("renders email input field", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
 			expect(emailInput).toBeInTheDocument();
 			expect(emailInput).toHaveAttribute("type", "email");
-			expect(emailInput).toHaveAttribute("placeholder", i18n.t("auth.register.fields.email.placeholder"));
+			expect(emailInput).toHaveAttribute(
+				"placeholder",
+				i18n.t("auth.register.fields.email.placeholder")
+			);
 		});
 
 		it("renders password input field", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
 			expect(passwordInput).toBeInTheDocument();
 			expect(passwordInput).toHaveAttribute("type", "password");
-			expect(passwordInput).toHaveAttribute("placeholder", i18n.t("auth.register.fields.password.placeholder"));
+			expect(passwordInput).toHaveAttribute(
+				"placeholder",
+				i18n.t("auth.register.fields.password.placeholder")
+			);
 		});
 
 		it("renders confirm password input field", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 			expect(confirmPasswordInput).toBeInTheDocument();
 			expect(confirmPasswordInput).toHaveAttribute("type", "password");
-			expect(confirmPasswordInput).toHaveAttribute("placeholder", i18n.t("auth.register.fields.confirmPassword.placeholder"));
+			expect(confirmPasswordInput).toHaveAttribute(
+				"placeholder",
+				i18n.t("auth.register.fields.confirmPassword.placeholder")
+			);
 		});
 
 		it("renders submit button with correct text", () => {
@@ -148,9 +165,15 @@ describe("RegisterForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<RegisterForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 
 			await user.type(emailInput, "test@example.com");
 			await user.type(passwordInput, "Password123");
@@ -160,9 +183,7 @@ describe("RegisterForm", () => {
 			await user.click(submitButton);
 
 			await waitFor(() => {
-				expect(
-					screen.getByText(i18n.t(VALIDATION_MESSAGES.MIN_NAME_LENGTH))
-				).toBeInTheDocument();
+				expect(screen.getByText(i18n.t(VALIDATION_MESSAGES.MIN_NAME_LENGTH))).toBeInTheDocument();
 			});
 		});
 
@@ -170,10 +191,18 @@ describe("RegisterForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<RegisterForm />);
 
-			const nameInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label")));
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const nameInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))
+			);
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 
 			await user.type(nameInput, "John Doe");
 			await user.type(emailInput, "not-an-email");
@@ -194,10 +223,18 @@ describe("RegisterForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<RegisterForm />);
 
-			const nameInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label")));
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const nameInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))
+			);
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 
 			await user.type(nameInput, "John Doe");
 			await user.type(emailInput, "test@example.com");
@@ -218,10 +255,18 @@ describe("RegisterForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<RegisterForm />);
 
-			const nameInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label")));
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const nameInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))
+			);
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 
 			await user.type(nameInput, "John Doe");
 			await user.type(emailInput, "test@example.com");
@@ -233,7 +278,9 @@ describe("RegisterForm", () => {
 
 			await waitFor(() => {
 				expect(
-					screen.getAllByText(i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH }))[0]
+					screen.getAllByText(
+						i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH })
+					)[0]
 				).toBeInTheDocument();
 			});
 		});
@@ -242,10 +289,18 @@ describe("RegisterForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<RegisterForm />);
 
-			const nameInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label")));
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const nameInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))
+			);
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 
 			await user.type(nameInput, "John Doe");
 			await user.type(emailInput, "test@example.com");
@@ -256,9 +311,7 @@ describe("RegisterForm", () => {
 			await user.click(submitButton);
 
 			await waitFor(() => {
-				expect(
-					screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_DO_NOT_MATCH))
-				).toBeInTheDocument();
+				expect(screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_DO_NOT_MATCH))).toBeInTheDocument();
 			});
 		});
 	});
@@ -268,10 +321,18 @@ describe("RegisterForm", () => {
 			const user = userEvent.setup();
 			renderWithProvider(<RegisterForm />);
 
-			const nameInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label")));
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const nameInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))
+			);
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 
 			await user.type(nameInput, "John Doe");
 			await user.type(emailInput, "test@example.com");
@@ -289,28 +350,36 @@ describe("RegisterForm", () => {
 		it("has accessible name input with correct label", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const nameInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label")));
+			const nameInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))
+			);
 			expect(nameInput).toHaveAttribute("aria-required", "true");
 		});
 
 		it("has accessible email input with correct label", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const emailInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label")));
+			const emailInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))
+			);
 			expect(emailInput).toHaveAttribute("aria-required", "true");
 		});
 
 		it("has accessible password input with correct label", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const passwordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label")));
+			const passwordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))
+			);
 			expect(passwordInput).toHaveAttribute("aria-required", "true");
 		});
 
 		it("has accessible confirm password input with correct label", () => {
 			renderWithProvider(<RegisterForm />);
 
-			const confirmPasswordInput = screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label")));
+			const confirmPasswordInput = screen.getByLabelText(
+				getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+			);
 			expect(confirmPasswordInput).toHaveAttribute("aria-required", "true");
 		});
 
