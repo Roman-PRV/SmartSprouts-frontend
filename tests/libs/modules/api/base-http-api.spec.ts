@@ -38,9 +38,8 @@ describe("BaseHTTPApi", () => {
 			expect.anything(),
 			expect.objectContaining({
 				headers: expect.any(Headers),
-			}),
+			})
 		);
-
 
 		const callArgs = mockHttp.load.mock.calls[0];
 

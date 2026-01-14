@@ -2,8 +2,7 @@
  * Escapes special regex characters in a string.
  * @param text The string to escape
  */
-const escapeRegExp = (text: string): string =>
-	text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /**
  * Creates a regular expression to match a field label that might contain an optional asterisk.
@@ -22,4 +21,3 @@ const escapeRegExp = (text: string): string =>
  */
 export const getLabelWithAsterisk = (text: string): RegExp =>
 	new RegExp(`^${escapeRegExp(text)}(\\s*\\*)?$`, "i");
-
