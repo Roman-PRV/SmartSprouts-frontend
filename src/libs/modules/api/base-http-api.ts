@@ -1,5 +1,6 @@
 import { type ContentType, NotificationMessage, ServerErrorType } from "~/libs/enums/enums.js";
 import { configureString } from "~/libs/helpers/helpers.js";
+import { getCurrentLocale } from "~/libs/modules/localization/localization.js";
 import { type Storage, StorageKey } from "~/libs/modules/storage/storage.js";
 import { type ServerErrorResponse, type ValueOf } from "~/libs/types/types.js";
 
@@ -79,6 +80,8 @@ class BaseHTTPApi implements HTTPApi {
 		contentType?: ValueOf<typeof ContentType>
 	): Promise<Headers> {
 		const headers = new Headers();
+
+		headers.append(HTTPHeader.ACCEPT_LANGUAGE, getCurrentLocale());
 
 		if (contentType) {
 			headers.append(HTTPHeader.CONTENT_TYPE, contentType);
