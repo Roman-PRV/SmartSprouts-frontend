@@ -12,16 +12,23 @@ import {
 	RegisterPage,
 } from "~/pages/pages";
 
+import { ProtectedRoute } from "../protected-route/protected-route";
+
 export const router = createBrowserRouter([
 	{
 		children: [
 			{
 				children: [
 					{ element: <HomePage />, path: "" },
-					{ element: <GameSelectionPage />, path: "games" },
-					{ element: <GameContentPage />, path: "games/:id" },
-					{ element: <LevelContentPage />, path: "games/:id/levels/:levelId" },
-					{ element: <ProfilePage />, path: "profile" },
+					{
+						children: [
+							{ element: <GameSelectionPage />, path: "games" },
+							{ element: <GameContentPage />, path: "games/:id" },
+							{ element: <LevelContentPage />, path: "games/:id/levels/:levelId" },
+							{ element: <ProfilePage />, path: "profile" },
+						],
+						element: <ProtectedRoute />,
+					},
 				],
 				element: <MainLayout />,
 			},
