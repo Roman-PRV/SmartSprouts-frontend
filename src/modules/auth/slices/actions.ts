@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { normalizeError } from "~/libs/helpers/helpers.js";
+import { HTTPCode, HTTPError } from "~/libs/modules/http/http.js";
 import { StorageKey } from "~/libs/modules/storage/storage.js";
 import { type AsyncThunkConfig } from "~/libs/types/types.js";
 
@@ -15,11 +16,15 @@ import {
 const getAuthenticatedUser = createAsyncThunk<User, undefined, AsyncThunkConfig>(
 	"auth/getAuthenticatedUser",
 	async (_payload, { extra, rejectWithValue }) => {
-		const { authApi } = extra;
+		const { authApi, storage } = extra;
 
 		try {
 			return await authApi.getAuthenticatedUser();
 		} catch (error) {
+			if (error instanceof HTTPError && error.status === HTTPCode.UNAUTHORIZED) {
+				await storage.drop(StorageKey.TOKEN);
+			}
+
 			return rejectWithValue(normalizeError(error));
 		}
 	}
