@@ -9,7 +9,21 @@ import {
 	type LoginResponseDto,
 	type RegisterRequestDto,
 	type RegisterResponseDto,
+	type User,
 } from "../libs/types/types";
+
+const getAuthenticatedUser = createAsyncThunk<User, undefined, AsyncThunkConfig>(
+	"auth/getAuthenticatedUser",
+	async (_payload, { extra, rejectWithValue }) => {
+		const { authApi } = extra;
+
+		try {
+			return await authApi.getAuthenticatedUser();
+		} catch (error) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
 
 const login = createAsyncThunk<LoginResponseDto, LoginRequestDto, AsyncThunkConfig>(
 	"auth/login",
@@ -45,4 +59,4 @@ const register = createAsyncThunk<RegisterResponseDto, RegisterRequestDto, Async
 	}
 );
 
-export { login, register };
+export { getAuthenticatedUser, login, register };
