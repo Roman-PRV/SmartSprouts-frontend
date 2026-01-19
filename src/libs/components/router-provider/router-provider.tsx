@@ -12,7 +12,8 @@ import {
 	RegisterPage,
 } from "~/pages/pages";
 
-import { ProtectedRoute } from "../protected-route/protected-route";
+import { GuestRoute } from "../guest-route/guest-route.js";
+import { ProtectedRoute } from "../protected-route/protected-route.js";
 
 export const router = createBrowserRouter([
 	{
@@ -36,6 +37,11 @@ export const router = createBrowserRouter([
 		element: <App />,
 		path: "/",
 	},
-	{ element: <LoginPage />, path: "/login" },
-	{ element: <RegisterPage />, path: "/register" },
+	{
+		children: [
+			{ element: <LoginPage />, path: "/login" },
+			{ element: <RegisterPage />, path: "/register" },
+		],
+		element: <GuestRoute />,
+	},
 ]);

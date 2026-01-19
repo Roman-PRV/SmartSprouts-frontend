@@ -7,6 +7,7 @@ export { Input } from "./input/input";
 export type { InputProperties, InputType } from "./input/types";
 export { LanguageSwitcher } from "./language-switcher/language-switcher";
 export { LevelPreviewCard } from "./level-preview-card/level-preview-card";
+export { Loader } from "./loader/loader";
 export { Logo } from "./logo/logo";
 export { MainLayout } from "./main-layout/main-layout";
 export { Navigation } from "./navigation/navigation";
