@@ -18,7 +18,7 @@ const App: React.FC = () => {
 		}
 	}, [dispatch, hasToken]);
 
-	if (dataStatus === DataStatus.PENDING && hasToken) {
+	if ((dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING) && hasToken) {
 		return <Loader />;
 	}
 
