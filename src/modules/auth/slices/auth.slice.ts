@@ -38,6 +38,8 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(getAuthenticatedUser.rejected, (state) => {
 			state.dataStatus = DataStatus.REJECTED;
+			state.isAuthenticated = false;
+			state.user = null;
 			state.error = null;
 		});
 
@@ -50,6 +52,8 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(login.rejected, (state, action) => {
 			state.dataStatus = DataStatus.REJECTED;
+			state.isAuthenticated = false;
+			state.user = null;
 			state.error = action.payload?.message ?? action.error.message ?? "Login failed";
 		});
 
@@ -66,6 +70,8 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(register.rejected, (state, action) => {
 			state.dataStatus = DataStatus.REJECTED;
+			state.isAuthenticated = false;
+			state.user = null;
 			state.error = action.payload?.message ?? action.error.message ?? "Registration failed";
 		});
 	},
