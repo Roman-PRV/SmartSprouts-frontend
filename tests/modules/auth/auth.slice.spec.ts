@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { DataStatus } from "~/libs/enums/enums";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type ThunkErrorPayload } from "~/libs/types/types";
-import { actions, login, register } from "~/modules/auth/auth";
+import { actions, getAuthenticatedUser, login, register } from "~/modules/auth/auth";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 describe("auth slice", () => {
@@ -62,6 +62,43 @@ describe("auth slice", () => {
 
 			expect(state.dataStatus).toBe(DataStatus.REJECTED);
 			expect(state.error).toBe("Network error");
+		});
+
+		it("handles getAuthenticatedUser.pending action", () => {
+			const action = { type: getAuthenticatedUser.pending.type };
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.PENDING);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles getAuthenticatedUser.fulfilled action", () => {
+			const mockUser = { email: "test@example.com", id: 1, name: "Test User" };
+			const action = {
+				payload: mockUser,
+				type: getAuthenticatedUser.fulfilled.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
+			expect(state.isAuthenticated).toBe(true);
+			expect(state.user).toEqual(mockUser);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles getAuthenticatedUser.rejected action", () => {
+			const stateWithUser = {
+				...initialState,
+				isAuthenticated: true,
+				user: { email: "test@example.com", id: 1, name: "Test User" },
+			};
+			const action = { type: getAuthenticatedUser.rejected.type };
+			const state = reducer(stateWithUser, action);
+
+			expect(state.dataStatus).toBe(DataStatus.REJECTED);
+			expect(state.isAuthenticated).toBe(false);
+			expect(state.user).toBeNull();
+			expect(state.error).toBeNull();
 		});
 
 		it("handles register.pending action", () => {
