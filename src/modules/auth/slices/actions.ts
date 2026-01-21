@@ -13,6 +13,12 @@ import {
 	type User,
 } from "../libs/types/types";
 
+/**
+ * Fetches the currently authenticated user.
+ *
+ * This thunk checks for the existence of an authentication token in storage before attempting the request.
+ * If the request fails with a 401 Unauthorized error, the token is automatically removed from storage.
+ */
 const getAuthenticatedUser = createAsyncThunk<User, undefined, AsyncThunkConfig>(
 	"auth/getAuthenticatedUser",
 	async (_payload, { extra, rejectWithValue }) => {
