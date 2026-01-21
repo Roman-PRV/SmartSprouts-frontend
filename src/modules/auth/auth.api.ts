@@ -28,7 +28,6 @@ class AuthApi extends BaseHTTPApi {
 		const url = this.getFullEndpoint(AuthApiPath.AUTHENTICATED_USER, {});
 
 		const response = await this.load(url, {
-			contentType: ContentType.JSON,
 			hasAuth: true,
 			method: HTTPMethod.GET,
 			payload: null,
