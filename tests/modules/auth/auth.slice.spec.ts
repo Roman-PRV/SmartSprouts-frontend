@@ -276,6 +276,21 @@ describe("auth slice", () => {
 
 			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
 		});
+
+		it("returns rejected value if no token in storage", async () => {
+			const authApiMock = { getAuthenticatedUser: vi.fn() };
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(false), set: vi.fn() };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const thunk = getAuthenticatedUser();
+			const result = await thunk(dispatch, getState, extra as any);
+
+			expect(authApiMock.getAuthenticatedUser).not.toHaveBeenCalled();
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as any).message).toBe("No token found");
+		});
 	});
 
 	describe("login thunk", () => {
