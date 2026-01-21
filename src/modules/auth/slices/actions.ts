@@ -76,4 +76,19 @@ const register = createAsyncThunk<RegisterResponseDto, RegisterRequestDto, Async
 	}
 );
 
-export { getAuthenticatedUser, login, register };
+const logout = createAsyncThunk<null, undefined, AsyncThunkConfig>(
+	"auth/logout",
+	async (_payload, { extra }) => {
+		const { authApi, storage } = extra;
+
+		try {
+			await authApi.logout();
+		} finally {
+			await storage.drop(StorageKey.TOKEN);
+		}
+
+		return null;
+	}
+);
+
+export { getAuthenticatedUser, login, logout, register };

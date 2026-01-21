@@ -4,7 +4,7 @@ import { DataStatus, ServerErrorType } from "~/libs/enums/enums";
 import { HTTPCode, HTTPError } from "~/libs/modules/http/http";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type ThunkErrorPayload } from "~/libs/types/types";
-import { actions, getAuthenticatedUser, login, register } from "~/modules/auth/auth";
+import { actions, getAuthenticatedUser, login, logout, register } from "~/modules/auth/auth";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 describe("auth slice", () => {
@@ -158,20 +158,20 @@ describe("auth slice", () => {
 			expect(state.error).toBeNull();
 		});
 
-		it("handles logout action", () => {
+		it("handles logout.fulfilled action", () => {
 			const authenticatedState = {
 				dataStatus: DataStatus.FULFILLED,
 				error: "Some error",
 				isAuthenticated: true,
 				user: { email: "test@example.com", id: 1, name: "Test User" },
 			};
-			const action = { type: actions.logout.type };
+			const action = { type: logout.fulfilled.type };
 			const state = reducer(authenticatedState, action);
 
 			expect(state.isAuthenticated).toBe(false);
 			expect(state.user).toBeNull();
 			expect(state.error).toBeNull();
-			expect(state.dataStatus).toBe(DataStatus.IDLE);
+			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
 		});
 	});
 
@@ -290,6 +290,40 @@ describe("auth slice", () => {
 			expect(authApiMock.getAuthenticatedUser).not.toHaveBeenCalled();
 			expect(result.meta.requestStatus).toBe("rejected");
 			expect((result.payload as any).message).toBe("No token found");
+		});
+	});
+
+	describe("logout thunk", () => {
+		it("calls authApi.logout and drops token from storage", async () => {
+			const authApiMock = { logout: vi.fn().mockResolvedValue(undefined) };
+			const storageMock = { drop: vi.fn().mockResolvedValue(undefined) };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const thunk = logout();
+			await thunk(dispatch, getState, extra as any);
+
+			expect(authApiMock.logout).toHaveBeenCalled();
+			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
+		});
+
+		it("drops token from storage even if authApi.logout fails", async () => {
+			const authApiMock = { logout: vi.fn().mockRejectedValue(new Error("Network error")) };
+			const storageMock = { drop: vi.fn().mockResolvedValue(undefined) };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const thunk = logout();
+			try {
+				await thunk(dispatch, getState, extra as any);
+			} catch {
+				// Thunk might reject, but we check side effects
+			}
+
+			expect(authApiMock.logout).toHaveBeenCalled();
+			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
 		});
 	});
 
