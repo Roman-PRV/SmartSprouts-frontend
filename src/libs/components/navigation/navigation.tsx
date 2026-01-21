@@ -60,6 +60,7 @@ const Navigation: React.FC = () => {
 						{isAuthenticated && (
 							<li>
 								<button
+									aria-label={t("common.navigation.logout")}
 									className={getValidClassNames(styles["navigation__nav-item"])}
 									onClick={handleLogout}
 									type="button"
@@ -113,6 +114,7 @@ const Navigation: React.FC = () => {
 						{isAuthenticated && (
 							<li>
 								<button
+									aria-label={t("common.navigation.logout")}
 									className={getValidClassNames(styles["navigation__menu-item"])}
 									onClick={handleLogout}
 									type="button"
