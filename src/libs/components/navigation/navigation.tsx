@@ -16,8 +16,8 @@ const Navigation: React.FC = () => {
 	}, []);
 
 	const handleLogout = useCallback((): void => {
-		logout();
 		setIsOpen(false);
+		void logout();
 	}, [logout]);
 
 	const handleKeyDownToggle = useCallback(
