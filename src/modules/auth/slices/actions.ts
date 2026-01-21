@@ -18,6 +18,12 @@ const getAuthenticatedUser = createAsyncThunk<User, undefined, AsyncThunkConfig>
 	async (_payload, { extra, rejectWithValue }) => {
 		const { authApi, storage } = extra;
 
+		const hasToken = await storage.has(StorageKey.TOKEN);
+
+		if (!hasToken) {
+			return rejectWithValue({ message: "No token found" });
+		}
+
 		try {
 			return await authApi.getAuthenticatedUser();
 		} catch (error) {

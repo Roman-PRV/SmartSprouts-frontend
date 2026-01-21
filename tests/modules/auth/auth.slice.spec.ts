@@ -229,7 +229,7 @@ describe("auth slice", () => {
 		it("calls authApi.getAuthenticatedUser on success", async () => {
 			const mockUser = { email: "test@example.com", id: 1, name: "Test User" };
 			const authApiMock = { getAuthenticatedUser: vi.fn().mockResolvedValue(mockUser) };
-			const storageMock = { drop: vi.fn(), set: vi.fn() };
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(true), set: vi.fn() };
 			const dispatch = vi.fn();
 			const getState = vi.fn();
 			const extra = { authApi: authApiMock, storage: storageMock };
@@ -246,7 +246,7 @@ describe("auth slice", () => {
 			const authApiMock = {
 				getAuthenticatedUser: vi.fn().mockRejectedValue(new Error(errorMessage)),
 			};
-			const storageMock = { drop: vi.fn(), set: vi.fn() };
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(true), set: vi.fn() };
 			const dispatch = vi.fn();
 			const getState = vi.fn();
 			const extra = { authApi: authApiMock, storage: storageMock };
@@ -266,7 +266,7 @@ describe("auth slice", () => {
 				status: HTTPCode.UNAUTHORIZED,
 			});
 			const authApiMock = { getAuthenticatedUser: vi.fn().mockRejectedValue(error) };
-			const storageMock = { drop: vi.fn(), set: vi.fn() };
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(true), set: vi.fn() };
 			const dispatch = vi.fn();
 			const getState = vi.fn();
 			const extra = { authApi: authApiMock, storage: storageMock };
