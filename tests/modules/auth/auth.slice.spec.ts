@@ -173,6 +173,30 @@ describe("auth slice", () => {
 			expect(state.error).toBeNull();
 			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
 		});
+
+		it("handles logout.pending action", () => {
+			const action = { type: logout.pending.type };
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.PENDING);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles logout.rejected action", () => {
+			const authenticatedState = {
+				dataStatus: DataStatus.FULFILLED,
+				error: "Some error",
+				isAuthenticated: true,
+				user: { email: "test@example.com", id: 1, name: "Test User" },
+			};
+			const action = { type: logout.rejected.type };
+			const state = reducer(authenticatedState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.REJECTED);
+			expect(state.isAuthenticated).toBe(false);
+			expect(state.user).toBeNull();
+			expect(state.error).toBeNull();
+		});
 	});
 
 	describe("register thunk", () => {

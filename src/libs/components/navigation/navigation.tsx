@@ -1,11 +1,6 @@
 import { Icon, NavLink } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import {
-	useAppSelector,
-	useCallback,
-	useState,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useAppSelector, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
