@@ -1,4 +1,4 @@
-import { type ContentType, NotificationMessage, ServerErrorType } from "~/libs/enums/enums.js";
+import { ContentType, NotificationMessage, ServerErrorType } from "~/libs/enums/enums.js";
 import { configureString } from "~/libs/helpers/helpers.js";
 import { getCurrentLocale } from "~/libs/modules/localization/localization.js";
 import { type Storage, StorageKey } from "~/libs/modules/storage/storage.js";
@@ -82,6 +82,7 @@ class BaseHTTPApi implements HTTPApi {
 		const headers = new Headers();
 
 		headers.append(HTTPHeader.ACCEPT_LANGUAGE, getCurrentLocale());
+		headers.append(HTTPHeader.ACCEPT, ContentType.JSON);
 
 		if (contentType) {
 			headers.append(HTTPHeader.CONTENT_TYPE, contentType);

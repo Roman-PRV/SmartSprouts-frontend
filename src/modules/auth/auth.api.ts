@@ -10,6 +10,7 @@ import {
 	type LoginResponseDto,
 	type RegisterRequestDto,
 	type RegisterResponseDto,
+	type User,
 } from "./libs/types/types";
 
 type Constructor = {
@@ -21,6 +22,18 @@ type Constructor = {
 class AuthApi extends BaseHTTPApi {
 	public constructor({ baseUrl, http, storage }: Constructor) {
 		super({ baseUrl, http, path: APIPath.AUTH, storage });
+	}
+
+	public async getAuthenticatedUser(): Promise<User> {
+		const url = this.getFullEndpoint(AuthApiPath.AUTHENTICATED_USER, {});
+
+		const response = await this.load(url, {
+			hasAuth: true,
+			method: HTTPMethod.GET,
+			payload: null,
+		});
+
+		return await response.json<User>();
 	}
 
 	public async login(payload: LoginRequestDto): Promise<LoginResponseDto> {

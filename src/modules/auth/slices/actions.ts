@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { normalizeError } from "~/libs/helpers/helpers.js";
+import { HTTPCode, HTTPError } from "~/libs/modules/http/http.js";
 import { StorageKey } from "~/libs/modules/storage/storage.js";
 import { type AsyncThunkConfig } from "~/libs/types/types.js";
 
@@ -9,7 +10,37 @@ import {
 	type LoginResponseDto,
 	type RegisterRequestDto,
 	type RegisterResponseDto,
+	type User,
 } from "../libs/types/types";
+
+/**
+ * Fetches the currently authenticated user.
+ *
+ * This thunk checks for the existence of an authentication token in storage before attempting the request.
+ * If the request fails with a 401 Unauthorized error, the token is automatically removed from storage.
+ */
+const getAuthenticatedUser = createAsyncThunk<User, undefined, AsyncThunkConfig>(
+	"auth/getAuthenticatedUser",
+	async (_payload, { extra, rejectWithValue }) => {
+		const { authApi, storage } = extra;
+
+		const hasToken = await storage.has(StorageKey.TOKEN);
+
+		if (!hasToken) {
+			return rejectWithValue({ message: "No token found" });
+		}
+
+		try {
+			return await authApi.getAuthenticatedUser();
+		} catch (error) {
+			if (error instanceof HTTPError && error.status === HTTPCode.UNAUTHORIZED) {
+				await storage.drop(StorageKey.TOKEN);
+			}
+
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
 
 const login = createAsyncThunk<LoginResponseDto, LoginRequestDto, AsyncThunkConfig>(
 	"auth/login",
@@ -45,4 +76,4 @@ const register = createAsyncThunk<RegisterResponseDto, RegisterRequestDto, Async
 	}
 );
 
-export { login, register };
+export { getAuthenticatedUser, login, register };

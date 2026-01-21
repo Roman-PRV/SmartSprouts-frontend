@@ -11,6 +11,7 @@ import {
 	type LoginResponseDto,
 	type RegisterRequestDto,
 	type RegisterResponseDto,
+	type User,
 } from "~/modules/auth/libs/types/types";
 
 const EXPECT_HTTP_CALLS = 1;
@@ -177,5 +178,68 @@ describe("AuthApi.login", () => {
 		});
 
 		await expect(api.login(payload)).rejects.toThrow(errorMessage);
+	});
+});
+
+describe("AuthApi.getAuthenticatedUser", () => {
+	let http: HttpMock;
+	let storage: StorageMock;
+	const baseUrl = "http://localhost:3000/api";
+
+	beforeEach(() => {
+		http = { load: vi.fn() };
+		storage = { get: vi.fn() };
+	});
+
+	it("sends correct request and returns user on success", async () => {
+		const responseData: User = {
+			email: "test@example.com",
+			id: 1,
+			name: "Test User",
+		};
+		const token = "some-token";
+
+		http.load.mockResolvedValueOnce(makeResponse(responseData));
+		storage.get.mockResolvedValue(token);
+
+		const api = new AuthApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		const result = await api.getAuthenticatedUser();
+
+		expect(http.load).toHaveBeenCalledTimes(EXPECT_HTTP_CALLS);
+		expect(http.load).toHaveBeenCalledWith(
+			`${baseUrl}${APIPath.AUTH}${AuthApiPath.AUTHENTICATED_USER}`,
+			expect.objectContaining({
+				headers: expect.any(Headers),
+				method: HTTPMethod.GET,
+				payload: null,
+			})
+		);
+
+		const firstCallArguments = http.load.mock.calls[0];
+		const [_, options] = firstCallArguments as [
+			string,
+			{ headers: Headers; method: string; payload: string },
+		];
+		expect(options.headers.get("authorization")).toBe(`Bearer ${token}`);
+
+		expect(result).toEqual(responseData);
+	});
+
+	it("propagates error when request fails", async () => {
+		const errorMessage = "Unauthorized";
+		http.load.mockRejectedValueOnce(new Error(errorMessage));
+
+		const api = new AuthApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		await expect(api.getAuthenticatedUser()).rejects.toThrow(errorMessage);
 	});
 });

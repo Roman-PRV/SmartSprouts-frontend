@@ -1,9 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { DataStatus } from "~/libs/enums/enums";
+import { DataStatus, ServerErrorType } from "~/libs/enums/enums";
+import { HTTPCode, HTTPError } from "~/libs/modules/http/http";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type ThunkErrorPayload } from "~/libs/types/types";
-import { actions, login, register } from "~/modules/auth/auth";
+import { actions, getAuthenticatedUser, login, register } from "~/modules/auth/auth";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 describe("auth slice", () => {
@@ -62,6 +63,43 @@ describe("auth slice", () => {
 
 			expect(state.dataStatus).toBe(DataStatus.REJECTED);
 			expect(state.error).toBe("Network error");
+		});
+
+		it("handles getAuthenticatedUser.pending action", () => {
+			const action = { type: getAuthenticatedUser.pending.type };
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.PENDING);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles getAuthenticatedUser.fulfilled action", () => {
+			const mockUser = { email: "test@example.com", id: 1, name: "Test User" };
+			const action = {
+				payload: mockUser,
+				type: getAuthenticatedUser.fulfilled.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
+			expect(state.isAuthenticated).toBe(true);
+			expect(state.user).toEqual(mockUser);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles getAuthenticatedUser.rejected action", () => {
+			const stateWithUser = {
+				...initialState,
+				isAuthenticated: true,
+				user: { email: "test@example.com", id: 1, name: "Test User" },
+			};
+			const action = { type: getAuthenticatedUser.rejected.type };
+			const state = reducer(stateWithUser, action);
+
+			expect(state.dataStatus).toBe(DataStatus.REJECTED);
+			expect(state.isAuthenticated).toBe(false);
+			expect(state.user).toBeNull();
+			expect(state.error).toBeNull();
 		});
 
 		it("handles register.pending action", () => {
@@ -184,6 +222,74 @@ describe("auth slice", () => {
 
 			expect(result.meta.requestStatus).toBe("rejected");
 			expect((result.payload as any).message).toBe(errorMessage);
+		});
+	});
+
+	describe("getAuthenticatedUser thunk", () => {
+		it("calls authApi.getAuthenticatedUser on success", async () => {
+			const mockUser = { email: "test@example.com", id: 1, name: "Test User" };
+			const authApiMock = { getAuthenticatedUser: vi.fn().mockResolvedValue(mockUser) };
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(true), set: vi.fn() };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const thunk = getAuthenticatedUser();
+			const result = await thunk(dispatch, getState, extra as any);
+
+			expect(authApiMock.getAuthenticatedUser).toHaveBeenCalled();
+			expect(result.payload).toEqual(mockUser);
+		});
+
+		it("returns rejected value on api error", async () => {
+			const errorMessage = "API error";
+			const authApiMock = {
+				getAuthenticatedUser: vi.fn().mockRejectedValue(new Error(errorMessage)),
+			};
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(true), set: vi.fn() };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const thunk = getAuthenticatedUser();
+			const result = await thunk(dispatch, getState, extra as any);
+
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as any).message).toBe(errorMessage);
+		});
+
+		it("removes token from storage on 401 error", async () => {
+			const error = new HTTPError({
+				details: [],
+				errorType: ServerErrorType.COMMON,
+				message: "Unauthorized",
+				status: HTTPCode.UNAUTHORIZED,
+			});
+			const authApiMock = { getAuthenticatedUser: vi.fn().mockRejectedValue(error) };
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(true), set: vi.fn() };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const thunk = getAuthenticatedUser();
+			await thunk(dispatch, getState, extra as any);
+
+			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
+		});
+
+		it("returns rejected value if no token in storage", async () => {
+			const authApiMock = { getAuthenticatedUser: vi.fn() };
+			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(false), set: vi.fn() };
+			const dispatch = vi.fn();
+			const getState = vi.fn();
+			const extra = { authApi: authApiMock, storage: storageMock };
+
+			const thunk = getAuthenticatedUser();
+			const result = await thunk(dispatch, getState, extra as any);
+
+			expect(authApiMock.getAuthenticatedUser).not.toHaveBeenCalled();
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as any).message).toBe("No token found");
 		});
 	});
 

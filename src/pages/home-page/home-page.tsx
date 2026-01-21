@@ -1,12 +1,13 @@
 import { Button, Link, Trans } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useTranslation } from "~/libs/hooks/hooks";
+import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
 
 import { images } from "./libs/constants/images.constants";
 import styles from "./styles.module.css";
 
 const HomePage: React.FC = () => {
 	const { t } = useTranslation();
+	const { isAuthenticated } = useAppSelector(({ auth }) => auth);
 
 	return (
 		<div className={styles["home-page"]}>
@@ -35,27 +36,29 @@ const HomePage: React.FC = () => {
 							</Button>
 						</Link>
 
-						<p className={styles["hero-section__auth-prompt"]}>
-							<Trans
-								components={[
-									<br key="0" />,
-									<Link className={styles["hero-section__auth-link"]} key="1" to="/login" />,
-									<Link className={styles["hero-section__auth-link"]} key="2" to="/register" />,
-								]}
-								i18nKey="home.hero.actions.authPrompt"
-							>
-								Already have an account?
-								<br />
-								<Link className={styles["hero-section__auth-link"]} to="/login">
-									Log in
-								</Link>{" "}
-								or{" "}
-								<Link className={styles["hero-section__auth-link"]} to="/register">
-									sign up for free
-								</Link>{" "}
-								in seconds.
-							</Trans>
-						</p>
+						{!isAuthenticated && (
+							<p className={styles["hero-section__auth-prompt"]}>
+								<Trans
+									components={[
+										<br key="0" />,
+										<Link className={styles["hero-section__auth-link"]} key="1" to="/login" />,
+										<Link className={styles["hero-section__auth-link"]} key="2" to="/register" />,
+									]}
+									i18nKey="home.hero.actions.authPrompt"
+								>
+									Already have an account?
+									<br />
+									<Link className={styles["hero-section__auth-link"]} to="/login">
+										Log in
+									</Link>{" "}
+									or{" "}
+									<Link className={styles["hero-section__auth-link"]} to="/register">
+										sign up for free
+									</Link>{" "}
+									in seconds.
+								</Trans>
+							</p>
+						)}
 					</div>
 				</div>
 
@@ -171,9 +174,11 @@ const HomePage: React.FC = () => {
 				<div className={styles["cta-section__container"]}>
 					<h2 className={styles["cta-section__title"]}>{t("home.cta.title")}</h2>
 					<p className={styles["cta-section__description"]}>{t("home.cta.description")}</p>
-					<Link to="/register">
-						<Button size="lg">{t("common.button.register")}</Button>
-					</Link>
+					{!isAuthenticated && (
+						<Link to="/register">
+							<Button size="lg">{t("common.button.register")}</Button>
+						</Link>
+					)}
 				</div>
 			</section>
 		</div>

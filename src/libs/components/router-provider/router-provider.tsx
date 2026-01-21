@@ -12,16 +12,24 @@ import {
 	RegisterPage,
 } from "~/pages/pages";
 
+import { GuestRoute } from "../guest-route/guest-route.js";
+import { ProtectedRoute } from "../protected-route/protected-route.js";
+
 export const router = createBrowserRouter([
 	{
 		children: [
 			{
 				children: [
 					{ element: <HomePage />, path: "" },
-					{ element: <GameSelectionPage />, path: "games" },
-					{ element: <GameContentPage />, path: "games/:id" },
-					{ element: <LevelContentPage />, path: "games/:id/levels/:levelId" },
-					{ element: <ProfilePage />, path: "profile" },
+					{
+						children: [
+							{ element: <GameSelectionPage />, path: "games" },
+							{ element: <GameContentPage />, path: "games/:id" },
+							{ element: <LevelContentPage />, path: "games/:id/levels/:levelId" },
+							{ element: <ProfilePage />, path: "profile" },
+						],
+						element: <ProtectedRoute />,
+					},
 				],
 				element: <MainLayout />,
 			},
@@ -29,6 +37,11 @@ export const router = createBrowserRouter([
 		element: <App />,
 		path: "/",
 	},
-	{ element: <LoginPage />, path: "/login" },
-	{ element: <RegisterPage />, path: "/register" },
+	{
+		children: [
+			{ element: <LoginPage />, path: "/login" },
+			{ element: <RegisterPage />, path: "/register" },
+		],
+		element: <GuestRoute />,
+	},
 ]);
