@@ -1,3 +1,5 @@
+import { type ComponentPropsWithoutRef } from "react";
+
 import { type IconName } from "~/libs/types/types";
 
 /**
@@ -21,16 +23,8 @@ import { type IconName } from "~/libs/types/types";
  * </Button>
  * ```
  */
-type ButtonProperties = {
-	/** Content to be rendered inside the button */
-	children: React.ReactNode;
 
-	/** Additional CSS classes to apply to the button */
-	className?: string;
-
-	/** Whether the button is disabled and cannot be interacted with */
-	disabled?: boolean;
-
+type ButtonProperties = ComponentPropsWithoutRef<"button"> & {
 	/** Whether the button should take up the full width of its container */
 	fullWidth?: boolean;
 
@@ -46,19 +40,12 @@ type ButtonProperties = {
 	 */
 	isLoading?: boolean;
 
-	/** Click handler function called when the button is clicked */
-	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-
 	/** Size variant of the button. Defaults to "md" */
 	size?: ButtonSize;
-
-	/** HTML button type attribute. Defaults to "button" */
-	type?: ButtonType;
 
 	/** Visual style variant of the button. Defaults to "primary" */
 	variant?: ButtonVariant;
 };
-
 /**
  * Size variants for the Button component.
  * - `sm`: Small button with reduced padding and font size
@@ -82,6 +69,6 @@ type ButtonType = "button" | "reset" | "submit";
  * - `danger`: Destructive action button with red color
  * - `ghost`: Minimal button with transparent background
  */
-type ButtonVariant = "danger" | "ghost" | "primary" | "secondary";
+type ButtonVariant = "danger" | "ghost" | "primary" | "secondary" | "unstyled";
 
 export { type ButtonProperties, type ButtonSize, type ButtonType, type ButtonVariant };

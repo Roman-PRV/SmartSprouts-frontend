@@ -56,6 +56,7 @@ const Button: React.FC<ButtonProperties> = ({
 	size = "md",
 	type = "button",
 	variant = "primary",
+	...restProperties
 }) => {
 	const handleClick = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -68,10 +69,15 @@ const Button: React.FC<ButtonProperties> = ({
 
 	const isDisabled = disabled || isLoading;
 
+	const isUnstyled = variant === "unstyled";
+
 	const buttonClasses = getValidClassNames(
-		styles["button"],
-		styles[`button--${variant}`],
-		styles[`button--${size}`],
+		!isUnstyled && styles["button"],
+		!isUnstyled && styles[`button--${variant}`],
+		!isUnstyled && styles[`button--${size}`],
+
+		isUnstyled && styles["button--unstyled"],
+
 		fullWidth && styles["button--full-width"],
 		isLoading && styles["button--loading"],
 		isDisabled && styles["button--disabled"],
@@ -80,6 +86,7 @@ const Button: React.FC<ButtonProperties> = ({
 
 	return (
 		<button
+			{...restProperties}
 			aria-busy={isLoading}
 			className={buttonClasses}
 			disabled={isDisabled}
