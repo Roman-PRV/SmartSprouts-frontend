@@ -1,6 +1,6 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
-import { HTTPError } from "~/libs/modules/http/http.js";
-import { type ThunkErrorPayload } from "~/libs/types/types.js";
+import { HTTPError } from "~/libs/modules/http/http";
+import { type ThunkErrorPayload } from "~/libs/types/types";
 
 const isErrorRecord = (value: unknown): value is Record<string, string[]> => {
 	if (typeof value !== "object" || value === null || Array.isArray(value)) {

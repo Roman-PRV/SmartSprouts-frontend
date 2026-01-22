@@ -1,6 +1,6 @@
-import { type Config as LibraryConfig } from "~/libs/types/config.type.js";
+import { type Config as LibraryConfig } from "~/libs/types/config.type";
 
-import { type EnvironmentSchema } from "./types.js";
+import { type EnvironmentSchema } from "./types";
 
 type Config = LibraryConfig<EnvironmentSchema>;
 

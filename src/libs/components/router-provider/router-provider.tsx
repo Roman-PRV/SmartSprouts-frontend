@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { App } from "~/app.js";
+import { App } from "~/app";
 import { MainLayout } from "~/libs/components/components";
-import { AppRoute } from "~/libs/enums/enums.js";
+import { AppRoute } from "~/libs/enums/enums";
 import { LevelContentPage } from "~/pages/level-content-page/level-content-page";
 import {
 	GameContentPage,
@@ -13,8 +13,8 @@ import {
 	RegisterPage,
 } from "~/pages/pages";
 
-import { GuestRoute } from "../guest-route/guest-route.js";
-import { ProtectedRoute } from "../protected-route/protected-route.js";
+import { GuestRoute } from "../guest-route/guest-route";
+import { ProtectedRoute } from "../protected-route/protected-route";
 
 export const router = createBrowserRouter([
 	{

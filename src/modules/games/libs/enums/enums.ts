@@ -1,1 +1,1 @@
-export { GamesApiPath } from "./games-api-path.enum.js";
+export { GamesApiPath } from "./games-api-path.enum";

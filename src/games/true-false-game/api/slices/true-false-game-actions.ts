@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { normalizeError } from "~/libs/helpers/helpers.js";
-import { type AsyncThunkConfig } from "~/libs/types/types.js";
+import { normalizeError } from "~/libs/helpers/helpers";
+import { type AsyncThunkConfig } from "~/libs/types/types";
 
 import {
 	type TrueFalseGameAnswerRequestDto,
 	type TrueFalseGameCheckResponseDto,
 	type TrueFalseGameLevelDto,
-} from "../../libs/types/types.js";
-import { name as sliceName } from "./true-false-game.slice.js";
+} from "../../libs/types/types";
+import { name as sliceName } from "./true-false-game.slice";
 
 type CheckAnswersPayload = {
 	gameId: string;

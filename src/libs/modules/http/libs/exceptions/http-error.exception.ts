@@ -1,5 +1,5 @@
-import { type ServerErrorType } from "~/libs/enums/enums.js";
-import { type ServerErrorDetail, type ValueOf } from "~/libs/types/types.js";
+import { type ServerErrorType } from "~/libs/enums/enums";
+import { type ServerErrorDetail, type ValueOf } from "~/libs/types/types";
 
 import { type HTTPCode } from "../enums/enums";
 import { ApplicationError } from "./application-error.exception";

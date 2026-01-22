@@ -1,7 +1,7 @@
-import { type HTTPCode } from "~/libs/modules/http/http.js";
-import { type ValueOf } from "~/libs/types/value-of.type.js";
+import { type HTTPCode } from "~/libs/modules/http/http";
+import { type ValueOf } from "~/libs/types/value-of.type";
 
-import { ApplicationError } from "../application-error/application-error.exception.js";
+import { ApplicationError } from "../application-error/application-error.exception";
 
 type Constructor = {
 	cause?: unknown;

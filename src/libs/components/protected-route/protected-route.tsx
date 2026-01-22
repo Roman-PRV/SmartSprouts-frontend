@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-import { AppRoute } from "~/libs/enums/enums.js";
-import { useAppSelector } from "~/libs/hooks/hooks.js";
+import { AppRoute } from "~/libs/enums/enums";
+import { useAppSelector } from "~/libs/hooks/hooks";
 
 const ProtectedRoute: React.FC = () => {
 	const { isAuthenticated } = useAppSelector(({ auth }) => auth);

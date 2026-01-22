@@ -1,1 +1,1 @@
-export { BaseHTTPApi } from "./base-http-api.js";
+export { BaseHTTPApi } from "./base-http-api";
