@@ -1,5 +1,5 @@
 import { Button, Link, Trans } from "~/libs/components/components";
-import { AppRoute } from "~/libs/enums/enums";
+import { AppRoute, GameCategory } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
 
@@ -49,17 +49,11 @@ const HomePage: React.FC = () => {
 								>
 									Already have an account?
 									<br />
-									<Link
-										className={styles["hero-section__auth-link"]}
-										to={AppRoute.LOGIN}
-									>
+									<Link className={styles["hero-section__auth-link"]} to={AppRoute.LOGIN}>
 										Log in
 									</Link>{" "}
 									or{" "}
-									<Link
-										className={styles["hero-section__auth-link"]}
-										to={AppRoute.REGISTER}
-									>
+									<Link className={styles["hero-section__auth-link"]} to={AppRoute.REGISTER}>
 										sign up for free
 									</Link>{" "}
 									in seconds.
@@ -142,7 +136,7 @@ const HomePage: React.FC = () => {
 				<div className={styles["categories-section__grid"]}>
 					<Link
 						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=math`}
+						to={`${AppRoute.GAMES}?category=${GameCategory.MATH}`}
 					>
 						<div className={styles["category-card__icon-wrapper"]}>
 							<span aria-label={t("home.categories.math.iconAriaLabel")} role="img">
@@ -156,23 +150,21 @@ const HomePage: React.FC = () => {
 					</Link>
 					<Link
 						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=reading`}
+						to={`${AppRoute.GAMES}?category=${GameCategory.READING}`}
 					>
 						<div className={styles["category-card__icon-wrapper"]}>
 							<span aria-label={t("home.categories.reading.iconAriaLabel")} role="img">
 								📚
 							</span>
 						</div>
-						<h3 className={styles["category-card__title"]}>
-							{t("home.categories.reading.title")}
-						</h3>
+						<h3 className={styles["category-card__title"]}>{t("home.categories.reading.title")}</h3>
 						<p className={styles["category-card__description"]}>
 							{t("home.categories.reading.description")}
 						</p>
 					</Link>
 					<Link
 						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=logic`}
+						to={`${AppRoute.GAMES}?category=${GameCategory.LOGIC}`}
 					>
 						<div className={styles["category-card__icon-wrapper"]}>
 							<span aria-label={t("home.categories.logic.iconAriaLabel")} role="img">
