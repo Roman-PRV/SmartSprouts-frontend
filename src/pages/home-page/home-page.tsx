@@ -1,4 +1,5 @@
 import { Button, Link, Trans } from "~/libs/components/components";
+import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
 
@@ -30,7 +31,7 @@ const HomePage: React.FC = () => {
 					<h1 className={styles["hero-section__title"]}>{t("home.hero.title")}</h1>
 					<p className={styles["hero-section__description"]}>{t("home.hero.description")}</p>
 					<div className={styles["hero-section__actions"]}>
-						<Link to="/games">
+						<Link to={AppRoute.GAMES}>
 							<Button iconLeft="arrowRight" size="lg">
 								{t("common.button.playNow")}
 							</Button>
@@ -48,11 +49,17 @@ const HomePage: React.FC = () => {
 								>
 									Already have an account?
 									<br />
-									<Link className={styles["hero-section__auth-link"]} to="/login">
+									<Link
+										className={styles["hero-section__auth-link"]}
+										to={AppRoute.LOGIN}
+									>
 										Log in
 									</Link>{" "}
 									or{" "}
-									<Link className={styles["hero-section__auth-link"]} to="/register">
+									<Link
+										className={styles["hero-section__auth-link"]}
+										to={AppRoute.REGISTER}
+									>
 										sign up for free
 									</Link>{" "}
 									in seconds.
@@ -133,7 +140,10 @@ const HomePage: React.FC = () => {
 				</div>
 
 				<div className={styles["categories-section__grid"]}>
-					<Link className={styles["category-card"]} to="/games?category=math">
+					<Link
+						className={styles["category-card"]}
+						to={`${AppRoute.GAMES}?category=math`}
+					>
 						<div className={styles["category-card__icon-wrapper"]}>
 							<span aria-label={t("home.categories.math.iconAriaLabel")} role="img">
 								🧮
@@ -144,18 +154,26 @@ const HomePage: React.FC = () => {
 							{t("home.categories.math.description")}
 						</p>
 					</Link>
-					<Link className={styles["category-card"]} to="/games?category=reading">
+					<Link
+						className={styles["category-card"]}
+						to={`${AppRoute.GAMES}?category=reading`}
+					>
 						<div className={styles["category-card__icon-wrapper"]}>
 							<span aria-label={t("home.categories.reading.iconAriaLabel")} role="img">
 								📚
 							</span>
 						</div>
-						<h3 className={styles["category-card__title"]}>{t("home.categories.reading.title")}</h3>
+						<h3 className={styles["category-card__title"]}>
+							{t("home.categories.reading.title")}
+						</h3>
 						<p className={styles["category-card__description"]}>
 							{t("home.categories.reading.description")}
 						</p>
 					</Link>
-					<Link className={styles["category-card"]} to="/games?category=logic">
+					<Link
+						className={styles["category-card"]}
+						to={`${AppRoute.GAMES}?category=logic`}
+					>
 						<div className={styles["category-card__icon-wrapper"]}>
 							<span aria-label={t("home.categories.logic.iconAriaLabel")} role="img">
 								🧩
@@ -175,7 +193,7 @@ const HomePage: React.FC = () => {
 					<h2 className={styles["cta-section__title"]}>{t("home.cta.title")}</h2>
 					<p className={styles["cta-section__description"]}>{t("home.cta.description")}</p>
 					{!isAuthenticated && (
-						<Link to="/register">
+						<Link to={AppRoute.REGISTER}>
 							<Button size="lg">{t("common.button.register")}</Button>
 						</Link>
 					)}
