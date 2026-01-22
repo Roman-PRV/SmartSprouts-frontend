@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				children: [
-					{ element: <HomePage />, path: AppRoute.ROOT },
+					{ element: <HomePage />, index: true },
 					{
 						children: [
 							{ element: <GameSelectionPage />, path: AppRoute.GAMES },
