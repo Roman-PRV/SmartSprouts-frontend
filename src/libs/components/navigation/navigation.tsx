@@ -120,7 +120,7 @@ const Navigation: React.FC = () => {
 									variant="unstyled"
 								>
 									{t("common.navigation.logout")}
-								</Button>{" "}
+								</Button>
 							</li>
 						)}
 					</ul>
