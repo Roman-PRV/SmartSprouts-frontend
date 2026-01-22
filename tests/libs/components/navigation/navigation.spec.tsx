@@ -242,7 +242,6 @@ describe("Navigation", () => {
 			expect(screen.queryAllByRole("list")).toHaveLength(1);
 		});
 
-
 	});
 
 	describe("Accessibility", () => {
