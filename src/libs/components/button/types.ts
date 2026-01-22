@@ -68,6 +68,7 @@ type ButtonType = "button" | "reset" | "submit";
  * - `secondary`: Alternative action button with neutral styling
  * - `danger`: Destructive action button with red color
  * - `ghost`: Minimal button with transparent background
+ * - `unstyled`: No default visual styling; use when fully customizing appearance via external styles
  */
 type ButtonVariant = "danger" | "ghost" | "primary" | "secondary" | "unstyled";
 
