@@ -1,6 +1,6 @@
-import { Link } from "~/libs/components/components.js";
-import { AppRoute } from "~/libs/enums/enums.js";
-import { configureString, getValidClassNames } from "~/libs/helpers/helpers.js";
+import { Link } from "~/libs/components/components";
+import { AppRoute } from "~/libs/enums/enums";
+import { configureString, getValidClassNames } from "~/libs/helpers/helpers";
 import { type GameDescriptionDto } from "~/libs/types/types";
 
 import styles from "./styles.module.css";

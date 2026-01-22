@@ -1,8 +1,8 @@
-import { config } from "~/libs/modules/config/config.js";
-import { http } from "~/libs/modules/http/http.js";
-import { storage } from "~/libs/modules/storage/storage.js";
+import { config } from "~/libs/modules/config/config";
+import { http } from "~/libs/modules/http/http";
+import { storage } from "~/libs/modules/storage/storage";
 
-import { AuthApi } from "./auth.api.js";
+import { AuthApi } from "./auth.api";
 
 const authApi = new AuthApi({
 	baseUrl: config.ENV.API.ORIGIN_URL,
@@ -11,9 +11,9 @@ const authApi = new AuthApi({
 });
 
 export { authApi };
-export { AuthLayout, LoginForm, RegisterForm } from "./components/components.js";
-export { useAuthFormSubmit, useLogout } from "./hooks/hooks.js";
-export { type LoginRequestDto, type RegisterRequestDto } from "./libs/types/types.js";
-export { loginSchema, registerSchema } from "./libs/validation-schemas/auth.validation-schemas.js";
-export { getAuthenticatedUser, login, logout, register } from "./slices/actions.js";
-export { actions, reducer } from "./slices/auth.slice.js";
+export { AuthLayout, LoginForm, RegisterForm } from "./components/components";
+export { useAuthFormSubmit, useLogout } from "./hooks/hooks";
+export { type LoginRequestDto, type RegisterRequestDto } from "./libs/types/types";
+export { loginSchema, registerSchema } from "./libs/validation-schemas/auth.validation-schemas";
+export { getAuthenticatedUser, login, logout, register } from "./slices/actions";
+export { actions, reducer } from "./slices/auth.slice";

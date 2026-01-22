@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { normalizeError } from "~/libs/helpers/helpers.js";
-import { HTTPCode, HTTPError } from "~/libs/modules/http/http.js";
-import { StorageKey } from "~/libs/modules/storage/storage.js";
-import { type AsyncThunkConfig } from "~/libs/types/types.js";
+import { normalizeError } from "~/libs/helpers/helpers";
+import { HTTPCode, HTTPError } from "~/libs/modules/http/http";
+import { StorageKey } from "~/libs/modules/storage/storage";
+import { type AsyncThunkConfig } from "~/libs/types/types";
 
 import {
 	type LoginRequestDto,

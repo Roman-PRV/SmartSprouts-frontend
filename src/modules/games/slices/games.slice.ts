@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { DataStatus } from "~/libs/enums/enums.js";
-import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type.js";
-import { type LevelDescriptionDto, type ValueOf } from "~/libs/types/types.js";
+import { DataStatus } from "~/libs/enums/enums";
+import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type";
+import { type LevelDescriptionDto, type ValueOf } from "~/libs/types/types";
 
-import { getAllGames, getById, getLevelsList } from "./actions.js";
+import { getAllGames, getById, getLevelsList } from "./actions";
 
 type State = {
 	currentGame: GameDescriptionDto | null;
