@@ -1,4 +1,5 @@
 import { Button, Icon, NavLink } from "~/libs/components/components";
+import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
@@ -43,17 +44,26 @@ const Navigation: React.FC = () => {
 					</button>
 					<ul className={getValidClassNames(styles["navigation__nav"], "hidden sm:flex")}>
 						<li>
-							<NavLink className={getValidClassNames(styles["navigation__nav-item"])} to="/">
+							<NavLink
+								className={getValidClassNames(styles["navigation__nav-item"])}
+								to={AppRoute.ROOT}
+							>
 								{t("common.navigation.home")}
 							</NavLink>
 						</li>
 						<li>
-							<NavLink className={getValidClassNames(styles["navigation__nav-item"])} to="/games">
+							<NavLink
+								className={getValidClassNames(styles["navigation__nav-item"])}
+								to={AppRoute.GAMES}
+							>
 								{t("common.navigation.games")}
 							</NavLink>
 						</li>
 						<li>
-							<NavLink className={getValidClassNames(styles["navigation__nav-item"])} to="/profile">
+							<NavLink
+								className={getValidClassNames(styles["navigation__nav-item"])}
+								to={AppRoute.PROFILE}
+							>
 								{t("common.navigation.profile")}
 							</NavLink>
 						</li>
@@ -88,7 +98,7 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["navigation__menu-item"])}
 								onClick={handleBurgerClick}
-								to="/"
+								to={AppRoute.ROOT}
 							>
 								{t("common.navigation.home")}
 							</NavLink>
@@ -97,7 +107,7 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["navigation__menu-item"])}
 								onClick={handleBurgerClick}
-								to="/games"
+								to={AppRoute.GAMES}
 							>
 								{t("common.navigation.games")}
 							</NavLink>
@@ -106,7 +116,7 @@ const Navigation: React.FC = () => {
 							<NavLink
 								className={getValidClassNames(styles["navigation__menu-item"])}
 								onClick={handleBurgerClick}
-								to="/profile"
+								to={AppRoute.PROFILE}
 							>
 								{t("common.navigation.profile")}
 							</NavLink>

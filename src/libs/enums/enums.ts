@@ -1,5 +1,6 @@
 export { APIPath } from "./api-path.enum";
 export { AppEnvironment } from "./app-environment.enum";
+export { AppRoute } from "./app-route.enum";
 export { ContentType } from "./content-type.enum";
 export { DataStatus } from "./data-status.enum";
 export { type GameKeyType, GameKey } from "./game-key.enum";
