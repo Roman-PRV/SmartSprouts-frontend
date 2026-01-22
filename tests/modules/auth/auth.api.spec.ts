@@ -243,3 +243,46 @@ describe("AuthApi.getAuthenticatedUser", () => {
 		await expect(api.getAuthenticatedUser()).rejects.toThrow(errorMessage);
 	});
 });
+
+describe("AuthApi.logout", () => {
+	let http: HttpMock;
+	let storage: StorageMock;
+	const baseUrl = "http://localhost:3000/api";
+
+	beforeEach(() => {
+		http = { load: vi.fn() };
+		storage = { get: vi.fn() };
+	});
+
+	it("sends correct request", async () => {
+		const token = "some-token";
+
+		http.load.mockResolvedValueOnce(makeResponse(null));
+		storage.get.mockResolvedValue(token);
+
+		const api = new AuthApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		await api.logout();
+
+		expect(http.load).toHaveBeenCalledTimes(EXPECT_HTTP_CALLS);
+		expect(http.load).toHaveBeenCalledWith(
+			`${baseUrl}${APIPath.AUTH}${AuthApiPath.LOGOUT}`,
+			expect.objectContaining({
+				headers: expect.any(Headers),
+				method: HTTPMethod.POST,
+				payload: null,
+			})
+		);
+
+		const firstCallArguments = http.load.mock.calls[0];
+		const [_, options] = firstCallArguments as [
+			string,
+			{ headers: Headers; method: string; payload: string },
+		];
+		expect(options.headers.get("authorization")).toBe(`Bearer ${token}`);
+	});
+});

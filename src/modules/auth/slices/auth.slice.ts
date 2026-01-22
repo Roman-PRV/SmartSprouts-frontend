@@ -4,7 +4,7 @@ import { DataStatus } from "~/libs/enums/enums.js";
 import { type ValueOf } from "~/libs/types/types.js";
 
 import { type User } from "../libs/types/types";
-import { getAuthenticatedUser, login, register } from "./actions";
+import { getAuthenticatedUser, login, logout, register } from "./actions";
 
 type State = {
 	dataStatus: ValueOf<typeof DataStatus>;
@@ -57,6 +57,23 @@ const { actions, name, reducer } = createSlice({
 			state.error = action.payload?.message ?? action.error.message ?? "Login failed";
 		});
 
+		builder.addCase(logout.pending, (state) => {
+			state.dataStatus = DataStatus.PENDING;
+			state.error = null;
+		});
+		builder.addCase(logout.fulfilled, (state) => {
+			state.dataStatus = DataStatus.FULFILLED;
+			state.isAuthenticated = false;
+			state.user = null;
+			state.error = null;
+		});
+		builder.addCase(logout.rejected, (state) => {
+			state.dataStatus = DataStatus.REJECTED;
+			state.isAuthenticated = false;
+			state.user = null;
+			state.error = null;
+		});
+
 		builder.addCase(register.pending, (state) => {
 			state.dataStatus = DataStatus.PENDING;
 			state.error = null;
@@ -81,15 +98,8 @@ const { actions, name, reducer } = createSlice({
 		clearError: (state) => {
 			state.error = null;
 		},
-		logout: (state) => {
-			state.isAuthenticated = false;
-			state.user = null;
-			state.error = null;
-			state.dataStatus = DataStatus.IDLE;
-			// Token removal should be done via storage.drop(StorageKey.TOKEN) in component
-		},
 	},
 });
 
 export { actions, name, reducer };
-export { getAuthenticatedUser, login, register } from "./actions";
+export { getAuthenticatedUser, login, logout, register } from "./actions";

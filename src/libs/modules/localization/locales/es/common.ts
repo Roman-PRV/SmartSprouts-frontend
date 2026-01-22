@@ -16,6 +16,7 @@ const common = {
 	navigation: {
 		games: "Juegos",
 		home: "Inicio",
+		logout: "Cerrar sesión",
 		profile: "Perfil",
 		toggleMenu: "Alternar menú",
 	},

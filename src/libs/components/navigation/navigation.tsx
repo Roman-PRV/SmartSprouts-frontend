@@ -1,16 +1,24 @@
-import { Icon, NavLink } from "~/libs/components/components";
+import { Button, Icon, NavLink } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
+import { useAppSelector, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
+import { useLogout } from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
 
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
+	const { isAuthenticated } = useAppSelector((state) => state.auth);
+	const { logout } = useLogout();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleBurgerClick = useCallback((): void => {
 		setIsOpen((previous) => !previous);
 	}, []);
+
+	const handleLogout = useCallback((): void => {
+		setIsOpen(false);
+		void logout();
+	}, [logout]);
 
 	const handleKeyDownToggle = useCallback(
 		(event: React.KeyboardEvent): void => {
@@ -49,6 +57,18 @@ const Navigation: React.FC = () => {
 								{t("common.navigation.profile")}
 							</NavLink>
 						</li>
+						{isAuthenticated && (
+							<li>
+								<Button
+									aria-label={t("common.navigation.logout")}
+									className={getValidClassNames(styles["navigation__nav-item"])}
+									onClick={handleLogout}
+									variant="unstyled"
+								>
+									{t("common.navigation.logout")}
+								</Button>
+							</li>
+						)}
 					</ul>
 				</div>
 
@@ -91,6 +111,18 @@ const Navigation: React.FC = () => {
 								{t("common.navigation.profile")}
 							</NavLink>
 						</li>
+						{isAuthenticated && (
+							<li>
+								<Button
+									aria-label={t("common.navigation.logout")}
+									className={getValidClassNames(styles["navigation__menu-item"])}
+									onClick={handleLogout}
+									variant="unstyled"
+								>
+									{t("common.navigation.logout")}
+								</Button>
+							</li>
+						)}
 					</ul>
 				)}
 			</div>

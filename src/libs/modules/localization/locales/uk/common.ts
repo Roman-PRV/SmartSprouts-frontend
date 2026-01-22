@@ -16,6 +16,7 @@ const common = {
 	navigation: {
 		games: "Ігри",
 		home: "Головна",
+		logout: "Вийти",
 		profile: "Профіль",
 		toggleMenu: "Перемкнути меню",
 	},

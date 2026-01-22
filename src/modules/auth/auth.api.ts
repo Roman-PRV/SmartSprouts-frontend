@@ -49,6 +49,16 @@ class AuthApi extends BaseHTTPApi {
 		return await response.json<LoginResponseDto>();
 	}
 
+	public async logout(): Promise<void> {
+		const url = this.getFullEndpoint(AuthApiPath.LOGOUT, {});
+
+		await this.load(url, {
+			hasAuth: true,
+			method: HTTPMethod.POST,
+			payload: null,
+		});
+	}
+
 	public async register(payload: RegisterRequestDto): Promise<RegisterResponseDto> {
 		const url = this.getFullEndpoint(AuthApiPath.REGISTER, {});
 
