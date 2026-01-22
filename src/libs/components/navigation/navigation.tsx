@@ -1,4 +1,4 @@
-import { Icon, NavLink } from "~/libs/components/components";
+import { Button, Icon, NavLink } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
@@ -59,14 +59,14 @@ const Navigation: React.FC = () => {
 						</li>
 						{isAuthenticated && (
 							<li>
-								<button
+								<Button
 									aria-label={t("common.navigation.logout")}
 									className={getValidClassNames(styles["navigation__nav-item"])}
 									onClick={handleLogout}
-									type="button"
+									variant="unstyled"
 								>
 									{t("common.navigation.logout")}
-								</button>
+								</Button>
 							</li>
 						)}
 					</ul>
@@ -113,14 +113,14 @@ const Navigation: React.FC = () => {
 						</li>
 						{isAuthenticated && (
 							<li>
-								<button
+								<Button
 									aria-label={t("common.navigation.logout")}
 									className={getValidClassNames(styles["navigation__menu-item"])}
 									onClick={handleLogout}
-									type="button"
+									variant="unstyled"
 								>
 									{t("common.navigation.logout")}
-								</button>
+								</Button>{" "}
 							</li>
 						)}
 					</ul>
