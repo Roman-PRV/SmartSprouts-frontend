@@ -5,15 +5,16 @@ import styles from "./styles.module.css";
 
 const Header: React.FC = () => {
 	return (
-		<header
-			className={getValidClassNames(
-				styles["header"],
-				"flex items-center justify-between px-2 sm:px-4 lg:px-6 py-4"
-			)}
-		>
-			<Logo />
-			<div className="flex items-center gap-4">
+		<header className={getValidClassNames(styles["header"])}>
+			<div className={styles["header__nav"]}>
 				<Navigation />
+			</div>
+
+			<div className={styles["header__logo"]}>
+				<Logo />
+			</div>
+
+			<div className={styles["header__lang"]}>
 				<LanguageSwitcher />
 			</div>
 		</header>

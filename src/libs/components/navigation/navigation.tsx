@@ -32,110 +32,98 @@ const Navigation: React.FC = () => {
 
 	return (
 		<nav>
-			<div className="px-2 py-4 sm:px-4 lg:px-6">
-				<div className="flex items-center justify-between">
-					<button
-						aria-label={t("common.navigation.toggleMenu")}
-						className={getValidClassNames(styles["navigation__burger-button"], "sm:hidden")}
-						onClick={handleBurgerClick}
-						onKeyDown={handleKeyDownToggle}
-					>
-						{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
-					</button>
-					<ul className={getValidClassNames(styles["navigation__nav"], "hidden sm:flex")}>
+			<div className="flex items-center justify-between">
+				<button
+					aria-label={t("common.navigation.toggleMenu")}
+					className={getValidClassNames(styles["navigation__burger-button"])}
+					onClick={handleBurgerClick}
+					onKeyDown={handleKeyDownToggle}
+				>
+					{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
+				</button>
+				<ul className={getValidClassNames(styles["navigation__nav"])}>
+					<li>
+						<NavLink
+							className={getValidClassNames(styles["navigation__nav-item"])}
+							to={AppRoute.ROOT}
+						>
+							{t("common.navigation.home")}
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							className={getValidClassNames(styles["navigation__nav-item"])}
+							to={AppRoute.GAMES}
+						>
+							{t("common.navigation.games")}
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							className={getValidClassNames(styles["navigation__nav-item"])}
+							to={AppRoute.PROFILE}
+						>
+							{t("common.navigation.profile")}
+						</NavLink>
+					</li>
+					{isAuthenticated && (
 						<li>
-							<NavLink
+							<Button
+								aria-label={t("common.navigation.logout")}
 								className={getValidClassNames(styles["navigation__nav-item"])}
-								to={AppRoute.ROOT}
+								onClick={handleLogout}
+								variant="unstyled"
 							>
-								{t("common.navigation.home")}
-							</NavLink>
+								{t("common.navigation.logout")}
+							</Button>
 						</li>
-						<li>
-							<NavLink
-								className={getValidClassNames(styles["navigation__nav-item"])}
-								to={AppRoute.GAMES}
-							>
-								{t("common.navigation.games")}
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								className={getValidClassNames(styles["navigation__nav-item"])}
-								to={AppRoute.PROFILE}
-							>
-								{t("common.navigation.profile")}
-							</NavLink>
-						</li>
-						{isAuthenticated && (
-							<li>
-								<Button
-									aria-label={t("common.navigation.logout")}
-									className={getValidClassNames(styles["navigation__nav-item"])}
-									onClick={handleLogout}
-									variant="unstyled"
-								>
-									{t("common.navigation.logout")}
-								</Button>
-							</li>
-						)}
-					</ul>
-				</div>
-
-				{isOpen && (
-					<ul
-						className={getValidClassNames(
-							styles["navigation__menu"],
-							"sm:hidden",
-							"text-sm",
-							"flex",
-							"flex-col",
-							"items-end",
-							"gap-y-4"
-						)}
-					>
-						<li>
-							<NavLink
-								className={getValidClassNames(styles["navigation__menu-item"])}
-								onClick={handleBurgerClick}
-								to={AppRoute.ROOT}
-							>
-								{t("common.navigation.home")}
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								className={getValidClassNames(styles["navigation__menu-item"])}
-								onClick={handleBurgerClick}
-								to={AppRoute.GAMES}
-							>
-								{t("common.navigation.games")}
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								className={getValidClassNames(styles["navigation__menu-item"])}
-								onClick={handleBurgerClick}
-								to={AppRoute.PROFILE}
-							>
-								{t("common.navigation.profile")}
-							</NavLink>
-						</li>
-						{isAuthenticated && (
-							<li>
-								<Button
-									aria-label={t("common.navigation.logout")}
-									className={getValidClassNames(styles["navigation__menu-item"])}
-									onClick={handleLogout}
-									variant="unstyled"
-								>
-									{t("common.navigation.logout")}
-								</Button>
-							</li>
-						)}
-					</ul>
-				)}
+					)}
+				</ul>
 			</div>
+
+			{isOpen && (
+				<ul className={getValidClassNames(styles["navigation__menu"])}>
+					<li>
+						<NavLink
+							className={getValidClassNames(styles["navigation__menu-item"])}
+							onClick={handleBurgerClick}
+							to={AppRoute.ROOT}
+						>
+							{t("common.navigation.home")}
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							className={getValidClassNames(styles["navigation__menu-item"])}
+							onClick={handleBurgerClick}
+							to={AppRoute.GAMES}
+						>
+							{t("common.navigation.games")}
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							className={getValidClassNames(styles["navigation__menu-item"])}
+							onClick={handleBurgerClick}
+							to={AppRoute.PROFILE}
+						>
+							{t("common.navigation.profile")}
+						</NavLink>
+					</li>
+					{isAuthenticated && (
+						<li>
+							<Button
+								aria-label={t("common.navigation.logout")}
+								className={getValidClassNames(styles["navigation__menu-item"])}
+								onClick={handleLogout}
+								variant="unstyled"
+							>
+								{t("common.navigation.logout")}
+							</Button>
+						</li>
+					)}
+				</ul>
+			)}
 		</nav>
 	);
 };

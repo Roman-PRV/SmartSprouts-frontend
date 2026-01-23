@@ -8,6 +8,17 @@
 	background-color: var(--color-background-1);
 	color: var(--color-text-primary);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 1rem;
+	font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+	.navigation__menu {
+		display: none;
+	}
 }
 
 .navigation__menu-item {
@@ -27,9 +38,22 @@
 	color: var(--color-brand-hover);
 }
 
+@media (min-width: 640px) {
+	.navigation__burger-button {
+		display: none;
+	}
+}
+
 .navigation__nav {
+	display: none;
 	gap: 1.5rem;
 	font-size: 1rem;
+}
+
+@media (min-width: 640px) {
+	.navigation__nav {
+		display: flex;
+	}
 }
 
 .navigation__nav-item {

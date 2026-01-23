@@ -1,4 +1,3 @@
-
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useEffect, useId, useRef, useState } from "~/libs/hooks/hooks";
 
@@ -40,7 +39,9 @@ const Dropdown = <T extends number | string>({
 	const selectedIndex = options.findIndex((option) => option.value === value);
 
 	const handleToggle = useCallback(() => {
-		if (disabled) { return; }
+		if (disabled) {
+			return;
+		}
 
 		setIsOpen((previous) => !previous);
 		setFocusedIndex(Math.max(selectedIndex, FIRST_INDEX));
@@ -56,10 +57,7 @@ const Dropdown = <T extends number | string>({
 	);
 
 	const handleClickOutside = useCallback((event: MouseEvent) => {
-		if (
-			dropdownReference.current &&
-			!dropdownReference.current.contains(event.target as Node)
-		) {
+		if (dropdownReference.current && !dropdownReference.current.contains(event.target as Node)) {
 			setIsOpen(false);
 		}
 	}, []);
@@ -82,7 +80,9 @@ const Dropdown = <T extends number | string>({
 	}, [options.length]);
 
 	const moveFocusUp = useCallback(() => {
-		setFocusedIndex((previous) => (previous > FIRST_INDEX ? previous - INDEX_INCREMENT : FIRST_INDEX));
+		setFocusedIndex((previous) =>
+			previous > FIRST_INDEX ? previous - INDEX_INCREMENT : FIRST_INDEX
+		);
 	}, []);
 
 	const handleKeyDown = useCallback(
@@ -114,7 +114,12 @@ const Dropdown = <T extends number | string>({
 			};
 
 			switch (key) {
-			case " ": {
+			case " ":
+
+				// eslint-disable-next-line no-fallthrough
+			case "Enter": {
+				event.preventDefault();
+				openOrSelect();
 				break;
 			}
 
@@ -136,12 +141,6 @@ const Dropdown = <T extends number | string>({
 					setFocusedIndex(options.length - INDEX_INCREMENT);
 				}
 
-				break;
-			}
-
-			case "Enter": {
-				event.preventDefault();
-				openOrSelect();
 				break;
 			}
 
@@ -186,7 +185,9 @@ const Dropdown = <T extends number | string>({
 	);
 
 	useEffect(() => {
-		if (!isOpen) { return; }
+		if (!isOpen) {
+			return;
+		}
 
 		document.addEventListener("mousedown", handleClickOutside);
 
@@ -197,9 +198,7 @@ const Dropdown = <T extends number | string>({
 
 	useEffect(() => {
 		if (isOpen && focusedIndex >= FIRST_INDEX && menuReference.current) {
-			const focusedElement = menuReference.current.children[
-				focusedIndex
-			] as HTMLElement;
+			const focusedElement = menuReference.current.children[focusedIndex] as HTMLElement;
 			focusedElement.scrollIntoView({ block: "nearest" });
 		}
 	}, [isOpen, focusedIndex]);
@@ -211,16 +210,18 @@ const Dropdown = <T extends number | string>({
 		[handleSelect]
 	);
 
-	const handleMouseEnter = useCallback((index: number) => (): void => {
-		setFocusedIndex(index);
-	}, []);
+	const handleMouseEnter = useCallback(
+		(index: number) => (): void => {
+			setFocusedIndex(index);
+		},
+		[]
+	);
 
 	const uniqueId = useId();
+	const toggleId = `dropdown-toggle-${uniqueId}`;
 	const menuId = `dropdown-menu-${uniqueId}`;
 	const activeDescendantId =
-		isOpen && focusedIndex >= FIRST_INDEX
-			? `${menuId}-option-${String(focusedIndex)}`
-			: undefined;
+		isOpen && focusedIndex >= FIRST_INDEX ? `${menuId}-option-${String(focusedIndex)}` : undefined;
 
 	return (
 		<div
@@ -240,15 +241,14 @@ const Dropdown = <T extends number | string>({
 				aria-label={`Select option, current: ${selectedOption?.label ?? placeholder}`}
 				className={styles["dropdown__toggle"]}
 				disabled={disabled}
+				id={toggleId}
 				onClick={handleToggle}
 				onKeyDown={handleKeyDown}
 				ref={toggleButtonReference}
 				role="combobox"
 				type="button"
 			>
-				<span className={styles["dropdown__label"]}>
-					{selectedOption?.label ?? placeholder}
-				</span>
+				<span className={styles["dropdown__label"]}>{selectedOption?.label ?? placeholder}</span>
 				<span
 					aria-hidden="true"
 					className={getValidClassNames(
@@ -261,7 +261,7 @@ const Dropdown = <T extends number | string>({
 			</button>
 			{isOpen && (
 				<ul
-					aria-labelledby="dropdown-toggle"
+					aria-labelledby={toggleId}
 					className={styles["dropdown__menu"]}
 					id={menuId}
 					ref={menuReference}
@@ -294,4 +294,3 @@ const Dropdown = <T extends number | string>({
 
 export { Dropdown };
 export type { DropdownOption, Properties as DropdownProperties };
-
