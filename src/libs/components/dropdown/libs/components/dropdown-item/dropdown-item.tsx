@@ -1,10 +1,10 @@
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { memo, useCallback } from "~/libs/hooks/hooks";
+import { useCallback } from "~/libs/hooks/hooks";
 
 import { type DropdownItemProperties } from "../../types/dropdown-item-properties.type";
 import styles from "./styles.module.css";
 
-const DropdownItem = memo(function DropdownItem<T extends number | string>({
+const DropdownItem = <T extends number | string>({
 	id,
 	isActive,
 	isFocused,
@@ -13,12 +13,12 @@ const DropdownItem = memo(function DropdownItem<T extends number | string>({
 	onSelect,
 	option,
 	optionIndex,
-}: DropdownItemProperties<T>) {
-	const handleClick = useCallback(() => {
+}: DropdownItemProperties<T>): React.ReactElement => {
+	const handleClick = useCallback((): void => {
 		onSelect(option.value);
 	}, [onSelect, option.value]);
 
-	const handleMouseEnter = useCallback(() => {
+	const handleMouseEnter = useCallback((): void => {
 		onMouseEnter(optionIndex);
 	}, [onMouseEnter, optionIndex]);
 
@@ -40,7 +40,7 @@ const DropdownItem = memo(function DropdownItem<T extends number | string>({
 			{option.label}
 		</li>
 	);
-}) as <T extends number | string>(properties: DropdownItemProperties<T>) => React.ReactElement;
+};
 
 export { DropdownItem };
-export { type DropdownItemProperties } from "../../types/dropdown-item-properties.type";
+

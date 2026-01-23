@@ -1,7 +1,5 @@
-import React from "react";
-
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback, useEffect, useId, useRef, useState } from "~/libs/hooks/hooks";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "~/libs/hooks/hooks";
 
 import { DropdownItem } from "./libs/components/dropdown-item/dropdown-item";
 import { type DropdownOption } from "./libs/types/dropdown-option.type";
@@ -34,8 +32,13 @@ const Dropdown = <T extends number | string>({
 	const toggleButtonReference = useRef<HTMLButtonElement>(null);
 	const menuReference = useRef<HTMLUListElement>(null);
 
-	const selectedOption = options.find((option) => option.value === value);
-	const selectedIndex = options.findIndex((option) => option.value === value);
+	const selectedOption = useMemo(() => {
+		return options.find((option) => option.value === value);
+	}, [options, value]);
+
+	const selectedIndex = useMemo(() => {
+		return options.findIndex((option) => option.value === value);
+	}, [options, value]);
 
 	const handleToggle = useCallback(() => {
 		if (disabled) {
