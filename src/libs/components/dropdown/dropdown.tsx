@@ -1,7 +1,9 @@
+import { FIRST_INDEX } from "~/libs/constants/constants";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "~/libs/hooks/hooks";
 
 import { DropdownItem } from "./libs/components/dropdown-item/dropdown-item";
+import { INDEX_INCREMENT, INITIAL_FOCUSED_INDEX } from "./libs/constants/constants";
 import { type DropdownOption } from "./libs/types/dropdown-option.type";
 import styles from "./styles.module.css";
 
@@ -13,10 +15,6 @@ type Properties<T> = {
 	placeholder?: string;
 	value: T;
 };
-
-const INITIAL_FOCUSED_INDEX = -1;
-const FIRST_INDEX = 0;
-const INDEX_INCREMENT = 1;
 
 const Dropdown = <T extends number | string>({
 	className,
