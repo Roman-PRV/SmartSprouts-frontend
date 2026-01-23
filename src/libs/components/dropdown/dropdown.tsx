@@ -1,12 +1,11 @@
+import React from "react";
+
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useEffect, useId, useRef, useState } from "~/libs/hooks/hooks";
 
+import { DropdownItem } from "./libs/components/dropdown-item/dropdown-item";
+import { type DropdownOption } from "./libs/types/dropdown-option.type";
 import styles from "./styles.module.css";
-
-type DropdownOption<T> = {
-	readonly label: string;
-	readonly value: T;
-};
 
 type Properties<T> = {
 	className?: string;
@@ -203,20 +202,6 @@ const Dropdown = <T extends number | string>({
 		}
 	}, [isOpen, focusedIndex]);
 
-	const handleOptionClick = useCallback(
-		(optionValue: T) => (): void => {
-			handleSelect(optionValue);
-		},
-		[handleSelect]
-	);
-
-	const handleMouseEnter = useCallback(
-		(index: number) => (): void => {
-			setFocusedIndex(index);
-		},
-		[]
-	);
-
 	const uniqueId = useId();
 	const toggleId = `dropdown-toggle-${uniqueId}`;
 	const menuId = `dropdown-menu-${uniqueId}`;
@@ -268,23 +253,17 @@ const Dropdown = <T extends number | string>({
 					role="listbox"
 				>
 					{options.map((option, index) => (
-						<li
-							aria-selected={option.value === value}
-							className={getValidClassNames(
-								styles["dropdown__item"],
-								option.value === value && styles["dropdown__item--active"],
-								index === focusedIndex && styles["dropdown__item--focused"]
-							)}
+						<DropdownItem
 							id={`${menuId}-option-${String(index)}`}
+							isActive={option.value === value}
+							isFocused={index === focusedIndex}
 							key={option.value}
-							onClick={handleOptionClick(option.value)}
 							onKeyDown={handleKeyDown}
-							onMouseEnter={handleMouseEnter(index)}
-							role="option"
-							tabIndex={-1}
-						>
-							{option.label}
-						</li>
+							onMouseEnter={setFocusedIndex}
+							onSelect={handleSelect}
+							option={option}
+							optionIndex={index}
+						/>
 					))}
 				</ul>
 			)}
@@ -293,4 +272,3 @@ const Dropdown = <T extends number | string>({
 };
 
 export { Dropdown };
-export type { DropdownOption, Properties as DropdownProperties };

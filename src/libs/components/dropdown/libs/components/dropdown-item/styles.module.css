@@ -1,0 +1,27 @@
+.dropdown__item {
+	width: 100%;
+	padding: 8px 12px;
+	text-align: left;
+	background: none;
+	border: none;
+	border-radius: var(--border-radius-sm);
+	cursor: pointer;
+	font-size: var(--font-size-xs);
+	color: var(--color-text-primary);
+	transition: background-color 0.2s;
+}
+
+.dropdown__item:hover {
+	background-color: var(--color-background-light-gray);
+}
+
+.dropdown__item--active {
+	font-weight: 700;
+	color: var(--color-background-accent);
+}
+
+.dropdown__item--focused {
+	background-color: var(--color-background-light-gray);
+	outline: 2px solid var(--color-background-accent);
+	outline-offset: -2px;
+}
