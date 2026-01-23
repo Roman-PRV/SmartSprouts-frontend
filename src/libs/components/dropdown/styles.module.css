@@ -9,12 +9,13 @@
 	gap: 6px;
 	padding: 4px 8px;
 	font-weight: 600;
-	color: var(--color-text-primary);
+	color: var(--color-brand);
 	border-radius: var(--border-radius-md);
 	transition: background-color 0.2s;
 }
 
 .dropdown__toggle:hover {
+	color: var(--color-text-primary);
 	background-color: var(--color-background-light-gray);
 }
 
