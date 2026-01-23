@@ -1,11 +1,11 @@
-import { ContentType, NotificationMessage, ServerErrorType } from "~/libs/enums/enums.js";
-import { configureString } from "~/libs/helpers/helpers.js";
-import { getCurrentLocale } from "~/libs/modules/localization/localization.js";
-import { type Storage, StorageKey } from "~/libs/modules/storage/storage.js";
-import { type ServerErrorResponse, type ValueOf } from "~/libs/types/types.js";
+import { ContentType, NotificationMessage, ServerErrorType } from "~/libs/enums/enums";
+import { configureString } from "~/libs/helpers/helpers";
+import { getCurrentLocale } from "~/libs/modules/localization/localization";
+import { type Storage, StorageKey } from "~/libs/modules/storage/storage";
+import { type ServerErrorResponse, type ValueOf } from "~/libs/types/types";
 
-import { type HTTP, HTTPCode, HTTPError, HTTPHeader } from "../http/http.js";
-import { type HTTPApi, type HTTPApiOptions, type HTTPApiResponse } from "./libs/types/types.js";
+import { type HTTP, HTTPCode, HTTPError, HTTPHeader } from "../http/http";
+import { type HTTPApi, type HTTPApiOptions, type HTTPApiResponse } from "./libs/types/types";
 
 type Constructor = {
 	baseUrl: string;

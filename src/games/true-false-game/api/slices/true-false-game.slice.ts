@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { DataStatus } from "~/libs/enums/enums.js";
-import { type ValueOf } from "~/libs/types/types.js";
+import { DataStatus } from "~/libs/enums/enums";
+import { type ValueOf } from "~/libs/types/types";
 
 import { type TrueFalseGameLevelDto } from "../../libs/types/true-false-game-level-dto.type";
 import { getLevelById } from "./true-false-game-actions";

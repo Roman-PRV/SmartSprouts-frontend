@@ -1,5 +1,5 @@
-import { getAllGames, getById, getLevelsList } from "./actions.js";
-import { actions } from "./games.slice.js";
+import { getAllGames, getById, getLevelsList } from "./actions";
+import { actions } from "./games.slice";
 
 const allActions = {
 	...actions,
@@ -9,4 +9,4 @@ const allActions = {
 };
 
 export { allActions as actions };
-export { reducer } from "./games.slice.js";
+export { reducer } from "./games.slice";

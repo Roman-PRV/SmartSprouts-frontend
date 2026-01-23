@@ -1,3 +1,4 @@
+import { AppRoute } from "~/libs/enums/enums";
 import { useCallback, useNavigate, useTranslation } from "~/libs/hooks/hooks";
 import { AuthLayout, LoginForm } from "~/modules/auth/auth";
 
@@ -6,13 +7,13 @@ const LoginPage: React.FC = () => {
 	const { t } = useTranslation();
 
 	const handleLoginSuccess = useCallback((): void => {
-		void navigate("/");
+		void navigate(AppRoute.ROOT);
 	}, [navigate]);
 
 	return (
 		<AuthLayout
 			footerLinkText={t("auth.login.footerLinkText")}
-			footerLinkTo="/register"
+			footerLinkTo={AppRoute.REGISTER}
 			footerText={t("auth.login.footerText")}
 			subtitle={t("auth.login.subtitle")}
 			title={t("auth.login.title")}

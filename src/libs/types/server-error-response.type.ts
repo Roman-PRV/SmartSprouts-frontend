@@ -1,5 +1,5 @@
-import { type ServerErrorType } from "../enums/enums.js";
-import { type ServerErrorDetail } from "./server-error-detail.type.js";
+import { type ServerErrorType } from "../enums/enums";
+import { type ServerErrorDetail } from "./server-error-detail.type";
 
 type ServerCommonErrorResponse = {
 	errorType: typeof ServerErrorType.COMMON;

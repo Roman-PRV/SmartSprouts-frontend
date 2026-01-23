@@ -10,9 +10,9 @@ import {
 	trueFalseGameApi,
 	reducer as trueFalseGameReducer,
 } from "~/games/true-false-game/api/true-false-game";
-import { AppEnvironment } from "~/libs/enums/enums.js";
-import { type Config } from "~/libs/modules/config/config.js";
-import { storage } from "~/libs/modules/storage/storage.js";
+import { AppEnvironment } from "~/libs/enums/enums";
+import { type Config } from "~/libs/modules/config/config";
+import { storage } from "~/libs/modules/storage/storage";
 import { authApi, reducer as authReducer } from "~/modules/auth/auth";
 import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 

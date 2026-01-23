@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-import { useAppSelector } from "~/libs/hooks/hooks.js";
+import { AppRoute } from "~/libs/enums/enums";
+import { useAppSelector } from "~/libs/hooks/hooks";
 
 const ProtectedRoute: React.FC = () => {
 	const { isAuthenticated } = useAppSelector(({ auth }) => auth);
 
 	if (!isAuthenticated) {
-		return <Navigate replace to="/login" />;
+		return <Navigate replace to={AppRoute.LOGIN} />;
 	}
 
 	return <Outlet />;

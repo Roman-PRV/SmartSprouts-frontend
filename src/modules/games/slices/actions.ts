@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { normalizeError } from "~/libs/helpers/helpers.js";
+import { normalizeError } from "~/libs/helpers/helpers";
 import {
 	type AsyncThunkConfig,
 	type GameDescriptionDto,
 	type LevelDescriptionDto,
-} from "~/libs/types/types.js";
+} from "~/libs/types/types";
 
-import { name as sliceName } from "./games.slice.js";
+import { name as sliceName } from "./games.slice";
 
 const getAllGames = createAsyncThunk<GameDescriptionDto[], undefined, AsyncThunkConfig>(
 	`${sliceName}/get-all-games`,

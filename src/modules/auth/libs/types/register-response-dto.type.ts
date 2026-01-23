@@ -1,4 +1,4 @@
-import { type User } from "./user.type.js";
+import { type User } from "./user.type";
 
 type RegisterResponseDto = {
 	access_token: string;

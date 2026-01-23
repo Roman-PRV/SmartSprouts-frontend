@@ -1,6 +1,6 @@
-import { type IconName } from "~/libs/types/types.js";
+import { type IconName } from "~/libs/types/types";
 
-import { iconNameToSvg } from "./libs/maps/maps.js";
+import { iconNameToSvg } from "./libs/maps/maps";
 
 type Properties = {
 	className?: string | undefined;

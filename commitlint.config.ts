@@ -1,6 +1,6 @@
 import { RuleConfigSeverity, type UserConfig } from "@commitlint/types";
 
-import { ProjectPrefix } from "./project.config.js";
+import { ProjectPrefix } from "./project.config";
 
 const config: UserConfig = {
 	extends: ["@commitlint/config-conventional"],

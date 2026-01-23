@@ -1,6 +1,6 @@
-import { config } from "~/libs/modules/config/config.js";
-import { http } from "~/libs/modules/http/http.js";
-import { storage } from "~/libs/modules/storage/storage.js";
+import { config } from "~/libs/modules/config/config";
+import { http } from "~/libs/modules/http/http";
+import { storage } from "~/libs/modules/storage/storage";
 
 import { TrueFalseGameApi } from "./true-false-game-api";
 

@@ -1,4 +1,4 @@
-import { type store } from "~/libs/modules/store/store.js";
+import { type store } from "~/libs/modules/store/store";
 
 type AsyncThunkConfig = {
 	dispatch: typeof store.instance.dispatch;

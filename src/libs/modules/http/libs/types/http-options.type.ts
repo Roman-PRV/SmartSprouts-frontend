@@ -1,5 +1,5 @@
-import { type ValueOf } from "../../../../types/types.js";
-import { type HTTPMethod } from "../enums/enums.js";
+import { type ValueOf } from "../../../../types/types";
+import { type HTTPMethod } from "../enums/enums";
 
 type HTTPOptions = {
 	headers: Headers;
