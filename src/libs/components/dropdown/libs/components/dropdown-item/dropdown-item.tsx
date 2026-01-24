@@ -1,8 +1,19 @@
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback } from "~/libs/hooks/hooks";
 
-import { type DropdownItemProperties } from "../../types/dropdown-item-properties.type";
+import { type DropdownOption } from "./dropdown-option.type";
 import styles from "./styles.module.css";
+
+type DropdownItemProperties<T> = {
+	id: string;
+	isActive: boolean;
+	isFocused: boolean;
+	onKeyDown: (event: React.KeyboardEvent) => void;
+	onMouseEnter: (index: number) => void;
+	onSelect: (value: T) => void;
+	option: DropdownOption<T>;
+	optionIndex: number;
+};
 
 const DropdownItem = <T extends number | string>({
 	id,

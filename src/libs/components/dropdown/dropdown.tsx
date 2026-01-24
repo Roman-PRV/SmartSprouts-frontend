@@ -3,8 +3,8 @@ import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "~/libs/hooks/hooks";
 
 import { DropdownItem } from "./libs/components/dropdown-item/dropdown-item";
+import { type DropdownOption } from "./libs/components/dropdown-item/dropdown-option.type";
 import { INDEX_INCREMENT, INITIAL_FOCUSED_INDEX } from "./libs/constants/constants";
-import { type DropdownOption } from "./libs/types/dropdown-option.type";
 import styles from "./styles.module.css";
 
 type Properties<T> = {
