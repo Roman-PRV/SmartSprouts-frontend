@@ -16,10 +16,6 @@ const options = [
 ];
 
 describe("Dropdown", () => {
-	beforeEach(() => {
-		window.HTMLElement.prototype.scrollIntoView = vi.fn();
-	});
-
 	afterEach(() => {
 		cleanup();
 	});
