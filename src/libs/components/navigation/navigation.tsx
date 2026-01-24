@@ -34,8 +34,11 @@ const Navigation: React.FC = () => {
 		<nav>
 			<div className="flex items-center justify-between">
 				<button
+					aria-controls="mobile-menu"
+					aria-expanded={isOpen}
 					aria-label={t("common.navigation.toggleMenu")}
 					className={getValidClassNames(styles["navigation__burger-button"])}
+					id="burger-button"
 					onClick={handleBurgerClick}
 					onKeyDown={handleKeyDownToggle}
 				>
@@ -82,7 +85,12 @@ const Navigation: React.FC = () => {
 			</div>
 
 			{isOpen && (
-				<ul className={getValidClassNames(styles["navigation__menu"])}>
+				<ul
+					aria-labelledby="burger-button"
+					className={getValidClassNames(styles["navigation__menu"])}
+					id="mobile-menu"
+					role="navigation"
+				>
 					<li>
 						<NavLink
 							className={getValidClassNames(styles["navigation__menu-item"])}

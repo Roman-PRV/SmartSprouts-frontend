@@ -121,7 +121,9 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
 			const logoutButton = within(mobileMenu).getByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
@@ -138,7 +140,9 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
 			const logoutButton = within(mobileMenu).queryByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
@@ -171,7 +175,9 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
 			const logoutButton = within(mobileMenu).getByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
@@ -193,7 +199,9 @@ describe("Navigation", () => {
 			await user.click(burgerButton);
 
 			// Menu should be open
-			let mobileMenu: HTMLElement | undefined = screen.queryAllByRole("list")[1];
+			let mobileMenu: HTMLElement | null = screen.queryByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
 			expect(mobileMenu).toBeInTheDocument();
 
 			const logoutButton = within(mobileMenu!).getByRole("button", {
@@ -202,8 +210,10 @@ describe("Navigation", () => {
 			await user.click(logoutButton);
 
 			// Menu should be closed after logout
-			mobileMenu = screen.queryAllByRole("list")[1];
-			expect(mobileMenu).toBeUndefined();
+			mobileMenu = screen.queryByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			expect(mobileMenu).toBeNull();
 		});
 	});
 
@@ -217,12 +227,16 @@ describe("Navigation", () => {
 			});
 
 			// Initially menu should be closed
-			expect(screen.queryAllByRole("list")).toHaveLength(1);
+			expect(screen.queryByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			})).toBeNull();
 
 			await user.click(burgerButton);
 
 			// After click, menu should be open
-			expect(screen.queryAllByRole("list")).toHaveLength(2);
+			expect(screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			})).toBeInTheDocument();
 		});
 
 		it("closes mobile menu when burger button is clicked again", async () => {
@@ -235,11 +249,15 @@ describe("Navigation", () => {
 
 			// Open menu
 			await user.click(burgerButton);
-			expect(screen.queryAllByRole("list")).toHaveLength(2);
+			expect(screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			})).toBeInTheDocument();
 
 			// Close menu
 			await user.click(burgerButton);
-			expect(screen.queryAllByRole("list")).toHaveLength(1);
+			expect(screen.queryByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			})).toBeNull();
 		});
 
 	});
@@ -265,7 +283,9 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
 			const logoutButton = within(mobileMenu).getByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
@@ -281,6 +301,54 @@ describe("Navigation", () => {
 			});
 
 			expect(burgerButton).toHaveAttribute("aria-label", i18n.t("common.navigation.toggleMenu"));
+		});
+
+		it("has correct aria-expanded attribute on burger menu button", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+
+			// Initially closed
+			expect(burgerButton).toHaveAttribute("aria-expanded", "false");
+
+			// Open menu
+			await user.click(burgerButton);
+			expect(burgerButton).toHaveAttribute("aria-expanded", "true");
+
+			// Close menu
+			await user.click(burgerButton);
+			expect(burgerButton).toHaveAttribute("aria-expanded", "false");
+		});
+
+		it("has correct aria-controls and id on burger menu button", () => {
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+
+			expect(burgerButton).toHaveAttribute("aria-controls", "mobile-menu");
+			expect(burgerButton).toHaveAttribute("id", "burger-button");
+		});
+
+		it("has correct accessibility attributes on mobile menu when open", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			expect(mobileMenu).toHaveAttribute("id", "mobile-menu");
+			expect(mobileMenu).toHaveAttribute("aria-labelledby", "burger-button");
 		});
 	});
 });
