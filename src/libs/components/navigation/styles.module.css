@@ -64,3 +64,11 @@
 .navigation__nav-item:hover {
 	color: var(--color-brand-hover);
 }
+
+.navigation__burger-button:focus-visible,
+.navigation__nav-item:focus-visible,
+.navigation__menu-item:focus-visible {
+	outline: 2px solid var(--color-background-accent);
+	outline-offset: 4px;
+	border-radius: var(--border-radius-sm);
+}

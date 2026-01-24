@@ -19,6 +19,11 @@
 	background-color: var(--color-background-light-gray);
 }
 
+.dropdown__toggle:focus-visible {
+	outline: 2px solid var(--color-background-accent);
+	outline-offset: 2px;
+}
+
 .dropdown__label {
 	font-size: var(--font-size-xs);
 	text-transform: uppercase;
