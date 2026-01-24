@@ -31,7 +31,7 @@ const Navigation: React.FC = () => {
 	);
 
 	return (
-		<nav>
+		<nav className={getValidClassNames(styles["navigation"])}>
 			<div className="flex items-center justify-between">
 				<button
 					aria-controls="mobile-menu"
