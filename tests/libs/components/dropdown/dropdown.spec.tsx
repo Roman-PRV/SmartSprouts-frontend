@@ -305,6 +305,41 @@ describe("Dropdown", () => {
 			await user.click(toggle);
 			expect(toggle).toHaveAttribute("aria-expanded", "false");
 		});
+
+		it("updates aria-haspopup based on menuRole", () => {
+			const onSelect = vi.fn();
+			const { rerender } = render(
+				<Dropdown
+					menuRole="listbox"
+					onSelect={onSelect}
+					options={options}
+					value="val1"
+				/>
+			);
+
+			const toggle = screen.getByRole("combobox");
+			expect(toggle).toHaveAttribute("aria-haspopup", "listbox");
+
+			rerender(
+				<Dropdown
+					menuRole="menu"
+					onSelect={onSelect}
+					options={options}
+					value="val1"
+				/>
+			);
+			expect(toggle).toHaveAttribute("aria-haspopup", "menu");
+
+			rerender(
+				<Dropdown
+					menuRole="navigation"
+					onSelect={onSelect}
+					options={options}
+					value="val1"
+				/>
+			);
+			expect(toggle).toHaveAttribute("aria-haspopup", "true");
+		});
 	});
 
 	describe("Disabled State", () => {

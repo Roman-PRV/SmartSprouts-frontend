@@ -1,4 +1,9 @@
 import { vi } from "vitest";
 
-Object.defineProperty(navigator, "onLine", { configurable: true, value: true });
-Element.prototype.scrollIntoView = vi.fn();
+if (typeof navigator !== "undefined") {
+    Object.defineProperty(navigator, "onLine", { configurable: true, value: true });
+}
+
+if (typeof Element !== "undefined") {
+    Element.prototype.scrollIntoView = vi.fn();
+}
