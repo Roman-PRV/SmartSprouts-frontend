@@ -10,18 +10,41 @@ import styles from "./styles.module.css";
 type Properties<T> = {
 	className?: string;
 	disabled?: boolean;
+	itemClassName?: string;
+	menuClassName?: string;
 	onSelect: (value: T) => void;
 	options: DropdownOption<T>[];
 	placeholder?: string;
+	renderToggle?: (properties: RenderToggleProperties) => React.ReactElement;
 	value: T;
+};
+
+type RenderToggleProperties = {
+	"aria-activedescendant"?: string | undefined;
+	"aria-controls": string;
+	"aria-disabled": boolean;
+	"aria-expanded": boolean;
+	"aria-haspopup": "listbox";
+	"aria-label": string;
+	disabled: boolean;
+	id: string;
+	isOpen: boolean;
+	onClick: () => void;
+	onKeyDown: (event: React.KeyboardEvent) => void;
+	ref: React.Ref<HTMLButtonElement>;
+	role: "combobox";
+	type: "button";
 };
 
 const Dropdown = <T extends number | string>({
 	className,
 	disabled = false,
+	itemClassName,
+	menuClassName,
 	onSelect,
 	options,
 	placeholder = "Select option",
+	renderToggle,
 	value,
 }: Properties<T>): React.ReactElement => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -218,43 +241,63 @@ const Dropdown = <T extends number | string>({
 			)}
 			ref={dropdownReference}
 		>
-			<button
-				aria-activedescendant={activeDescendantId}
-				aria-controls={menuId}
-				aria-disabled={disabled}
-				aria-expanded={isOpen}
-				aria-haspopup="listbox"
-				aria-label={`Select option, current: ${selectedOption?.label ?? placeholder}`}
-				className={styles["dropdown__toggle"]}
-				disabled={disabled}
-				id={toggleId}
-				onClick={handleToggle}
-				onKeyDown={handleKeyDown}
-				ref={toggleButtonReference}
-				role="combobox"
-				type="button"
-			>
-				<span className={styles["dropdown__label"]}>{selectedOption?.label ?? placeholder}</span>
-				<span
-					aria-hidden="true"
-					className={getValidClassNames(
-						styles["dropdown__arrow"],
-						isOpen && styles["dropdown__arrow--open"]
-					)}
+			{renderToggle ? (
+				renderToggle({
+					"aria-activedescendant": activeDescendantId,
+					"aria-controls": menuId,
+					"aria-disabled": disabled,
+					"aria-expanded": isOpen,
+					"aria-haspopup": "listbox",
+					"aria-label": `Select option, current: ${selectedOption?.label ?? placeholder}`,
+					disabled: disabled,
+					id: toggleId,
+					isOpen: isOpen,
+					onClick: handleToggle,
+					onKeyDown: handleKeyDown,
+					ref: toggleButtonReference,
+					role: "combobox",
+					type: "button",
+				})
+			) : (
+				<button
+					aria-activedescendant={activeDescendantId}
+					aria-controls={menuId}
+					aria-disabled={disabled}
+					aria-expanded={isOpen}
+					aria-haspopup="listbox"
+					aria-label={`Select option, current: ${selectedOption?.label ?? placeholder}`}
+					className={styles["dropdown__toggle"]}
+					disabled={disabled}
+					id={toggleId}
+					onClick={handleToggle}
+					onKeyDown={handleKeyDown}
+					ref={toggleButtonReference}
+					role="combobox"
+					type="button"
 				>
-					▼
-				</span>
-			</button>
+					<span className={styles["dropdown__label"]}>{selectedOption?.label ?? placeholder}</span>
+					<span
+						aria-hidden="true"
+						className={getValidClassNames(
+							styles["dropdown__arrow"],
+							isOpen && styles["dropdown__arrow--open"]
+						)}
+					>
+						▼
+					</span>
+				</button>
+			)}
 			{isOpen && (
 				<ul
 					aria-labelledby={toggleId}
-					className={styles["dropdown__menu"]}
+					className={getValidClassNames(styles["dropdown__menu"], menuClassName)}
 					id={menuId}
 					ref={menuReference}
 					role="listbox"
 				>
 					{options.map((option, index) => (
 						<DropdownItem
+							className={itemClassName}
 							id={`${menuId}-option-${String(index)}`}
 							isActive={option.value === value}
 							isFocused={index === focusedIndex}

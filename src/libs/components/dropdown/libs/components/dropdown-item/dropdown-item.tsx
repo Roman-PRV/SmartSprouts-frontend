@@ -5,6 +5,7 @@ import { type DropdownOption } from "./dropdown-option.type";
 import styles from "./styles.module.css";
 
 type DropdownItemProperties<T> = {
+	className?: string | undefined;
 	id: string;
 	isActive: boolean;
 	isFocused: boolean;
@@ -16,6 +17,7 @@ type DropdownItemProperties<T> = {
 };
 
 const DropdownItem = <T extends number | string>({
+	className,
 	id,
 	isActive,
 	isFocused,
@@ -39,7 +41,8 @@ const DropdownItem = <T extends number | string>({
 			className={getValidClassNames(
 				styles["dropdown__item"],
 				isActive && styles["dropdown__item--active"],
-				isFocused && styles["dropdown__item--focused"]
+				isFocused && styles["dropdown__item--focused"],
+				className
 			)}
 			id={id}
 			onClick={handleClick}

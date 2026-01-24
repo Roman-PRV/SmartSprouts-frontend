@@ -1,49 +1,90 @@
-import { Button, Icon, NavLink } from "~/libs/components/components";
+import type { DropdownOption } from "~/libs/components/dropdown/dropdown";
+
+import { Button, Dropdown, Icon, NavLink } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppSelector, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
+import {
+	useAppSelector,
+	useCallback,
+	useMemo,
+	useNavigate,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
 
 import styles from "./styles.module.css";
+
+const LOGOUT_OPTION = "logout";
 
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
 	const { isAuthenticated } = useAppSelector((state) => state.auth);
 	const { logout } = useLogout();
-	const [isOpen, setIsOpen] = useState(false);
-
-	const handleBurgerClick = useCallback((): void => {
-		setIsOpen((previous) => !previous);
-	}, []);
+	const navigate = useNavigate();
 
 	const handleLogout = useCallback((): void => {
-		setIsOpen(false);
 		void logout();
 	}, [logout]);
 
-	const handleKeyDownToggle = useCallback(
-		(event: React.KeyboardEvent): void => {
-			if (event.key === "Enter" || event.key === " ") {
-				handleBurgerClick();
+	const navigationOptions = useMemo<DropdownOption<string>[]>(() => {
+		const options: DropdownOption<string>[] = [
+			{ label: t("common.navigation.home"), value: AppRoute.ROOT },
+			{ label: t("common.navigation.games"), value: AppRoute.GAMES },
+			{ label: t("common.navigation.profile"), value: AppRoute.PROFILE },
+		];
+
+		if (isAuthenticated) {
+			options.push({ label: t("common.navigation.logout"), value: LOGOUT_OPTION });
+		}
+
+		return options;
+	}, [t, isAuthenticated]);
+
+	const handleMobileMenuSelect = useCallback(
+		(value: string): void => {
+			if (value === LOGOUT_OPTION) {
+				handleLogout();
+			} else {
+				void navigate(value);
 			}
 		},
-		[handleBurgerClick]
+		[handleLogout, navigate]
+	);
+
+	const renderToggle = useCallback(
+		(properties: {
+			isOpen: boolean;
+			onClick: () => void;
+			onKeyDown: (event: React.KeyboardEvent) => void;
+			ref: React.Ref<HTMLButtonElement>;
+		}) => {
+			const { isOpen, ...buttonProperties } = properties;
+
+			return (
+				<button
+					{...buttonProperties}
+					aria-label={t("common.navigation.menu")}
+					className={getValidClassNames(styles["navigation__burger-button"])}
+				>
+					{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
+				</button>
+			);
+		},
+		[t]
 	);
 
 	return (
 		<nav className={getValidClassNames(styles["navigation"])}>
 			<div className="flex items-center justify-between">
-				<button
-					aria-controls="mobile-menu"
-					aria-expanded={isOpen}
-					aria-label={t("common.navigation.toggleMenu")}
-					className={getValidClassNames(styles["navigation__burger-button"])}
-					id="burger-button"
-					onClick={handleBurgerClick}
-					onKeyDown={handleKeyDownToggle}
-				>
-					{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
-				</button>
+				<Dropdown
+					className={getValidClassNames(styles["navigation__mobile-dropdown"])}
+					itemClassName={getValidClassNames(styles["navigation__mobile-menu-item"])}
+					menuClassName={getValidClassNames(styles["navigation__mobile-menu"])}
+					onSelect={handleMobileMenuSelect}
+					options={navigationOptions}
+					renderToggle={renderToggle}
+					value=""
+				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
 					<li>
 						<NavLink
@@ -83,55 +124,6 @@ const Navigation: React.FC = () => {
 					)}
 				</ul>
 			</div>
-
-			{isOpen && (
-				<ul
-					aria-labelledby="burger-button"
-					className={getValidClassNames(styles["navigation__menu"])}
-					id="mobile-menu"
-					role="navigation"
-				>
-					<li>
-						<NavLink
-							className={getValidClassNames(styles["navigation__menu-item"])}
-							onClick={handleBurgerClick}
-							to={AppRoute.ROOT}
-						>
-							{t("common.navigation.home")}
-						</NavLink>
-					</li>
-					<li>
-						<NavLink
-							className={getValidClassNames(styles["navigation__menu-item"])}
-							onClick={handleBurgerClick}
-							to={AppRoute.GAMES}
-						>
-							{t("common.navigation.games")}
-						</NavLink>
-					</li>
-					<li>
-						<NavLink
-							className={getValidClassNames(styles["navigation__menu-item"])}
-							onClick={handleBurgerClick}
-							to={AppRoute.PROFILE}
-						>
-							{t("common.navigation.profile")}
-						</NavLink>
-					</li>
-					{isAuthenticated && (
-						<li>
-							<Button
-								aria-label={t("common.navigation.logout")}
-								className={getValidClassNames(styles["navigation__menu-item"])}
-								onClick={handleLogout}
-								variant="unstyled"
-							>
-								{t("common.navigation.logout")}
-							</Button>
-						</li>
-					)}
-				</ul>
-			)}
 		</nav>
 	);
 };
