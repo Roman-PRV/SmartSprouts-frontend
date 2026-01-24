@@ -1,0 +1,350 @@
+﻿
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mD:/Coding/pet-project/SmartSprouts-frontend[39m
+
+ [31mÔØ»[39m tests/libs/components/dropdown/dropdown.spec.tsx [2m([22m[2m16 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[33m 853[2mms[22m[39m
+   [32mÔ£ô[39m Dropdown[2m > [22mRendering[2m > [22mrenders with placeholder when no value is selected[32m 36[2mms[22m[39m
+   [32mÔ£ô[39m Dropdown[2m > [22mRendering[2m > [22mrenders selected option label[32m 6[2mms[22m[39m
+   [32mÔ£ô[39m Dropdown[2m > [22mRendering[2m > [22mhandles numeric values[32m 5[2mms[22m[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mOpen/Close Behavior[2m > [22mopens menu on click[39m[32m 151[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mOpen/Close Behavior[2m > [22mcloses menu on second click[39m[32m 87[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mOpen/Close Behavior[2m > [22mcloses menu on click outside[39m[32m 62[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mSelection Behavior[2m > [22mcalls onSelect and closes menu when option is clicked[39m[32m 44[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mKeyboard Navigation[2m > [22mnavigates with ArrowDown/ArrowUp[39m[32m 62[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mKeyboard Navigation[2m > [22mselects focused option with Enter[39m[32m 46[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mKeyboard Navigation[2m > [22mcloses menu with Escape and focuses toggle[39m[32m 41[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mKeyboard Navigation[2m > [22mjumps to Home and End[39m[32m 68[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mKeyboard Navigation[2m > [22mopens menu with ArrowDown/ArrowUp/Space/Enter when closed[39m[32m 46[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+   [32mÔ£ô[39m Dropdown[2m > [22mAccessibility[2m > [22mhas correct roles and attributes[32m 24[2mms[22m[39m
+[31m   [31m├ù[31m Dropdown[2m > [22mAccessibility[2m > [22mupdates aria-expanded when menu opens/closes[39m[32m 42[2mms[22m[39m
+[31m     ÔåÆ focusedElement.scrollIntoView is not a function[39m
+   [32mÔ£ô[39m Dropdown[2m > [22mDisabled State[2m > [22mdoes not open menu when disabled[32m 84[2mms[22m[39m
+   [32mÔ£ô[39m Dropdown[2m > [22mDisabled State[2m > [22mdoes not respond to keyboard when disabled[32m 45[2mms[22m[39m
+node.exe : 
+At C:\nvm4w\nodejs\npx
+.ps1:29 char:3
++   & $NODE_EXE 
+$NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (:String) [   
+ ], RemoteExceptio    
+n
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+[31mÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ
+»[39m[1m[41m 
+Failed Tests 10 [49m
+[22m[31mÔÄ»ÔÄ»ÔÄ»ÔÄ»Ô
+Ä»ÔÄ»ÔÄ»[39m
+
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mOpen/Close 
+Behavior[2m > 
+[22mopens menu on 
+click
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mOpen/Close 
+Behavior[2m > 
+[22mcloses menu on 
+second click
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mSelection 
+Behavior[2m > 
+[22mcalls onSelect 
+and closes menu when 
+option is clicked
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mKeyboard 
+Navigation[2m > 
+[22mnavigates with 
+ArrowDown/ArrowUp
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mKeyboard 
+Navigation[2m > 
+[22mselects focused 
+option with Enter
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mKeyboard 
+Navigation[2m > 
+[22mcloses menu with 
+Escape and focuses 
+toggle
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mKeyboard 
+Navigation[2m > 
+[22mjumps to Home 
+and End
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mKeyboard 
+Navigation[2m > 
+[22mopens menu with A
+rrowDown/ArrowUp/Space
+/Enter when closed
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > [
+22mAccessibility[2m 
+> [22mupdates 
+aria-expanded when 
+menu opens/closes
+[31m[1mTypeError[22
+m: focusedElement.scro
+llIntoView is not a 
+function[39m
+[36m [2mÔØ»[22m src
+/libs/components/dropd
+own/dropdown.tsx:[2m2
+02:19[22m[39m
+    [90m200| [39m  
+[35mif[39m (isOpen 
+[33m&&[39m 
+focusedIndex 
+[33m>=[39m 
+[33mFIRST_INDEX[39m 
+[33m&&[39m menuRefer
+ence[33m.[39mcurrent
+) {
+    [90m201| [39m   
+const focusedElement 
+= menuReference.curren
+t.children[focusedInde
+x]ÔÇª
+    [90m202| [39m   
+focusedElement[33m.[
+39m[34mscrollIntoView
+[39m({ 
+block[33m:[39m 
+[32m"nearest"[39m 
+})[33m;[39m
+    [90m   | [39m   
+               
+[31m^[39m
+    [90m203| [39m  }
+    [90m204| [39m 
+}[33m,[39m 
+[isOpen[33m,[39m foc
+usedIndex])[33m;[39m
+[90m [2mÔØ»[22m Obj
+ect.react_stack_bottom
+_frame node_modules/re
+act-dom/cjs/react-dom-
+client.development.js:
+[2m25989:20[22m[39m
+[90m [2mÔØ»[22m 
+runWithFiberInDEV node
+_modules/react-dom/cjs
+/react-dom-client.deve
+lopment.js:[2m874:13
+[22m[39m
+[90m [2mÔØ»[22m com
+mitHookEffectListMount
+ node_modules/react-do
+m/cjs/react-dom-client
+.development.js:[2m13
+249:29[22m[39m
+[90m [2mÔØ»[22m com
+mitHookPassiveMountEff
+ects node_modules/reac
+t-dom/cjs/react-dom-cl
+ient.development.js:[
+2m13336:11[22m[39m
+[90m [2mÔØ»[22m com
+mitPassiveMountOnFiber
+ node_modules/react-do
+m/cjs/react-dom-client
+.development.js:[2m15
+484:13[22m[39m
+[90m [2mÔØ»[22m rec
+ursivelyTraversePassiv
+eMountEffects node_mod
+ules/react-dom/cjs/rea
+ct-dom-client.developm
+ent.js:[2m15439:11[2
+2m[39m
+[90m [2mÔØ»[22m com
+mitPassiveMountOnFiber
+ node_modules/react-do
+m/cjs/react-dom-client
+.development.js:[2m15
+519:11[22m[39m
+[90m [2mÔØ»[22m 
+flushPassiveEffects no
+de_modules/react-dom/c
+js/react-dom-client.de
+velopment.js:[2m18432
+:9[22m[39m
+[90m [2mÔØ»[22m 
+flushPendingEffects no
+de_modules/react-dom/c
+js/react-dom-client.de
+velopment.js:[2m18358
+:14[22m[39m
+
+[31m[2mÔÄ»ÔÄ»ÔÄ»ÔÄ»Ô
+Ä»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ
+»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»[1/10]ÔÄ»
+[22m[39m
+
+[41m[1m FAIL 
+[22m[49m tests/libs/
+components/dropdown/dr
+opdown.spec.tsx[2m > 
+[22mDropdown[2m > 
+[22mOpen/Close 
+Behavior[2m > 
+[22mcloses menu on 
+click outside
+[31m[1mTypeError[22
+m: focusedElement.scro
+llIntoView is not a 
+function[39m
+[36m [2mÔØ»[22m src
+/libs/components/dropd
+own/dropdown.tsx:[2m2
+02:19[22m[39m
+    [90m200| [39m  
+[35mif[39m (isOpen 
+[33m&&[39m 
+focusedIndex 
+[33m>=[39m 
+[33mFIRST_INDEX[39m 
+[33m&&[39m menuRefer
+ence[33m.[39mcurrent
+) {
+    [90m201| [39m   
+const focusedElement 
+= menuReference.curren
+t.children[focusedInde
+x]ÔÇª
+    [90m202| [39m   
+focusedElement[33m.[
+39m[34mscrollIntoView
+[39m({ 
+block[33m:[39m 
+[32m"nearest"[39m 
+})[33m;[39m
+    [90m   | [39m   
+               
+[31m^[39m
+    [90m203| [39m  }
+    [90m204| [39m 
+}[33m,[39m 
+[isOpen[33m,[39m foc
+usedIndex])[33m;[39m
+[90m [2mÔØ»[22m Obj
+ect.react_stack_bottom
+_frame node_modules/re
+act-dom/cjs/react-dom-
+client.development.js:
+[2m25989:20[22m[39m
+[90m [2mÔØ»[22m 
+runWithFiberInDEV node
+_modules/react-dom/cjs
+/react-dom-client.deve
+lopment.js:[2m874:13
+[22m[39m
+[90m [2mÔØ»[22m com
+mitHookEffectListMount
+ node_modules/react-do
+m/cjs/react-dom-client
+.development.js:[2m13
+249:29[22m[39m
+[90m [2mÔØ»[22m com
+mitHookPassiveMountEff
+ects node_modules/reac
+t-dom/cjs/react-dom-cl
+ient.development.js:[
+2m13336:11[22m[39m
+[90m [2mÔØ»[22m com
+mitPassiveMountOnFiber
+ node_modules/react-do
+m/cjs/react-dom-client
+.development.js:[2m15
+484:13[22m[39m
+[90m [2mÔØ»[22m rec
+ursivelyTraversePassiv
+eMountEffects node_mod
+ules/react-dom/cjs/rea
+ct-dom-client.developm
+ent.js:[2m15439:11[2
+2m[39m
+[90m [2mÔØ»[22m com
+mitPassiveMountOnFiber
+ node_modules/react-do
+m/cjs/react-dom-client
+.development.js:[2m15
+718:11[22m[39m
+[90m [2mÔØ»[22m rec
+ursivelyTraversePassiv
+eMountEffects node_mod
+ules/react-dom/cjs/rea
+ct-dom-client.developm
+ent.js:[2m15439:11[2
+2m[39m
+[90m [2mÔØ»[22m com
+mitPassiveMountOnFiber
+ node_modules/react-do
+m/cjs/react-dom-client
+.development.js:[2m15
+519:11[22m[39m
+
+[31m[2mÔÄ»ÔÄ»ÔÄ»ÔÄ»Ô
+Ä»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ
+»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»[2/10]ÔÄ»
+[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m10 failed[39m[22m[2m | [22m[1m[32m6 passed[39m[22m[90m (16)[39m
+[2m   Start at [22m 13:59:19
+[2m   Duration [22m 2.91s[2m (transform 248ms, setup 13ms, collect 790ms, tests 853ms, environment 833ms, prepare 160ms)[22m
+
