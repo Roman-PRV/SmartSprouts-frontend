@@ -1,4 +1,4 @@
-import { useCallback } from "~/libs/hooks/hooks";
+import { useCallback, useMemo } from "~/libs/hooks/hooks";
 import { Language, useLanguageSwitcher } from "~/libs/modules/localization/localization";
 
 import { Dropdown } from "../components";
@@ -23,10 +23,14 @@ const LanguageSwitcher: React.FC = () => {
 		[changeLanguage]
 	);
 
-	const options = availableLanguages.map((language) => ({
-		label: getLanguageLabel(language),
-		value: language,
-	}));
+	const options = useMemo(
+		() =>
+			availableLanguages.map((language) => ({
+				label: getLanguageLabel(language),
+				value: language,
+			})),
+		[availableLanguages]
+	);
 
 	return <Dropdown onSelect={handleLanguageChange} options={options} value={currentLanguage} />;
 };
