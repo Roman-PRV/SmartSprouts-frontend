@@ -124,7 +124,7 @@ describe("Navigation", () => {
 			const mobileMenu = screen.getByRole("navigation", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).getByRole("button", {
+			const logoutButton = within(mobileMenu).getByRole("option", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -143,7 +143,7 @@ describe("Navigation", () => {
 			const mobileMenu = screen.getByRole("navigation", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).queryByRole("button", {
+			const logoutButton = within(mobileMenu).queryByRole("option", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -178,7 +178,7 @@ describe("Navigation", () => {
 			const mobileMenu = screen.getByRole("navigation", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).getByRole("button", {
+			const logoutButton = within(mobileMenu).getByRole("option", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -204,7 +204,7 @@ describe("Navigation", () => {
 			});
 			expect(mobileMenu).toBeInTheDocument();
 
-			const logoutButton = within(mobileMenu!).getByRole("button", {
+			const logoutButton = within(mobileMenu!).getByRole("option", {
 				name: i18n.t("common.navigation.logout"),
 			});
 			await user.click(logoutButton);
@@ -286,7 +286,7 @@ describe("Navigation", () => {
 			const mobileMenu = screen.getByRole("navigation", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).getByRole("button", {
+			const logoutButton = within(mobileMenu).getByRole("option", {
 				name: i18n.t("common.navigation.logout"),
 			});
 

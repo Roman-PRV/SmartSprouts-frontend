@@ -12,10 +12,14 @@ type Properties<T> = {
 	disabled?: boolean;
 	itemClassName?: string;
 	menuClassName?: string;
+	menuId?: string;
+	menuRole?: React.AriaRole;
 	onSelect: (value: T) => void;
 	options: DropdownOption<T>[];
 	placeholder?: string;
 	renderToggle?: (properties: RenderToggleProperties) => React.ReactElement;
+	toggleId?: string;
+	toggleRole?: "button" | "combobox";
 	value: T;
 };
 
@@ -32,7 +36,7 @@ type RenderToggleProperties = {
 	onClick: () => void;
 	onKeyDown: (event: React.KeyboardEvent) => void;
 	ref: React.Ref<HTMLButtonElement>;
-	role: "combobox";
+	role: "button" | "combobox";
 	type: "button";
 };
 
@@ -41,10 +45,14 @@ const Dropdown = <T extends number | string>({
 	disabled = false,
 	itemClassName,
 	menuClassName,
+	menuId: menuIdProperty,
+	menuRole = "listbox",
 	onSelect,
 	options,
 	placeholder = "Select option",
 	renderToggle,
+	toggleId: toggleIdProperty,
+	toggleRole = "combobox",
 	value,
 }: Properties<T>): React.ReactElement => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -80,7 +88,13 @@ const Dropdown = <T extends number | string>({
 	);
 
 	const handleClickOutside = useCallback((event: MouseEvent) => {
-		if (dropdownReference.current && !dropdownReference.current.contains(event.target as Node)) {
+		const target = event.target;
+
+		if (
+			dropdownReference.current &&
+			target instanceof Node &&
+			!dropdownReference.current.contains(target)
+		) {
 			setIsOpen(false);
 		}
 	}, []);
@@ -220,15 +234,16 @@ const Dropdown = <T extends number | string>({
 	}, [isOpen, handleClickOutside]);
 
 	useEffect(() => {
-		if (isOpen && focusedIndex >= FIRST_INDEX && menuReference.current) {
-			const focusedElement = menuReference.current.children[focusedIndex];
-			focusedElement?.scrollIntoView({ block: "nearest" });
+		if (isOpen && focusedIndex >= FIRST_INDEX) {
+			menuReference.current?.children[focusedIndex]?.scrollIntoView({
+				block: "nearest",
+			});
 		}
 	}, [isOpen, focusedIndex]);
 
 	const uniqueId = useId();
-	const toggleId = `dropdown-toggle-${uniqueId}`;
-	const menuId = `dropdown-menu-${uniqueId}`;
+	const toggleId = toggleIdProperty ?? `dropdown-toggle-${uniqueId}`;
+	const menuId = menuIdProperty ?? `dropdown-menu-${uniqueId}`;
 	const activeDescendantId =
 		isOpen && focusedIndex >= FIRST_INDEX ? `${menuId}-option-${String(focusedIndex)}` : undefined;
 
@@ -255,7 +270,7 @@ const Dropdown = <T extends number | string>({
 					onClick: handleToggle,
 					onKeyDown: handleKeyDown,
 					ref: toggleButtonReference,
-					role: "combobox",
+					role: toggleRole,
 					type: "button",
 				})
 			) : (
@@ -272,7 +287,7 @@ const Dropdown = <T extends number | string>({
 					onClick={handleToggle}
 					onKeyDown={handleKeyDown}
 					ref={toggleButtonReference}
-					role="combobox"
+					role={toggleRole}
 					type="button"
 				>
 					<span className={styles["dropdown__label"]}>{selectedOption?.label ?? placeholder}</span>
@@ -293,7 +308,7 @@ const Dropdown = <T extends number | string>({
 					className={getValidClassNames(styles["dropdown__menu"], menuClassName)}
 					id={menuId}
 					ref={menuReference}
-					role="listbox"
+					role={menuRole}
 				>
 					{options.map((option, index) => (
 						<DropdownItem
@@ -317,3 +332,4 @@ const Dropdown = <T extends number | string>({
 
 export { Dropdown };
 export type { DropdownOption } from "./libs/components/dropdown-item/dropdown-option.type";
+export type { RenderToggleProperties };

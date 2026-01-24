@@ -1,4 +1,4 @@
-import type { DropdownOption } from "~/libs/components/dropdown/dropdown";
+import type { DropdownOption, RenderToggleProperties } from "~/libs/components/dropdown/dropdown";
 
 import { Button, Dropdown, Icon, NavLink } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
@@ -52,18 +52,13 @@ const Navigation: React.FC = () => {
 	);
 
 	const renderToggle = useCallback(
-		(properties: {
-			isOpen: boolean;
-			onClick: () => void;
-			onKeyDown: (event: React.KeyboardEvent) => void;
-			ref: React.Ref<HTMLButtonElement>;
-		}) => {
+		(properties: RenderToggleProperties) => {
 			const { isOpen, ...buttonProperties } = properties;
 
 			return (
 				<button
 					{...buttonProperties}
-					aria-label={t("common.navigation.menu")}
+					aria-label={t("common.navigation.toggleMenu")}
 					className={getValidClassNames(styles["navigation__burger-button"])}
 				>
 					{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
@@ -80,9 +75,13 @@ const Navigation: React.FC = () => {
 					className={getValidClassNames(styles["navigation__mobile-dropdown"])}
 					itemClassName={getValidClassNames(styles["navigation__mobile-menu-item"])}
 					menuClassName={getValidClassNames(styles["navigation__mobile-menu"])}
+					menuId="mobile-menu"
+					menuRole="navigation"
 					onSelect={handleMobileMenuSelect}
 					options={navigationOptions}
 					renderToggle={renderToggle}
+					toggleId="burger-button"
+					toggleRole="button"
 					value=""
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
