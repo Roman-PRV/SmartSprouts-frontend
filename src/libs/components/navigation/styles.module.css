@@ -67,7 +67,6 @@
 	top: var(--header-height-md);
 	left: 0;
 	right: 0;
-	width: 100%;
 	height: calc(100vh - var(--header-height-md));
 	overflow-y: auto;
 	margin-top: 0;
