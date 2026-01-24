@@ -1,5 +1,8 @@
 .header {
-	position: relative;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
 	background-color: var(--color-background-dark);
 	color: var(--color-text-light);
 	font-family: var(--font-family);
