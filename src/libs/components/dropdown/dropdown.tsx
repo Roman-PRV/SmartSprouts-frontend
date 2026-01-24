@@ -28,7 +28,7 @@ type RenderToggleProperties = {
 	"aria-controls": string;
 	"aria-disabled": boolean;
 	"aria-expanded": boolean;
-	"aria-haspopup": "listbox";
+	"aria-haspopup": "dialog" | "grid" | "listbox" | "menu" | "tree" | boolean;
 	"aria-label": string;
 	disabled: boolean;
 	id: string;
@@ -38,6 +38,14 @@ type RenderToggleProperties = {
 	ref: React.Ref<HTMLButtonElement>;
 	role: "button" | "combobox";
 	type: "button";
+};
+
+const ROLE_TO_HAS_POPUP: Record<string, RenderToggleProperties["aria-haspopup"]> = {
+	dialog: "dialog",
+	grid: "grid",
+	listbox: "listbox",
+	menu: "menu",
+	tree: "tree",
 };
 
 const Dropdown = <T extends number | string>({
@@ -247,6 +255,8 @@ const Dropdown = <T extends number | string>({
 	const activeDescendantId =
 		isOpen && focusedIndex >= FIRST_INDEX ? `${menuId}-option-${String(focusedIndex)}` : undefined;
 
+	const ariaHasPopup = ROLE_TO_HAS_POPUP[menuRole as string] ?? true;
+
 	return (
 		<div
 			className={getValidClassNames(
@@ -262,7 +272,7 @@ const Dropdown = <T extends number | string>({
 					"aria-controls": menuId,
 					"aria-disabled": disabled,
 					"aria-expanded": isOpen,
-					"aria-haspopup": "listbox",
+					"aria-haspopup": ariaHasPopup,
 					"aria-label": `Select option, current: ${selectedOption?.label ?? placeholder}`,
 					disabled: disabled,
 					id: toggleId,
@@ -279,7 +289,7 @@ const Dropdown = <T extends number | string>({
 					aria-controls={menuId}
 					aria-disabled={disabled}
 					aria-expanded={isOpen}
-					aria-haspopup="listbox"
+					aria-haspopup={ariaHasPopup}
 					aria-label={`Select option, current: ${selectedOption?.label ?? placeholder}`}
 					className={styles["dropdown__toggle"]}
 					disabled={disabled}

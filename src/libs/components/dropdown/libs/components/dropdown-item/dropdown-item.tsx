@@ -37,6 +37,7 @@ const DropdownItem = <T extends number | string>({
 
 	return (
 		<li
+			aria-label={option.ariaLabel ?? option.label}
 			aria-selected={isActive}
 			className={getValidClassNames(
 				styles["dropdown__item"],
