@@ -273,3 +273,4 @@ const Dropdown = <T extends number | string>({
 };
 
 export { Dropdown };
+export type { DropdownOption } from "./libs/components/dropdown-item/dropdown-option.type";
