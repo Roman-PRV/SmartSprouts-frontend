@@ -1,17 +1,11 @@
 import { useCallback, useMemo } from "~/libs/hooks/hooks";
-import { Language, useLanguageSwitcher } from "~/libs/modules/localization/localization";
+import {
+	type Language,
+	LANGUAGE_TO_LABEL,
+	useLanguageSwitcher,
+} from "~/libs/modules/localization/localization";
 
 import { Dropdown } from "../components";
-
-const getLanguageLabel = (language: Language): string => {
-	const labels: Record<Language, string> = {
-		[Language.EN]: "EN",
-		[Language.ES]: "ES",
-		[Language.UK]: "УКР",
-	};
-
-	return labels[language];
-};
 
 const LanguageSwitcher: React.FC = () => {
 	const { availableLanguages, changeLanguage, currentLanguage } = useLanguageSwitcher();
@@ -26,7 +20,7 @@ const LanguageSwitcher: React.FC = () => {
 	const options = useMemo(
 		() =>
 			availableLanguages.map((language) => ({
-				label: getLanguageLabel(language),
+				label: LANGUAGE_TO_LABEL[language],
 				value: language,
 			})),
 		[availableLanguages]
