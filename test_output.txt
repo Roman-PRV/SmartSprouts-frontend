@@ -1,0 +1,767 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mD:/Coding/pet-project/SmartSprouts-frontend[39m
+
+[90mstdout[2m | tests/libs/components/navigation/navigation.spec.tsx
+[22m[39mi18next: languageChanged en-US
+i18next: initialized {
+  debug: [33mtrue[39m,
+  initAsync: [33mtrue[39m,
+  ns: [ [32m'translation'[39m ],
+  defaultNS: [ [32m'translation'[39m ],
+  fallbackLng: [ [32m'en'[39m ],
+  fallbackNS: [33mfalse[39m,
+  supportedLngs: [33mfalse[39m,
+  nonExplicitSupportedLngs: [33mfalse[39m,
+  load: [32m'all'[39m,
+  preload: [33mfalse[39m,
+  simplifyPluralSuffix: [33mtrue[39m,
+  keySeparator: [32m'.'[39m,
+  nsSeparator: [32m':'[39m,
+  pluralSeparator: [32m'_'[39m,
+  contextSeparator: [32m'_'[39m,
+  partialBundledLanguages: [33mfalse[39m,
+  saveMissing: [33mfalse[39m,
+  updateMissing: [33mfalse[39m,
+  saveMissingTo: [32m'fallback'[39m,
+  saveMissingPlurals: [33mtrue[39m,
+  missingKeyHandler: [33mfalse[39m,
+  missingInterpolationHandler: [33mfalse[39m,
+  postProcess: [33mfalse[39m,
+  postProcessPassResolved: [33mfalse[39m,
+  returnNull: [33mfalse[39m,
+  returnEmptyString: [33mtrue[39m,
+  returnObjects: [33mfalse[39m,
+  joinArrays: [33mfalse[39m,
+  returnedObjectHandler: [33mfalse[39m,
+  parseMissingKeyHandler: [33mfalse[39m,
+  appendNamespaceToMissingKey: [33mfalse[39m,
+  appendNamespaceToCIMode: [33mfalse[39m,
+  overloadTranslationOptionHandler: [36m[Function: overloadTranslationOptionHandler][39m,
+  interpolation: {
+    escapeValue: [33mfalse[39m,
+    format: [36m[Function: bound format][39m,
+    prefix: [32m'{{'[39m,
+    suffix: [32m'}}'[39m,
+    formatSeparator: [32m','[39m,
+    unescapePrefix: [32m'-'[39m,
+    nestingPrefix: [32m'$t('[39m,
+    nestingSuffix: [32m')'[39m,
+    nestingOptionsSeparator: [32m','[39m,
+    maxReplaces: [33m1000[39m,
+    skipOnVariables: [33mtrue[39m
+  },
+  cacheInBuiltFormats: [33mtrue[39m,
+  resources: {
+    en: { translation: [36m[Object][39m },
+    es: { translation: [36m[Object][39m },
+    uk: { translation: [36m[Object][39m }
+  },
+  ignoreJSONStructure: [33mtrue[39m
+}
+
+ [31m❯[39m tests/libs/components/navigation/navigation.spec.tsx [2m([22m[2m22 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 2755[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mRendering[2m > [22mrenders all navigation links[32m 244[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mRendering[2m > [22mrenders burger menu button on mobile[32m 48[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mshows logout button in desktop menu when authenticated[32m 67[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mdoes not show logout button in desktop menu when not authenticated[32m 35[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mshows logout button in mobile menu when authenticated and menu is open[32m 161[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mdoes not show logout button in mobile menu when not authenticated[32m 127[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Handler[2m > [22mtriggers logout handler when desktop logout button is clicked[32m 106[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Handler[2m > [22mtriggers logout handler when mobile logout button is clicked[32m 171[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMenu Close on Logout[2m > [22mcloses mobile menu when logout button is clicked[32m 217[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Interaction[2m > [22mopens mobile menu when burger button is clicked[32m 121[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Interaction[2m > [22mcloses mobile menu when burger button is clicked again[32m 126[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Home route when Home is clicked in mobile menu[32m 172[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Games route when Games is clicked in mobile menu[32m 202[2mms[22m[39m
+[31m   [31m×[31m Navigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Profile route when Profile is clicked in mobile menu[39m[32m 179[2mms[22m[39m
+[31m     → Unable to find an accessible element with the role "button" and name "Toggle menu"
+
+Here are the accessible roles:
+
+  navigation:
+
+  Name "":
+  [36m<nav[31m
+    [33mclass[31m=[32m"_navigation_607747"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  button:
+
+  Name "Toggle menu, current: Home":
+  [36m<button[31m
+    [33maria-controls[31m=[32m"mobile-menu"[31m
+    [33maria-disabled[31m=[32m"false"[31m
+    [33maria-expanded[31m=[32m"false"[31m
+    [33maria-haspopup[31m=[32m"menu"[31m
+    [33maria-label[31m=[32m"Toggle menu, current: Home"[31m
+    [33mclass[31m=[32m"_navigation__burger-button_607747"[31m
+    [33mid[31m=[32m"burger-button"[31m
+    [33mrole[31m=[32m"button"[31m
+    [33mtype[31m=[32m"button"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  [36m<ul[31m
+    [33mclass[31m=[32m"_navigation__nav_607747"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li />[31m
+
+  Name "":
+  [36m<li />[31m
+
+  Name "":
+  [36m<li />[31m
+
+  --------------------------------------------------
+  link:
+
+  Name "Home":
+  [36m<a[31m
+    [33maria-current[31m=[32m"page"[31m
+    [33mclass[31m=[32m"_navigation__nav-item_607747 active"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/"[31m
+  [36m/>[31m
+
+  Name "Games":
+  [36m<a[31m
+    [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/games"[31m
+  [36m/>[31m
+
+  Name "Profile":
+  [36m<a[31m
+    [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/profile"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<nav[31m
+      [33mclass[31m=[32m"_navigation_607747"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"flex items-center justify-between"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"_dropdown_0714e5 _navigation__mobile-dropdown_607747"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33maria-controls[31m=[32m"mobile-menu"[31m
+            [33maria-disabled[31m=[32m"false"[31m
+            [33maria-expanded[31m=[32m"false"[31m
+            [33maria-haspopup[31m=[32m"menu"[31m
+            [33maria-label[31m=[32m"Toggle menu, current: Home"[31m
+            [33mclass[31m=[32m"_navigation__burger-button_607747"[31m
+            [33mid[31m=[32m"burger-button"[31m
+            [33mrole[31m=[32m"button"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<rect[31m
+                [33mfill[31m=[32m"currentColor"[31m
+                [33mheight[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33my[31m=[32m"5"[31m
+              [36m/>[31m
+              [36m<rect[31m
+                [33mfill[31m=[32m"currentColor"[31m
+                [33mheight[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33my[31m=[32m"11"[31m
+              [36m/>[31m
+              [36m<rect[31m
+                [33mfill[31m=[32m"currentColor"[31m
+                [33mheight[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33my[31m=[32m"17"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+          [36m</button>[31m
+        [36m</div>[31m
+        [36m<ul[31m
+          [33mclass[31m=[32m"_navigation__nav_607747"[31m
+        [36m>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33maria-current[31m=[32m"page"[31m
+              [33mclass[31m=[32m"_navigation__nav-item_607747 active"[31m
+              [33mdata-discover[31m=[32m"true"[31m
+              [33mhref[31m=[32m"/"[31m
+            [36m>[31m
+              [0mHome[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+              [33mdata-discover[31m=[32m"true"[31m
+              [33mhref[31m=[32m"/games"[31m
+            [36m>[31m
+              [0mGames[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+              [33mdata-discover[31m=[32m"true"[31m
+              [33mhref[31m=[32m"/profile"[31m
+            [36m>[31m
+              [0mProfile[0m
+            [36m</a>[31m
+          [36m</li>[31m
+        [36m</ul>[31m
+      [36m</div>[31m
+    [36m</nav>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Navigation[2m > [22mcloses mobile menu when a navigation option is clicked[32m 180[2mms[22m[39m
+[31m   [31m×[31m Navigation[2m > [22mMobile Menu Navigation[2m > [22mcorrectly identifies active mobile menu item for nested routes[39m[32m 171[2mms[22m[39m
+[31m     → Unable to find an accessible element with the role "button" and name "Toggle menu, current: Home"
+
+Here are the accessible roles:
+
+  navigation:
+
+  Name "":
+  [36m<nav[31m
+    [33mclass[31m=[32m"_navigation_607747"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  button:
+
+  Name "Toggle menu, current: Games":
+  [36m<button[31m
+    [33maria-controls[31m=[32m"mobile-menu"[31m
+    [33maria-disabled[31m=[32m"false"[31m
+    [33maria-expanded[31m=[32m"false"[31m
+    [33maria-haspopup[31m=[32m"menu"[31m
+    [33maria-label[31m=[32m"Toggle menu, current: Games"[31m
+    [33mclass[31m=[32m"_navigation__burger-button_607747"[31m
+    [33mid[31m=[32m"burger-button"[31m
+    [33mrole[31m=[32m"button"[31m
+    [33mtype[31m=[32m"button"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  [36m<ul[31m
+    [33mclass[31m=[32m"_navigation__nav_607747"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li />[31m
+
+  Name "":
+  [36m<li />[31m
+
+  Name "":
+  [36m<li />[31m
+
+  --------------------------------------------------
+  link:
+
+  Name "Home":
+  [36m<a[31m
+    [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/"[31m
+  [36m/>[31m
+
+  Name "Games":
+  [36m<a[31m
+    [33maria-current[31m=[32m"page"[31m
+    [33mclass[31m=[32m"_navigation__nav-item_607747 active"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/games"[31m
+  [36m/>[31m
+
+  Name "Profile":
+  [36m<a[31m
+    [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+    [33mdata-discover[31m=[32m"true"[31m
+    [33mhref[31m=[32m"/profile"[31m
+  [36m/>[31m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<nav[31m
+      [33mclass[31m=[32m"_navigation_607747"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"flex items-center justify-between"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"_dropdown_0714e5 _navigation__mobile-dropdown_607747"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33maria-controls[31m=[32m"mobile-menu"[31m
+            [33maria-disabled[31m=[32m"false"[31m
+            [33maria-expanded[31m=[32m"false"[31m
+            [33maria-haspopup[31m=[32m"menu"[31m
+            [33maria-label[31m=[32m"Toggle menu, current: Games"[31m
+            [33mclass[31m=[32m"_navigation__burger-button_607747"[31m
+            [33mid[31m=[32m"burger-button"[31m
+            [33mrole[31m=[32m"button"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<rect[31m
+                [33mfill[31m=[32m"currentColor"[31m
+                [33mheight[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33my[31m=[32m"5"[31m
+              [36m/>[31m
+              [36m<rect[31m
+                [33mfill[31m=[32m"currentColor"[31m
+                [33mheight[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33my[31m=[32m"11"[31m
+              [36m/>[31m
+              [36m<rect[31m
+                [33mfill[31m=[32m"currentColor"[31m
+                [33mheight[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33my[31m=[32m"17"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+          [36m</button>[31m
+        [36m</div>[31m
+        [36m<ul[31m
+          [33mclass[31m=[32m"_navigation__nav_607747"[31m
+        [36m>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+              [33mdata-discover[31m=[32m"true"[31m
+              [33mhref[31m=[32m"/"[31m
+            [36m>[31m
+              [0mHome[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33maria-current[31m=[32m"page"[31m
+              [33mclass[31m=[32m"_navigation__nav-item_607747 active"[31m
+              [33mdata-discover[31m=[32m"true"[31m
+              [33mhref[31m=[32m"/games"[31m
+            [36m>[31m
+              [0mGames[0m
+            [36m</a>[31m
+          [36m</li>[31m
+          [36m<li>[31m
+            [36m<a[31m
+              [33mclass[31m=[32m"_navigation__nav-item_607747"[31m
+              [33mdata-discover[31m=[32m"true"[31m
+              [33mhref[31m=[32m"/profile"[31m
+            [36m>[31m
+              [0mProfile[0m
+            [36m</a>[31m
+          [36m</li>[31m
+        [36m</ul>[31m
+      [36m</div>[31m
+    [36m</nav>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas accessible aria-label for logout button in desktop menu[32m 39[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas accessible aria-label for logout button in mobile menu[32m 138[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas accessible aria-label for burger menu button[32m 27[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas correct aria-expanded attribute on burger menu button[32m 118[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas correct aria-controls and id on burger menu button[32m 27[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas correct accessibility attributes on mobile menu when open[32m 77[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/libs/components/navigation/navigation.spec.tsx[2m > [22mNavigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Profile route when Profile is clicked in mobile menu
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an accessible element with the role "button" and name "Toggle menu"
+
+Here are the accessible roles:
+
+  navigation:
+
+  Name "":
+  [36m<nav[39m
+    [33mclass[39m=[32m"_navigation_607747"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Toggle menu, current: Home":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"mobile-menu"[39m
+    [33maria-disabled[39m=[32m"false"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"menu"[39m
+    [33maria-label[39m=[32m"Toggle menu, current: Home"[39m
+    [33mclass[39m=[32m"_navigation__burger-button_607747"[39m
+    [33mid[39m=[32m"burger-button"[39m
+    [33mrole[39m=[32m"button"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  [36m<ul[39m
+    [33mclass[39m=[32m"_navigation__nav_607747"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  --------------------------------------------------
+  link:
+
+  Name "Home":
+  [36m<a[39m
+    [33maria-current[39m=[32m"page"[39m
+    [33mclass[39m=[32m"_navigation__nav-item_607747 active"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/"[39m
+  [36m/>[39m
+
+  Name "Games":
+  [36m<a[39m
+    [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/games"[39m
+  [36m/>[39m
+
+  Name "Profile":
+  [36m<a[39m
+    [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/profile"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<nav[39m
+      [33mclass[39m=[32m"_navigation_607747"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center justify-between"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"_dropdown_0714e5 _navigation__mobile-dropdown_607747"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"mobile-menu"[39m
+            [33maria-disabled[39m=[32m"false"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-haspopup[39m=[32m"menu"[39m
+            [33maria-label[39m=[32m"Toggle menu, current: Home"[39m
+            [33mclass[39m=[32m"_navigation__burger-button_607747"[39m
+            [33mid[39m=[32m"burger-button"[39m
+            [33mrole[39m=[32m"button"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<rect[39m
+                [33mfill[39m=[32m"currentColor"[39m
+                [33mheight[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33my[39m=[32m"5"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mfill[39m=[32m"currentColor"[39m
+                [33mheight[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33my[39m=[32m"11"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mfill[39m=[32m"currentColor"[39m
+                [33mheight[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33my[39m=[32m"17"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"_navigation__nav_607747"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-current[39m=[32m"page"[39m
+              [33mclass[39m=[32m"_navigation__nav-item_607747 active"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/"[39m
+            [36m>[39m
+              [0mHome[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/games"[39m
+            [36m>[39m
+              [0mGames[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/profile"[39m
+            [36m>[39m
+              [0mProfile[0m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</div>[39m
+    [36m</nav>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m tests/libs/components/navigation/navigation.spec.tsx:[2m324:32[22m[39m
+    [90m322| [39m   [34mrenderWithProvider[39m()[33m;[39m
+    [90m323| [39m
+    [90m324| [39m   [35mconst[39m burgerButton [33m=[39m screen[33m.[39m[34mgetByRole[39m([32m"button"[39m[33m,[39m {
+    [90m   | [39m                               [31m^[39m
+    [90m325| [39m    name[33m:[39m i18n[33m.[39m[34mt[39m([32m"common.navigation.toggleMenu"[39m)[33m,[39m
+    [90m326| [39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/libs/components/navigation/navigation.spec.tsx[2m > [22mNavigation[2m > [22mMobile Menu Navigation[2m > [22mcorrectly identifies active mobile menu item for nested routes
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an accessible element with the role "button" and name "Toggle menu, current: Home"
+
+Here are the accessible roles:
+
+  navigation:
+
+  Name "":
+  [36m<nav[39m
+    [33mclass[39m=[32m"_navigation_607747"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Toggle menu, current: Games":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"mobile-menu"[39m
+    [33maria-disabled[39m=[32m"false"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-haspopup[39m=[32m"menu"[39m
+    [33maria-label[39m=[32m"Toggle menu, current: Games"[39m
+    [33mclass[39m=[32m"_navigation__burger-button_607747"[39m
+    [33mid[39m=[32m"burger-button"[39m
+    [33mrole[39m=[32m"button"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  [36m<ul[39m
+    [33mclass[39m=[32m"_navigation__nav_607747"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  Name "":
+  [36m<li />[39m
+
+  --------------------------------------------------
+  link:
+
+  Name "Home":
+  [36m<a[39m
+    [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/"[39m
+  [36m/>[39m
+
+  Name "Games":
+  [36m<a[39m
+    [33maria-current[39m=[32m"page"[39m
+    [33mclass[39m=[32m"_navigation__nav-item_607747 active"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/games"[39m
+  [36m/>[39m
+
+  Name "Profile":
+  [36m<a[39m
+    [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mhref[39m=[32m"/profile"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<nav[39m
+      [33mclass[39m=[32m"_navigation_607747"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center justify-between"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"_dropdown_0714e5 _navigation__mobile-dropdown_607747"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"mobile-menu"[39m
+            [33maria-disabled[39m=[32m"false"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-haspopup[39m=[32m"menu"[39m
+            [33maria-label[39m=[32m"Toggle menu, current: Games"[39m
+            [33mclass[39m=[32m"_navigation__burger-button_607747"[39m
+            [33mid[39m=[32m"burger-button"[39m
+            [33mrole[39m=[32m"button"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<rect[39m
+                [33mfill[39m=[32m"currentColor"[39m
+                [33mheight[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33my[39m=[32m"5"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mfill[39m=[32m"currentColor"[39m
+                [33mheight[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33my[39m=[32m"11"[39m
+              [36m/>[39m
+              [36m<rect[39m
+                [33mfill[39m=[32m"currentColor"[39m
+                [33mheight[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33my[39m=[32m"17"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<ul[39m
+          [33mclass[39m=[32m"_navigation__nav_607747"[39m
+        [36m>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/"[39m
+            [36m>[39m
+              [0mHome[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33maria-current[39m=[32m"page"[39m
+              [33mclass[39m=[32m"_navigation__nav-item_607747 active"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/games"[39m
+            [36m>[39m
+              [0mGames[0m
+            [36m</a>[39m
+          [36m</li>[39m
+          [36m<li>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"_navigation__nav-item_607747"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/profile"[39m
+            [36m>[39m
+              [0mProfile[0m
+            [36m</a>[39m
+          [36m</li>[39m
+        [36m</ul>[39m
+      [36m</div>[39m
+    [36m</nav>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m tests/libs/components/navigation/navigation.spec.tsx:[2m374:32[22m[39m
+    [90m372| [39m   [34mrenderWithProvider[39m({}[33m,[39m [nestedGamePath])[33m;[39m
+    [90m373| [39m
+    [90m374| [39m   [35mconst[39m burgerButton [33m=[39m screen[33m.[39m[34mgetByRole[39m([32m"button"[39m[33m,[39m {
+    [90m   | [39m                               [31m^[39m
+    [90m375| [39m    name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.…
+    [90m376| [39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m20 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 17:20:01
+[2m   Duration [22m 5.96s[2m (transform 833ms, setup 24ms, collect 1.75s, tests 2.75s, environment 971ms, prepare 154ms)[22m
+

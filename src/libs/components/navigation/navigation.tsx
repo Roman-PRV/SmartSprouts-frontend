@@ -53,22 +53,18 @@ const Navigation: React.FC = () => {
 		[handleLogout, navigate]
 	);
 
-	const renderToggle = useCallback(
-		(properties: RenderToggleProperties) => {
-			const { isOpen, ...buttonProperties } = properties;
+	const renderToggle = useCallback((properties: RenderToggleProperties) => {
+		const { isOpen, ...buttonProperties } = properties;
 
-			return (
-				<button
-					{...buttonProperties}
-					aria-label={t("common.navigation.toggleMenu")}
-					className={getValidClassNames(styles["navigation__burger-button"])}
-				>
-					{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
-				</button>
-			);
-		},
-		[t]
-	);
+		return (
+			<button
+				{...buttonProperties}
+				className={getValidClassNames(styles["navigation__burger-button"])}
+			>
+				{isOpen ? <Icon name="close" /> : <Icon name="burgerMenu" />}
+			</button>
+		);
+	}, []);
 
 	const currentActiveValue = useMemo(() => {
 		const matchingOption = navigationOptions.find((option) => {
@@ -95,6 +91,7 @@ const Navigation: React.FC = () => {
 					onSelect={handleMobileMenuSelect}
 					options={navigationOptions}
 					renderToggle={renderToggle}
+					toggleAriaLabel={t("common.navigation.toggleMenu")}
 					toggleId="burger-button"
 					toggleRole="button"
 					value={currentActiveValue}

@@ -19,6 +19,7 @@ type Properties<T> = {
 	options: DropdownOption<T>[];
 	placeholder?: string;
 	renderToggle?: (properties: RenderToggleProperties) => React.ReactElement;
+	toggleAriaLabel?: string;
 	toggleId?: string;
 	toggleRole?: "button" | "combobox";
 	value: T;
@@ -61,6 +62,7 @@ const Dropdown = <T extends number | string>({
 	options,
 	placeholder = "Select option",
 	renderToggle,
+	toggleAriaLabel = "Select option",
 	toggleId: toggleIdProperty,
 	toggleRole = "combobox",
 	value,
@@ -279,7 +281,7 @@ const Dropdown = <T extends number | string>({
 					"aria-disabled": disabled,
 					"aria-expanded": isOpen,
 					"aria-haspopup": ariaHasPopup,
-					"aria-label": `Select option, current: ${selectedOption?.label ?? placeholder}`,
+					"aria-label": `${toggleAriaLabel}, current: ${selectedOption?.label ?? placeholder}`,
 					disabled: disabled,
 					id: toggleId,
 					isOpen: isOpen,
@@ -296,7 +298,7 @@ const Dropdown = <T extends number | string>({
 					aria-disabled={disabled}
 					aria-expanded={isOpen}
 					aria-haspopup={ariaHasPopup}
-					aria-label={`Select option, current: ${selectedOption?.label ?? placeholder}`}
+					aria-label={`${toggleAriaLabel}, current: ${selectedOption?.label ?? placeholder}`}
 					className={styles["dropdown__toggle"]}
 					disabled={disabled}
 					id={toggleId}
