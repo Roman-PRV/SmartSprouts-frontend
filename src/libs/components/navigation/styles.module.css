@@ -64,10 +64,10 @@
 /* Mobile dropdown menu styles */
 .navigation__mobile-menu {
 	position: fixed;
-	top: var(--header-height-md);
+	top: var(--header-height-md, 64px);
 	left: 0;
 	right: 0;
-	height: calc(100vh - var(--header-height-md));
+	height: calc(100dvh - var(--header-height-md, 64px));
 	overflow-y: auto;
 	margin-top: 0;
 	background-color: var(--color-background-1);
