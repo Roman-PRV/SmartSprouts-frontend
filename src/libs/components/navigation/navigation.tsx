@@ -6,6 +6,7 @@ import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppSelector,
 	useCallback,
+	useLocation,
 	useMemo,
 	useNavigate,
 	useTranslation,
@@ -21,6 +22,7 @@ const Navigation: React.FC = () => {
 	const { isAuthenticated } = useAppSelector((state) => state.auth);
 	const { logout } = useLogout();
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
 
 	const handleLogout = useCallback((): void => {
 		void logout();
@@ -82,7 +84,7 @@ const Navigation: React.FC = () => {
 					renderToggle={renderToggle}
 					toggleId="burger-button"
 					toggleRole="button"
-					value=""
+					value={pathname}
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
 					<li>
