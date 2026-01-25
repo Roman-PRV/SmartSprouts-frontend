@@ -11,6 +11,7 @@ type Properties<T> = {
 	className?: string;
 	disabled?: boolean;
 	itemClassName?: string;
+	itemRole?: React.AriaRole;
 	menuClassName?: string;
 	menuId?: string;
 	menuRole?: React.AriaRole;
@@ -52,6 +53,7 @@ const Dropdown = <T extends number | string>({
 	className,
 	disabled = false,
 	itemClassName,
+	itemRole,
 	menuClassName,
 	menuId: menuIdProperty,
 	menuRole = "listbox",
@@ -332,6 +334,7 @@ const Dropdown = <T extends number | string>({
 							onSelect={handleSelect}
 							option={option}
 							optionIndex={index}
+							role={itemRole}
 						/>
 					))}
 				</ul>

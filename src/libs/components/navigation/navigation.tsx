@@ -76,9 +76,10 @@ const Navigation: React.FC = () => {
 				<Dropdown
 					className={getValidClassNames(styles["navigation__mobile-dropdown"])}
 					itemClassName={getValidClassNames(styles["navigation__mobile-menu-item"])}
+					itemRole="menuitem"
 					menuClassName={getValidClassNames(styles["navigation__mobile-menu"])}
 					menuId="mobile-menu"
-					menuRole="navigation"
+					menuRole="menu"
 					onSelect={handleMobileMenuSelect}
 					options={navigationOptions}
 					renderToggle={renderToggle}

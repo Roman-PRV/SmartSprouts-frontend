@@ -14,6 +14,7 @@ type DropdownItemProperties<T> = {
 	onSelect: (value: T) => void;
 	option: DropdownOption<T>;
 	optionIndex: number;
+	role?: React.AriaRole | undefined;
 };
 
 const DropdownItem = <T extends number | string>({
@@ -26,6 +27,7 @@ const DropdownItem = <T extends number | string>({
 	onSelect,
 	option,
 	optionIndex,
+	role = "option",
 }: DropdownItemProperties<T>): React.ReactElement => {
 	const handleClick = useCallback((): void => {
 		onSelect(option.value);
@@ -36,24 +38,27 @@ const DropdownItem = <T extends number | string>({
 	}, [onMouseEnter, optionIndex]);
 
 	return (
-		<li
-			aria-label={option.ariaLabel ?? option.label}
-			aria-selected={isActive}
-			className={getValidClassNames(
-				styles["dropdown__item"],
-				isActive && styles["dropdown__item--active"],
-				isFocused && styles["dropdown__item--focused"],
-				className
-			)}
-			data-focused={isFocused}
-			id={id}
-			onClick={handleClick}
-			onKeyDown={onKeyDown}
-			onMouseEnter={handleMouseEnter}
-			role="option"
-			tabIndex={-1}
-		>
-			{option.label}
+		<li className={styles["dropdown__item-wrapper"]} role="none">
+			<button
+				aria-label={option.ariaLabel ?? option.label}
+				aria-selected={isActive}
+				className={getValidClassNames(
+					styles["dropdown__item"],
+					isActive && styles["dropdown__item--active"],
+					isFocused && styles["dropdown__item--focused"],
+					className
+				)}
+				data-focused={isFocused}
+				id={id}
+				onClick={handleClick}
+				onKeyDown={onKeyDown}
+				onMouseEnter={handleMouseEnter}
+				role={role}
+				tabIndex={-1}
+				type="button"
+			>
+				{option.label}
+			</button>
 		</li>
 	);
 };

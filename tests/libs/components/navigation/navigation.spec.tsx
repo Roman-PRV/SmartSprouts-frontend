@@ -130,10 +130,10 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).getByRole("option", {
+			const logoutButton = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -149,10 +149,10 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).queryByRole("option", {
+			const logoutButton = within(mobileMenu).queryByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -184,10 +184,10 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).getByRole("option", {
+			const logoutButton = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -208,18 +208,18 @@ describe("Navigation", () => {
 			await user.click(burgerButton);
 
 			// Menu should be open
-			let mobileMenu: HTMLElement | null = screen.queryByRole("navigation", {
+			let mobileMenu: HTMLElement | null = screen.queryByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
 			expect(mobileMenu).toBeInTheDocument();
 
-			const logoutButton = within(mobileMenu!).getByRole("option", {
+			const logoutButton = within(mobileMenu!).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 			await user.click(logoutButton);
 
 			// Menu should be closed after logout
-			mobileMenu = screen.queryByRole("navigation", {
+			mobileMenu = screen.queryByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
 			expect(mobileMenu).toBeNull();
@@ -236,14 +236,14 @@ describe("Navigation", () => {
 			});
 
 			// Initially menu should be closed
-			expect(screen.queryByRole("navigation", {
+			expect(screen.queryByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			})).toBeNull();
 
 			await user.click(burgerButton);
 
 			// After click, menu should be open
-			expect(screen.getByRole("navigation", {
+			expect(screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			})).toBeInTheDocument();
 		});
@@ -258,13 +258,13 @@ describe("Navigation", () => {
 
 			// Open menu
 			await user.click(burgerButton);
-			expect(screen.getByRole("navigation", {
+			expect(screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			})).toBeInTheDocument();
 
 			// Close menu
 			await user.click(burgerButton);
-			expect(screen.queryByRole("navigation", {
+			expect(screen.queryByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			})).toBeNull();
 		});
@@ -281,10 +281,10 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const homeOption = within(mobileMenu).getByRole("option", {
+			const homeOption = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.home"),
 			});
 
@@ -302,10 +302,10 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const gamesOption = within(mobileMenu).getByRole("option", {
+			const gamesOption = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.games"),
 			});
 
@@ -323,10 +323,10 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const profileButton = within(mobileMenu).getByRole("option", {
+			const profileButton = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.profile"),
 			});
 
@@ -345,18 +345,18 @@ describe("Navigation", () => {
 			await user.click(burgerButton);
 
 			// Menu should be open
-			let mobileMenu: HTMLElement | null = screen.queryByRole("navigation", {
+			let mobileMenu: HTMLElement | null = screen.queryByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
 			expect(mobileMenu).toBeInTheDocument();
 
-			const homeOption = within(mobileMenu!).getByRole("option", {
+			const homeOption = within(mobileMenu!).getByRole("menuitem", {
 				name: i18n.t("common.navigation.home"),
 			});
 			await user.click(homeOption);
 
 			// Menu should be closed after navigation
-			mobileMenu = screen.queryByRole("navigation", {
+			mobileMenu = screen.queryByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
 			expect(mobileMenu).toBeNull();
@@ -384,10 +384,10 @@ describe("Navigation", () => {
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.getByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
-			const logoutButton = within(mobileMenu).getByRole("option", {
+			const logoutButton = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -445,7 +445,7 @@ describe("Navigation", () => {
 
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getByRole("navigation", {
+			const mobileMenu = screen.queryByRole("menu", {
 				name: i18n.t("common.navigation.toggleMenu"),
 			});
 			expect(mobileMenu).toHaveAttribute("id", "mobile-menu");

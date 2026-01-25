@@ -1,3 +1,7 @@
+.dropdown__item-wrapper {
+	display: contents;
+}
+
 .dropdown__item {
 	width: 100%;
 	padding: 8px 12px;
