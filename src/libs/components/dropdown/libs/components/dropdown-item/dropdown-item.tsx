@@ -45,6 +45,7 @@ const DropdownItem = <T extends number | string>({
 				isFocused && styles["dropdown__item--focused"],
 				className
 			)}
+			data-focused={isFocused}
 			id={id}
 			onClick={handleClick}
 			onKeyDown={onKeyDown}

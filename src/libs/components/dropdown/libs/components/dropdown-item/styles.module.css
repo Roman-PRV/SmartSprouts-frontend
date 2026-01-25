@@ -11,10 +11,6 @@
 	transition: background-color 0.2s;
 }
 
-.dropdown__item:hover {
-	background-color: var(--color-background-light-gray);
-}
-
 .dropdown__item--active {
 	font-weight: 700;
 	color: var(--color-background-accent);
