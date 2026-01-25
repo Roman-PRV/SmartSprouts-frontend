@@ -10,7 +10,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import "@testing-library/jest-dom/vitest";
 
-import { DataStatus } from "~/libs/enums/enums";
+import { AppRoute, DataStatus } from "~/libs/enums/enums";
 import { i18n } from "~/libs/modules/localization/localization";
 import { Navigation } from "~/libs/components/navigation/navigation";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
@@ -23,6 +23,15 @@ type AuthState = {
 };
 
 const mockLogout = vi.fn();
+const mockNavigate = vi.fn();
+
+vi.mock("react-router-dom", async () => {
+	const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
+	return {
+		...actual,
+		useNavigate: () => mockNavigate,
+	};
+});
 
 vi.mock("~/modules/auth/auth", () => ({
 	useLogout: () => ({
@@ -260,6 +269,98 @@ describe("Navigation", () => {
 			})).toBeNull();
 		});
 
+	});
+
+	describe("Mobile Menu Navigation", () => {
+		it("navigates to Home route when Home is clicked in mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			const homeOption = within(mobileMenu).getByRole("option", {
+				name: i18n.t("common.navigation.home"),
+			});
+
+			await user.click(homeOption);
+
+			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.ROOT);
+		});
+
+		it("navigates to Games route when Games is clicked in mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			const gamesOption = within(mobileMenu).getByRole("option", {
+				name: i18n.t("common.navigation.games"),
+			});
+
+			await user.click(gamesOption);
+
+			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.GAMES);
+		});
+
+		it("navigates to Profile route when Profile is clicked in mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			const profileButton = within(mobileMenu).getByRole("option", {
+				name: i18n.t("common.navigation.profile"),
+			});
+
+			await user.click(profileButton);
+
+			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.PROFILE);
+		});
+
+		it("closes mobile menu when a navigation option is clicked", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			await user.click(burgerButton);
+
+			// Menu should be open
+			let mobileMenu: HTMLElement | null = screen.queryByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			expect(mobileMenu).toBeInTheDocument();
+
+			const homeOption = within(mobileMenu!).getByRole("option", {
+				name: i18n.t("common.navigation.home"),
+			});
+			await user.click(homeOption);
+
+			// Menu should be closed after navigation
+			mobileMenu = screen.queryByRole("navigation", {
+				name: i18n.t("common.navigation.toggleMenu"),
+			});
+			expect(mobileMenu).toBeNull();
+		});
 	});
 
 	describe("Accessibility", () => {
