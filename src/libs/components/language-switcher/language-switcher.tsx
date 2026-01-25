@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "~/libs/hooks/hooks";
+import { useCallback, useMemo, useTranslation } from "~/libs/hooks/hooks";
 import {
 	type Language,
 	LANGUAGE_TO_LABEL,
@@ -8,6 +8,7 @@ import {
 import { Dropdown } from "../components";
 
 const LanguageSwitcher: React.FC = () => {
+	const { t } = useTranslation();
 	const { availableLanguages, changeLanguage, currentLanguage } = useLanguageSwitcher();
 
 	const handleLanguageChange = useCallback(
@@ -26,7 +27,14 @@ const LanguageSwitcher: React.FC = () => {
 		[availableLanguages]
 	);
 
-	return <Dropdown onSelect={handleLanguageChange} options={options} value={currentLanguage} />;
+	return (
+		<Dropdown
+			onSelect={handleLanguageChange}
+			options={options}
+			toggleAriaLabel={t("common.localization.selectLanguage")}
+			value={currentLanguage}
+		/>
+	);
 };
 
 export { LanguageSwitcher };
