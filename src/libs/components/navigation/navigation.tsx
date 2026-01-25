@@ -70,6 +70,18 @@ const Navigation: React.FC = () => {
 		[t]
 	);
 
+	const currentActiveValue = useMemo(() => {
+		const matchingOption = navigationOptions.find((option) => {
+			if (option.value === AppRoute.ROOT) {
+				return pathname === AppRoute.ROOT;
+			}
+
+			return pathname.startsWith(option.value);
+		});
+
+		return matchingOption?.value ?? pathname;
+	}, [pathname, navigationOptions]);
+
 	return (
 		<nav className={getValidClassNames(styles["navigation"])}>
 			<div className="flex items-center justify-between">
@@ -85,7 +97,7 @@ const Navigation: React.FC = () => {
 					renderToggle={renderToggle}
 					toggleId="burger-button"
 					toggleRole="button"
-					value={pathname}
+					value={currentActiveValue}
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
 					<li>
