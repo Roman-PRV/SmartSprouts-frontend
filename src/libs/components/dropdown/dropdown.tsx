@@ -245,9 +245,13 @@ const Dropdown = <T extends number | string>({
 
 	useEffect(() => {
 		if (isOpen && focusedIndex >= FIRST_INDEX) {
-			menuReference.current?.children[focusedIndex]?.scrollIntoView({
-				block: "nearest",
-			});
+			const element = menuReference.current?.children[focusedIndex];
+
+			if (element instanceof HTMLElement) {
+				element.scrollIntoView({
+					block: "nearest",
+				});
+			}
 		}
 	}, [isOpen, focusedIndex]);
 
