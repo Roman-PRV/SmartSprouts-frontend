@@ -5,7 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import "@testing-library/jest-dom/vitest";
@@ -23,21 +23,11 @@ type AuthState = {
 };
 
 const mockLogout = vi.fn();
-const mockNavigate = vi.fn();
 
-vi.mock("react-router-dom", async () => {
-	const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
-	return {
-		...actual,
-		useNavigate: () => {
-			const navigate = actual.useNavigate();
-			return (...args: Parameters<typeof navigate>) => {
-				mockNavigate(...args);
-				navigate(...args);
-			};
-		},
-	};
-});
+const LocationDisplay: React.FC = () => {
+	const { pathname } = useLocation();
+	return <div data-testid="location">{pathname}</div>;
+};
 
 vi.mock("~/modules/auth/auth", () => ({
 	useLogout: () => ({
@@ -72,6 +62,7 @@ const renderWithProvider = (
 			<Provider store={store}>
 				<MemoryRouter initialEntries={initialEntries}>
 					<Navigation />
+					<LocationDisplay />
 				</MemoryRouter>
 			</Provider>
 		),
@@ -298,7 +289,7 @@ describe("Navigation", () => {
 			});
 
 			await user.click(homeOption);
-			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.ROOT);
+			expect(screen.getByTestId("location")).toHaveTextContent(AppRoute.ROOT);
 		});
 
 		it("navigates to Games route when Games is clicked in mobile menu", async () => {
@@ -318,7 +309,7 @@ describe("Navigation", () => {
 			});
 
 			await user.click(gamesOption);
-			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.GAMES);
+			expect(screen.getByTestId("location")).toHaveTextContent(AppRoute.GAMES);
 
 			// Verify that the burger button label updates after navigation
 			const burgerButtonAfter = screen.getByRole("button", {
@@ -344,7 +335,7 @@ describe("Navigation", () => {
 			});
 
 			await user.click(profileButton);
-			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.PROFILE);
+			expect(screen.getByTestId("location")).toHaveTextContent(AppRoute.PROFILE);
 
 			// Verify that the burger button label updates after navigation
 			const burgerButtonAfter = screen.getByRole("button", {
