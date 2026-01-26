@@ -2,6 +2,12 @@
 	position: relative;
 }
 
+.navigation__container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .navigation__mobile-dropdown {
 	display: block;
 }

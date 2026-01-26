@@ -80,7 +80,7 @@ const Navigation: React.FC = () => {
 
 	return (
 		<nav className={getValidClassNames(styles["navigation"])}>
-			<div className="flex items-center justify-between">
+			<div className={getValidClassNames(styles["navigation__container"])}>
 				<Dropdown
 					className={getValidClassNames(styles["navigation__mobile-dropdown"])}
 					itemClassName={getValidClassNames(styles["navigation__mobile-menu-item"])}

@@ -7,9 +7,9 @@ import styles from "./styles.module.css";
 
 const MainLayout: React.FC = () => {
 	return (
-		<div className={getValidClassNames(styles["layout__container"], "flex flex-col")}>
+		<div className={getValidClassNames(styles["layout__container"])}>
 			<Header />
-			<main className={getValidClassNames(styles["layout__main"], "flex-1")}>
+			<main className={getValidClassNames(styles["layout__main"])}>
 				<Outlet />
 			</main>
 
