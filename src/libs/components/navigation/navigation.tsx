@@ -72,7 +72,7 @@ const Navigation: React.FC = () => {
 				return pathname === AppRoute.ROOT;
 			}
 
-			return pathname.startsWith(option.value);
+			return pathname === option.value || pathname.startsWith(`${option.value}/`);
 		});
 
 		return matchingOption?.value ?? pathname;

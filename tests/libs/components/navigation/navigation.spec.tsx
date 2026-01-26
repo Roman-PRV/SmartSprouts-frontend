@@ -403,6 +403,19 @@ describe("Navigation", () => {
 
 			expect(burgerButton).toBeInTheDocument();
 		});
+
+		it("does not incorrectly identify active mobile menu item for partial path matches", () => {
+			const partialMatchPath = "/gamesabc";
+			renderWithProvider({}, [partialMatchPath]);
+
+			// Since /gamesabc doesn't match /games or any other route exactly or as a sub-path, 
+			// it should fall back to the placeholder
+			const burgerButton = screen.getByRole("button", {
+				name: new RegExp(`current: Select option`),
+			});
+
+			expect(burgerButton).toBeInTheDocument();
+		});
 	});
 
 	describe("Accessibility", () => {
