@@ -29,7 +29,13 @@ vi.mock("react-router-dom", async () => {
 	const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
 	return {
 		...actual,
-		useNavigate: () => mockNavigate,
+		useNavigate: () => {
+			const navigate = actual.useNavigate();
+			return (...args: Parameters<typeof navigate>) => {
+				mockNavigate(...args);
+				navigate(...args);
+			};
+		},
 	};
 });
 
@@ -292,7 +298,6 @@ describe("Navigation", () => {
 			});
 
 			await user.click(homeOption);
-
 			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.ROOT);
 		});
 
@@ -313,8 +318,13 @@ describe("Navigation", () => {
 			});
 
 			await user.click(gamesOption);
-
 			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.GAMES);
+
+			// Verify that the burger button label updates after navigation
+			const burgerButtonAfter = screen.getByRole("button", {
+				name: new RegExp(i18n.t("common.navigation.games")),
+			});
+			expect(burgerButtonAfter).toBeInTheDocument();
 		});
 
 		it("navigates to Profile route when Profile is clicked in mobile menu", async () => {
@@ -334,8 +344,13 @@ describe("Navigation", () => {
 			});
 
 			await user.click(profileButton);
-
 			expect(mockNavigate).toHaveBeenCalledWith(AppRoute.PROFILE);
+
+			// Verify that the burger button label updates after navigation
+			const burgerButtonAfter = screen.getByRole("button", {
+				name: new RegExp(i18n.t("common.navigation.profile")),
+			});
+			expect(burgerButtonAfter).toBeInTheDocument();
 		});
 
 		it("closes mobile menu when a navigation option is clicked", async () => {

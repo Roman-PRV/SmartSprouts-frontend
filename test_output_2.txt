@@ -1,0 +1,132 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mD:/Coding/pet-project/SmartSprouts-frontend[39m
+
+[90mstdout[2m | tests/libs/components/navigation/navigation.spec.tsx
+[22m[39mi18next: languageChanged en-US
+i18next: initialized {
+  debug: [33mtrue[39m,
+  initAsync: [33mtrue[39m,
+  ns: [ [32m'translation'[39m ],
+  defaultNS: [ [32m'translation'[39m ],
+  fallbackLng: [ [32m'en'[39m ],
+  fallbackNS: [33mfalse[39m,
+  supportedLngs: [33mfalse[39m,
+  nonExplicitSupportedLngs: [33mfalse[39m,
+  load: [32m'all'[39m,
+  preload: [33mfalse[39m,
+  simplifyPluralSuffix: [33mtrue[39m,
+  keySeparator: [32m'.'[39m,
+  nsSeparator: [32m':'[39m,
+  pluralSeparator: [32m'_'[39m,
+  contextSeparator: [32m'_'[39m,
+  partialBundledLanguages: [33mfalse[39m,
+  saveMissing: [33mfalse[39m,
+  updateMissing: [33mfalse[39m,
+  saveMissingTo: [32m'fallback'[39m,
+  saveMissingPlurals: [33mtrue[39m,
+  missingKeyHandler: [33mfalse[39m,
+  missingInterpolationHandler: [33mfalse[39m,
+  postProcess: [33mfalse[39m,
+  postProcessPassResolved: [33mfalse[39m,
+  returnNull: [33mfalse[39m,
+  returnEmptyString: [33mtrue[39m,
+  returnObjects: [33mfalse[39m,
+  joinArrays: [33mfalse[39m,
+  returnedObjectHandler: [33mfalse[39m,
+  parseMissingKeyHandler: [33mfalse[39m,
+  appendNamespaceToMissingKey: [33mfalse[39m,
+  appendNamespaceToCIMode: [33mfalse[39m,
+  overloadTranslationOptionHandler: [36m[Function: overloadTranslationOptionHandler][39m,
+  interpolation: {
+    escapeValue: [33mfalse[39m,
+    format: [36m[Function: bound format][39m,
+    prefix: [32m'{{'[39m,
+    suffix: [32m'}}'[39m,
+    formatSeparator: [32m','[39m,
+    unescapePrefix: [32m'-'[39m,
+    nestingPrefix: [32m'$t('[39m,
+    nestingSuffix: [32m')'[39m,
+    nestingOptionsSeparator: [32m','[39m,
+    maxReplaces: [33m1000[39m,
+    skipOnVariables: [33mtrue[39m
+  },
+  cacheInBuiltFormats: [33mtrue[39m,
+  resources: {
+    en: { translation: [36m[Object][39m },
+    es: { translation: [36m[Object][39m },
+    uk: { translation: [36m[Object][39m }
+  },
+  ignoreJSONStructure: [33mtrue[39m
+}
+
+ [31m❯[39m tests/libs/components/navigation/navigation.spec.tsx [2m([22m[2m22 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 2818[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mRendering[2m > [22mrenders all navigation links[32m 239[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mRendering[2m > [22mrenders burger menu button on mobile[32m 48[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mshows logout button in desktop menu when authenticated[32m 66[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mdoes not show logout button in desktop menu when not authenticated[32m 35[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mshows logout button in mobile menu when authenticated and menu is open[32m 182[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Button Visibility[2m > [22mdoes not show logout button in mobile menu when not authenticated[32m 127[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Handler[2m > [22mtriggers logout handler when desktop logout button is clicked[32m 88[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mLogout Handler[2m > [22mtriggers logout handler when mobile logout button is clicked[32m 200[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMenu Close on Logout[2m > [22mcloses mobile menu when logout button is clicked[32m 203[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Interaction[2m > [22mopens mobile menu when burger button is clicked[32m 122[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Interaction[2m > [22mcloses mobile menu when burger button is clicked again[32m 159[2mms[22m[39m
+[31m   [31m×[31m Navigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Home route when Home is clicked in mobile menu[39m[32m 182[2mms[22m[39m
+[31m     → expected "spy" to be called with arguments: [ '/' ][90m
+
+Received: 
+
+[1m  1st spy call:
+
+[22m[2m  [[22m
+[2m    "/",[22m
+[31m+   undefined,[90m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Games route when Games is clicked in mobile menu[32m 218[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Profile route when Profile is clicked in mobile menu[32m 214[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Navigation[2m > [22mcloses mobile menu when a navigation option is clicked[32m 149[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mMobile Menu Navigation[2m > [22mcorrectly identifies active mobile menu item for nested routes[32m 128[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas accessible aria-label for logout button in desktop menu[32m 42[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas accessible aria-label for logout button in mobile menu[32m 140[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas accessible aria-label for burger menu button[32m 29[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas correct aria-expanded attribute on burger menu button[32m 140[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas correct aria-controls and id on burger menu button[32m 28[2mms[22m[39m
+   [32m✓[39m Navigation[2m > [22mAccessibility[2m > [22mhas correct accessibility attributes on mobile menu when open[32m 76[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/libs/components/navigation/navigation.spec.tsx[2m > [22mNavigation[2m > [22mMobile Menu Navigation[2m > [22mnavigates to Home route when Home is clicked in mobile menu
+[31m[1mAssertionError[22m: expected "spy" to be called with arguments: [ '/' ][90m
+
+Received: 
+
+[1m  1st spy call:
+
+[22m[2m  [[22m
+[2m    "/",[22m
+[31m+   undefined,[90m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/libs/components/navigation/navigation.spec.tsx:[2m302:25[22m[39m
+    [90m300| [39m   [35mawait[39m user[33m.[39m[34mclick[39m(homeOption)[33m;[39m
+    [90m301| [39m
+    [90m302| [39m   [34mexpect[39m(mockNavigate)[33m.[39m[34mtoHaveBeenCalledWith[39m([33mAppRoute[39m[33m.[39m[33mROOT[39m)[33m;[39m
+    [90m   | [39m                        [31m^[39m
+    [90m303| [39m  })[33m;[39m
+    [90m304| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m21 passed[39m[22m[90m (22)[39m
+[2m   Start at [22m 09:40:06
+[2m   Duration [22m 5.81s[2m (transform 851ms, setup 24ms, collect 1.78s, tests 2.82s, environment 744ms, prepare 167ms)[22m
+
