@@ -18,6 +18,11 @@
 .dropdown__item--active {
 	font-weight: 700;
 	color: var(--color-background-accent);
+	cursor: default;
+}
+
+.dropdown__item--active:hover {
+	background-color: transparent;
 }
 
 .dropdown__item--focused {

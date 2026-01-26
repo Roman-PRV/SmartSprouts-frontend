@@ -67,6 +67,13 @@
 	border-radius: var(--border-radius-sm);
 }
 
+.navigation__nav-item--active {
+	color: var(--color-brand-hover);
+	font-weight: 700;
+	pointer-events: none;
+	cursor: default;
+}
+
 /* Mobile dropdown menu styles */
 .navigation__mobile-menu {
 	position: fixed;

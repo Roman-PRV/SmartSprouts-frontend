@@ -359,10 +359,10 @@ describe("Navigation", () => {
 			});
 			expect(mobileMenu).toBeInTheDocument();
 
-			const homeOption = within(mobileMenu!).getByRole("menuitem", {
-				name: i18n.t("common.navigation.home"),
+			const gamesOption = within(mobileMenu!).getByRole("menuitem", {
+				name: i18n.t("common.navigation.games"),
 			});
-			await user.click(homeOption);
+			await user.click(gamesOption);
 
 			// Menu should be closed after navigation
 			mobileMenu = screen.queryByRole("menu", {

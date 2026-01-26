@@ -49,6 +49,7 @@ const DropdownItem = <T extends number | string>({
 					className
 				)}
 				data-focused={isFocused}
+				disabled={isActive}
 				id={id}
 				onClick={handleClick}
 				onKeyDown={onKeyDown}
