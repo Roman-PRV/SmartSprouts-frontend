@@ -92,9 +92,9 @@ const Dropdown = <T extends number | string>({
 
 	const handleSelect = useCallback(
 		(optionValue: T) => {
-			onSelect(optionValue);
 			setIsOpen(false);
 			toggleButtonReference.current?.focus();
+			onSelect(optionValue);
 		},
 		[onSelect]
 	);
