@@ -386,24 +386,22 @@ describe("Navigation", () => {
 				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.games")}`,
 			});
 
-			// On /games/123, the Games option should be selected
 			const gamesOption = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.games"),
 			});
 
-			// In our Dropdown implementation, the value prop determines selection.
-			// We can check if the dropdown component received the correct value.
-			// Since we're testing the Navigation component, we check if the Dropdown
-			// within it is rendered with the expected value.
-
-			// However, testing the 'value' prop of Dropdown directly might be tricky
-			// if it doesn't reflect in the DOM in a simple way.
-			// Let's assume the Dropdown/DropdownItem uses the 'value' to apply some 'active' class
-			// or attribute. I should check dropdown-item.tsx styles or props.
-
-			// For now, let's just verify it doesn't crash and maybe check for an active class
-			// if I can find what it is.
 			expect(gamesOption).toBeInTheDocument();
+		});
+
+		it("displays default placeholder in mobile menu for unknown routes", () => {
+			const unknownPath = "/unknown";
+			renderWithProvider({}, [unknownPath]);
+
+			const burgerButton = screen.getByRole("button", {
+				name: new RegExp(`current: Select option`),
+			});
+
+			expect(burgerButton).toBeInTheDocument();
 		});
 	});
 
