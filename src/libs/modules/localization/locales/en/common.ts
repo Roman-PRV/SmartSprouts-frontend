@@ -7,6 +7,7 @@ const common = {
 		// Add footer translations here
 	},
 	localization: {
+		selectLanguage: "Select language",
 		switchTo: {
 			en: "Switch to English",
 			es: "Switch to Spanish",

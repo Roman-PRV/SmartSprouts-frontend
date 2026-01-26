@@ -5,14 +5,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import "@testing-library/jest-dom/vitest";
 
-import { DataStatus } from "~/libs/enums/enums";
-import { i18n } from "~/libs/modules/localization/localization";
 import { Navigation } from "~/libs/components/navigation/navigation";
+import { AppRoute, DataStatus } from "~/libs/enums/enums";
+import { i18n } from "~/libs/modules/localization/localization";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
 type AuthState = {
@@ -23,6 +23,11 @@ type AuthState = {
 };
 
 const mockLogout = vi.fn();
+
+const LocationDisplay: React.FC = () => {
+	const { pathname } = useLocation();
+	return <div data-testid="location">{pathname}</div>;
+};
 
 vi.mock("~/modules/auth/auth", () => ({
 	useLogout: () => ({
@@ -47,14 +52,18 @@ const createMockStore = (initialAuthState?: Partial<AuthState>) => {
 	});
 };
 
-const renderWithProvider = (initialAuthState?: Partial<AuthState>) => {
+const renderWithProvider = (
+	initialAuthState?: Partial<AuthState>,
+	initialEntries: string[] = [AppRoute.ROOT]
+) => {
 	const store = createMockStore(initialAuthState);
 	return {
 		...render(
 			<Provider store={store}>
-				<BrowserRouter>
+				<MemoryRouter initialEntries={initialEntries}>
 					<Navigation />
-				</BrowserRouter>
+					<LocationDisplay />
+				</MemoryRouter>
 			</Provider>
 		),
 		store,
@@ -83,7 +92,7 @@ describe("Navigation", () => {
 			renderWithProvider();
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 			expect(burgerButton).toBeInTheDocument();
 		});
@@ -117,12 +126,14 @@ describe("Navigation", () => {
 			renderWithProvider({ isAuthenticated: true });
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
-			const logoutButton = within(mobileMenu).getByRole("button", {
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const logoutButton = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -134,12 +145,14 @@ describe("Navigation", () => {
 			renderWithProvider({ isAuthenticated: false });
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
-			const logoutButton = within(mobileMenu).queryByRole("button", {
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const logoutButton = within(mobileMenu).queryByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -167,12 +180,14 @@ describe("Navigation", () => {
 			renderWithProvider({ isAuthenticated: true });
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
-			const logoutButton = within(mobileMenu).getByRole("button", {
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const logoutButton = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -188,22 +203,26 @@ describe("Navigation", () => {
 			renderWithProvider({ isAuthenticated: true });
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 			await user.click(burgerButton);
 
 			// Menu should be open
-			let mobileMenu: HTMLElement | undefined = screen.queryAllByRole("list")[1];
+			let mobileMenu: HTMLElement | null = screen.queryByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
 			expect(mobileMenu).toBeInTheDocument();
 
-			const logoutButton = within(mobileMenu!).getByRole("button", {
+			const logoutButton = within(mobileMenu!).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 			await user.click(logoutButton);
 
 			// Menu should be closed after logout
-			mobileMenu = screen.queryAllByRole("list")[1];
-			expect(mobileMenu).toBeUndefined();
+			mobileMenu = screen.queryByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			expect(mobileMenu).toBeNull();
 		});
 	});
 
@@ -213,16 +232,20 @@ describe("Navigation", () => {
 			renderWithProvider();
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 
 			// Initially menu should be closed
-			expect(screen.queryAllByRole("list")).toHaveLength(1);
+			expect(screen.queryByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			})).toBeNull();
 
 			await user.click(burgerButton);
 
 			// After click, menu should be open
-			expect(screen.queryAllByRole("list")).toHaveLength(2);
+			expect(screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			})).toBeInTheDocument();
 		});
 
 		it("closes mobile menu when burger button is clicked again", async () => {
@@ -230,18 +253,169 @@ describe("Navigation", () => {
 			renderWithProvider();
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 
 			// Open menu
 			await user.click(burgerButton);
-			expect(screen.queryAllByRole("list")).toHaveLength(2);
+			expect(screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			})).toBeInTheDocument();
 
 			// Close menu
 			await user.click(burgerButton);
-			expect(screen.queryAllByRole("list")).toHaveLength(1);
+			expect(screen.queryByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			})).toBeNull();
 		});
 
+	});
+
+	describe("Mobile Menu Navigation", () => {
+		it("navigates to Home route when Home is clicked in mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const homeOption = within(mobileMenu).getByRole("menuitem", {
+				name: i18n.t("common.navigation.home"),
+			});
+
+			await user.click(homeOption);
+			expect(screen.getByTestId("location")).toHaveTextContent(AppRoute.ROOT);
+		});
+
+		it("navigates to Games route when Games is clicked in mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const gamesOption = within(mobileMenu).getByRole("menuitem", {
+				name: i18n.t("common.navigation.games"),
+			});
+
+			await user.click(gamesOption);
+			expect(screen.getByTestId("location")).toHaveTextContent(AppRoute.GAMES);
+
+			// Verify that the burger button label updates after navigation
+			const burgerButtonAfter = screen.getByRole("button", {
+				name: new RegExp(i18n.t("common.navigation.games")),
+			});
+			expect(burgerButtonAfter).toBeInTheDocument();
+		});
+
+		it("navigates to Profile route when Profile is clicked in mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const profileButton = within(mobileMenu).getByRole("menuitem", {
+				name: i18n.t("common.navigation.profile"),
+			});
+
+			await user.click(profileButton);
+			expect(screen.getByTestId("location")).toHaveTextContent(AppRoute.PROFILE);
+
+			// Verify that the burger button label updates after navigation
+			const burgerButtonAfter = screen.getByRole("button", {
+				name: new RegExp(i18n.t("common.navigation.profile")),
+			});
+			expect(burgerButtonAfter).toBeInTheDocument();
+		});
+
+		it("closes mobile menu when a navigation option is clicked", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			// Menu should be open
+			let mobileMenu: HTMLElement | null = screen.queryByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			expect(mobileMenu).toBeInTheDocument();
+
+			const gamesOption = within(mobileMenu!).getByRole("menuitem", {
+				name: i18n.t("common.navigation.games"),
+			});
+			await user.click(gamesOption);
+
+			// Menu should be closed after navigation
+			mobileMenu = screen.queryByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			expect(mobileMenu).toBeNull();
+		});
+
+		it("correctly identifies active mobile menu item for nested routes", async () => {
+			const user = userEvent.setup();
+			const nestedGamePath = "/games/123";
+
+			renderWithProvider({}, [nestedGamePath]);
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.games")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.games")}`,
+			});
+
+			const gamesOption = within(mobileMenu).getByRole("menuitem", {
+				name: i18n.t("common.navigation.games"),
+			});
+
+			expect(gamesOption).toBeInTheDocument();
+		});
+
+		it("displays default placeholder in mobile menu for unknown routes", () => {
+			const unknownPath = "/unknown";
+			renderWithProvider({}, [unknownPath]);
+
+			const burgerButton = screen.getByRole("button", {
+				name: new RegExp(`current: Select option`),
+			});
+
+			expect(burgerButton).toBeInTheDocument();
+		});
+
+		it("does not incorrectly identify active mobile menu item for partial path matches", () => {
+			const partialMatchPath = "/gamesabc";
+			renderWithProvider({}, [partialMatchPath]);
+
+			// Since /gamesabc doesn't match /games or any other route exactly or as a sub-path, 
+			// it should fall back to the placeholder
+			const burgerButton = screen.getByRole("button", {
+				name: new RegExp(`current: Select option`),
+			});
+
+			expect(burgerButton).toBeInTheDocument();
+		});
 	});
 
 	describe("Accessibility", () => {
@@ -261,12 +435,14 @@ describe("Navigation", () => {
 			renderWithProvider({ isAuthenticated: true });
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 			await user.click(burgerButton);
 
-			const mobileMenu = screen.getAllByRole("list")[1]!;
-			const logoutButton = within(mobileMenu).getByRole("button", {
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const logoutButton = within(mobileMenu).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
@@ -277,10 +453,57 @@ describe("Navigation", () => {
 			renderWithProvider();
 
 			const burgerButton = screen.getByRole("button", {
-				name: i18n.t("common.navigation.toggleMenu"),
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			expect(burgerButton).toHaveAttribute("aria-label", `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`);
+		});
+
+		it("has correct aria-expanded attribute on burger menu button", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
 			});
 
-			expect(burgerButton).toHaveAttribute("aria-label", i18n.t("common.navigation.toggleMenu"));
+			// Initially closed
+			expect(burgerButton).toHaveAttribute("aria-expanded", "false");
+
+			// Open menu
+			await user.click(burgerButton);
+			expect(burgerButton).toHaveAttribute("aria-expanded", "true");
+
+			// Close menu
+			await user.click(burgerButton);
+			expect(burgerButton).toHaveAttribute("aria-expanded", "false");
+		});
+
+		it("has correct aria-controls and id on burger menu button", () => {
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+
+			expect(burgerButton).toHaveAttribute("aria-controls", "mobile-menu");
+			expect(burgerButton).toHaveAttribute("id", "burger-button");
+		});
+
+		it("has correct accessibility attributes on mobile menu when open", async () => {
+			const user = userEvent.setup();
+			renderWithProvider();
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.queryByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			expect(mobileMenu).toHaveAttribute("id", "mobile-menu");
+			expect(mobileMenu).toHaveAttribute("aria-labelledby", "burger-button");
 		});
 	});
 });
