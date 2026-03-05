@@ -4,9 +4,10 @@ import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
+	useCallback,
 	useEffect,
+	useLanguageSync,
 	useParams,
-	useRef,
 	useTranslation,
 } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
@@ -14,7 +15,7 @@ import { actions as gamesActions } from "~/modules/games/games";
 import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
-	const { i18n, t } = useTranslation();
+	const { t } = useTranslation();
 	const { id } = useParams();
 
 	const dispatch = useAppDispatch();
@@ -24,17 +25,21 @@ const GameContentPage: React.FC = () => {
 		(state) => state.games.currentGameStatus === DataStatus.PENDING
 	);
 
-	const lastLanguageReference = useRef(i18n.language);
+	useLanguageSync(
+		useCallback(() => {
+			if (id && !isGameLoading) {
+				void dispatch(gamesActions.getById(id));
+			}
+		}, [dispatch, id, isGameLoading])
+	);
 
 	useEffect(() => {
 		const isDataCached = currentGame && currentGame.id === id;
-		const isLanguageChanged = lastLanguageReference.current !== i18n.language;
 
-		if (id && !isGameLoading && (!isDataCached || isLanguageChanged)) {
+		if (id && !isGameLoading && !isDataCached) {
 			void dispatch(gamesActions.getById(id));
-			lastLanguageReference.current = i18n.language;
 		}
-	}, [dispatch, id, currentGame, isGameLoading, i18n.language]);
+	}, [dispatch, id, currentGame, isGameLoading]);
 
 	useEffect(() => {
 		return (): void => {

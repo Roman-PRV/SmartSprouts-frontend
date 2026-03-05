@@ -1,22 +1,32 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect, useRef, useTranslation } from "~/libs/hooks/hooks";
+import {
+	useAppDispatch,
+	useAppSelector,
+	useCallback,
+	useEffect,
+	useLanguageSync,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
 import { GameCard } from "./game-card";
 import styles from "./styles.module.css";
 
 const GameSelectionPage: React.FC = () => {
-	const { i18n, t } = useTranslation();
+	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
 	const { games } = useAppSelector((state) => state.games);
 
-	const lastLanguageReference = useRef(i18n.language);
+	useLanguageSync(
+		useCallback(() => {
+			void dispatch(gamesActions.getAllGames());
+		}, [dispatch])
+	);
 
 	useEffect(() => {
 		void dispatch(gamesActions.getAllGames());
-		lastLanguageReference.current = i18n.language;
-	}, [dispatch, i18n.language]);
+	}, [dispatch]);
 
 	return (
 		<div className={getValidClassNames(styles["game-selection-page__container"])}>
