@@ -1,13 +1,5 @@
-import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import {
-	useAppDispatch,
-	useAppSelector,
-	useCallback,
-	useEffect,
-	useLanguageSync,
-	useParams,
-} from "~/libs/hooks/hooks";
+import { useAppDispatch, useEffect, useGameFetch, useParams } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
 import { getLevelComponent } from "./level-component-selector";
@@ -15,35 +7,15 @@ import styles from "./styles.module.css";
 
 const LevelContentPage: React.FC = () => {
 	const { id, levelId } = useParams();
-
 	const dispatch = useAppDispatch();
 
-	const currentGame = useAppSelector((state) => state.games.currentGame);
-	const isGameLoading = useAppSelector(
-		(state) => state.games.currentGameStatus === DataStatus.PENDING
-	);
-
-	useLanguageSync(
-		useCallback(() => {
-			if (id && !isGameLoading) {
-				void dispatch(gamesActions.getById(id));
-			}
-		}, [dispatch, id, isGameLoading])
-	);
-
-	useEffect(() => {
-		const isDataCached = currentGame && currentGame.id === id;
-
-		if (id && !isGameLoading && !isDataCached) {
-			void dispatch(gamesActions.getById(id));
-		}
-	}, [dispatch, id, currentGame, isGameLoading]);
+	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
 
 	useEffect(() => {
 		return (): void => {
 			dispatch(gamesActions.clearCurrentGame());
 		};
-	}, [dispatch, id]);
+	}, [dispatch]);
 
 	if (!id) {
 		return (

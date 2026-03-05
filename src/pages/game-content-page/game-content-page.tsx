@@ -1,12 +1,9 @@
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
-import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
-	useAppSelector,
-	useCallback,
 	useEffect,
-	useLanguageSync,
+	useGameFetch,
 	useParams,
 	useTranslation,
 } from "~/libs/hooks/hooks";
@@ -17,35 +14,15 @@ import styles from "./styles.module.css";
 const GameContentPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { id } = useParams();
-
 	const dispatch = useAppDispatch();
 
-	const currentGame = useAppSelector((state) => state.games.currentGame);
-	const isGameLoading = useAppSelector(
-		(state) => state.games.currentGameStatus === DataStatus.PENDING
-	);
-
-	useLanguageSync(
-		useCallback(() => {
-			if (id && !isGameLoading) {
-				void dispatch(gamesActions.getById(id));
-			}
-		}, [dispatch, id, isGameLoading])
-	);
-
-	useEffect(() => {
-		const isDataCached = currentGame && currentGame.id === id;
-
-		if (id && !isGameLoading && !isDataCached) {
-			void dispatch(gamesActions.getById(id));
-		}
-	}, [dispatch, id, currentGame, isGameLoading]);
+	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
 
 	useEffect(() => {
 		return (): void => {
 			dispatch(gamesActions.clearCurrentGame());
 		};
-	}, [dispatch, id]);
+	}, [dispatch]);
 
 	if (!id) {
 		return (

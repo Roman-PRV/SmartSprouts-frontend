@@ -1,5 +1,6 @@
 export { useAppDispatch } from "./use-app-dispatch/use-app-dispatch.hook";
 export { useAppSelector } from "./use-app-selector/use-app-selector.hook";
+export { useGameFetch } from "./use-game-fetch/use-game-fetch.hook";
 export { useLanguageSync } from "./use-language-sync/use-language-sync.hook";
 export { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 export { useForm } from "react-hook-form";
