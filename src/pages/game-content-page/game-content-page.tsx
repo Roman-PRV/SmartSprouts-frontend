@@ -47,11 +47,7 @@ const GameContentPage: React.FC = () => {
 		);
 	}
 
-	return (
-		<div>
-			<GameLevelsPreview game={currentGame} />
-		</div>
-	);
+	return <GameLevelsPreview game={currentGame} />;
 };
 
 export { GameContentPage };

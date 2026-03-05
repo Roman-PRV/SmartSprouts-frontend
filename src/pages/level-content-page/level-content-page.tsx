@@ -31,6 +31,14 @@ const LevelContentPage: React.FC = () => {
 		);
 	}
 
+	if (!levelId) {
+		return (
+			<div className={styles["loading-container"]}>
+				<h1>{t("games.level.noLevel")}</h1>
+			</div>
+		);
+	}
+
 	if (isGameLoading) {
 		return (
 			<div className={styles["loading-container"]}>
@@ -53,14 +61,6 @@ const LevelContentPage: React.FC = () => {
 		return (
 			<div className={styles["loading-container"]}>
 				<h1>{t("games.level.unsupportedType", { key: currentGame.key })}</h1>
-			</div>
-		);
-	}
-
-	if (!levelId) {
-		return (
-			<div className={styles["loading-container"]}>
-				<h1>{t("games.level.noLevel")}</h1>
 			</div>
 		);
 	}
