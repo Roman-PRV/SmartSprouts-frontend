@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
@@ -10,6 +11,7 @@ import {
 	useAppSelector,
 	useCallback,
 	useEffect,
+	useRef,
 	useState,
 } from "~/libs/hooks/hooks";
 import { type LevelCardProperties } from "~/libs/types/types";
@@ -19,6 +21,7 @@ import { TrueFalseStatement } from "./true-false-statement/true-false-statement"
 
 const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) => {
 	const storageKey = `tf-${game.id}-${String(levelId)}`;
+	const { i18n } = useTranslation();
 	const dispatch = useAppDispatch();
 
 	const level = useAppSelector((state) => state.trueFalseLevels.currentLevel);
@@ -76,13 +79,21 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 		localStorage.removeItem(storageKey);
 	}, [storageKey]);
 
+	const lastLanguageReference = useRef(i18n.language);
+
 	useEffect(() => {
+		const isLanguageChanged = lastLanguageReference.current !== i18n.language;
+
 		void dispatch(trueFalseGameActions.getLevelById({ gameId: game.id, levelId: String(levelId) }));
+
+		if (isLanguageChanged) {
+			lastLanguageReference.current = i18n.language;
+		}
 
 		return (): void => {
 			dispatch(trueFalseGameActions.clearCurrentLevel());
 		};
-	}, [dispatch, game.id, levelId]);
+	}, [dispatch, game.id, levelId, i18n.language]);
 
 	useEffect(() => {
 		const saved = localStorage.getItem(storageKey);

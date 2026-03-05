@@ -6,6 +6,7 @@ import {
 	useAppSelector,
 	useEffect,
 	useParams,
+	useRef,
 	useTranslation,
 } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
@@ -13,7 +14,7 @@ import { actions as gamesActions } from "~/modules/games/games";
 import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
-	const { t } = useTranslation();
+	const { i18n, t } = useTranslation();
 	const { id } = useParams();
 
 	const dispatch = useAppDispatch();
@@ -23,13 +24,17 @@ const GameContentPage: React.FC = () => {
 		(state) => state.games.currentGameStatus === DataStatus.PENDING
 	);
 
+	const lastLanguageReference = useRef(i18n.language);
+
 	useEffect(() => {
 		const isDataCached = currentGame && currentGame.id === id;
+		const isLanguageChanged = lastLanguageReference.current !== i18n.language;
 
-		if (id && !isDataCached && !isGameLoading) {
+		if (id && !isGameLoading && (!isDataCached || isLanguageChanged)) {
 			void dispatch(gamesActions.getById(id));
+			lastLanguageReference.current = i18n.language;
 		}
-	}, [dispatch, id, currentGame, isGameLoading]);
+	}, [dispatch, id, currentGame, isGameLoading, i18n.language]);
 
 	useEffect(() => {
 		return (): void => {

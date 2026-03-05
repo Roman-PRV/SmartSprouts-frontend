@@ -2,7 +2,7 @@ import { LevelPreviewCard } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect, useTranslation } from "~/libs/hooks/hooks";
+import { useAppDispatch, useAppSelector, useEffect, useRef, useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto } from "~/libs/types/types";
 import { getLevelsList } from "~/modules/games/slices/actions";
 
@@ -13,15 +13,20 @@ type Properties = {
 };
 
 const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
-	const { t } = useTranslation();
+	const { i18n, t } = useTranslation();
 	const dispatch = useAppDispatch();
 	const { currentGameLevels, levelsStatus } = useAppSelector((state) => state.games);
 
+	const lastLanguageReference = useRef(i18n.language);
+
 	useEffect(() => {
-		if (levelsStatus === DataStatus.IDLE) {
+		const isLanguageChanged = lastLanguageReference.current !== i18n.language;
+
+		if (levelsStatus === DataStatus.IDLE || isLanguageChanged) {
 			void dispatch(getLevelsList(game.id));
+			lastLanguageReference.current = i18n.language;
 		}
-	}, [dispatch, game.id, levelsStatus]);
+	}, [dispatch, game.id, levelsStatus, i18n.language]);
 
 	const isLoading = levelsStatus === DataStatus.PENDING;
 	const hasError = levelsStatus === DataStatus.REJECTED;

@@ -1,6 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect, useParams } from "~/libs/hooks/hooks";
+import {
+	useAppDispatch,
+	useAppSelector,
+	useEffect,
+	useParams,
+	useRef,
+} from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
 import { getLevelComponent } from "./level-component-selector";
@@ -8,6 +16,7 @@ import styles from "./styles.module.css";
 
 const LevelContentPage: React.FC = () => {
 	const { id, levelId } = useParams();
+	const { i18n } = useTranslation();
 
 	const dispatch = useAppDispatch();
 
@@ -16,13 +25,17 @@ const LevelContentPage: React.FC = () => {
 		(state) => state.games.currentGameStatus === DataStatus.PENDING
 	);
 
+	const lastLanguageReference = useRef(i18n.language);
+
 	useEffect(() => {
 		const isDataCached = currentGame && currentGame.id === id;
+		const isLanguageChanged = lastLanguageReference.current !== i18n.language;
 
-		if (id && !isDataCached && !isGameLoading) {
+		if (id && !isGameLoading && (!isDataCached || isLanguageChanged)) {
 			void dispatch(gamesActions.getById(id));
+			lastLanguageReference.current = i18n.language;
 		}
-	}, [dispatch, id, currentGame, isGameLoading]);
+	}, [dispatch, id, currentGame, isGameLoading, i18n.language]);
 
 	useEffect(() => {
 		return (): void => {
