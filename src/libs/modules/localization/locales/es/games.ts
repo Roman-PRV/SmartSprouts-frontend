@@ -14,6 +14,22 @@ const games = {
 		empty: "No hay juegos disponibles en este momento.",
 		title: "Elige un juego",
 	},
+	trueFalse: {
+		actions: {
+			back: "Volver a los niveles",
+			reset: "Reiniciar nivel",
+		},
+		error: {
+			check: "Error al comprobar las respuestas. Inténtalo de nuevo.",
+			load: "Error al cargar el nivel. Por favor, inténtalo de nuevo.",
+			notFound: "Nivel no encontrado.",
+		},
+		loading: {
+			check: "Comprobando...",
+			load: "Cargando nivel...",
+		},
+		submit: "Comprobar respuestas",
+	},
 };
 
 export { games };

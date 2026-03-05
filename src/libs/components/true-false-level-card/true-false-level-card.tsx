@@ -1,145 +1,49 @@
 import { Link } from "react-router-dom";
 
-import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
-import { type TrueFalseGameResultDto } from "~/games/true-false-game/libs/types/types";
-import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import {
-	useAppDispatch,
-	useAppSelector,
-	useCallback,
-	useEffect,
-	useLanguageSync,
-	useState,
-} from "~/libs/hooks/hooks";
+import { useCallback, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
 import { type LevelCardProperties } from "~/libs/types/types";
 
 import styles from "./styles.module.css";
 import { TrueFalseStatement } from "./true-false-statement/true-false-statement";
 
 const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) => {
+	const { t } = useTranslation();
 	const storageKey = `tf-${game.id}-${String(levelId)}`;
-	const dispatch = useAppDispatch();
 
-	const level = useAppSelector((state) => state.trueFalseLevels.currentLevel);
-	const currentStatus = useAppSelector((state) => state.trueFalseLevels.currentStatus);
-
-	const [answers, setAnswers] = useState<Record<number, boolean>>({});
-	const [results, setResults] = useState<null | TrueFalseGameResultDto[]>(null);
-	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	const [submitError, setSubmitError] = useState<null | string>(null);
-
-	const handleSubmit = useCallback(async (): Promise<void> => {
-		if (!level || isSubmitting || results !== null) {
-			return;
-		}
-
-		setIsSubmitting(true);
-		setSubmitError(null);
-
-		try {
-			const answersArray = Object.entries(answers).map(([statementId, answer]) => ({
-				answer,
-				statement_id: Number(statementId),
-			}));
-
-			const result = await dispatch(
-				trueFalseGameActions.checkAnswers({
-					gameId: game.id,
-					levelId: String(levelId),
-					payload: {
-						answers: answersArray,
-						level_id: level.id,
-					},
-				})
-			).unwrap();
-
-			setResults(result.results);
-		} catch {
-			setSubmitError("Failed to check answers. Please try again.");
-		} finally {
-			setIsSubmitting(false);
-		}
-	}, [level, isSubmitting, results, answers, dispatch, game.id, levelId]);
-
-	const handleSubmitClick = useCallback((): void => {
-		void handleSubmit();
-	}, [handleSubmit]);
+	const {
+		allAnswered,
+		answers,
+		handleReset,
+		handleSelect,
+		handleSubmit,
+		isSubmitting,
+		level,
+		results,
+		status,
+		submitError,
+	} = useTrueFalseGame({ game, levelId });
 
 	const handleBackToLevels = useCallback((): void => {
 		localStorage.removeItem(storageKey);
 	}, [storageKey]);
 
-	const handleReset = useCallback((): void => {
-		setAnswers({});
-		setResults(null);
-		localStorage.removeItem(storageKey);
-	}, [storageKey]);
+	const handleSubmitClick = useCallback((): void => {
+		void handleSubmit();
+	}, [handleSubmit]);
 
-	useLanguageSync(
-		useCallback(() => {
-			void dispatch(
-				trueFalseGameActions.getLevelById({ gameId: game.id, levelId: String(levelId) })
-			);
-		}, [dispatch, game.id, levelId])
-	);
-
-	useEffect(() => {
-		void dispatch(trueFalseGameActions.getLevelById({ gameId: game.id, levelId: String(levelId) }));
-
-		return (): void => {
-			dispatch(trueFalseGameActions.clearCurrentLevel());
-		};
-	}, [dispatch, game.id, levelId]);
-
-	useEffect(() => {
-		const saved = localStorage.getItem(storageKey);
-
-		if (saved) {
-			try {
-				const parsed = JSON.parse(saved) as Record<number, boolean>;
-				setAnswers(parsed);
-			} catch {
-				// Invalid JSON, ignore
-			}
-		}
-	}, [storageKey]);
-
-	useEffect(() => {
-		if (Object.keys(answers).length > EMPTY_ARRAY_LENGTH || results !== null) {
-			localStorage.setItem(storageKey, JSON.stringify(answers));
-		}
-	}, [answers, storageKey, results]);
-
-	const handleSelect = useCallback(
-		(statementId: number, value: boolean): void => {
-			if (results !== null) {
-				return;
-			}
-
-			setAnswers((previous) => ({
-				...previous,
-				[statementId]: value,
-			}));
-		},
-		[results]
-	);
-
-	if (currentStatus === DataStatus.PENDING) {
-		return <div>Loading level...</div>;
+	if (status === DataStatus.PENDING) {
+		return <div>{t("games.trueFalse.loading.load")}</div>;
 	}
 
-	if (currentStatus === DataStatus.REJECTED) {
-		return <div>Error loading level. Please try again.</div>;
+	if (status === DataStatus.REJECTED) {
+		return <div>{t("games.trueFalse.error.load")}</div>;
 	}
 
 	if (!level) {
-		return <div>Level not found.</div>;
+		return <div>{t("games.trueFalse.error.notFound")}</div>;
 	}
-
-	const allAnswered: boolean =
-		level.statements.length > EMPTY_ARRAY_LENGTH && level.statements.every((s) => s.id in answers);
 
 	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;
 	const cardModiferClass = isTextMode ? styles["level-card--text-mode"] : "";
@@ -182,11 +86,13 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				disabled={!allAnswered || isSubmitting || results !== null}
 				onClick={handleSubmitClick}
 			>
-				{isSubmitting ? "Checking..." : "Check Answers"}
+				{isSubmitting ? t("games.trueFalse.loading.check") : t("games.trueFalse.submit")}
 			</button>
 
 			{submitError && (
-				<div className={getValidClassNames(styles["level-card__error"])}>{submitError}</div>
+				<div className={getValidClassNames(styles["level-card__error"])}>
+					{t("games.trueFalse.error.check")}
+				</div>
 			)}
 
 			<div className={getValidClassNames(styles["level-card__actions"])}>
@@ -198,7 +104,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 					onClick={handleBackToLevels}
 					to={`/games/${game.id}`}
 				>
-					Back to Levels
+					{t("games.trueFalse.actions.back")}
 				</Link>
 
 				<button
@@ -208,7 +114,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 					)}
 					onClick={handleReset}
 				>
-					Reset Level
+					{t("games.trueFalse.actions.reset")}
 				</button>
 			</div>
 		</div>
