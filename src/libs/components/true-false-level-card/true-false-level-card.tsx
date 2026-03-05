@@ -10,7 +10,6 @@ import { TrueFalseStatement } from "./true-false-statement/true-false-statement"
 
 const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) => {
 	const { t } = useTranslation();
-	const storageKey = `tf-${game.id}-${String(levelId)}`;
 
 	const {
 		allAnswered,
@@ -22,6 +21,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 		level,
 		results,
 		status,
+		storageKey,
 		submitError,
 	} = useTrueFalseGame({ game, levelId });
 

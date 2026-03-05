@@ -4,6 +4,14 @@ const games = {
 		loading: "Cargando contenido del juego...",
 		notFound: "Contenido del juego no encontrado.",
 	},
+	level: {
+		invalidId: "ID de juego no válido o ausente.",
+		loading: "Cargando contenido del juego...",
+		noLevel: "Ningún nivel seleccionado.",
+		notFound: "Contenido del juego no encontrado.",
+		title: "Nivel {{levelId}} — {{title}}",
+		unsupportedType: "Tipo de juego no compatible: {{key}}",
+	},
 	levels: {
 		empty: "No hay niveles disponibles en este momento.",
 		error: "Error al cargar los niveles. Por favor, inténtalo de nuevo.",

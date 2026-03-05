@@ -30,6 +30,7 @@ type UseTrueFalseGameReturn = {
 	level: null | TrueFalseGameLevelDto;
 	results: null | TrueFalseGameResultDto[];
 	status: ValueOf<typeof DataStatus>;
+	storageKey: string;
 	submitError: null | string;
 };
 
@@ -151,6 +152,7 @@ const useTrueFalseGame = ({
 		level,
 		results,
 		status,
+		storageKey,
 		submitError,
 	};
 };

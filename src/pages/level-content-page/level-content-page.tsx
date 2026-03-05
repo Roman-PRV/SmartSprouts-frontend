@@ -1,11 +1,18 @@
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useEffect, useGameFetch, useParams } from "~/libs/hooks/hooks";
+import {
+	useAppDispatch,
+	useEffect,
+	useGameFetch,
+	useParams,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
 import { getLevelComponent } from "./level-component-selector";
 import styles from "./styles.module.css";
 
 const LevelContentPage: React.FC = () => {
+	const { t } = useTranslation();
 	const { id, levelId } = useParams();
 	const dispatch = useAppDispatch();
 
@@ -20,7 +27,7 @@ const LevelContentPage: React.FC = () => {
 	if (!id) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Invalid or missing game ID.</h1>
+				<h1>{t("games.level.invalidId")}</h1>
 			</div>
 		);
 	}
@@ -28,7 +35,7 @@ const LevelContentPage: React.FC = () => {
 	if (isGameLoading) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Loading game content...</h1>
+				<h1>{t("games.level.loading")}</h1>
 			</div>
 		);
 	}
@@ -36,7 +43,7 @@ const LevelContentPage: React.FC = () => {
 	if (!currentGame) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Game content not found.</h1>
+				<h1>{t("games.level.notFound")}</h1>
 			</div>
 		);
 	}
@@ -46,7 +53,7 @@ const LevelContentPage: React.FC = () => {
 	if (!LevelComponent) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Unsupported game type: {currentGame.key}</h1>
+				<h1>{t("games.level.unsupportedType", { key: currentGame.key })}</h1>
 			</div>
 		);
 	}
@@ -54,7 +61,7 @@ const LevelContentPage: React.FC = () => {
 	if (!levelId) {
 		return (
 			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>No level selected</h1>
+				<h1>{t("games.level.noLevel")}</h1>
 			</div>
 		);
 	}
@@ -63,7 +70,7 @@ const LevelContentPage: React.FC = () => {
 		<div className={getValidClassNames(styles["page"])}>
 			<header className={getValidClassNames(styles["page__header"])}>
 				<h1 className={getValidClassNames(styles["page__title"])}>
-					Level {levelId} — {currentGame.title}
+					{t("games.level.title", { levelId, title: currentGame.title })}
 				</h1>
 			</header>
 

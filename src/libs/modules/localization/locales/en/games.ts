@@ -4,6 +4,14 @@ const games = {
 		loading: "Loading game content...",
 		notFound: "Game content not found.",
 	},
+	level: {
+		invalidId: "Invalid or missing game ID.",
+		loading: "Loading game content...",
+		noLevel: "No level selected.",
+		notFound: "Game content not found.",
+		title: "Level {{levelId}} — {{title}}",
+		unsupportedType: "Unsupported game type: {{key}}",
+	},
 	levels: {
 		empty: "No levels available at the moment.",
 		error: "Failed to load levels. Please try again.",
