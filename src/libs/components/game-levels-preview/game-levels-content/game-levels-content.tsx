@@ -1,5 +1,4 @@
 import { LevelPreviewCard } from "~/libs/components/components";
-import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto, type LevelDescriptionDto } from "~/libs/types/types";
 
@@ -24,25 +23,19 @@ const GameLevelsContent: React.FC<Properties> = ({
 
 	if (isLoading) {
 		return (
-			<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
-				{t("games.levels.loading")}
-			</div>
+			<div className={styles["game-levels-preview__no-content"]}>{t("games.levels.loading")}</div>
 		);
 	}
 
 	if (hasError) {
 		return (
-			<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
-				{t("games.levels.error")}
-			</div>
+			<div className={styles["game-levels-preview__no-content"]}>{t("games.levels.error")}</div>
 		);
 	}
 
 	if (!hasLevels) {
 		return (
-			<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
-				{t("games.levels.empty")}
-			</div>
+			<div className={styles["game-levels-preview__no-content"]}>{t("games.levels.empty")}</div>
 		);
 	}
 

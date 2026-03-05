@@ -1,5 +1,4 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
-import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -29,17 +28,14 @@ const GameSelectionPage: React.FC = () => {
 	}, [dispatch]);
 
 	return (
-		<div className={getValidClassNames(styles["game-selection-page__container"])}>
-			<header className={getValidClassNames(styles["game-selection-page__header"])}>
-				<h1 className={getValidClassNames(styles["game-selection-page__title"])}>
-					{t("games.selection.title")}
-				</h1>
-				<div className={getValidClassNames(styles["game-selection-page__controls"])}></div>
+		<div className={styles["game-selection-page__container"]}>
+			<header className={styles["game-selection-page__header"]}>
+				<h1 className={styles["game-selection-page__title"]}>{t("games.selection.title")}</h1>
 			</header>
 
-			<main aria-live="polite" className={getValidClassNames(styles["game-selection-page__grid"])}>
+			<main aria-live="polite" className={styles["game-selection-page__grid"]}>
 				{games.length === EMPTY_ARRAY_LENGTH ? (
-					<div className={getValidClassNames(styles["game-selection-page__no-games"])}>
+					<div className={styles["game-selection-page__no-games"]}>
 						{t("games.selection.empty")}
 					</div>
 				) : (

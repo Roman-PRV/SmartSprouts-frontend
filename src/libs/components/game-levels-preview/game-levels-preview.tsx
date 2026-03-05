@@ -1,6 +1,5 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
-import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -42,10 +41,10 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 
 	return (
 		<div>
-			<h2 className={getValidClassNames(styles["game-levels-preview__title"])}>
+			<h2 className={styles["game-levels-preview__title"]}>
 				{t("games.levels.title", { title: game.title })}
 			</h2>
-			<section aria-live="polite" className={getValidClassNames(styles["game-levels-preview__grid"])}>
+			<section aria-live="polite" className={styles["game-levels-preview__grid"]}>
 				<GameLevelsContent
 					game={game}
 					hasError={hasError}

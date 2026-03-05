@@ -1,4 +1,3 @@
-import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useEffect,
@@ -26,7 +25,7 @@ const LevelContentPage: React.FC = () => {
 
 	if (!id) {
 		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
+			<div className={styles["loading-container"]}>
 				<h1>{t("games.level.invalidId")}</h1>
 			</div>
 		);
@@ -34,7 +33,7 @@ const LevelContentPage: React.FC = () => {
 
 	if (isGameLoading) {
 		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
+			<div className={styles["loading-container"]}>
 				<h1>{t("games.level.loading")}</h1>
 			</div>
 		);
@@ -42,7 +41,7 @@ const LevelContentPage: React.FC = () => {
 
 	if (!currentGame) {
 		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
+			<div className={styles["loading-container"]}>
 				<h1>{t("games.level.notFound")}</h1>
 			</div>
 		);
@@ -52,7 +51,7 @@ const LevelContentPage: React.FC = () => {
 
 	if (!LevelComponent) {
 		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
+			<div className={styles["loading-container"]}>
 				<h1>{t("games.level.unsupportedType", { key: currentGame.key })}</h1>
 			</div>
 		);
@@ -60,21 +59,21 @@ const LevelContentPage: React.FC = () => {
 
 	if (!levelId) {
 		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
+			<div className={styles["loading-container"]}>
 				<h1>{t("games.level.noLevel")}</h1>
 			</div>
 		);
 	}
 
 	return (
-		<div className={getValidClassNames(styles["page"])}>
-			<header className={getValidClassNames(styles["page__header"])}>
-				<h1 className={getValidClassNames(styles["page__title"])}>
+		<div className={styles["page"]}>
+			<header className={styles["page__header"]}>
+				<h1 className={styles["page__title"]}>
 					{t("games.level.title", { levelId, title: currentGame.title })}
 				</h1>
 			</header>
 
-			<main className={getValidClassNames(styles["page__content"])}>
+			<main className={styles["page__content"]}>
 				<LevelComponent
 					game={currentGame}
 					key={`${currentGame.id}-${levelId}`}

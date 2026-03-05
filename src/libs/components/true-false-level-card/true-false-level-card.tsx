@@ -46,12 +46,12 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	}
 
 	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;
-	const cardModiferClass = isTextMode ? styles["level-card--text-mode"] : "";
+	const cardModifierClass = isTextMode ? styles["level-card--text-mode"] : "";
 	const imageModifierClass = isTextMode ? styles["level-card__image--small"] : "";
 
 	return (
-		<div className={getValidClassNames(styles["level-card"], cardModiferClass)}>
-			<h2 className={getValidClassNames(styles["level-card__title"])}>{level.title}</h2>
+		<div className={getValidClassNames(styles["level-card"], cardModifierClass)}>
+			<h2 className={styles["level-card__title"]}>{level.title}</h2>
 
 			{level.image_url && (
 				<img
@@ -61,9 +61,9 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				/>
 			)}
 
-			{level.text && <p className={getValidClassNames(styles["level-card__text"])}>{level.text}</p>}
+			{level.text && <p className={styles["level-card__text"]}>{level.text}</p>}
 
-			<div className={getValidClassNames(styles["level-card__statements"])}>
+			<div className={styles["level-card__statements"]}>
 				{level.statements.map((s) => {
 					const selected = answers[s.id];
 					const result = results?.find((r) => r.statement_id === s.id);
@@ -82,7 +82,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			</div>
 
 			<button
-				className={getValidClassNames(styles["level-card__submit"])}
+				className={styles["level-card__submit"]}
 				disabled={!allAnswered || isSubmitting || results !== null}
 				onClick={handleSubmitClick}
 			>
@@ -90,12 +90,10 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			</button>
 
 			{submitError && (
-				<div className={getValidClassNames(styles["level-card__error"])}>
-					{t("games.trueFalse.error.check")}
-				</div>
+				<div className={styles["level-card__error"]}>{t("games.trueFalse.error.check")}</div>
 			)}
 
-			<div className={getValidClassNames(styles["level-card__actions"])}>
+			<div className={styles["level-card__actions"]}>
 				<Link
 					className={getValidClassNames(
 						styles["level-card__action-button"],

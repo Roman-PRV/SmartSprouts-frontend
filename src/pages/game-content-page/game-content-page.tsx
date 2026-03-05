@@ -1,5 +1,4 @@
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
-import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useEffect,
@@ -26,7 +25,7 @@ const GameContentPage: React.FC = () => {
 
 	if (!id) {
 		return (
-			<div className={getValidClassNames(styles["game-content-page__loading-container"])}>
+			<div className={styles["game-content-page__loading-container"]}>
 				<h1>{t("games.content.invalidId")}</h1>
 			</div>
 		);
@@ -34,7 +33,7 @@ const GameContentPage: React.FC = () => {
 
 	if (isGameLoading) {
 		return (
-			<div className={getValidClassNames(styles["game-content-page__loading-container"])}>
+			<div className={styles["game-content-page__loading-container"]}>
 				<h1>{t("games.content.loading")}</h1>
 			</div>
 		);
@@ -42,7 +41,7 @@ const GameContentPage: React.FC = () => {
 
 	if (!currentGame) {
 		return (
-			<div className={getValidClassNames(styles["game-content-page__loading-container"])}>
+			<div className={styles["game-content-page__loading-container"]}>
 				<h1>{t("games.content.notFound")}</h1>
 			</div>
 		);
