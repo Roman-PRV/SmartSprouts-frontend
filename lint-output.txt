@@ -1,0 +1,7 @@
+
+D:\Coding\pet-project\SmartSprouts-frontend\src\pages\game-content-page\game-content-page.tsx
+  12:8  error  'styles' is defined but never used     @typescript-eslint/no-unused-vars
+  12:8  error  Remove this unused import of 'styles'  sonarjs/unused-import
+
+✖ 2 problems (2 errors, 0 warnings)
+

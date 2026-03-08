@@ -1,3 +1,4 @@
+import { FallbackMessage } from "~/libs/components/components";
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
 import {
 	useAppDispatch,
@@ -7,8 +8,6 @@ import {
 	useTranslation,
 } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
-
-import styles from "./styles.module.css";
 
 const GameContentPage: React.FC = () => {
 	const { t } = useTranslation();
@@ -24,27 +23,15 @@ const GameContentPage: React.FC = () => {
 	}, [dispatch]);
 
 	if (!id) {
-		return (
-			<div className={styles["game-content-page__loading-container"]}>
-				<h1>{t("games.content.invalidId")}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.content.invalidId")} />;
 	}
 
 	if (isGameLoading) {
-		return (
-			<div className={styles["game-content-page__loading-container"]}>
-				<h1>{t("games.content.loading")}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.content.loading")} />;
 	}
 
 	if (!currentGame) {
-		return (
-			<div className={styles["game-content-page__loading-container"]}>
-				<h1>{t("games.content.notFound")}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.content.notFound")} />;
 	}
 
 	return <GameLevelsPreview game={currentGame} />;

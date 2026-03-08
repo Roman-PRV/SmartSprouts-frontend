@@ -1,3 +1,4 @@
+import { FallbackMessage } from "~/libs/components/components";
 import {
 	useAppDispatch,
 	useEffect,
@@ -24,45 +25,25 @@ const LevelContentPage: React.FC = () => {
 	}, [dispatch]);
 
 	if (!id) {
-		return (
-			<div className={styles["loading-container"]}>
-				<h1>{t("games.level.invalidId")}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.invalidId")} />;
 	}
 
 	if (!levelId) {
-		return (
-			<div className={styles["loading-container"]}>
-				<h1>{t("games.level.noLevel")}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.noLevel")} />;
 	}
 
 	if (isGameLoading) {
-		return (
-			<div className={styles["loading-container"]}>
-				<h1>{t("games.level.loading")}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.loading")} />;
 	}
 
 	if (!currentGame) {
-		return (
-			<div className={styles["loading-container"]}>
-				<h1>{t("games.level.notFound")}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.notFound")} />;
 	}
 
 	const LevelComponent = getLevelComponent(currentGame.key);
 
 	if (!LevelComponent) {
-		return (
-			<div className={styles["loading-container"]}>
-				<h1>{t("games.level.unsupportedType", { key: currentGame.key })}</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.unsupportedType", { key: currentGame.key })} />;
 	}
 
 	return (
