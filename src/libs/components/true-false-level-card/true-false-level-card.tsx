@@ -38,8 +38,8 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			return null;
 		}
 
-		const map: Record<number, typeof results[number]> = {};
-		
+		const map: Record<number, (typeof results)[number]> = {};
+
 		for (const result of results) {
 			map[result.statement_id] = result;
 		}

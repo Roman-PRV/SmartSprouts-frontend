@@ -1,10 +1,6 @@
 import { FallbackMessage } from "~/libs/components/components";
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
-import {
-	useGameFetch,
-	useParams,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
 
 const GameContentPage: React.FC = () => {
 	const { t } = useTranslation();

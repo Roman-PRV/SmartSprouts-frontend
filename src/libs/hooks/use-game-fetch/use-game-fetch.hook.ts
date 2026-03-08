@@ -1,11 +1,9 @@
+import { useCallback, useEffect } from "react";
+
 import { DataStatus } from "~/libs/enums/enums";
-import {
-	useAppDispatch,
-	useAppSelector,
-	useCallback,
-	useEffect,
-	useLanguageSync,
-} from "~/libs/hooks/hooks";
+import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
+import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
+import { useLanguageSync } from "~/libs/hooks/use-language-sync/use-language-sync.hook";
 import { type GameDescriptionDto } from "~/libs/types/types";
 import { actions as gamesActions } from "~/modules/games/games";
 

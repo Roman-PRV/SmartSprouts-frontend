@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from "react";
+
 import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
 import {
 	type TrueFalseGameLevelDto,
@@ -5,14 +7,9 @@ import {
 } from "~/games/true-false-game/libs/types/types";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { type DataStatus } from "~/libs/enums/enums";
-import {
-	useAppDispatch,
-	useAppSelector,
-	useCallback,
-	useEffect,
-	useLanguageSync,
-	useState,
-} from "~/libs/hooks/hooks";
+import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
+import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
+import { useLanguageSync } from "~/libs/hooks/use-language-sync/use-language-sync.hook";
 import { type GameDescriptionDto, type ValueOf } from "~/libs/types/types";
 
 type UseTrueFalseGameProperties = {

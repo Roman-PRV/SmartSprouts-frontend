@@ -1,9 +1,5 @@
 import { FallbackMessage } from "~/libs/components/components";
-import {
-	useGameFetch,
-	useParams,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
 
 import { getLevelComponent } from "./level-component-selector";
 import styles from "./styles.module.css";

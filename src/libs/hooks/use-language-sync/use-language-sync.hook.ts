@@ -1,4 +1,5 @@
-import { useEffect, useRef, useTranslation } from "~/libs/hooks/hooks";
+import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const useLanguageSync = (callback: () => void): void => {
 	const { i18n } = useTranslation();

@@ -1,6 +1,0 @@
-
-D:\Coding\pet-project\SmartSprouts-frontend\src\libs\hooks\use-game-fetch\use-game-fetch.hook.ts
-  41:4  error  Remove this use of the "void" operator  sonarjs/void-use
-
-✖ 1 problem (1 error, 0 warnings)
-
