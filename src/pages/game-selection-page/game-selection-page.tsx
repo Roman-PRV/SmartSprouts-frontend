@@ -17,15 +17,15 @@ const GameSelectionPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { games } = useAppSelector((state) => state.games);
 
-	useLanguageSync(
-		useCallback(() => {
-			void dispatch(gamesActions.getAllGames());
-		}, [dispatch])
-	);
-
-	useEffect(() => {
+	const fetchGames = useCallback(() => {
 		void dispatch(gamesActions.getAllGames());
 	}, [dispatch]);
+
+	useLanguageSync(fetchGames);
+
+	useEffect(() => {
+		fetchGames();
+	}, [fetchGames]);
 
 	return (
 		<div className={styles["game-selection-page__container"]}>

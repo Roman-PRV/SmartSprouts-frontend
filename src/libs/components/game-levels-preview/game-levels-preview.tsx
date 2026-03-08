@@ -23,17 +23,17 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 	const dispatch = useAppDispatch();
 	const { currentGameLevels, levelsStatus } = useAppSelector((state) => state.games);
 
-	useLanguageSync(
-		useCallback(() => {
-			void dispatch(getLevelsList(game.id));
-		}, [dispatch, game.id])
-	);
+	const fetchGames = useCallback(() => {
+		void dispatch(getLevelsList(game.id));
+	}, [dispatch, game.id]);
+
+	useLanguageSync(fetchGames);
 
 	useEffect(() => {
 		if (levelsStatus === DataStatus.IDLE) {
-			void dispatch(getLevelsList(game.id));
+			fetchGames();
 		}
-	}, [dispatch, game.id, levelsStatus]);
+	}, [fetchGames, levelsStatus]);
 
 	const isLoading = levelsStatus === DataStatus.PENDING;
 	const hasError = levelsStatus === DataStatus.REJECTED;
