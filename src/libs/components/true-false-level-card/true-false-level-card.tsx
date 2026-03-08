@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
+import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
 import { type LevelCardProperties } from "~/libs/types/types";
 
 import styles from "./styles.module.css";
@@ -33,6 +33,20 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 		void handleSubmit();
 	}, [handleSubmit]);
 
+	const resultsMap = useMemo(() => {
+		if (!results) {
+			return null;
+		}
+
+		const map: Record<number, typeof results[number]> = {};
+		
+		for (const result of results) {
+			map[result.statement_id] = result;
+		}
+
+		return map;
+	}, [results]);
+
 	if (status === DataStatus.PENDING) {
 		return <div>{t("games.trueFalse.loading.load")}</div>;
 	}
@@ -48,6 +62,8 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;
 	const cardModifierClass = isTextMode ? styles["level-card--text-mode"] : "";
 	const imageModifierClass = isTextMode ? styles["level-card__image--small"] : "";
+
+	const isLevelCompleted = results !== null;
 
 	return (
 		<div className={getValidClassNames(styles["level-card"], cardModifierClass)}>
@@ -66,11 +82,11 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			<div className={styles["level-card__statements"]}>
 				{level.statements.map((s) => {
 					const selected = answers[s.id];
-					const result = results?.find((r) => r.statement_id === s.id);
+					const result = resultsMap?.[s.id];
 
 					return (
 						<TrueFalseStatement
-							disabled={results !== null}
+							disabled={isLevelCompleted}
 							key={s.id}
 							onSelect={handleSelect}
 							result={result}
@@ -83,7 +99,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 
 			<button
 				className={styles["level-card__submit"]}
-				disabled={!allAnswered || isSubmitting || results !== null}
+				disabled={!allAnswered || isSubmitting || isLevelCompleted}
 				onClick={handleSubmitClick}
 			>
 				{isSubmitting ? t("games.trueFalse.loading.check") : t("games.trueFalse.submit")}
