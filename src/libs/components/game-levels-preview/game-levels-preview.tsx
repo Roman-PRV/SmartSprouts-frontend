@@ -21,7 +21,8 @@ type Properties = {
 const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
-	const { currentGameLevels, levelsStatus } = useAppSelector((state) => state.games);
+	const currentGameLevels = useAppSelector((state) => state.games.currentGameLevels);
+	const levelsStatus = useAppSelector((state) => state.games.levelsStatus);
 
 	const fetchGames = useCallback(() => {
 		void dispatch(getLevelsList(game.id));

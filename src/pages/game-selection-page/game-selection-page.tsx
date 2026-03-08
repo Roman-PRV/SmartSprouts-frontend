@@ -15,7 +15,7 @@ import styles from "./styles.module.css";
 const GameSelectionPage: React.FC = () => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
-	const { games } = useAppSelector((state) => state.games);
+	const games = useAppSelector((state) => state.games.games);
 
 	const fetchGames = useCallback(() => {
 		void dispatch(gamesActions.getAllGames());
