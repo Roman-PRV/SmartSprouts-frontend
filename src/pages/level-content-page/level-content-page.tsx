@@ -1,12 +1,9 @@
 import { FallbackMessage } from "~/libs/components/components";
 import {
-	useAppDispatch,
-	useEffect,
 	useGameFetch,
 	useParams,
 	useTranslation,
 } from "~/libs/hooks/hooks";
-import { actions as gamesActions } from "~/modules/games/games";
 
 import { getLevelComponent } from "./level-component-selector";
 import styles from "./styles.module.css";
@@ -14,15 +11,7 @@ import styles from "./styles.module.css";
 const LevelContentPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { id, levelId } = useParams();
-	const dispatch = useAppDispatch();
-
 	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
-
-	useEffect(() => {
-		return (): void => {
-			dispatch(gamesActions.clearCurrentGame());
-		};
-	}, [dispatch]);
 
 	if (!id) {
 		return <FallbackMessage message={t("games.level.invalidId")} />;

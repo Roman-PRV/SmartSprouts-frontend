@@ -36,6 +36,12 @@ const useGameFetch = (id: string | undefined): UseGameFetchReturn => {
 		}
 	}, [dispatch, id, currentGame, isLoading]);
 
+	useEffect(() => {
+		return (): void => {
+			dispatch(gamesActions.clearCurrentGame());
+		};
+	}, [dispatch]);
+
 	return {
 		currentGame,
 		isLoading,
