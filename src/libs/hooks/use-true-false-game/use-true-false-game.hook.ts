@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useCallback, useEffect, useState } from "react";
 
 import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
@@ -73,7 +74,7 @@ const useTrueFalseGame = ({
 
 			setResults(result.results);
 		} catch {
-			setSubmitError("Failed to check answers. Please try again.");
+			setSubmitError(t("games.true-false.checkError"));
 		} finally {
 			setIsSubmitting(false);
 		}
