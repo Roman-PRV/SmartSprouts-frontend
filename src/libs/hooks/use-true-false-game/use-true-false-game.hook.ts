@@ -1,4 +1,3 @@
-import { t } from "i18next";
 import { useCallback, useEffect, useState } from "react";
 
 import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
@@ -24,12 +23,12 @@ type UseTrueFalseGameReturn = {
 	handleReset: () => void;
 	handleSelect: (statementId: number, value: boolean) => void;
 	handleSubmit: () => Promise<void>;
+	hasSubmitError: boolean;
 	isSubmitting: boolean;
 	level: null | TrueFalseGameLevelDto;
 	results: null | TrueFalseGameResultDto[];
 	status: ValueOf<typeof DataStatus>;
 	storageKey: string;
-	submitError: null | string;
 };
 
 const useTrueFalseGame = ({
@@ -45,7 +44,7 @@ const useTrueFalseGame = ({
 	const [answers, setAnswers] = useState<Record<number, boolean>>({});
 	const [results, setResults] = useState<null | TrueFalseGameResultDto[]>(null);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	const [submitError, setSubmitError] = useState<null | string>(null);
+	const [hasSubmitError, setHasSubmitError] = useState<boolean>(false);
 
 	const handleSubmit = useCallback(async (): Promise<void> => {
 		if (!level || isSubmitting || results !== null) {
@@ -53,7 +52,7 @@ const useTrueFalseGame = ({
 		}
 
 		setIsSubmitting(true);
-		setSubmitError(null);
+		setHasSubmitError(false);
 
 		try {
 			const answersArray = Object.entries(answers).map(([statementId, answer]) => ({
@@ -74,7 +73,7 @@ const useTrueFalseGame = ({
 
 			setResults(result.results);
 		} catch {
-			setSubmitError(t("games.trueFalse.error.check"));
+			setHasSubmitError(true);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -83,7 +82,7 @@ const useTrueFalseGame = ({
 	const handleReset = useCallback((): void => {
 		setAnswers({});
 		setResults(null);
-		setSubmitError(null);
+		setHasSubmitError(false);
 		localStorage.removeItem(storageKey);
 	}, [storageKey]);
 
@@ -147,12 +146,12 @@ const useTrueFalseGame = ({
 		handleReset,
 		handleSelect,
 		handleSubmit,
+		hasSubmitError,
 		isSubmitting,
 		level,
 		results,
 		status,
 		storageKey,
-		submitError,
 	};
 };
 

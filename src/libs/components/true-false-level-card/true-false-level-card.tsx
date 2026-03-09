@@ -17,12 +17,12 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 		handleReset,
 		handleSelect,
 		handleSubmit,
+		hasSubmitError,
 		isSubmitting,
 		level,
 		results,
 		status,
 		storageKey,
-		submitError,
 	} = useTrueFalseGame({ game, levelId });
 
 	const handleBackToLevels = useCallback((): void => {
@@ -105,7 +105,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				{isSubmitting ? t("games.trueFalse.loading.check") : t("games.trueFalse.submit")}
 			</button>
 
-			{submitError && (
+			{hasSubmitError && (
 				<div className={styles["level-card__error"]}>{t("games.trueFalse.error.check")}</div>
 			)}
 
