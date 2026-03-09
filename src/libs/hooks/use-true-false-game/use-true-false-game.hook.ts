@@ -74,7 +74,7 @@ const useTrueFalseGame = ({
 
 			setResults(result.results);
 		} catch {
-			setSubmitError(t("games.true-false.checkError"));
+			setSubmitError(t("games.trueFalse.error.check"));
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -83,6 +83,7 @@ const useTrueFalseGame = ({
 	const handleReset = useCallback((): void => {
 		setAnswers({});
 		setResults(null);
+		setSubmitError(null);
 		localStorage.removeItem(storageKey);
 	}, [storageKey]);
 
