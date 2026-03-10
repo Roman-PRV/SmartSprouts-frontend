@@ -1,86 +1,45 @@
-import { DataStatus } from "~/libs/enums/enums";
-import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect, useParams } from "~/libs/hooks/hooks";
-import { actions as gamesActions } from "~/modules/games/games";
+import { FallbackMessage } from "~/libs/components/components";
+import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
 
 import { getLevelComponent } from "./level-component-selector";
 import styles from "./styles.module.css";
 
 const LevelContentPage: React.FC = () => {
+	const { t } = useTranslation();
 	const { id, levelId } = useParams();
-
-	const dispatch = useAppDispatch();
-
-	const currentGame = useAppSelector((state) => state.games.currentGame);
-	const isGameLoading = useAppSelector(
-		(state) => state.games.currentGameStatus === DataStatus.PENDING
-	);
-
-	useEffect(() => {
-		const isDataCached = currentGame && currentGame.id === id;
-
-		if (id && !isDataCached && !isGameLoading) {
-			void dispatch(gamesActions.getById(id));
-		}
-	}, [dispatch, id, currentGame, isGameLoading]);
-
-	useEffect(() => {
-		return (): void => {
-			dispatch(gamesActions.clearCurrentGame());
-		};
-	}, [dispatch, id]);
+	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
 
 	if (!id) {
-		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Invalid or missing game ID.</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.invalidId")} />;
+	}
+
+	if (!levelId) {
+		return <FallbackMessage message={t("games.level.noLevel")} />;
 	}
 
 	if (isGameLoading) {
-		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Loading game content...</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.loading")} />;
 	}
 
 	if (!currentGame) {
-		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Game content not found.</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.notFound")} />;
 	}
 
 	const LevelComponent = getLevelComponent(currentGame.key);
 
 	if (!LevelComponent) {
-		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>Unsupported game type: {currentGame.key}</h1>
-			</div>
-		);
-	}
-
-	if (!levelId) {
-		return (
-			<div className={getValidClassNames(styles["loading-container"])}>
-				<h1>No level selected</h1>
-			</div>
-		);
+		return <FallbackMessage message={t("games.level.unsupportedType", { key: currentGame.key })} />;
 	}
 
 	return (
-		<div className={getValidClassNames(styles["page"])}>
-			<header className={getValidClassNames(styles["page__header"])}>
-				<h1 className={getValidClassNames(styles["page__title"])}>
-					Level {levelId} — {currentGame.title}
+		<div className={styles["page"]}>
+			<header className={styles["page__header"]}>
+				<h1 className={styles["page__title"]}>
+					{t("games.level.title", { levelId, title: currentGame.title })}
 				</h1>
 			</header>
 
-			<main className={getValidClassNames(styles["page__content"])}>
+			<main className={styles["page__content"]}>
 				<LevelComponent
 					game={currentGame}
 					key={`${currentGame.id}-${levelId}`}

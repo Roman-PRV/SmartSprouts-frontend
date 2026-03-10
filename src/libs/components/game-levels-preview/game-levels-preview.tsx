@@ -1,11 +1,17 @@
-import { LevelPreviewCard } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
-import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppDispatch, useAppSelector, useEffect, useTranslation } from "~/libs/hooks/hooks";
+import {
+	useAppDispatch,
+	useAppSelector,
+	useCallback,
+	useEffect,
+	useLanguageSync,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { type GameDescriptionDto } from "~/libs/types/types";
 import { getLevelsList } from "~/modules/games/slices/actions";
 
+import { GameLevelsContent } from "./game-levels-content/game-levels-content";
 import styles from "./styles.module.css";
 
 type Properties = {
@@ -15,60 +21,39 @@ type Properties = {
 const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
-	const { currentGameLevels, levelsStatus } = useAppSelector((state) => state.games);
+	const currentGameLevels = useAppSelector((state) => state.games.currentGameLevels);
+	const levelsStatus = useAppSelector((state) => state.games.levelsStatus);
+
+	const fetchLevels = useCallback(() => {
+		void dispatch(getLevelsList(game.id));
+	}, [dispatch, game.id]);
+
+	useLanguageSync(fetchLevels);
 
 	useEffect(() => {
 		if (levelsStatus === DataStatus.IDLE) {
-			void dispatch(getLevelsList(game.id));
+			fetchLevels();
 		}
-	}, [dispatch, game.id, levelsStatus]);
+	}, [fetchLevels, levelsStatus]);
 
 	const isLoading = levelsStatus === DataStatus.PENDING;
 	const hasError = levelsStatus === DataStatus.REJECTED;
-	const hasLevels = currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH;
-
-	const renderContent = (): React.JSX.Element => {
-		if (isLoading) {
-			return (
-				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
-					{t("games.levels.loading")}
-				</div>
-			);
-		}
-
-		if (hasError) {
-			return (
-				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
-					{t("games.levels.error")}
-				</div>
-			);
-		}
-
-		if (!hasLevels) {
-			return (
-				<div className={getValidClassNames(styles["game-levels-preview__no-content"])}>
-					{t("games.levels.empty")}
-				</div>
-			);
-		}
-
-		return (
-			<>
-				{currentGameLevels.map((level, index) => (
-					<LevelPreviewCard game={game} key={level.id} level={level} number={index} />
-				))}
-			</>
-		);
-	};
+	const hasLevels = Boolean(currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH);
 
 	return (
 		<div>
-			<h2 className={getValidClassNames(styles["game-levels-preview__title"])}>
+			<h2 className={styles["game-levels-preview__title"]}>
 				{t("games.levels.title", { title: game.title })}
 			</h2>
-			<main aria-live="polite" className={getValidClassNames(styles["game-levels-preview__grid"])}>
-				{renderContent()}
-			</main>
+			<section aria-live="polite" className={styles["game-levels-preview__grid"]}>
+				<GameLevelsContent
+					game={game}
+					hasError={hasError}
+					hasLevels={hasLevels}
+					isLoading={isLoading}
+					levels={currentGameLevels ?? []}
+				/>
+			</section>
 		</div>
 	);
 };

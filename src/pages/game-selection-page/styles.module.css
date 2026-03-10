@@ -14,7 +14,6 @@
 .game-selection-page__header {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	gap: 12px;
 }
 
@@ -23,12 +22,6 @@
 	font-size: 1.5rem;
 	color: var(--color-text-primary);
 	font-weight: 600;
-}
-
-.game-selection-page__controls {
-	display: flex;
-	gap: 8px;
-	align-items: center;
 }
 
 /* Grid of cards */

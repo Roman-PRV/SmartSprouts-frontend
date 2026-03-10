@@ -1,144 +1,68 @@
 import { Link } from "react-router-dom";
 
-import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
-import { type TrueFalseGameResultDto } from "~/games/true-false-game/libs/types/types";
-import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import {
-	useAppDispatch,
-	useAppSelector,
-	useCallback,
-	useEffect,
-	useState,
-} from "~/libs/hooks/hooks";
+import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
 import { type LevelCardProperties } from "~/libs/types/types";
 
 import styles from "./styles.module.css";
 import { TrueFalseStatement } from "./true-false-statement/true-false-statement";
 
 const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) => {
-	const storageKey = `tf-${game.id}-${String(levelId)}`;
-	const dispatch = useAppDispatch();
+	const { t } = useTranslation();
 
-	const level = useAppSelector((state) => state.trueFalseLevels.currentLevel);
-	const currentStatus = useAppSelector((state) => state.trueFalseLevels.currentStatus);
-
-	const [answers, setAnswers] = useState<Record<number, boolean>>({});
-	const [results, setResults] = useState<null | TrueFalseGameResultDto[]>(null);
-	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	const [submitError, setSubmitError] = useState<null | string>(null);
-
-	const handleSubmit = useCallback(async (): Promise<void> => {
-		if (!level || isSubmitting || results !== null) {
-			return;
-		}
-
-		setIsSubmitting(true);
-		setSubmitError(null);
-
-		try {
-			const answersArray = Object.entries(answers).map(([statementId, answer]) => ({
-				answer,
-				statement_id: Number(statementId),
-			}));
-
-			const result = await dispatch(
-				trueFalseGameActions.checkAnswers({
-					gameId: game.id,
-					levelId: String(levelId),
-					payload: {
-						answers: answersArray,
-						level_id: level.id,
-					},
-				})
-			).unwrap();
-
-			setResults(result.results);
-		} catch {
-			setSubmitError("Failed to check answers. Please try again.");
-		} finally {
-			setIsSubmitting(false);
-		}
-	}, [level, isSubmitting, results, answers, dispatch, game.id, levelId]);
+	const {
+		allAnswered,
+		answers,
+		handleReset,
+		handleSelect,
+		handleSubmit,
+		hasSubmitError,
+		isSubmitting,
+		level,
+		results,
+		status,
+	} = useTrueFalseGame({ game, levelId });
 
 	const handleSubmitClick = useCallback((): void => {
 		void handleSubmit();
 	}, [handleSubmit]);
 
-	const handleBackToLevels = useCallback((): void => {
-		localStorage.removeItem(storageKey);
-	}, [storageKey]);
-
-	const handleReset = useCallback((): void => {
-		setAnswers({});
-		setResults(null);
-		localStorage.removeItem(storageKey);
-	}, [storageKey]);
-
-	useEffect(() => {
-		void dispatch(trueFalseGameActions.getLevelById({ gameId: game.id, levelId: String(levelId) }));
-
-		return (): void => {
-			dispatch(trueFalseGameActions.clearCurrentLevel());
-		};
-	}, [dispatch, game.id, levelId]);
-
-	useEffect(() => {
-		const saved = localStorage.getItem(storageKey);
-
-		if (saved) {
-			try {
-				const parsed = JSON.parse(saved) as Record<number, boolean>;
-				setAnswers(parsed);
-			} catch {
-				// Invalid JSON, ignore
-			}
+	const resultsMap = useMemo(() => {
+		if (!results) {
+			return null;
 		}
-	}, [storageKey]);
 
-	useEffect(() => {
-		if (Object.keys(answers).length > EMPTY_ARRAY_LENGTH || results !== null) {
-			localStorage.setItem(storageKey, JSON.stringify(answers));
+		const map: Record<number, (typeof results)[number]> = {};
+
+		for (const result of results) {
+			map[result.statement_id] = result;
 		}
-	}, [answers, storageKey, results]);
 
-	const handleSelect = useCallback(
-		(statementId: number, value: boolean): void => {
-			if (results !== null) {
-				return;
-			}
+		return map;
+	}, [results]);
 
-			setAnswers((previous) => ({
-				...previous,
-				[statementId]: value,
-			}));
-		},
-		[results]
-	);
-
-	if (currentStatus === DataStatus.PENDING) {
-		return <div>Loading level...</div>;
+	if (status === DataStatus.PENDING) {
+		return <div>{t("games.trueFalse.loading.load")}</div>;
 	}
 
-	if (currentStatus === DataStatus.REJECTED) {
-		return <div>Error loading level. Please try again.</div>;
+	if (status === DataStatus.REJECTED) {
+		return <div>{t("games.trueFalse.error.load")}</div>;
 	}
 
 	if (!level) {
-		return <div>Level not found.</div>;
+		return <div>{t("games.trueFalse.error.notFound")}</div>;
 	}
 
-	const allAnswered: boolean =
-		level.statements.length > EMPTY_ARRAY_LENGTH && level.statements.every((s) => s.id in answers);
-
 	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;
-	const cardModiferClass = isTextMode ? styles["level-card--text-mode"] : "";
+	const cardModifierClass = isTextMode ? styles["level-card--text-mode"] : "";
 	const imageModifierClass = isTextMode ? styles["level-card__image--small"] : "";
 
+	const isLevelCompleted = results !== null;
+
 	return (
-		<div className={getValidClassNames(styles["level-card"], cardModiferClass)}>
-			<h2 className={getValidClassNames(styles["level-card__title"])}>{level.title}</h2>
+		<div className={getValidClassNames(styles["level-card"], cardModifierClass)}>
+			<h2 className={styles["level-card__title"]}>{level.title}</h2>
 
 			{level.image_url && (
 				<img
@@ -148,16 +72,16 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				/>
 			)}
 
-			{level.text && <p className={getValidClassNames(styles["level-card__text"])}>{level.text}</p>}
+			{level.text && <p className={styles["level-card__text"]}>{level.text}</p>}
 
-			<div className={getValidClassNames(styles["level-card__statements"])}>
+			<div className={styles["level-card__statements"]}>
 				{level.statements.map((s) => {
 					const selected = answers[s.id];
-					const result = results?.find((r) => r.statement_id === s.id);
+					const result = resultsMap?.[s.id];
 
 					return (
 						<TrueFalseStatement
-							disabled={results !== null}
+							disabled={isLevelCompleted}
 							key={s.id}
 							onSelect={handleSelect}
 							result={result}
@@ -169,27 +93,26 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			</div>
 
 			<button
-				className={getValidClassNames(styles["level-card__submit"])}
-				disabled={!allAnswered || isSubmitting || results !== null}
+				className={styles["level-card__submit"]}
+				disabled={!allAnswered || isSubmitting || isLevelCompleted}
 				onClick={handleSubmitClick}
 			>
-				{isSubmitting ? "Checking..." : "Check Answers"}
+				{isSubmitting ? t("games.trueFalse.loading.check") : t("games.trueFalse.submit")}
 			</button>
 
-			{submitError && (
-				<div className={getValidClassNames(styles["level-card__error"])}>{submitError}</div>
+			{hasSubmitError && (
+				<div className={styles["level-card__error"]}>{t("games.trueFalse.error.check")}</div>
 			)}
 
-			<div className={getValidClassNames(styles["level-card__actions"])}>
+			<div className={styles["level-card__actions"]}>
 				<Link
 					className={getValidClassNames(
 						styles["level-card__action-button"],
 						styles["level-card__action-button--secondary"]
 					)}
-					onClick={handleBackToLevels}
 					to={`/games/${game.id}`}
 				>
-					Back to Levels
+					{t("games.trueFalse.actions.back")}
 				</Link>
 
 				<button
@@ -199,7 +122,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 					)}
 					onClick={handleReset}
 				>
-					Reset Level
+					{t("games.trueFalse.actions.reset")}
 				</button>
 			</div>
 		</div>
