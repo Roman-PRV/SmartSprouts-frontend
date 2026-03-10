@@ -22,12 +22,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 		level,
 		results,
 		status,
-		storageKey,
 	} = useTrueFalseGame({ game, levelId });
-
-	const handleBackToLevels = useCallback((): void => {
-		localStorage.removeItem(storageKey);
-	}, [storageKey]);
 
 	const handleSubmitClick = useCallback((): void => {
 		void handleSubmit();
@@ -115,7 +110,6 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 						styles["level-card__action-button"],
 						styles["level-card__action-button--secondary"]
 					)}
-					onClick={handleBackToLevels}
 					to={`/games/${game.id}`}
 				>
 					{t("games.trueFalse.actions.back")}

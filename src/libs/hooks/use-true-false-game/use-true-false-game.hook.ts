@@ -28,7 +28,6 @@ type UseTrueFalseGameReturn = {
 	level: null | TrueFalseGameLevelDto;
 	results: null | TrueFalseGameResultDto[];
 	status: ValueOf<typeof DataStatus>;
-	storageKey: string;
 };
 
 const useTrueFalseGame = ({
@@ -151,7 +150,6 @@ const useTrueFalseGame = ({
 		level,
 		results,
 		status,
-		storageKey,
 	};
 };
 
