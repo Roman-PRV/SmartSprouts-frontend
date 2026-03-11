@@ -83,10 +83,7 @@ const Navigation: React.FC = () => {
 			({ isActive }: { isActive: boolean }): string => {
 				const isOnTree =
 					isActive ||
-					(route === AppRoute.ROOT
-						? pathname === AppRoute.ROOT
-						: pathname.startsWith(`${route}/`));
-				 ;
+					(route === AppRoute.ROOT ? pathname === AppRoute.ROOT : pathname.startsWith(`${route}/`));
 
 				return getValidClassNames(
 					styles["navigation__nav-item"],
