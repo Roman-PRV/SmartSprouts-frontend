@@ -78,12 +78,21 @@ const Navigation: React.FC = () => {
 		return matchingOption?.value ?? pathname;
 	}, [pathname, navigationOptions]);
 
-	const getNavLinkClassName = useCallback(({ isActive }: { isActive: boolean }): string => {
-		return getValidClassNames(
-			styles["navigation__nav-item"],
-			isActive && styles["navigation__nav-item--active"]
-		);
-	}, []);
+	const getDynamicNavLinkClassName = useCallback(
+		(route: string) =>
+			({ isActive }: { isActive: boolean }): string => {
+				const isOnTree =
+					isActive ||
+					(route === AppRoute.ROOT ? pathname === AppRoute.ROOT : pathname.startsWith(`${route}/`));
+
+				return getValidClassNames(
+					styles["navigation__nav-item"],
+					isOnTree && styles["navigation__nav-item--highlighted"],
+					pathname === route && styles["navigation__nav-item--active"]
+				);
+			},
+		[pathname]
+	);
 
 	return (
 		<nav className={getValidClassNames(styles["navigation"])}>
@@ -105,17 +114,17 @@ const Navigation: React.FC = () => {
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
 					<li>
-						<NavLink className={getNavLinkClassName} to={AppRoute.ROOT}>
+						<NavLink className={getDynamicNavLinkClassName(AppRoute.ROOT)} to={AppRoute.ROOT}>
 							{t("common.navigation.home")}
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={getNavLinkClassName} to={AppRoute.GAMES}>
+						<NavLink className={getDynamicNavLinkClassName(AppRoute.GAMES)} end to={AppRoute.GAMES}>
 							{t("common.navigation.games")}
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={getNavLinkClassName} to={AppRoute.PROFILE}>
+						<NavLink className={getDynamicNavLinkClassName(AppRoute.PROFILE)} to={AppRoute.PROFILE}>
 							{t("common.navigation.profile")}
 						</NavLink>
 					</li>

@@ -67,9 +67,12 @@
 	border-radius: var(--border-radius-sm);
 }
 
-.navigation__nav-item--active {
+.navigation__nav-item--highlighted {
 	color: var(--color-brand-hover);
 	font-weight: 700;
+}
+
+.navigation__nav-item--active {
 	pointer-events: none;
 	cursor: default;
 }
