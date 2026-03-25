@@ -1,3 +1,4 @@
+export { AudioPlayButton } from "./audio-play-button/audio-play-button";
 export { Button } from "./button/button";
 export type { ButtonProperties, ButtonSize, ButtonType, ButtonVariant } from "./button/types";
 export { Dropdown } from "./dropdown/dropdown";

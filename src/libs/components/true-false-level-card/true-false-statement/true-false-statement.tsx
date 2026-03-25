@@ -1,4 +1,8 @@
-import { type TrueFalseGameResultDto } from "~/games/true-false-game/libs/types/types";
+import {
+	type TrueFalseGameResultDto,
+	type TrueFalseGameStatementDto,
+} from "~/games/true-false-game/libs/types/types";
+import { AudioPlayButton } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback } from "~/libs/hooks/hooks";
 
@@ -9,7 +13,7 @@ type Properties = {
 	onSelect: (statementId: number, value: boolean) => void;
 	result?: TrueFalseGameResultDto | undefined;
 	selected?: boolean | undefined;
-	statement: { id: number; statement: string };
+	statement: TrueFalseGameStatementDto;
 };
 
 const TrueFalseStatement: React.FC<Properties> = ({
@@ -29,7 +33,10 @@ const TrueFalseStatement: React.FC<Properties> = ({
 
 	return (
 		<div className={getValidClassNames(styles["statement"])}>
-			<p className={getValidClassNames(styles["statement__text"])}>{statement.statement}</p>
+			<div className={styles["statement__text-container"]}>
+				<p className={getValidClassNames(styles["statement__text"])}>{statement.statement}</p>
+				<AudioPlayButton url={statement.statement_audio_url} />
+			</div>
 
 			<div className={getValidClassNames(styles["statement__buttons"])}>
 				<button
@@ -60,15 +67,18 @@ const TrueFalseStatement: React.FC<Properties> = ({
 			</div>
 
 			{result && (
-				<div
-					className={getValidClassNames(
-						styles["statement__result"],
-						result.correct
-							? styles["statement__result--correct"]
-							: styles["statement__result--incorrect"]
-					)}
-				>
-					{result.correct ? "Correct" : "Incorrect"}: {result.explanation}
+				<div className={styles["statement__result-container"]}>
+					<div
+						className={getValidClassNames(
+							styles["statement__result"],
+							result.correct
+								? styles["statement__result--correct"]
+								: styles["statement__result--incorrect"]
+						)}
+					>
+						{result.correct ? "Correct" : "Incorrect"}: {result.explanation}
+					</div>
+					<AudioPlayButton url={statement.explanation_audio_url} />
 				</div>
 			)}
 		</div>

@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-
+import { AudioPlayButton, Link } from "~/libs/components/components";
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
@@ -62,7 +61,10 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 
 	return (
 		<div className={getValidClassNames(styles["level-card"], cardModifierClass)}>
-			<h2 className={styles["level-card__title"]}>{level.title}</h2>
+			<div className={styles["level-card__title-container"]}>
+				<h2 className={styles["level-card__title"]}>{level.title}</h2>
+				<AudioPlayButton url={level.title_audio_url} />
+			</div>
 
 			{level.image_url && (
 				<img
@@ -72,7 +74,12 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				/>
 			)}
 
-			{level.text && <p className={styles["level-card__text"]}>{level.text}</p>}
+			{level.text && (
+				<div className={styles["level-card__text-container"]}>
+					<p className={styles["level-card__text"]}>{level.text}</p>
+					<AudioPlayButton url={level.text_audio_url} />
+				</div>
+			)}
 
 			<div className={styles["level-card__statements"]}>
 				{level.statements.map((s) => {
