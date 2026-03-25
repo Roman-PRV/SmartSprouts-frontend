@@ -1,5 +1,4 @@
 type UseAudioPlayerResult = {
-	currentUrl: null | string;
 	isPlaying: boolean;
 	pause: () => void;
 	play: (url?: string) => void;

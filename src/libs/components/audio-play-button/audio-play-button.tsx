@@ -14,7 +14,7 @@ type Properties = {
  * Renders in a disabled state if url is null or empty.
  */
 const AudioPlayButton: React.FC<Properties> = ({ className, url }) => {
-	const { isPlaying, toggle } = useAudioPlayer(url ?? undefined);
+	const { isPlaying, toggle} = useAudioPlayer(url ?? undefined);
 
 	const handleToggle = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -44,7 +44,7 @@ const AudioPlayButton: React.FC<Properties> = ({ className, url }) => {
 			onClick={handleToggle}
 			type="button"
 		>
-			<span className={styles["audio-button__icon"]}>{isPlaying ? "⏹️" : "🔊"}</span>
+			<span className={styles["audio-button__icon"]}> {isPlaying ? "⏹️" : "🔊"}</span>
 		</button>
 	);
 };

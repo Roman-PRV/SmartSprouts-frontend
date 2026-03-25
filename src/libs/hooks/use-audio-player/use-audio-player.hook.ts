@@ -5,11 +5,9 @@ import { type UseAudioPlayerResult } from "./libs/types/types";
 
 const useAudioPlayer = (sourceUrl?: string): UseAudioPlayerResult => {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
-	const [currentUrl, setCurrentUrl] = useState<null | string>(null);
 
 	useEffect(() => {
 		return audioPlayer.subscribe((url: null | string, isPlaying: boolean): void => {
-			setCurrentUrl(url);
 			setIsPlaying(Boolean(sourceUrl && url === sourceUrl && isPlaying));
 		});
 	}, [sourceUrl]);
@@ -25,10 +23,16 @@ const useAudioPlayer = (sourceUrl?: string): UseAudioPlayerResult => {
 		[sourceUrl]
 	);
 
+	/**
+	 * Stops playback of any currently playing audio in the global player.
+	 */
 	const stop = useCallback((): void => {
 		audioPlayer.stop();
 	}, []);
 
+	/**
+	 * Pauses playback of any currently playing audio in the global player.
+	 */
 	const pause = useCallback((): void => {
 		audioPlayer.pause();
 	}, []);
@@ -44,7 +48,7 @@ const useAudioPlayer = (sourceUrl?: string): UseAudioPlayerResult => {
 		[sourceUrl]
 	);
 
-	return { currentUrl, isPlaying, pause, play, stop, toggle };
+	return { isPlaying, pause, play, stop, toggle };
 };
 
 export { useAudioPlayer };
