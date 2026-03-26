@@ -2,12 +2,12 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 32px;
-	height: 32px;
+	width: 44px;
+	height: 44px;
 	padding: 0;
 	cursor: pointer;
-	background: var(--color-background-secondary, #f0f2f5);
-	border: 1px solid var(--color-border-primary, #e4e6eb);
+	background: var(--color-background-accent);
+	border: 2px solid var(--color-background-accent);
 	border-radius: 50%;
 	transition: all 0.2s ease-in-out;
 	outline: none;
@@ -15,37 +15,40 @@
 }
 
 .audio-button:hover:not(.audio-button--disabled) {
-	background: var(--color-background-tertiary, #e4e6eb);
-	transform: scale(1.1);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	background: color-mix(in srgb, var(--color-background-accent) 85%, black);
+	border-color: color-mix(in srgb, var(--color-background-accent) 85%, black);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px var(--color-shadow-accent);
 }
 
 .audio-button:active:not(.audio-button--disabled) {
-	transform: scale(0.95);
+	transform: translateY(0);
+	box-shadow: 0 2px 6px var(--color-shadow-accent-light);
 }
 
 .audio-button--playing {
-	background: var(--color-accent-primary, #4caf50);
-	border-color: var(--color-accent-primary, #4caf50);
 	animation: pulse 1.5s infinite;
 }
 
-.audio-button--playing .audio-button__icon {
-	color: white;
-	filter: brightness(0) invert(1);
-}
-
 .audio-button--disabled {
-	cursor: not-allowed;
 	opacity: 0.5;
 	filter: grayscale(1);
+	cursor: not-allowed;
+	pointer-events: none;
 }
 
 .audio-button__icon {
-	font-size: 16px;
+	color: var(--color-text-light);
+	font-size: 20px;
+	width: 1em;
+	height: 1em;
 	display: flex;
+	align-items: center;
+	justify-content: center;
 	line-height: 1;
 }
+
+/* The base Button component handles disabled state */
 
 @keyframes pulse {
 	0% {

@@ -1,3 +1,4 @@
+import { Icon } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAudioPlayer, useCallback } from "~/libs/hooks/hooks";
 
@@ -33,7 +34,6 @@ const AudioPlayButton: React.FC<Properties> = ({ className, url }) => {
 	return (
 		<button
 			aria-label={isPlaying ? "Stop audio" : "Play audio"}
-			aria-pressed={isPlaying}
 			className={getValidClassNames(
 				styles["audio-button"],
 				isPlaying && styles["audio-button--playing"],
@@ -44,7 +44,9 @@ const AudioPlayButton: React.FC<Properties> = ({ className, url }) => {
 			onClick={handleToggle}
 			type="button"
 		>
-			<span className={styles["audio-button__icon"]}> {isPlaying ? "⏹️" : "🔊"}</span>
+			<span className={styles["audio-button__icon"]}>
+				<Icon name={isPlaying ? "pause" : "sound"} />
+			</span>
 		</button>
 	);
 };
