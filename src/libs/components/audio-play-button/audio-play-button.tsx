@@ -1,6 +1,6 @@
 import { Icon } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAudioPlayer, useCallback } from "~/libs/hooks/hooks";
+import { useAudioPlayer, useCallback, useStopAudioOnUnmount } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
 
@@ -16,6 +16,7 @@ type Properties = {
  */
 const AudioPlayButton: React.FC<Properties> = ({ className, url }) => {
 	const { isPlaying, toggle} = useAudioPlayer(url ?? undefined);
+	useStopAudioOnUnmount(url ?? undefined);
 
 	const handleToggle = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>): void => {
