@@ -1,4 +1,5 @@
-import { useEffect } from "~/libs/hooks/hooks";
+import { useEffect } from "react";
+
 import { audioPlayer } from "~/libs/modules/audio-player/audio-player";
 
 const useStopAudioOnUnmount = (sourceUrl?: string): void => {

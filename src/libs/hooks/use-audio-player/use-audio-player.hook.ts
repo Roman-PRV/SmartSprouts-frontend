@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "~/libs/hooks/hooks";
+import { useCallback, useEffect, useState } from "react";
+
 import { audioPlayer } from "~/libs/modules/audio-player/audio-player";
 
 import { type UseAudioPlayerResult } from "./libs/types/types";
