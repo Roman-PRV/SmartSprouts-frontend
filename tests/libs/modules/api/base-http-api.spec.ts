@@ -14,7 +14,7 @@ const mockStorage = {
 	get: vi.fn(),
 };
 
-vi.mock("~/libs/modules/localization/localization.js", () => ({
+vi.mock("~/libs/modules/localization/helpers/get-current-locale.helper", () => ({
 	getCurrentLocale: vi.fn(() => "mock-lang"),
 }));
 
