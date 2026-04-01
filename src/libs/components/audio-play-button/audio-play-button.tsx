@@ -34,7 +34,7 @@ const AudioPlayButton: React.FC<Properties> = ({ className, url }) => {
 
 	return (
 		<button
-			aria-label={isPlaying ? "Stop audio" : "Play audio"}
+			aria-label={isPlaying ? "Pause audio" : "Play audio"}
 			className={getValidClassNames(
 				styles["audio-button"],
 				isPlaying && styles["audio-button--playing"],
