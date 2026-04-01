@@ -14,6 +14,10 @@
 	flex-shrink: 0;
 }
 
+.audio-button:focus-visible {
+	box-shadow: 0 0 0 3px var(--color-shadow-accent-focus);
+}
+
 .audio-button:hover:not(.audio-button--disabled) {
 	background: color-mix(in srgb, var(--color-background-accent) 85%, black);
 	border-color: color-mix(in srgb, var(--color-background-accent) 85%, black);
