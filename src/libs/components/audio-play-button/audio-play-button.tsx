@@ -15,7 +15,7 @@ type Properties = {
  * Renders in a disabled state if url is null or empty.
  */
 const AudioPlayButton: React.FC<Properties> = ({ className, url }) => {
-	const { isPlaying, toggle} = useAudioPlayer(url ?? undefined);
+	const { isPlaying, toggle } = useAudioPlayer(url ?? undefined);
 	useStopAudioOnUnmount(url ?? undefined);
 
 	const handleToggle = useCallback(
