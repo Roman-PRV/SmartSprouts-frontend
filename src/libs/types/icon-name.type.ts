@@ -6,6 +6,8 @@ type IconName =
 	| "lock"
 	| "login"
 	| "logout"
-	| "search";
+	| "pause"
+	| "search"
+	| "sound";
 
 export { type IconName };

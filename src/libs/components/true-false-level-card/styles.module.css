@@ -8,13 +8,37 @@
 	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* Element: level-card__title-container */
+.level-card__title-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	margin-bottom: 20px;
+}
+
 /* Element: level-card__title */
 .level-card__title {
-	margin: 0 0 20px;
+	margin: 0;
 	font-size: 1.75rem;
 	font-weight: 700;
 	color: var(--color-text-dark);
-	text-align: center;
+}
+
+/* Element: level-card__text-container */
+.level-card__text-container {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	margin-bottom: 24px;
+	padding: 16px;
+	background: var(--color-background-2);
+	border-radius: var(--border-radius-md);
+}
+
+.level-card__text {
+	margin: 0;
+	flex: 1;
 }
 
 /* Element: level-card__image */

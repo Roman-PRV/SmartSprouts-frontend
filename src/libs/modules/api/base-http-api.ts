@@ -1,10 +1,10 @@
 import { ContentType, NotificationMessage, ServerErrorType } from "~/libs/enums/enums";
 import { configureString } from "~/libs/helpers/helpers";
-import { getCurrentLocale } from "~/libs/modules/localization/localization";
 import { type Storage, StorageKey } from "~/libs/modules/storage/storage";
 import { type ServerErrorResponse, type ValueOf } from "~/libs/types/types";
 
 import { type HTTP, HTTPCode, HTTPError, HTTPHeader } from "../http/http";
+import { getCurrentLocale } from "../localization/helpers/get-current-locale.helper";
 import { type HTTPApi, type HTTPApiOptions, type HTTPApiResponse } from "./libs/types/types";
 
 type Constructor = {

@@ -5,7 +5,7 @@ import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.h
 import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
 import { useLanguageSync } from "~/libs/hooks/use-language-sync/use-language-sync.hook";
 import { type GameDescriptionDto } from "~/libs/types/types";
-import { actions as gamesActions } from "~/modules/games/games";
+import { actions as gamesActions } from "~/modules/games/slices/games";
 
 type UseGameFetchReturn = {
 	currentGame: GameDescriptionDto | null;

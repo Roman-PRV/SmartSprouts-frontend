@@ -5,7 +5,9 @@ import CloseIcon from "~/assets/img/icons/close-icon.svg?react";
 import Lock from "~/assets/img/icons/lock-icon.svg?react";
 import Login from "~/assets/img/icons/login-icon.svg?react";
 import Logout from "~/assets/img/icons/logout-icon.svg?react";
+import Pause from "~/assets/img/icons/pause-icon.svg?react";
 import Search from "~/assets/img/icons/search-icon.svg?react";
+import Sound from "~/assets/img/icons/sound-icon.svg?react";
 import { type IconName } from "~/libs/types/types";
 
 const iconNameToSvg: Record<IconName, React.FC<React.SVGProps<SVGSVGElement>>> = {
@@ -16,7 +18,9 @@ const iconNameToSvg: Record<IconName, React.FC<React.SVGProps<SVGSVGElement>>> =
 	lock: Lock,
 	login: Login,
 	logout: Logout,
+	pause: Pause,
 	search: Search,
+	sound: Sound,
 };
 
 export { iconNameToSvg };
