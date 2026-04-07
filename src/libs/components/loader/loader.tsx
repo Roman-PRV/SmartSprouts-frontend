@@ -49,7 +49,6 @@ const Loader: React.FC<Properties> = ({
 				hasOverlay ? styles["loader--overlay"] : styles["loader--inline"],
 				className
 			)}
-			{...(hasOverlay && { "aria-modal": true })}
 		>
 			<div className={styles["loader__content"]}>
 				{/* Pulsing decorative squares */}
