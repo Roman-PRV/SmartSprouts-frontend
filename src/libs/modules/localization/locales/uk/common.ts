@@ -1,4 +1,7 @@
 const common = {
+	accessibility: {
+		loading: "Завантаження",
+	},
 	button: {
 		playNow: "Грати зараз",
 		register: "Зареєструватися безкоштовно",
