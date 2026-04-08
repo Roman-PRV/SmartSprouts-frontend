@@ -1,0 +1,45 @@
+.game-levels-preview__title {
+	margin-bottom: 16px;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--color-text-dark);
+}
+
+.game-levels-preview__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 12px;
+}
+
+@media (max-width: 768px) {
+	.game-levels-preview__grid {
+		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+		gap: 10px;
+	}
+}
+
+@media (max-width: 480px) {
+	.game-levels-preview__grid {
+		grid-template-columns: 1fr;
+		gap: 12px;
+	}
+}
+
+.game-levels-preview__no-content {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 20px;
+	border-radius: var(--border-radius-md);
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--color-background-accent) 6%, transparent),
+		color-mix(in srgb, var(--color-text-primary) 2%, transparent)
+	);
+	color: var(--color-text-primary);
+	font-size: 1rem;
+	font-weight: 600;
+	border: 1px dashed color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+}

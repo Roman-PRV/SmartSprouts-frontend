@@ -1,34 +1,26 @@
-import { useCallback, useState } from "react";
+import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
-import "./app.css";
-import ReactLogo from "./assets/react.svg";
-import ViteLogo from "./assets/vite.svg";
+import { Loader } from "~/libs/components/components";
+import { DataStatus } from "~/libs/enums/enums";
+import { useAppDispatch, useAppSelector } from "~/libs/hooks/hooks";
+import { getAuthenticatedUser } from "~/modules/auth/auth";
 
 const App: React.FC = () => {
-	const INITIAL_COUNT = 0;
-	const INCREMENT = 1;
-	const [count, setCount] = useState(INITIAL_COUNT);
+	const dispatch = useAppDispatch();
+	const { dataStatus } = useAppSelector(({ auth }) => auth);
 
-	const handleClick = useCallback((): void => {
-		setCount((c) => c + INCREMENT);
-	}, []);
+	useEffect(() => {
+		void dispatch(getAuthenticatedUser());
+	}, [dispatch]);
+
+	if (dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING) {
+		return <Loader />;
+	}
 
 	return (
 		<>
-			<div>
-				<a href="https://vite.dev" rel="noreferrer" target="_blank">
-					<img alt="Vite logo" className="logo" src={ViteLogo} />
-				</a>
-				<a href="https://react.dev" rel="noreferrer" target="_blank">
-					<img alt="React logo" className="logo react" src={ReactLogo} />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={handleClick}>count is {count}</button>
-				<p></p>
-			</div>
-			<p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+			<Outlet />
 		</>
 	);
 };
