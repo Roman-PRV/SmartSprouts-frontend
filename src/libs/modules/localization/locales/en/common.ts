@@ -1,4 +1,7 @@
 const common = {
+	accessibility: {
+		loading: "Loading",
+	},
 	button: {
 		playNow: "Play Now",
 		register: "Register Free",
