@@ -1,0 +1,332 @@
+diff --git a/src/app.tsx b/src/app.tsx
+index f05be38..a9cb03d 100644
+--- a/src/app.tsx
++++ b/src/app.tsx
+@@ -15,7 +15,7 @@ const App: React.FC = () => {
+ 	}, [dispatch]);
+ 
+ 	if (dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING) {
+-		return <Loader />;
++		return <Loader hasOverlay />;
+ 	}
+ 
+ 	return (
+diff --git a/src/libs/components/game-levels-preview/game-levels-content/game-levels-content.tsx b/src/libs/components/game-levels-preview/game-levels-content/game-levels-content.tsx
+index 8191aa9..06783c5 100644
+--- a/src/libs/components/game-levels-preview/game-levels-content/game-levels-content.tsx
++++ b/src/libs/components/game-levels-preview/game-levels-content/game-levels-content.tsx
+@@ -1,4 +1,4 @@
+-import { LevelPreviewCard } from "~/libs/components/components";
++import { LevelPreviewCard, Loader } from "~/libs/components/components";
+ import { useTranslation } from "~/libs/hooks/hooks";
+ import { type GameDescriptionDto, type LevelDescriptionDto } from "~/libs/types/types";
+ 
+@@ -22,9 +22,7 @@ const GameLevelsContent: React.FC<Properties> = ({
+ 	const { t } = useTranslation();
+ 
+ 	if (isLoading) {
+-		return (
+-			<div className={styles["game-levels-preview__no-content"]}>{t("games.levels.loading")}</div>
+-		);
++		return <Loader hasOverlay />;
+ 	}
+ 
+ 	if (hasError) {
+diff --git a/src/libs/components/game-levels-preview/game-levels-preview.tsx b/src/libs/components/game-levels-preview/game-levels-preview.tsx
+index cfd0b48..fbdb9ad 100644
+--- a/src/libs/components/game-levels-preview/game-levels-preview.tsx
++++ b/src/libs/components/game-levels-preview/game-levels-preview.tsx
+@@ -41,7 +41,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
+ 	const hasLevels = Boolean(currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH);
+ 
+ 	return (
+-		<div>
++		<div className={styles["game-levels-preview__container"]}>
+ 			<h2 className={styles["game-levels-preview__title"]}>
+ 				{t("games.levels.title", { title: game.title })}
+ 			</h2>
+diff --git a/src/libs/components/game-levels-preview/styles.module.css b/src/libs/components/game-levels-preview/styles.module.css
+index 0948068..999e4ba 100644
+--- a/src/libs/components/game-levels-preview/styles.module.css
++++ b/src/libs/components/game-levels-preview/styles.module.css
+@@ -1,5 +1,14 @@
++.game-levels-preview__container {
++	display: flex;
++	flex-direction: column;
++	gap: 16px;
++	padding: 20px;
++	max-width: 1100px;
++	margin: 0 auto;
++}
++
+ .game-levels-preview__title {
+-	margin-bottom: 16px;
++	margin: 0;
+ 	font-size: 1.5rem;
+ 	font-weight: 700;
+ 	color: var(--color-text-dark);
+diff --git a/src/libs/components/true-false-level-card/true-false-level-card.tsx b/src/libs/components/true-false-level-card/true-false-level-card.tsx
+index 21cae65..bd09543 100644
+--- a/src/libs/components/true-false-level-card/true-false-level-card.tsx
++++ b/src/libs/components/true-false-level-card/true-false-level-card.tsx
+@@ -1,4 +1,4 @@
+-import { AudioPlayButton, Link } from "~/libs/components/components";
++import { AudioPlayButton, FallbackMessage, Link, Loader } from "~/libs/components/components";
+ import { DataStatus, GameKey } from "~/libs/enums/enums";
+ import { getValidClassNames } from "~/libs/helpers/helpers";
+ import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
+@@ -42,15 +42,15 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
+ 	}, [results]);
+ 
+ 	if (status === DataStatus.PENDING) {
+-		return <div>{t("games.trueFalse.loading.load")}</div>;
++		return <Loader hasOverlay />;
+ 	}
+ 
+ 	if (status === DataStatus.REJECTED) {
+-		return <div>{t("games.trueFalse.error.load")}</div>;
++		return <FallbackMessage message={t("games.trueFalse.error.load")} />;
+ 	}
+ 
+ 	if (!level) {
+-		return <div>{t("games.trueFalse.error.notFound")}</div>;
++		return <FallbackMessage message={t("games.trueFalse.error.notFound")} />;
+ 	}
+ 
+ 	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;
+diff --git a/src/libs/components/true-false-level-card/true-false-statement/true-false-statement.tsx b/src/libs/components/true-false-level-card/true-false-statement/true-false-statement.tsx
+index 2eff00a..2a9cafa 100644
+--- a/src/libs/components/true-false-level-card/true-false-statement/true-false-statement.tsx
++++ b/src/libs/components/true-false-level-card/true-false-statement/true-false-statement.tsx
+@@ -4,7 +4,7 @@ import {
+ } from "~/games/true-false-game/libs/types/types";
+ import { AudioPlayButton } from "~/libs/components/components";
+ import { getValidClassNames } from "~/libs/helpers/helpers";
+-import { useCallback } from "~/libs/hooks/hooks";
++import { useCallback, useTranslation } from "~/libs/hooks/hooks";
+ 
+ import styles from "./styles.module.css";
+ 
+@@ -23,6 +23,8 @@ const TrueFalseStatement: React.FC<Properties> = ({
+ 	selected,
+ 	statement,
+ }) => {
++	const { t } = useTranslation();
++
+ 	const handleTrueClick = useCallback(() => {
+ 		onSelect(statement.id, true);
+ 	}, [onSelect, statement.id]);
+@@ -76,7 +78,10 @@ const TrueFalseStatement: React.FC<Properties> = ({
+ 								: styles["statement__result--incorrect"]
+ 						)}
+ 					>
+-						{result.correct ? "Correct" : "Incorrect"}: {result.explanation}
++						{result.correct
++							? t("games.trueFalse.result.correct")
++							: t("games.trueFalse.result.incorrect")}
++						: {result.explanation}
+ 					</div>
+ 					<AudioPlayButton url={statement.explanation_audio_url} />
+ 				</div>
+diff --git a/src/libs/modules/localization/locales/en/games.ts b/src/libs/modules/localization/locales/en/games.ts
+index 14a600d..83b5871 100644
+--- a/src/libs/modules/localization/locales/en/games.ts
++++ b/src/libs/modules/localization/locales/en/games.ts
+@@ -1,12 +1,10 @@
+ const games = {
+ 	content: {
+ 		invalidId: "Invalid or missing game ID.",
+-		loading: "Loading game content...",
+ 		notFound: "Game content not found.",
+ 	},
+ 	level: {
+ 		invalidId: "Invalid or missing game ID.",
+-		loading: "Loading game content...",
+ 		noLevel: "No level selected.",
+ 		notFound: "Game content not found.",
+ 		title: "Level {{levelId}} — {{title}}",
+@@ -15,7 +13,6 @@ const games = {
+ 	levels: {
+ 		empty: "No levels available at the moment.",
+ 		error: "Failed to load levels. Please try again.",
+-		loading: "Loading levels...",
+ 		title: "Select a level for the {{title}} game",
+ 	},
+ 	selection: {
+@@ -36,6 +33,10 @@ const games = {
+ 			check: "Checking...",
+ 			load: "Loading level...",
+ 		},
++		result: {
++			correct: "Correct",
++			incorrect: "Incorrect",
++		},
+ 		submit: "Check Answers",
+ 	},
+ };
+diff --git a/src/libs/modules/localization/locales/es/games.ts b/src/libs/modules/localization/locales/es/games.ts
+index f89ce2e..0b946b1 100644
+--- a/src/libs/modules/localization/locales/es/games.ts
++++ b/src/libs/modules/localization/locales/es/games.ts
+@@ -1,12 +1,10 @@
+ const games = {
+ 	content: {
+ 		invalidId: "ID de juego no válido o ausente.",
+-		loading: "Cargando contenido del juego...",
+ 		notFound: "Contenido del juego no encontrado.",
+ 	},
+ 	level: {
+ 		invalidId: "ID de juego no válido o ausente.",
+-		loading: "Cargando contenido del juego...",
+ 		noLevel: "Ningún nivel seleccionado.",
+ 		notFound: "Contenido del juego no encontrado.",
+ 		title: "Nivel {{levelId}} — {{title}}",
+@@ -15,7 +13,6 @@ const games = {
+ 	levels: {
+ 		empty: "No hay niveles disponibles en este momento.",
+ 		error: "Error al cargar los niveles. Por favor, inténtalo de nuevo.",
+-		loading: "Cargando niveles...",
+ 		title: "Selecciona un nivel para el juego {{title}}",
+ 	},
+ 	selection: {
+@@ -36,6 +33,10 @@ const games = {
+ 			check: "Comprobando...",
+ 			load: "Cargando nivel...",
+ 		},
++		result: {
++			correct: "Correcto",
++			incorrect: "Incorrecto",
++		},
+ 		submit: "Comprobar respuestas",
+ 	},
+ };
+diff --git a/src/libs/modules/localization/locales/uk/games.ts b/src/libs/modules/localization/locales/uk/games.ts
+index cbff62b..508dab1 100644
+--- a/src/libs/modules/localization/locales/uk/games.ts
++++ b/src/libs/modules/localization/locales/uk/games.ts
+@@ -1,12 +1,10 @@
+ const games = {
+ 	content: {
+ 		invalidId: "Недійсний або відсутній ID гри.",
+-		loading: "Завантаження контенту гри...",
+ 		notFound: "Контент гри не знайдено.",
+ 	},
+ 	level: {
+ 		invalidId: "Недійсний або відсутній ID гри.",
+-		loading: "Завантаження контенту гри...",
+ 		noLevel: "Рівень не вибрано.",
+ 		notFound: "Контент гри не знайдено.",
+ 		title: "Рівень {{levelId}} — {{title}}",
+@@ -15,7 +13,6 @@ const games = {
+ 	levels: {
+ 		empty: "На даний момент немає доступних рівнів.",
+ 		error: "Не вдалося завантажити рівні. Будь ласка, спробуйте ще раз.",
+-		loading: "Завантаження рівнів...",
+ 		title: "Виберіть рівень для гри {{title}}",
+ 	},
+ 	selection: {
+@@ -36,6 +33,10 @@ const games = {
+ 			check: "Перевірка...",
+ 			load: "Завантаження рівня...",
+ 		},
++		result: {
++			correct: "Правильно",
++			incorrect: "Неправильно",
++		},
+ 		submit: "Перевірити",
+ 	},
+ };
+diff --git a/src/pages/game-content-page/game-content-page.tsx b/src/pages/game-content-page/game-content-page.tsx
+index 822a603..c25470e 100644
+--- a/src/pages/game-content-page/game-content-page.tsx
++++ b/src/pages/game-content-page/game-content-page.tsx
+@@ -1,4 +1,4 @@
+-import { FallbackMessage } from "~/libs/components/components";
++import { FallbackMessage, Loader } from "~/libs/components/components";
+ import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
+ import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
+ 
+@@ -12,7 +12,7 @@ const GameContentPage: React.FC = () => {
+ 	}
+ 
+ 	if (isGameLoading) {
+-		return <FallbackMessage message={t("games.content.loading")} />;
++		return <Loader hasOverlay />;
+ 	}
+ 
+ 	if (!currentGame) {
+diff --git a/src/pages/game-selection-page/game-selection-page.tsx b/src/pages/game-selection-page/game-selection-page.tsx
+index 4ffd927..11cdd00 100644
+--- a/src/pages/game-selection-page/game-selection-page.tsx
++++ b/src/pages/game-selection-page/game-selection-page.tsx
+@@ -1,4 +1,6 @@
++import { Loader } from "~/libs/components/components";
+ import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
++import { DataStatus } from "~/libs/enums/enums";
+ import {
+ 	useAppDispatch,
+ 	useAppSelector,
+@@ -16,6 +18,7 @@ const GameSelectionPage: React.FC = () => {
+ 	const { t } = useTranslation();
+ 	const dispatch = useAppDispatch();
+ 	const games = useAppSelector((state) => state.games.games);
++	const gamesStatus = useAppSelector((state) => state.games.gamesStatus);
+ 
+ 	const fetchGames = useCallback(() => {
+ 		void dispatch(gamesActions.getAllGames());
+@@ -27,6 +30,21 @@ const GameSelectionPage: React.FC = () => {
+ 		fetchGames();
+ 	}, [fetchGames]);
+ 
++	const isLoading = gamesStatus === DataStatus.IDLE || gamesStatus === DataStatus.PENDING;
++	const isEmpty = gamesStatus === DataStatus.FULFILLED && games.length === EMPTY_ARRAY_LENGTH;
++
++	let content: React.ReactNode = null;
++
++	if (isLoading) {
++		content = <Loader hasOverlay />;
++	} else if (isEmpty) {
++		content = (
++			<div className={styles["game-selection-page__no-games"]}>{t("games.selection.empty")}</div>
++		);
++	} else {
++		content = games.map((game) => <GameCard game={game} key={game.id} />);
++	}
++
+ 	return (
+ 		<div className={styles["game-selection-page__container"]}>
+ 			<header className={styles["game-selection-page__header"]}>
+@@ -34,13 +52,7 @@ const GameSelectionPage: React.FC = () => {
+ 			</header>
+ 
+ 			<main aria-live="polite" className={styles["game-selection-page__grid"]}>
+-				{games.length === EMPTY_ARRAY_LENGTH ? (
+-					<div className={styles["game-selection-page__no-games"]}>
+-						{t("games.selection.empty")}
+-					</div>
+-				) : (
+-					games.map((game) => <GameCard game={game} key={game.id} />)
+-				)}
++				{content}
+ 			</main>
+ 		</div>
+ 	);
+diff --git a/src/pages/level-content-page/level-content-page.tsx b/src/pages/level-content-page/level-content-page.tsx
+index 71873bd..aa48b62 100644
+--- a/src/pages/level-content-page/level-content-page.tsx
++++ b/src/pages/level-content-page/level-content-page.tsx
+@@ -1,4 +1,4 @@
+-import { FallbackMessage } from "~/libs/components/components";
++import { FallbackMessage, Loader } from "~/libs/components/components";
+ import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
+ 
+ import { getLevelComponent } from "./level-component-selector";
+@@ -18,7 +18,7 @@ const LevelContentPage: React.FC = () => {
+ 	}
+ 
+ 	if (isGameLoading) {
+-		return <FallbackMessage message={t("games.level.loading")} />;
++		return <Loader hasOverlay />;
+ 	}
+ 
+ 	if (!currentGame) {

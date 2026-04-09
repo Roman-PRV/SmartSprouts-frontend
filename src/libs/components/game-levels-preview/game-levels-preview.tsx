@@ -36,7 +36,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 		}
 	}, [fetchLevels, levelsStatus]);
 
-	const isLoading = levelsStatus === DataStatus.PENDING;
+	const isLoading = levelsStatus === DataStatus.PENDING || levelsStatus === DataStatus.IDLE;
 	const hasError = levelsStatus === DataStatus.REJECTED;
 	const hasLevels = Boolean(currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH);
 
