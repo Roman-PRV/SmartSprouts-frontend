@@ -1,4 +1,4 @@
-import { FallbackMessage } from "~/libs/components/components";
+import { FallbackMessage, Loader } from "~/libs/components/components";
 import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
 
 import { getLevelComponent } from "./level-component-selector";
@@ -18,7 +18,7 @@ const LevelContentPage: React.FC = () => {
 	}
 
 	if (isGameLoading) {
-		return <FallbackMessage message={t("games.level.loading")} />;
+		return <Loader hasOverlay />;
 	}
 
 	if (!currentGame) {

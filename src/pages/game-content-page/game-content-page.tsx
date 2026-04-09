@@ -1,4 +1,4 @@
-import { FallbackMessage } from "~/libs/components/components";
+import { FallbackMessage, Loader } from "~/libs/components/components";
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
 import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
 
@@ -12,7 +12,7 @@ const GameContentPage: React.FC = () => {
 	}
 
 	if (isGameLoading) {
-		return <FallbackMessage message={t("games.content.loading")} />;
+		return <Loader hasOverlay />;
 	}
 
 	if (!currentGame) {

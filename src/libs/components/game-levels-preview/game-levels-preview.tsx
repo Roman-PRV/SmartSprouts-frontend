@@ -41,7 +41,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 	const hasLevels = Boolean(currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH);
 
 	return (
-		<div>
+		<div className={styles["game-levels-preview__container"]}>
 			<h2 className={styles["game-levels-preview__title"]}>
 				{t("games.levels.title", { title: game.title })}
 			</h2>

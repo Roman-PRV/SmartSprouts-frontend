@@ -1,12 +1,10 @@
 const games = {
 	content: {
 		invalidId: "ID de juego no válido o ausente.",
-		loading: "Cargando contenido del juego...",
 		notFound: "Contenido del juego no encontrado.",
 	},
 	level: {
 		invalidId: "ID de juego no válido o ausente.",
-		loading: "Cargando contenido del juego...",
 		noLevel: "Ningún nivel seleccionado.",
 		notFound: "Contenido del juego no encontrado.",
 		title: "Nivel {{levelId}} — {{title}}",
@@ -15,7 +13,6 @@ const games = {
 	levels: {
 		empty: "No hay niveles disponibles en este momento.",
 		error: "Error al cargar los niveles. Por favor, inténtalo de nuevo.",
-		loading: "Cargando niveles...",
 		title: "Selecciona un nivel para el juego {{title}}",
 	},
 	selection: {
@@ -35,6 +32,10 @@ const games = {
 		loading: {
 			check: "Comprobando...",
 			load: "Cargando nivel...",
+		},
+		result: {
+			correct: "Correcto",
+			incorrect: "Incorrecto",
 		},
 		submit: "Comprobar respuestas",
 	},

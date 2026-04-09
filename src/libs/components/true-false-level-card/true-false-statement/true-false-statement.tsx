@@ -4,7 +4,7 @@ import {
 } from "~/games/true-false-game/libs/types/types";
 import { AudioPlayButton } from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback } from "~/libs/hooks/hooks";
+import { useCallback, useTranslation } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
 
@@ -23,6 +23,8 @@ const TrueFalseStatement: React.FC<Properties> = ({
 	selected,
 	statement,
 }) => {
+	const { t } = useTranslation();
+
 	const handleTrueClick = useCallback(() => {
 		onSelect(statement.id, true);
 	}, [onSelect, statement.id]);
@@ -76,7 +78,10 @@ const TrueFalseStatement: React.FC<Properties> = ({
 								: styles["statement__result--incorrect"]
 						)}
 					>
-						{result.correct ? "Correct" : "Incorrect"}: {result.explanation}
+						{result.correct
+							? t("games.trueFalse.result.correct")
+							: t("games.trueFalse.result.incorrect")}
+						: {result.explanation}
 					</div>
 					<AudioPlayButton url={statement.explanation_audio_url} />
 				</div>

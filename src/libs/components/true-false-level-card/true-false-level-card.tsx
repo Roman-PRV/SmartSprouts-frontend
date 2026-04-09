@@ -1,4 +1,4 @@
-import { AudioPlayButton, Link } from "~/libs/components/components";
+import { AudioPlayButton, FallbackMessage, Link, Loader } from "~/libs/components/components";
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
@@ -42,15 +42,15 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	}, [results]);
 
 	if (status === DataStatus.PENDING) {
-		return <div>{t("games.trueFalse.loading.load")}</div>;
+		return <Loader hasOverlay />;
 	}
 
 	if (status === DataStatus.REJECTED) {
-		return <div>{t("games.trueFalse.error.load")}</div>;
+		return <FallbackMessage message={t("games.trueFalse.error.load")} />;
 	}
 
 	if (!level) {
-		return <div>{t("games.trueFalse.error.notFound")}</div>;
+		return <FallbackMessage message={t("games.trueFalse.error.notFound")} />;
 	}
 
 	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;

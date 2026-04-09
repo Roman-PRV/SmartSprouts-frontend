@@ -1,4 +1,4 @@
-import { LevelPreviewCard } from "~/libs/components/components";
+import { LevelPreviewCard, Loader } from "~/libs/components/components";
 import { useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto, type LevelDescriptionDto } from "~/libs/types/types";
 
@@ -22,9 +22,7 @@ const GameLevelsContent: React.FC<Properties> = ({
 	const { t } = useTranslation();
 
 	if (isLoading) {
-		return (
-			<div className={styles["game-levels-preview__no-content"]}>{t("games.levels.loading")}</div>
-		);
+		return <Loader hasOverlay />;
 	}
 
 	if (hasError) {
