@@ -1,4 +1,5 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
+import { DataStatus } from "~/libs/enums/enums";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -16,6 +17,7 @@ const GameSelectionPage: React.FC = () => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
 	const games = useAppSelector((state) => state.games.games);
+	const gamesStatus = useAppSelector((state) => state.games.gamesStatus);
 
 	const fetchGames = useCallback(() => {
 		void dispatch(gamesActions.getAllGames());
@@ -34,7 +36,7 @@ const GameSelectionPage: React.FC = () => {
 			</header>
 
 			<main aria-live="polite" className={styles["game-selection-page__grid"]}>
-				{games.length === EMPTY_ARRAY_LENGTH ? (
+				{gamesStatus === DataStatus.FULFILLED && games.length === EMPTY_ARRAY_LENGTH ? (
 					<div className={styles["game-selection-page__no-games"]}>
 						{t("games.selection.empty")}
 					</div>
