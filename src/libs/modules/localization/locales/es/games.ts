@@ -17,6 +17,7 @@ const games = {
 	},
 	selection: {
 		empty: "No hay juegos disponibles en este momento.",
+		error: "Error al cargar los juegos. Por favor, inténtalo de nuevo.",
 		title: "Elige un juego",
 	},
 	trueFalse: {

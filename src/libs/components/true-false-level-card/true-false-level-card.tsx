@@ -103,6 +103,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				className={styles["level-card__submit"]}
 				disabled={!allAnswered || isSubmitting || isLevelCompleted}
 				onClick={handleSubmitClick}
+				type="button"
 			>
 				{isSubmitting ? t("games.trueFalse.loading.check") : t("games.trueFalse.submit")}
 			</button>
@@ -128,6 +129,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 						styles["level-card__action-button--accent"]
 					)}
 					onClick={handleReset}
+					type="button"
 				>
 					{t("games.trueFalse.actions.reset")}
 				</button>

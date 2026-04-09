@@ -1,4 +1,4 @@
-import { Loader } from "~/libs/components/components";
+import { FallbackMessage, Loader } from "~/libs/components/components";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import {
@@ -31,12 +31,15 @@ const GameSelectionPage: React.FC = () => {
 	}, [fetchGames]);
 
 	const isLoading = gamesStatus === DataStatus.IDLE || gamesStatus === DataStatus.PENDING;
+	const isFailed = gamesStatus === DataStatus.REJECTED;
 	const isEmpty = gamesStatus === DataStatus.FULFILLED && games.length === EMPTY_ARRAY_LENGTH;
 
 	let content: React.ReactNode = null;
 
 	if (isLoading) {
 		content = <Loader hasOverlay />;
+	} else if (isFailed) {
+		content = <FallbackMessage message={t("games.selection.error")} />;
 	} else if (isEmpty) {
 		content = (
 			<div className={styles["game-selection-page__no-games"]}>{t("games.selection.empty")}</div>
