@@ -22,6 +22,8 @@ const games = {
 	trueFalse: {
 		actions: {
 			back: "Back to Levels",
+			markFalse: "Mark as false",
+			markTrue: "Mark as true",
 			reset: "Reset Level",
 		},
 		error: {

@@ -22,6 +22,8 @@ const games = {
 	trueFalse: {
 		actions: {
 			back: "До рівнів",
+			markFalse: "Поміть як невірно",
+			markTrue: "Поміть як вірно",
 			reset: "Скинути рівень",
 		},
 		error: {
