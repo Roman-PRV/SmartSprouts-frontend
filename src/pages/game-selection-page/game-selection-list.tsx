@@ -16,7 +16,7 @@ const GameSelectionList: React.FC = () => {
 	const isEmpty = gamesStatus === DataStatus.FULFILLED && games.length === EMPTY_ARRAY_LENGTH;
 
 	if (isLoading) {
-		return <Loader hasOverlay />;
+		return <Loader variant="overlay" />;
 	}
 
 	if (isFailed) {

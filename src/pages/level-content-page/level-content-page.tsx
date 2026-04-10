@@ -29,7 +29,7 @@ const LevelContentPage: React.FC = () => {
 	}
 
 	if (isGameLoading) {
-		return <Loader hasOverlay />;
+		return <Loader variant="overlay" />;
 	}
 
 	if (!currentGame) {

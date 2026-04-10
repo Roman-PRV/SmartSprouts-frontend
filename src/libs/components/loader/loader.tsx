@@ -21,22 +21,24 @@ type Properties = {
 	 */
 	className?: string;
 	/**
-	 * When true the loader renders as a fixed full-screen overlay.
-	 * When false (default) it renders inline with `position: relative`.
+	 * Defines the positioning and sizing variant of the loader.
+	 * - `inline` (default): renders inline with `position: relative`
+	 * - `overlay`: renders as a fixed full-screen overlay
+	 * - `page`: centers the loader within the full viewport height using flexbox
 	 */
-	hasOverlay?: boolean;
+	variant?: "inline" | "overlay" | "page";
 };
 
 const Loader: React.FC<Properties> = ({
 	className,
-	hasOverlay = false,
+	variant = "inline",
 }) => {
 	const { t } = useTranslation();
 
 	return (
 		<div
 			className={getValidClassNames(
-				hasOverlay ? styles["loader--overlay"] : styles["loader--inline"],
+				styles[`loader--${variant}`],
 				className
 			)}
 		>

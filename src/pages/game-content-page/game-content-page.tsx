@@ -33,11 +33,7 @@ const GameContentPage: React.FC = () => {
 	const isPageLoading = isGameLoading || isLevelsLoading;
 
 	if (isPageLoading) {
-		return (
-			<div className={styles["game-content-page__loading-container"]}>
-				<Loader />
-			</div>
-		);
+		return <Loader variant="page" />;
 	}
 
 	if (!currentGame) {

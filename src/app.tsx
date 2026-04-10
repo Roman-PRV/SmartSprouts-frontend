@@ -15,7 +15,7 @@ const App: React.FC = () => {
 	}, [dispatch]);
 
 	if (dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING) {
-		return <Loader hasOverlay />;
+		return <Loader variant="overlay" />;
 	}
 
 	return (

@@ -42,7 +42,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	}, [results]);
 
 	if (status === DataStatus.PENDING) {
-		return <Loader hasOverlay />;
+		return <Loader variant="overlay" />;
 	}
 
 	if (status === DataStatus.REJECTED) {
