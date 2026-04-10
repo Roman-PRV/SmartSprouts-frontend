@@ -1,11 +1,6 @@
 import { FallbackMessage, Loader } from "~/libs/components/components";
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
-import {
-	useGameFetch,
-	useLevelsFetch,
-	useParams,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useGameFetch, useLevelsFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
 

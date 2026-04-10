@@ -1,9 +1,6 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
-import {
-	useAppSelector,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto } from "~/libs/types/types";
 
 import { GameLevelsContent } from "./game-levels-content/game-levels-content";

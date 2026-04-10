@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 
 import { DataStatus } from "~/libs/enums/enums";
 import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
@@ -13,7 +13,6 @@ type UseLevelsFetchReturn = {
 const useLevelsFetch = (id: string | undefined): UseLevelsFetchReturn => {
 	const dispatch = useAppDispatch();
 	const levelsStatus = useAppSelector((state) => state.games.levelsStatus);
-	const lastFetchedIdReference = useRef<string | undefined>(undefined);
 
 	const fetchLevels = useCallback(() => {
 		if (id) {
@@ -23,21 +22,13 @@ const useLevelsFetch = (id: string | undefined): UseLevelsFetchReturn => {
 
 	useLanguageSync(fetchLevels);
 
-	const isDataCached = lastFetchedIdReference.current === id;
-
 	useEffect(() => {
-		const needsInitialFetch = levelsStatus === DataStatus.IDLE;
-
-		if (id && (!isDataCached || needsInitialFetch)) {
-			lastFetchedIdReference.current = id;
+		if (id && levelsStatus === DataStatus.IDLE) {
 			fetchLevels();
 		}
-	}, [id, fetchLevels, levelsStatus, isDataCached]);
+	}, [id, fetchLevels, levelsStatus]);
 
-	const isLoading =
-		levelsStatus === DataStatus.PENDING ||
-		levelsStatus === DataStatus.IDLE ||
-		!isDataCached;
+	const isLoading = levelsStatus === DataStatus.PENDING || levelsStatus === DataStatus.IDLE;
 
 	return {
 		isLoading,

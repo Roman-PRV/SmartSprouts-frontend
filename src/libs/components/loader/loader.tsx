@@ -29,19 +29,11 @@ type Properties = {
 	variant?: "inline" | "overlay" | "page";
 };
 
-const Loader: React.FC<Properties> = ({
-	className,
-	variant = "inline",
-}) => {
+const Loader: React.FC<Properties> = ({ className, variant = "inline" }) => {
 	const { t } = useTranslation();
 
 	return (
-		<div
-			className={getValidClassNames(
-				styles[`loader--${variant}`],
-				className
-			)}
-		>
+		<div className={getValidClassNames(styles[`loader--${variant}`], className)}>
 			<div className={styles["loader__content"]}>
 				{/* Pulsing decorative squares */}
 				{Array.from({ length: SQUARE_COUNT }, (_, index) => {

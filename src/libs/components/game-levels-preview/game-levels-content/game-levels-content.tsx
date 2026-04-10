@@ -11,12 +11,7 @@ type Properties = {
 	levels: LevelDescriptionDto[];
 };
 
-const GameLevelsContent: React.FC<Properties> = ({
-	game,
-	hasError,
-	hasLevels,
-	levels,
-}) => {
+const GameLevelsContent: React.FC<Properties> = ({ game, hasError, hasLevels, levels }) => {
 	const { t } = useTranslation();
 
 	if (hasError) {
