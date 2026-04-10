@@ -1,4 +1,4 @@
-import { LevelPreviewCard, Loader } from "~/libs/components/components";
+import { LevelPreviewCard } from "~/libs/components/components";
 import { useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto, type LevelDescriptionDto } from "~/libs/types/types";
 
@@ -8,7 +8,6 @@ type Properties = {
 	game: GameDescriptionDto;
 	hasError: boolean;
 	hasLevels: boolean;
-	isLoading: boolean;
 	levels: LevelDescriptionDto[];
 };
 
@@ -16,14 +15,9 @@ const GameLevelsContent: React.FC<Properties> = ({
 	game,
 	hasError,
 	hasLevels,
-	isLoading,
 	levels,
 }) => {
 	const { t } = useTranslation();
-
-	if (isLoading) {
-		return <Loader hasOverlay />;
-	}
 
 	if (hasError) {
 		return (

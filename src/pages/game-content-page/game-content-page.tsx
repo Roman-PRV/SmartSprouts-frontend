@@ -1,6 +1,17 @@
+import { useCallback, useEffect } from "react";
+
 import { FallbackMessage, Loader } from "~/libs/components/components";
 import { GameLevelsPreview } from "~/libs/components/game-levels-preview/game-levels-preview";
-import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
+import { DataStatus } from "~/libs/enums/enums";
+import {
+	useAppDispatch,
+	useAppSelector,
+	useGameFetch,
+	useLanguageSync,
+	useParams,
+	useTranslation,
+} from "~/libs/hooks/hooks";
+import { getLevelsList } from "~/modules/games/slices/actions";
 
 import styles from "./styles.module.css";
 
@@ -8,6 +19,23 @@ const GameContentPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { id } = useParams();
 	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
+
+	const dispatch = useAppDispatch();
+	const levelsStatus = useAppSelector((state) => state.games.levelsStatus);
+
+	const fetchLevels = useCallback(() => {
+		if (id) {
+			void dispatch(getLevelsList(id));
+		}
+	}, [dispatch, id]);
+
+	useLanguageSync(fetchLevels);
+
+	useEffect(() => {
+		if (id && levelsStatus === DataStatus.IDLE) {
+			fetchLevels();
+		}
+	}, [id, fetchLevels, levelsStatus]);
 
 	const renderError = (message: string): React.JSX.Element => (
 		<div className={styles["game-content-page__error-container"]}>
@@ -24,8 +52,16 @@ const GameContentPage: React.FC = () => {
 		return renderError(t("games.content.invalidId"));
 	}
 
-	if (isGameLoading) {
-		return <Loader hasOverlay />;
+	const isLevelsLoading =
+		levelsStatus === DataStatus.PENDING || levelsStatus === DataStatus.IDLE;
+	const isPageLoading = isGameLoading || isLevelsLoading;
+
+	if (isPageLoading) {
+		return (
+			<div className={styles["game-content-page__loading-container"]}>
+				<Loader />
+			</div>
+		);
 	}
 
 	if (!currentGame) {
