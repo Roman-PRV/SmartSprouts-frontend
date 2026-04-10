@@ -1,9 +1,11 @@
 const games = {
 	content: {
+		errorTitle: "Error",
 		invalidId: "ID de juego no válido o ausente.",
 		notFound: "Contenido del juego no encontrado.",
 	},
 	level: {
+		errorTitle: "Error",
 		invalidId: "ID de juego no válido o ausente.",
 		noLevel: "Ningún nivel seleccionado.",
 		notFound: "Contenido del juego no encontrado.",

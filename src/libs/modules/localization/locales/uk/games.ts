@@ -1,9 +1,11 @@
 const games = {
 	content: {
+		errorTitle: "Помилка",
 		invalidId: "Недійсний або відсутній ID гри.",
 		notFound: "Контент гри не знайдено.",
 	},
 	level: {
+		errorTitle: "Помилка",
 		invalidId: "Недійсний або відсутній ID гри.",
 		noLevel: "Рівень не вибрано.",
 		notFound: "Контент гри не знайдено.",

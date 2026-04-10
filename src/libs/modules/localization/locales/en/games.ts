@@ -1,9 +1,11 @@
 const games = {
 	content: {
+		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
 		notFound: "Game content not found.",
 	},
 	level: {
+		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
 		noLevel: "No level selected.",
 		notFound: "Game content not found.",
