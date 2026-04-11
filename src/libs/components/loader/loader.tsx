@@ -49,10 +49,10 @@ const Loader: React.FC<Properties> = ({ className, variant = "inline" }) => {
 
 				{/* SVG circular progress ring */}
 				<div
-					aria-label={t("common.accessibility.loading")}
 					className={styles["loader__ring-wrapper"]}
 					role="status"
 				>
+					<span className="visually-hidden">{t("common.accessibility.loading")}</span>
 					<svg
 						className={styles["loader__ring-svg"]}
 						viewBox="0 0 100 100"
