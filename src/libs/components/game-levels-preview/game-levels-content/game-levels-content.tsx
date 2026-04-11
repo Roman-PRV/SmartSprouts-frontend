@@ -8,24 +8,11 @@ type Properties = {
 	game: GameDescriptionDto;
 	hasError: boolean;
 	hasLevels: boolean;
-	isLoading: boolean;
 	levels: LevelDescriptionDto[];
 };
 
-const GameLevelsContent: React.FC<Properties> = ({
-	game,
-	hasError,
-	hasLevels,
-	isLoading,
-	levels,
-}) => {
+const GameLevelsContent: React.FC<Properties> = ({ game, hasError, hasLevels, levels }) => {
 	const { t } = useTranslation();
-
-	if (isLoading) {
-		return (
-			<div className={styles["game-levels-preview__no-content"]}>{t("games.levels.loading")}</div>
-		);
-	}
 
 	if (hasError) {
 		return (

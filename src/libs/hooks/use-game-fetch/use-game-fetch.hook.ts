@@ -16,29 +16,27 @@ const useGameFetch = (id: string | undefined): UseGameFetchReturn => {
 	const dispatch = useAppDispatch();
 	const { currentGame, currentGameStatus } = useAppSelector((state) => state.games);
 
-	const isLoading = currentGameStatus === DataStatus.PENDING;
-
-	useLanguageSync(
-		useCallback(() => {
-			if (id && !isLoading) {
-				void dispatch(gamesActions.getById(id));
-			}
-		}, [dispatch, id, isLoading])
-	);
-
-	useEffect(() => {
-		const isDataCached = currentGame && currentGame.id === id;
-
-		if (id && !isLoading && !isDataCached) {
+	const fetchGame = useCallback(() => {
+		if (id) {
 			void dispatch(gamesActions.getById(id));
 		}
-	}, [dispatch, id, currentGame, isLoading]);
+	}, [dispatch, id]);
+
+	useLanguageSync(fetchGame);
+
+	useEffect(() => {
+		if (id && currentGameStatus === DataStatus.IDLE) {
+			fetchGame();
+		}
+	}, [id, currentGameStatus, fetchGame]);
 
 	useEffect(() => {
 		return (): void => {
 			dispatch(gamesActions.clearCurrentGame());
 		};
 	}, [dispatch]);
+
+	const isLoading = currentGameStatus === DataStatus.PENDING || currentGameStatus === DataStatus.IDLE;
 
 	return {
 		currentGame,

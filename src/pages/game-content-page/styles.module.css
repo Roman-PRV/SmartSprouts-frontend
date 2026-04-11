@@ -1,6 +1,16 @@
-.game-content-page__loading-container {
+.game-content-page__error-container {
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+	flex-direction: column;
+	gap: 24px;
+	padding: 20px;
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.game-content-page__error-title {
+	margin: 0;
+	font-size: 1.75rem;
+	color: var(--color-text-dark);
+	font-weight: 700;
+	text-align: center;
 }

@@ -1,12 +1,12 @@
 const games = {
 	content: {
+		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
-		loading: "Loading game content...",
 		notFound: "Game content not found.",
 	},
 	level: {
+		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
-		loading: "Loading game content...",
 		noLevel: "No level selected.",
 		notFound: "Game content not found.",
 		title: "Level {{levelId}} — {{title}}",
@@ -15,16 +15,18 @@ const games = {
 	levels: {
 		empty: "No levels available at the moment.",
 		error: "Failed to load levels. Please try again.",
-		loading: "Loading levels...",
 		title: "Select a level for the {{title}} game",
 	},
 	selection: {
 		empty: "No games available at the moment.",
+		error: "Failed to load games. Please try again.",
 		title: "Choose a game",
 	},
 	trueFalse: {
 		actions: {
 			back: "Back to Levels",
+			markFalse: "Mark as false",
+			markTrue: "Mark as true",
 			reset: "Reset Level",
 		},
 		error: {
@@ -35,6 +37,10 @@ const games = {
 		loading: {
 			check: "Checking...",
 			load: "Loading level...",
+		},
+		result: {
+			correct: "Correct",
+			incorrect: "Incorrect",
 		},
 		submit: "Check Answers",
 	},

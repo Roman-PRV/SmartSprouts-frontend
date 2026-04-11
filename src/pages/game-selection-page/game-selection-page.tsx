@@ -1,7 +1,5 @@
-import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import {
 	useAppDispatch,
-	useAppSelector,
 	useCallback,
 	useEffect,
 	useLanguageSync,
@@ -9,13 +7,12 @@ import {
 } from "~/libs/hooks/hooks";
 import { actions as gamesActions } from "~/modules/games/games";
 
-import { GameCard } from "./game-card";
+import { GameSelectionList } from "./game-selection-list";
 import styles from "./styles.module.css";
 
 const GameSelectionPage: React.FC = () => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
-	const games = useAppSelector((state) => state.games.games);
 
 	const fetchGames = useCallback(() => {
 		void dispatch(gamesActions.getAllGames());
@@ -34,13 +31,7 @@ const GameSelectionPage: React.FC = () => {
 			</header>
 
 			<main aria-live="polite" className={styles["game-selection-page__grid"]}>
-				{games.length === EMPTY_ARRAY_LENGTH ? (
-					<div className={styles["game-selection-page__no-games"]}>
-						{t("games.selection.empty")}
-					</div>
-				) : (
-					games.map((game) => <GameCard game={game} key={game.id} />)
-				)}
+				<GameSelectionList />
 			</main>
 		</div>
 	);
