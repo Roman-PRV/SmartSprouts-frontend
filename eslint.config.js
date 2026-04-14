@@ -34,6 +34,7 @@ const config = [
 			"project.config.ts",
 			"knip.config.ts",
 			"commitlint.config.ts",
+			"coverage",
 		],
 	},
 	{
