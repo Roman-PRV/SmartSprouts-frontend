@@ -20,7 +20,7 @@ const initialState: State = {
 	user: null,
 };
 
-const { actions, name, reducer } = createSlice({
+const { actions, reducer } = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(login.pending, (state) => {
 			state.dataStatus = DataStatus.PENDING;
@@ -101,5 +101,4 @@ const { actions, name, reducer } = createSlice({
 	},
 });
 
-export { actions, name, reducer };
-export { getAuthenticatedUser, login, logout, register } from "./actions";
+export { actions, reducer };
