@@ -1,7 +1,7 @@
-import { type Config as LibraryConfig } from "~/libs/types/config.type";
-
 import { type EnvironmentSchema } from "./types";
 
-type Config = LibraryConfig<EnvironmentSchema>;
+type Config = {
+	ENV: EnvironmentSchema;
+};
 
 export { type Config };

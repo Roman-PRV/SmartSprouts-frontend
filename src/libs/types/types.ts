@@ -1,7 +1,5 @@
 export { type AsyncThunkConfig } from "./async-thunk-config.type";
-export { type Config } from "./config.type";
 export { type GameDescriptionDto } from "./game-description-dto.type";
-export { type GamePreviewComponent } from "./game-preview-component.type";
 export { type IconName } from "./icon-name.type";
 export { type LevelCardProperties } from "./level-card-properties.type";
 export { type LevelDescriptionDto } from "./level-description-dto.type";

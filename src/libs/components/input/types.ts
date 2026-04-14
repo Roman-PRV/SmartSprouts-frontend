@@ -90,4 +90,4 @@ type InputProperties = {
  */
 type InputType = "email" | "number" | "password" | "search" | "text";
 
-export { type InputProperties, type InputType };
+export { type InputProperties };
