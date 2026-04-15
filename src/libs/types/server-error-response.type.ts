@@ -15,8 +15,4 @@ type ServerValidationErrorResponse = {
 	message: string;
 };
 
-export {
-	type ServerCommonErrorResponse,
-	type ServerErrorResponse,
-	type ServerValidationErrorResponse,
-};
+export { type ServerErrorResponse };

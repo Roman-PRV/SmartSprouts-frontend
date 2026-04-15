@@ -1,14 +1,11 @@
 export { AudioPlayButton } from "./audio-play-button/audio-play-button";
 export { Button } from "./button/button";
-export type { ButtonProperties, ButtonSize, ButtonType, ButtonVariant } from "./button/types";
 export { Dropdown } from "./dropdown/dropdown";
-export type { DropdownOption } from "./dropdown/dropdown";
 export { FallbackMessage } from "./fallback-message/fallback-message";
 export { Footer } from "./footer/footer";
 export { Header } from "./header/header";
 export { Icon } from "./icon/icon";
 export { Input } from "./input/input";
-export type { InputProperties, InputType } from "./input/types";
 export { LanguageSwitcher } from "./language-switcher/language-switcher";
 export { LevelPreviewCard } from "./level-preview-card/level-preview-card";
 export { Loader } from "./loader/loader";
