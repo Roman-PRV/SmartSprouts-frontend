@@ -9,7 +9,6 @@ const config = {
 	quoteProps: "preserve",
 	semi: true,
 	singleQuote: false,
-	tabWidth: 2,
 	useTabs: true,
 };
 
