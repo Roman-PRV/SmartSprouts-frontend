@@ -1,4 +1,10 @@
-import { AudioPlayButton, FallbackMessage, Link, Loader } from "~/libs/components/components";
+import {
+	AudioPlayButton,
+	Button,
+	FallbackMessage,
+	Link,
+	Loader,
+} from "~/libs/components/components";
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
@@ -99,14 +105,15 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				})}
 			</div>
 
-			<button
-				className={styles["level-card__submit"]}
-				disabled={!allAnswered || isSubmitting || isLevelCompleted}
+			<Button
+				disabled={!allAnswered || isLevelCompleted}
+				fullWidth
+				isLoading={isSubmitting}
 				onClick={handleSubmitClick}
-				type="button"
+				size="lg"
 			>
-				{isSubmitting ? t("games.trueFalse.loading.check") : t("games.trueFalse.submit")}
-			</button>
+				{t("games.trueFalse.submit")}
+			</Button>
 
 			{hasSubmitError && (
 				<div className={styles["level-card__error"]}>{t("games.trueFalse.error.check")}</div>
@@ -115,24 +122,17 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			<div className={styles["level-card__actions"]}>
 				<Link
 					className={getValidClassNames(
-						styles["level-card__action-button"],
-						styles["level-card__action-button--secondary"]
+						styles["level-card__action"],
+						styles["level-card__back-link"]
 					)}
 					to={`/games/${game.id}`}
 				>
 					{t("games.trueFalse.actions.back")}
 				</Link>
 
-				<button
-					className={getValidClassNames(
-						styles["level-card__action-button"],
-						styles["level-card__action-button--accent"]
-					)}
-					onClick={handleReset}
-					type="button"
-				>
+				<Button className={styles["level-card__action"]} onClick={handleReset} variant="secondary">
 					{t("games.trueFalse.actions.reset")}
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
