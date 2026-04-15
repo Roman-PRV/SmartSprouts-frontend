@@ -4,7 +4,6 @@ import { type IconName } from "~/libs/types/types";
 
 /**
  * Properties for the Button component.
- *
  * @example
  * ```tsx
  * // Basic usage

@@ -2,7 +2,6 @@ import { type IconName } from "~/libs/types/types";
 
 /**
  * Properties for the Input component.
- *
  * @example
  * ```tsx
  * // Basic text input

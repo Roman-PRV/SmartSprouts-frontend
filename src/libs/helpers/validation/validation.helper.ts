@@ -2,7 +2,6 @@ import { type ZodType } from "zod";
 
 /**
  * Validates data against a Zod schema and returns formatted error messages and transformed data.
- *
  * @template Output - The type of the transformed output data (after Zod transformations like trim, toLowerCase, etc.).
  * @template Input - The type of the input data to validate.
  * @param data - The data to be validated.
@@ -11,7 +10,6 @@ import { type ZodType } from "zod";
  * - `errors`: An object with field names as keys and the first error message as value,
  *   or `null` if validation is successful.
  * - `data`: The transformed data from Zod if validation is successful, or `null`.
- *
  * @example
  * ```ts
  * const { errors, data } = validateFormData(

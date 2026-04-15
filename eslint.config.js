@@ -11,6 +11,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import sonarjs from "eslint-plugin-sonarjs";
 import unicorn from "eslint-plugin-unicorn";
 import globals from "globals";
+import jsdoc from "eslint-plugin-jsdoc";
 
 /** @typedef {import("eslint").Linter.Config} */
 let Config;
@@ -62,6 +63,7 @@ const config = [
 			"react-hooks": reactHooks,
 			sonarjs,
 			unicorn,
+			jsdoc,
 		},
 		rules: {
 			...js.configs.recommended.rules,
@@ -73,6 +75,7 @@ const config = [
 			...react.configs.recommended.rules,
 			...reactHooks.configs.recommended.rules,
 			...jsxA11y.configs.recommended.rules,
+			...jsdoc.configs["recommended-typescript-flavor-error"].rules,
 			...perfectionist.configs["recommended-natural"].rules,
 
 			"@typescript-eslint/consistent-type-exports": ["error"],
@@ -126,6 +129,14 @@ const config = [
 			"sonarjs/todo-tag": "off",
 			indent: ["error", "tab"],
 			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+			"jsdoc/no-undefined-types": ["error"],
+			"jsdoc/require-param": "off",
+			"jsdoc/require-returns": "off",
+			"jsdoc/require-param-type": "off",
+			"jsdoc/require-returns-type": "off",
+			"jsdoc/require-param-description": "off",
+			"jsdoc/require-returns-description": "off",
+
 			// Allow async functions in event handlers (e.g., onSubmit for react-hook-form)
 			"@typescript-eslint/no-misused-promises": [
 				"error",

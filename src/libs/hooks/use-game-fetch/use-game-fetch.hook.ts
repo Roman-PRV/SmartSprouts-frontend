@@ -36,7 +36,8 @@ const useGameFetch = (id: string | undefined): UseGameFetchReturn => {
 		};
 	}, [dispatch]);
 
-	const isLoading = currentGameStatus === DataStatus.PENDING || currentGameStatus === DataStatus.IDLE;
+	const isLoading =
+		currentGameStatus === DataStatus.PENDING || currentGameStatus === DataStatus.IDLE;
 
 	return {
 		currentGame,
