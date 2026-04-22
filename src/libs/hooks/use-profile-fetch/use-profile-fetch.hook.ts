@@ -11,7 +11,7 @@ type UseProfileFetchReturn = {
 
 const useProfileFetch = (): UseProfileFetchReturn => {
 	const dispatch = useAppDispatch();
-	const { dataStatus, error, profile } = useAppSelector(({ profile }) => profile);
+	const { dataStatus, error, profile } = useAppSelector((state) => state.profile);
 
 	useEffect(() => {
 		void dispatch(fetchProfile());
