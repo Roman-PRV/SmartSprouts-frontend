@@ -2,6 +2,7 @@ import { FallbackMessage, Loader } from "~/libs/components/components";
 import { useProfileFetch, useTranslation } from "~/libs/hooks/hooks";
 
 import { UserAnalytics, UserProfileCard } from "./components/components";
+import { getAnalyticsItems } from "./libs/helpers/helpers.js";
 import styles from "./styles.module.css";
 
 const ProfilePage: React.FC = () => {
@@ -12,6 +13,10 @@ const ProfilePage: React.FC = () => {
 		return <Loader variant="page" />;
 	}
 
+	const analyticsItems = profile
+		? getAnalyticsItems({ stats: profile.stats, t })
+		: [];
+
 	return (
 		<div className={styles["page-container"]}>
 			{isError || !profile ? (
@@ -20,7 +25,7 @@ const ProfilePage: React.FC = () => {
 				<>
 					<h1 className={styles["page-title"]}>{t("profile.title")}</h1>
 					<UserProfileCard user={profile} />
-					<UserAnalytics stats={profile.stats} />
+					<UserAnalytics items={analyticsItems} />
 				</>
 			)}
 		</div>

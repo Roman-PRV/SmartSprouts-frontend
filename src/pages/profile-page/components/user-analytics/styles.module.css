@@ -21,7 +21,7 @@
 
 .analytics__item {
 	display: flex;
-	flex-direction: column;
+	flex-direction: column-reverse;
 	align-items: center;
 	justify-content: center;
 	padding: var(--spacing-md) var(--spacing-sm);
