@@ -18,7 +18,7 @@ const initialState: State = {
 	profile: null,
 };
 
-const { actions, reducer } = createSlice({
+const { reducer } = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(fetchProfile.pending, (state) => {
 			state.dataStatus = DataStatus.PENDING;
@@ -39,4 +39,4 @@ const { actions, reducer } = createSlice({
 	reducers: {},
 });
 
-export { actions, reducer };
+export { reducer };

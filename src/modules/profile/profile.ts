@@ -11,7 +11,6 @@ const profileApi = new ProfileApi({
 });
 
 export { profileApi };
-export { ProfileApiPath } from "./libs/enums/enums.js";
 export { type UserProfileDto } from "./libs/types/types.js";
 export { fetchProfile } from "./slices/actions.js";
-export { actions, reducer } from "./slices/profile.slice.js";
+export { reducer } from "./slices/profile.slice.js";
