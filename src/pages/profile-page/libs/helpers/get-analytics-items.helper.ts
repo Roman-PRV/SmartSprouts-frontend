@@ -1,10 +1,12 @@
+import { type TFunction } from "i18next";
+
 import { type UserProfileDto } from "~/modules/profile/profile";
 
 import { FRACTION_DIGITS } from "../constants/constants.js";
 
 type GetAnalyticsItems = (arguments_: {
 	stats: UserProfileDto["stats"];
-	t: (key: string) => string;
+	t: TFunction;
 }) => {
 	label: string;
 	value: number | string;

@@ -17,6 +17,7 @@ const useProfileFetch = (): UseProfileFetchReturn => {
 		void dispatch(fetchProfile());
 	}, [dispatch]);
 
+	// Handle IDLE as loading to prevent flickering before the first fetch starts
 	const isLoading = dataStatus === DataStatus.PENDING || dataStatus === DataStatus.IDLE;
 	const isError = dataStatus === DataStatus.REJECTED;
 
