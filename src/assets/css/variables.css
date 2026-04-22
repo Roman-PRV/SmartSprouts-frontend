@@ -34,6 +34,14 @@
 	--color-dark-blob: rgba(135, 93, 118, 0.1);
 	--color-dark-border-subtle: rgba(135, 93, 118, 0.2);
 	--url-categories-bg: url("~/assets/img/home-page/categories-bg.png");
+
+	/* Shadows & Blur Values */
+	--shadow-sm: 0 4px 12px var(--color-shadow-dark-subtle);
+	--shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.05);
+	--shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.1);
+	--blur-md: 40px;
+	--blur-lg: 50px;
+
 	--border-radius-sm: 5px;
 	--border-radius-md: 8px;
 	--border-radius-lg: 10px;
@@ -42,6 +50,11 @@
 	--second-font-family: "Nunito", sans-serif;
 	--third-font-family: "Roboto", sans-serif;
 	--fourth-font-family: "Plus Jakarta Sans", sans-serif;
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
 	--z-index-low: 10;
 	--z-index-medium: 100;
 	--z-index-high: 1000;
@@ -51,6 +64,7 @@
 	--header-height: 110px;
 
 	/* Spacing System */
+	--spacing-xxs: 0.25rem;
 	--spacing-xs: 0.5rem;
 	--spacing-sm: 1rem;
 	--spacing-md: 1.5rem;
@@ -77,9 +91,8 @@
 	--border-radius-full: 50%;
 	--border-radius-pill: 2rem;
 
-	/* Shadows & Blur Values */
-	--shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.05);
-	--shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.1);
-	--blur-md: 40px;
-	--blur-lg: 50px;
+	--border-radius-pill: 2rem;
+
+	/* Transitions */
+	--transition-default: 150ms ease;
 }

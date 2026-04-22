@@ -1,15 +1,14 @@
-import type { User } from "~/modules/auth/libs/types/types.js";
-
 import { FIRST_INDEX } from "~/libs/constants/first-index";
+import { type UserProfileDto } from "~/modules/profile/profile";
 
 import styles from "./styles.module.css";
 
 type Properties = {
-	user: User;
+	user: UserProfileDto;
 };
 
 const UserProfileCard: React.FC<Properties> = ({ user }) => {
-	const initial = user.name.charAt(FIRST_INDEX).toUpperCase();
+	const initial = user.name.charAt(FIRST_INDEX).toUpperCase() || "?";
 
 	return (
 		<div className={styles["card"]}>

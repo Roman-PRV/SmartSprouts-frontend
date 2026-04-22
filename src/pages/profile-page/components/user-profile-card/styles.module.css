@@ -1,45 +1,45 @@
 .card {
 	display: flex;
 	align-items: center;
-	gap: 16px;
-	padding: 24px;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-md);
 	background: var(--color-background-4);
 	border: 1px solid var(--color-background-light-gray);
 	border-radius: var(--border-radius-md);
-	box-shadow: 0 4px 12px var(--color-shadow-dark-subtle);
+	box-shadow: var(--shadow-sm);
 }
 
 .card__avatar {
-	width: 64px;
-	height: 64px;
-	border-radius: 50%;
+	width: var(--spacing-xxl);
+	height: var(--spacing-xxl);
+	border-radius: var(--border-radius-full);
 	background: linear-gradient(135deg, var(--color-background-1), var(--color-background-2));
 	color: var(--color-text-light);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 2rem;
-	font-weight: 700;
+	font-weight: var(--font-weight-bold);
 	flex-shrink: 0;
 }
 
 .card__info {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: var(--spacing-xxs);
 }
 
 .card__name {
 	margin: 0;
-	font-size: 1.5rem;
-	font-weight: 600;
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
 	color: var(--color-text-dark);
 	line-height: 1.2;
 }
 
 .card__email {
 	margin: 0;
-	font-size: 1rem;
+	font-size: var(--font-size-sm);
 	color: var(--color-text-secondary);
 	line-height: 1.2;
 }

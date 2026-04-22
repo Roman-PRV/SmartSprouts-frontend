@@ -1,33 +1,36 @@
-import type { User } from "~/modules/auth/libs/types/types.js";
+import { useTranslation } from "~/libs/hooks/hooks";
+import { type UserProfileDto } from "~/modules/profile/profile";
 
 import styles from "./styles.module.css";
 
-type Properties = {
-	user: User;
-};
+type Properties = { stats: UserProfileDto["stats"] };
 
-const UserAnalytics: React.FC<Properties> = ({ user }) => {
-	const analytics = user.analytics ?? {
-		completedLevels: 0,
-		correctAnswersPercentage: 0,
-		totalLevels: 0,
-	};
+const FRACTION_DIGITS = 2;
+
+const UserAnalytics: React.FC<Properties> = ({ stats }) => {
+	const { t } = useTranslation();
+
+	const items = [
+		{ label: t("profile.totalScore"), value: stats.totalScore },
+		{ label: t("profile.totalLevels"), value: stats.totalLevels },
+		{ label: t("profile.completedLevels"), value: stats.completedLevels },
+		{
+			label: t("profile.accuracy"),
+			value: Number.isNaN(stats.correctAnswersPercentage)
+				? "—"
+				: `${stats.correctAnswersPercentage.toFixed(FRACTION_DIGITS)}%`,
+		},
+	];
 
 	return (
-		<div className={styles["analytics"]}>
-			<div className={styles["analytics__item"]}>
-				<span className={styles["analytics__value"]}>{analytics.totalLevels}</span>
-				<span className={styles["analytics__label"]}>Total Levels</span>
-			</div>
-			<div className={styles["analytics__item"]}>
-				<span className={styles["analytics__value"]}>{analytics.completedLevels}</span>
-				<span className={styles["analytics__label"]}>Completed Levels</span>
-			</div>
-			<div className={styles["analytics__item"]}>
-				<span className={styles["analytics__value"]}>{analytics.correctAnswersPercentage}%</span>
-				<span className={styles["analytics__label"]}>Accuracy</span>
-			</div>
-		</div>
+		<dl className={styles["analytics"]}>
+			{items.map(({ label, value }) => (
+				<div className={styles["analytics__item"]} key={label}>
+					<dd className={styles["analytics__value"]}>{value}</dd>
+					<dt className={styles["analytics__label"]}>{label}</dt>
+				</div>
+			))}
+		</dl>
 	);
 };
 
