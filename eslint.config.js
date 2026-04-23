@@ -127,7 +127,7 @@ const config = [
 			"react/react-in-jsx-scope": ["off"],
 			"unicorn/no-null": ["off"],
 			"sonarjs/todo-tag": "off",
-			indent: ["error", "tab"],
+			indent: ["error", "tab", { SwitchCase: 1 }],
 			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 			"jsdoc/no-undefined-types": ["error"],
 			"jsdoc/require-param": "off",

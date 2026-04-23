@@ -2,7 +2,7 @@ import { type TFunction } from "i18next";
 
 import { type UserProfileDto } from "~/modules/profile/profile";
 
-import { ACCURACY_FALLBACK, FRACTION_DIGITS } from "../constants/constants.js";
+import { ACCURACY_FALLBACK, FRACTION_DIGITS } from "../constants/constants";
 
 type GetAnalyticsItems = (arguments_: { stats: UserProfileDto["stats"]; t: TFunction }) => {
 	label: string;

@@ -4,8 +4,8 @@ import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Storage } from "~/libs/modules/storage/storage";
 
-import { ProfileApiPath } from "./libs/enums/enums.js";
-import { type UserProfileDto } from "./libs/types/types.js";
+import { ProfileApiPath } from "./libs/enums/enums";
+import { type UserProfileDto } from "./libs/types/types";
 
 type Constructor = {
 	baseUrl: string;

@@ -1,1 +1,1 @@
-export { ProfileApiPath } from "./profile-api-path.enum.js";
+export { ProfileApiPath } from "./profile-api-path.enum";

@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { DataStatus } from "~/libs/enums/enums";
 import { type ValueOf } from "~/libs/types/types";
 
-import { type UserProfileDto } from "../libs/types/types.js";
-import { fetchProfile } from "./actions.js";
+import { type UserProfileDto } from "../libs/types/types";
+import { fetchProfile } from "./actions";
 
 type State = {
 	dataStatus: ValueOf<typeof DataStatus>;

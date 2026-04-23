@@ -1,1 +1,1 @@
-export { type UserProfileDto } from "./user-profile-dto.type.js";
+export { type UserProfileDto } from "./user-profile-dto.type";
