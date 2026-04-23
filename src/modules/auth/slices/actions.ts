@@ -83,6 +83,10 @@ const logout = createAsyncThunk<null, undefined, AsyncThunkConfig>(
 
 		try {
 			await authApi.logout();
+		} catch {
+			// Client-side logout should always succeed.
+			// API errors (e.g., 401 or network issues) should not prevent
+			// local session cleanup.
 		} finally {
 			await storage.drop(StorageKey.TOKEN);
 		}
