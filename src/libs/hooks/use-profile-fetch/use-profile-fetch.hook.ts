@@ -20,6 +20,7 @@ const useProfileFetch = (): UseProfileFetchReturn => {
 		void dispatch(fetchProfile());
 	}, [dispatch]);
 
+	// Intentional: always fetch on mount to ensure data freshness.
 	// Handle IDLE as loading to prevent flickering before the first fetch starts
 	const isLoading = dataStatus === DataStatus.PENDING || dataStatus === DataStatus.IDLE;
 	const isError = dataStatus === DataStatus.REJECTED;
