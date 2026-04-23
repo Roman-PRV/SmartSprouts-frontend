@@ -16,15 +16,13 @@ const { mockDispatch, mockFetchProfileAction } = vi.hoisted(() => {
 	return { mockDispatch, mockFetchProfileAction };
 });
 
-vi.mock("~/libs/hooks/hooks", async () => {
-	const { useEffect } = await vi.importActual<typeof import("react")>("react");
+vi.mock("~/libs/hooks/use-app-dispatch/use-app-dispatch.hook", () => ({
+	useAppDispatch: () => mockDispatch,
+}));
 
-	return {
-		useAppDispatch: () => mockDispatch,
-		useAppSelector: vi.fn(),
-		useEffect,
-	};
-});
+vi.mock("~/libs/hooks/use-app-selector/use-app-selector.hook", () => ({
+	useAppSelector: vi.fn(),
+}));
 
 vi.mock("~/modules/profile/profile", () => ({
 	fetchProfile: vi.fn(() => mockFetchProfileAction),
@@ -32,7 +30,7 @@ vi.mock("~/modules/profile/profile", () => ({
 
 // ─── Imports (after vi.mock calls) ───────────────────────────────────────────
 
-import { useAppSelector } from "~/libs/hooks/hooks";
+import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
 import { fetchProfile } from "~/modules/profile/profile";
 
 import { useProfileFetch } from "~/libs/hooks/use-profile-fetch/use-profile-fetch.hook";
