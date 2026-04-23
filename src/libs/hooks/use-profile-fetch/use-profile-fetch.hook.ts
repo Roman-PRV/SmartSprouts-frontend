@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+
 import { DataStatus } from "~/libs/enums/enums";
-import { useAppDispatch, useAppSelector, useEffect } from "~/libs/hooks/hooks";
+import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
+import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
 import { fetchProfile, type UserProfileDto } from "~/modules/profile/profile";
 
 type UseProfileFetchReturn = {
