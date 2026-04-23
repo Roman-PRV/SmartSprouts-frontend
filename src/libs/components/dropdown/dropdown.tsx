@@ -163,63 +163,63 @@ const Dropdown = <T extends number | string>({
 			};
 
 			switch (key) {
-			case " ":
+				case " ":
 
 				// eslint-disable-next-line no-fallthrough
-			case "Enter": {
-				event.preventDefault();
-				openOrSelect();
-				break;
-			}
-
-			case "ArrowDown": {
-				event.preventDefault();
-				handleArrow("down");
-				break;
-			}
-
-			case "ArrowUp": {
-				event.preventDefault();
-				handleArrow("up");
-				break;
-			}
-
-			case "End": {
-				if (isOpen) {
+				case "Enter": {
 					event.preventDefault();
-					setFocusedIndex(options.length - INDEX_INCREMENT);
+					openOrSelect();
+					break;
 				}
 
-				break;
-			}
-
-			case "Escape": {
-				event.preventDefault();
-				setIsOpen(false);
-				toggleButtonReference.current?.focus();
-				break;
-			}
-
-			case "Home": {
-				if (isOpen) {
+				case "ArrowDown": {
 					event.preventDefault();
-					setFocusedIndex(FIRST_INDEX);
+					handleArrow("down");
+					break;
 				}
 
-				break;
-			}
+				case "ArrowUp": {
+					event.preventDefault();
+					handleArrow("up");
+					break;
+				}
 
-			case "Tab": {
-				if (isOpen) {
+				case "End": {
+					if (isOpen) {
+						event.preventDefault();
+						setFocusedIndex(options.length - INDEX_INCREMENT);
+					}
+
+					break;
+				}
+
+				case "Escape": {
+					event.preventDefault();
 					setIsOpen(false);
+					toggleButtonReference.current?.focus();
+					break;
 				}
 
-				break;
-			}
+				case "Home": {
+					if (isOpen) {
+						event.preventDefault();
+						setFocusedIndex(FIRST_INDEX);
+					}
 
-			default: {
-				break;
-			}
+					break;
+				}
+
+				case "Tab": {
+					if (isOpen) {
+						setIsOpen(false);
+					}
+
+					break;
+				}
+
+				default: {
+					break;
+				}
 			}
 		},
 		[

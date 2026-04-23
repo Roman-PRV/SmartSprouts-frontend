@@ -5,6 +5,7 @@ export { useStopAudioOnUnmount } from "./use-audio-player/use-stop-audio-on-unmo
 export { useGameFetch } from "./use-game-fetch/use-game-fetch.hook";
 export { useLanguageSync } from "./use-language-sync/use-language-sync.hook";
 export { useLevelsFetch } from "./use-levels-fetch/use-levels-fetch.hook";
+export { useProfileFetch } from "./use-profile-fetch/use-profile-fetch.hook";
 export { useTrueFalseGame } from "./use-true-false-game/use-true-false-game.hook";
 export { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 export { useForm } from "react-hook-form";

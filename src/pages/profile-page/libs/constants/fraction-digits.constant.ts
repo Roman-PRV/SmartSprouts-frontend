@@ -1,0 +1,3 @@
+const FRACTION_DIGITS = 2;
+
+export { FRACTION_DIGITS };
