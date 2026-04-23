@@ -13,9 +13,7 @@ const ProfilePage: React.FC = () => {
 		return <Loader variant="page" />;
 	}
 
-	const analyticsItems = profile
-		? getAnalyticsItems({ stats: profile.stats, t })
-		: [];
+	const analyticsItems = profile ? getAnalyticsItems({ stats: profile.stats, t }) : [];
 
 	return (
 		<div className={styles["page-container"]}>

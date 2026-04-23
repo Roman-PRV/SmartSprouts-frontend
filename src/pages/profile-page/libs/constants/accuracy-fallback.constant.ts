@@ -1,0 +1,3 @@
+const ACCURACY_FALLBACK = "—";
+
+export { ACCURACY_FALLBACK };

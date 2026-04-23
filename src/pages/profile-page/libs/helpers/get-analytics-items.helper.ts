@@ -2,12 +2,9 @@ import { type TFunction } from "i18next";
 
 import { type UserProfileDto } from "~/modules/profile/profile";
 
-import { FRACTION_DIGITS } from "../constants/constants.js";
+import { ACCURACY_FALLBACK, FRACTION_DIGITS } from "../constants/constants.js";
 
-type GetAnalyticsItems = (arguments_: {
-	stats: UserProfileDto["stats"];
-	t: TFunction;
-}) => {
+type GetAnalyticsItems = (arguments_: { stats: UserProfileDto["stats"]; t: TFunction }) => {
 	label: string;
 	value: number | string;
 }[];
@@ -20,7 +17,7 @@ const getAnalyticsItems: GetAnalyticsItems = ({ stats, t }) => {
 		{
 			label: t("profile.accuracy"),
 			value: Number.isNaN(stats.correctAnswersPercentage)
-				? "—"
+				? ACCURACY_FALLBACK
 				: `${stats.correctAnswersPercentage.toFixed(FRACTION_DIGITS)}%`,
 		},
 	];
