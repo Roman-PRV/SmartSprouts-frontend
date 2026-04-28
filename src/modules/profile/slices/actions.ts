@@ -3,7 +3,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { normalizeError } from "~/libs/helpers/helpers";
 import { type AsyncThunkConfig } from "~/libs/types/types";
 
-import { type UserProfileDto } from "../libs/types/types";
+import {
+	type UpdatePasswordRequestDto,
+	type UserProfileDto,
+} from "../libs/types/types";
 
 const fetchProfile = createAsyncThunk<UserProfileDto, undefined, AsyncThunkConfig>(
 	"profile/fetchProfile",
@@ -18,4 +21,17 @@ const fetchProfile = createAsyncThunk<UserProfileDto, undefined, AsyncThunkConfi
 	}
 );
 
-export { fetchProfile };
+const updatePassword = createAsyncThunk<undefined, UpdatePasswordRequestDto, AsyncThunkConfig>(
+	"profile/updatePassword",
+	async (payload, { extra, rejectWithValue }) => {
+		const { profileApi } = extra;
+
+		try {
+			await profileApi.updatePassword(payload);
+		} catch (error) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+export { fetchProfile, updatePassword };

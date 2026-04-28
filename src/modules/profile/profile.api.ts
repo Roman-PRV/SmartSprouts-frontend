@@ -1,11 +1,14 @@
-import { APIPath } from "~/libs/enums/enums";
+import { APIPath, ContentType } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Storage } from "~/libs/modules/storage/storage";
 
 import { ProfileApiPath } from "./libs/enums/enums";
-import { type UserProfileDto } from "./libs/types/types";
+import {
+	type UpdatePasswordRequestDto,
+	type UserProfileDto,
+} from "./libs/types/types";
 
 type Constructor = {
 	baseUrl: string;
@@ -28,6 +31,17 @@ class ProfileApi extends BaseHTTPApi {
 		});
 
 		return await response.json<UserProfileDto>();
+	}
+
+	public async updatePassword(payload: UpdatePasswordRequestDto): Promise<void> {
+		const url = this.getFullEndpoint(ProfileApiPath.PASSWORD, {});
+
+		await this.load(url, {
+			contentType: ContentType.JSON,
+			hasAuth: true,
+			method: HTTPMethod.PUT,
+			payload: JSON.stringify(payload),
+		});
 	}
 }
 
