@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { Button, Input } from "~/libs/components/components";
 import { FIRST_INDEX, VALIDATION_RULES } from "~/libs/constants/constants";
@@ -35,8 +36,7 @@ const ChangePasswordForm: React.FC = () => {
 		try {
 			await dispatch(updatePassword(payload)).unwrap();
 			reset();
-			// Optionally add toast notification here
-			alert(t("profile.changePassword.success", "Пароль успішно змінено!"));
+			toast.success(t("profile.changePassword.success", "Пароль успішно змінено!"));
 		} catch (error) {
 			const errorPayload = error as ThunkErrorPayload;
 
@@ -86,7 +86,12 @@ const ChangePasswordForm: React.FC = () => {
 				/>
 
 				<Input
-					error={errors.new_password_confirmation?.message && t(errors.new_password_confirmation.message)}
+					error={
+						errors.new_password_confirmation?.message &&
+						t(errors.new_password_confirmation.message, {
+							min: VALIDATION_RULES.MIN_PASSWORD_LENGTH,
+						})
+					}
 					iconLeft="lock"
 					label={t("profile.changePassword.fields.confirmPassword.label", "Підтвердження нового пароля")}
 					placeholder={t("profile.changePassword.fields.confirmPassword.placeholder", "Повторіть новий пароль")}
