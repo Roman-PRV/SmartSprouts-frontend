@@ -11,6 +11,10 @@ const profileApi = new ProfileApi({
 });
 
 export { profileApi };
-export { type UserProfileDto } from "./libs/types/types";
+export {
+	type UpdatePasswordRequestDto,
+	type UserProfileDto,
+} from "./libs/types/types";
+export { updatePasswordValidationSchema } from "./libs/validation-schemas/validation-schemas";
 export { fetchProfile } from "./slices/actions";
 export { reducer } from "./slices/profile.slice";
