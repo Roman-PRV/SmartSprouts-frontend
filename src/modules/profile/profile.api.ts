@@ -7,6 +7,7 @@ import { type Storage } from "~/libs/modules/storage/storage";
 import { ProfileApiPath } from "./libs/enums/enums";
 import {
 	type UpdatePasswordRequestDto,
+	type UpdatePasswordResponseDto,
 	type UserProfileDto,
 } from "./libs/types/types";
 
@@ -33,15 +34,17 @@ class ProfileApi extends BaseHTTPApi {
 		return await response.json<UserProfileDto>();
 	}
 
-	public async updatePassword(payload: UpdatePasswordRequestDto): Promise<void> {
+	public async updatePassword(payload: UpdatePasswordRequestDto): Promise<UpdatePasswordResponseDto> {
 		const url = this.getFullEndpoint(ProfileApiPath.PASSWORD, {});
 
-		await this.load(url, {
+		const response = await this.load(url, {
 			contentType: ContentType.JSON,
 			hasAuth: true,
 			method: HTTPMethod.PUT,
 			payload: JSON.stringify(payload),
 		});
+
+		return await response.json<UpdatePasswordResponseDto>();
 	}
 }
 
