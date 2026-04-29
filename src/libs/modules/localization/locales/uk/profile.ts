@@ -2,6 +2,7 @@ export const profile = {
 	accuracy: "Точність",
 	changePassword: {
 		button: "Змінити пароль",
+		error: "Не вдалося змінити пароль. Спробуйте ще раз.",
 		fields: {
 			confirmPassword: {
 				label: "Підтвердження нового пароля",

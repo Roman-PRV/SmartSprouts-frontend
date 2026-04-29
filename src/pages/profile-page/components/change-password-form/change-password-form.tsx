@@ -38,14 +38,21 @@ const ChangePasswordForm: React.FC = () => {
 			reset();
 			toast.success(t("profile.changePassword.success"));
 		} catch (error) {
+			let hasErrorsSet = false;
+
 			if (isThunkErrorPayload(error) && error.errors) {
 				for (const [field, messages] of Object.entries(error.errors)) {
 					if (field in payload) {
 						setError(field as keyof UpdatePasswordRequestDto, {
 							message: messages[FIRST_INDEX] ?? t("profile.changePassword.error"),
 						});
+						hasErrorsSet = true;
 					}
 				}
+			}
+
+			if (!hasErrorsSet) {
+				toast.error(t("profile.changePassword.error"));
 			}
 		}
 	};

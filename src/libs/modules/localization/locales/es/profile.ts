@@ -2,6 +2,7 @@ export const profile = {
 	accuracy: "Precisión",
 	changePassword: {
 		button: "Cambiar Contraseña",
+		error: "Error al cambiar la contraseña. Por favor, inténtelo de nuevo.",
 		fields: {
 			confirmPassword: {
 				label: "Confirmar Nueva Contraseña",
