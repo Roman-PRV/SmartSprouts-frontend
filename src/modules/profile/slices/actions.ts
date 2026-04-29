@@ -23,20 +23,21 @@ const fetchProfile = createAsyncThunk<UserProfileDto, undefined, AsyncThunkConfi
 	}
 );
 
-const updatePassword = createAsyncThunk<UpdatePasswordResponseDto, UpdatePasswordRequestDto, AsyncThunkConfig>(
-	"profile/updatePassword",
-	async (payload, { extra, rejectWithValue }) => {
-		const { profileApi, storage } = extra;
+const updatePassword = createAsyncThunk<
+	UpdatePasswordResponseDto,
+	UpdatePasswordRequestDto,
+	AsyncThunkConfig
+>("profile/updatePassword", async (payload, { extra, rejectWithValue }) => {
+	const { profileApi, storage } = extra;
 
-		try {
-			const response = await profileApi.updatePassword(payload);
-			await storage.set(StorageKey.TOKEN, response.access_token);
+	try {
+		const response = await profileApi.updatePassword(payload);
+		await storage.set(StorageKey.TOKEN, response.access_token);
 
-			return response;
-		} catch (error) {
-			return rejectWithValue(normalizeError(error));
-		}
+		return response;
+	} catch (error) {
+		return rejectWithValue(normalizeError(error));
 	}
-);
+});
 
 export { fetchProfile, updatePassword };

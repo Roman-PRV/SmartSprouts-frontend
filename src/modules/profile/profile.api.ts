@@ -34,7 +34,9 @@ class ProfileApi extends BaseHTTPApi {
 		return await response.json<UserProfileDto>();
 	}
 
-	public async updatePassword(payload: UpdatePasswordRequestDto): Promise<UpdatePasswordResponseDto> {
+	public async updatePassword(
+		payload: UpdatePasswordRequestDto
+	): Promise<UpdatePasswordResponseDto> {
 		const url = this.getFullEndpoint(ProfileApiPath.PASSWORD, {});
 
 		const response = await this.load(url, {

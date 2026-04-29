@@ -11,7 +11,9 @@ const newPasswordSchema = z
 
 const updatePasswordValidationSchema = z
 	.object({
-		current_password: z.string().min(VALIDATION_RULES.MIN_STRING_LENGTH, "validation.password.required"),
+		current_password: z
+			.string()
+			.min(VALIDATION_RULES.MIN_STRING_LENGTH, "validation.password.required"),
 		new_password: newPasswordSchema,
 		new_password_confirmation: newPasswordSchema,
 	})

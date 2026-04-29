@@ -3,6 +3,7 @@ const validation = {
 		invalid: "Будь ласка, введіть дійсний email",
 		required: "Email обов'язковий",
 	},
+	error: "Помилка валідації",
 	name: {
 		minLength: "Ім'я повинно містити щонайменше {{min}} символів",
 		required: "Ім'я обов'язкове",

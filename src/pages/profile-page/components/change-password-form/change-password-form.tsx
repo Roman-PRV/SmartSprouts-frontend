@@ -3,8 +3,8 @@ import { toast } from "sonner";
 
 import { Button, Input } from "~/libs/components/components";
 import { FIRST_INDEX, VALIDATION_RULES } from "~/libs/constants/constants";
+import { isThunkErrorPayload } from "~/libs/helpers/helpers";
 import { useAppDispatch, useForm, useTranslation } from "~/libs/hooks/hooks";
-import { type ThunkErrorPayload } from "~/libs/types/types";
 import {
 	updatePassword,
 	type UpdatePasswordRequestDto,
@@ -36,15 +36,13 @@ const ChangePasswordForm: React.FC = () => {
 		try {
 			await dispatch(updatePassword(payload)).unwrap();
 			reset();
-			toast.success(t("profile.changePassword.success", "Пароль успішно змінено!"));
+			toast.success(t("profile.changePassword.success"));
 		} catch (error) {
-			const errorPayload = error as ThunkErrorPayload;
-
-			if (errorPayload.errors) {
-				for (const [field, messages] of Object.entries(errorPayload.errors)) {
+			if (isThunkErrorPayload(error) && error.errors) {
+				for (const [field, messages] of Object.entries(error.errors)) {
 					if (field in payload) {
 						setError(field as keyof UpdatePasswordRequestDto, {
-							message: messages[FIRST_INDEX] ?? "Validation error",
+							message: messages[FIRST_INDEX] ?? t("profile.changePassword.error"),
 						});
 					}
 				}
@@ -54,17 +52,13 @@ const ChangePasswordForm: React.FC = () => {
 
 	return (
 		<div className={styles["card"]}>
-			<h2 className={styles["card__title"]}>{t("profile.changePassword.title", "Зміна пароля")}</h2>
-			<form
-				className={styles["form"]}
-				noValidate
-				onSubmit={handleSubmit(handleFormSubmit)}
-			>
+			<h2 className={styles["card__title"]}>{t("profile.changePassword.title")}</h2>
+			<form className={styles["form"]} noValidate onSubmit={handleSubmit(handleFormSubmit)}>
 				<Input
 					error={errors.current_password?.message && t(errors.current_password.message)}
 					iconLeft="lock"
-					label={t("profile.changePassword.fields.currentPassword.label", "Поточний пароль")}
-					placeholder={t("profile.changePassword.fields.currentPassword.placeholder", "Введіть поточний пароль")}
+					label={t("profile.changePassword.fields.currentPassword.label")}
+					placeholder={t("profile.changePassword.fields.currentPassword.placeholder")}
 					required
 					type="password"
 					{...register("current_password")}
@@ -78,8 +72,8 @@ const ChangePasswordForm: React.FC = () => {
 						})
 					}
 					iconLeft="lock"
-					label={t("profile.changePassword.fields.newPassword.label", "Новий пароль")}
-					placeholder={t("profile.changePassword.fields.newPassword.placeholder", "Введіть новий пароль")}
+					label={t("profile.changePassword.fields.newPassword.label")}
+					placeholder={t("profile.changePassword.fields.newPassword.placeholder")}
 					required
 					type="password"
 					{...register("new_password")}
@@ -93,15 +87,15 @@ const ChangePasswordForm: React.FC = () => {
 						})
 					}
 					iconLeft="lock"
-					label={t("profile.changePassword.fields.confirmPassword.label", "Підтвердження нового пароля")}
-					placeholder={t("profile.changePassword.fields.confirmPassword.placeholder", "Повторіть новий пароль")}
+					label={t("profile.changePassword.fields.confirmPassword.label")}
+					placeholder={t("profile.changePassword.fields.confirmPassword.placeholder")}
 					required
 					type="password"
 					{...register("new_password_confirmation")}
 				/>
 
 				<Button fullWidth isLoading={isSubmitting} size="md" type="submit" variant="primary">
-					{t("profile.changePassword.button", "Змінити пароль")}
+					{t("profile.changePassword.button")}
 				</Button>
 			</form>
 		</div>

@@ -3,6 +3,7 @@ const validation = {
 		invalid: "Please enter a valid email",
 		required: "Email is required",
 	},
+	error: "Validation error",
 	name: {
 		minLength: "Name must be at least {{min}} characters",
 		required: "Name is required",

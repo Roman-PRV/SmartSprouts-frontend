@@ -1,10 +1,12 @@
 import { type AsyncThunkAction } from "@reduxjs/toolkit";
+import { t } from "i18next";
 import { useCallback } from "react";
 import { type FieldValues, type Path, type UseFormSetError } from "react-hook-form";
 
 import { FIRST_INDEX } from "~/libs/constants/constants";
+import { isThunkErrorPayload } from "~/libs/helpers/helpers";
 import { useAppDispatch } from "~/libs/hooks/hooks";
-import { type AsyncThunkConfig, type ThunkErrorPayload } from "~/libs/types/types";
+import { type AsyncThunkConfig } from "~/libs/types/types";
 import { actions as authActions } from "~/modules/auth/auth";
 
 type Properties<T extends FieldValues, R> = {
@@ -27,13 +29,11 @@ const useAuthFormSubmit = <T extends FieldValues, R>({
 			const result = await dispatch(action(payload));
 
 			if (result.meta.requestStatus === "rejected") {
-				const errorPayload = result.payload as ThunkErrorPayload | undefined;
-
-				if (errorPayload?.errors) {
-					for (const [field, messages] of Object.entries(errorPayload.errors)) {
+				if (isThunkErrorPayload(result.payload) && result.payload.errors) {
+					for (const [field, messages] of Object.entries(result.payload.errors)) {
 						if (Object.hasOwn(payload, field)) {
 							setError(field as Path<T>, {
-								message: messages[FIRST_INDEX] ?? "Validation error",
+								message: messages[FIRST_INDEX] ?? t("validation.error"),
 							});
 						}
 					}
