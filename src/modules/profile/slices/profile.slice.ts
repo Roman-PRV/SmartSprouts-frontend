@@ -31,7 +31,7 @@ const { reducer } = createSlice({
 		});
 		builder.addCase(fetchProfile.rejected, (state, action) => {
 			state.dataStatus = DataStatus.REJECTED;
-			state.error = action.payload?.message ?? action.error.message ?? "Profile fetch failed";
+			state.error = action.payload?.message ?? action.error.message ?? null;
 		});
 	},
 	initialState,
