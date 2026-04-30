@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { FIRST_INDEX, VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import {
+	basicPasswordSchema,
 	emailSchema,
 	nameSchema,
 	passwordSchema,
@@ -127,6 +128,23 @@ describe("Validation Schemas", () => {
 					(i) => i.message === VALIDATION_MESSAGES.PW_CONTAINS_UPPERCASE
 				);
 				expect(issue).toBeDefined();
+			}
+		});
+	});
+
+	describe("basicPasswordSchema", () => {
+		it("should validate simple password", () => {
+			const result = basicPasswordSchema.safeParse("123");
+			expect(result.success).toBe(true);
+		});
+
+		it("should fail for empty string", () => {
+			const result = basicPasswordSchema.safeParse("");
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				expect(result.error.issues[FIRST_INDEX]?.message).toBe(VALIDATION_MESSAGES.MIN_NAME_LENGTH);
 			}
 		});
 	});

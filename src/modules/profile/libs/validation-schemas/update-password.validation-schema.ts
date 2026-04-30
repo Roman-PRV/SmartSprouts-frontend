@@ -1,17 +1,13 @@
 import { z } from "zod";
 
-import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
-import { passwordSchema } from "~/libs/validation-schemas/validation-schemas";
+import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
+import { basicPasswordSchema, passwordSchema } from "~/libs/validation-schemas/validation-schemas";
 
 const updatePasswordValidationSchema = z
 	.object({
-		current_password: z
-			.string()
-			.min(VALIDATION_RULES.MIN_STRING_LENGTH, "validation.password.required"),
+		current_password: basicPasswordSchema,
 		new_password: passwordSchema,
-		new_password_confirmation: z
-			.string()
-			.min(VALIDATION_RULES.MIN_STRING_LENGTH, "validation.passwordConfirmation.required"),
+		new_password_confirmation: passwordSchema,
 	})
 	.refine((data) => data.new_password === data.new_password_confirmation, {
 		message: VALIDATION_MESSAGES.PW_DO_NOT_MATCH,

@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import {
+	basicPasswordSchema,
 	emailSchema,
 	nameSchema,
 	passwordSchema,
@@ -11,11 +12,11 @@ import {
  * Schema for login form validation.
  * Includes:
  * - email: {@link emailSchema}
- * - password: {@link passwordSchema}
+ * - password: {@link basicPasswordSchema}
  */
 const loginSchema = z.object({
 	email: emailSchema,
-	password: passwordSchema,
+	password: basicPasswordSchema,
 });
 
 /**

@@ -32,55 +32,22 @@ describe("Auth Validation Schemas", () => {
 			}
 		});
 
-		it("should fail if password does not contain a number", () => {
+		it("should validate simple login password", () => {
 			const data = {
 				email: "test@example.com",
-				password: "Password",
+				password: "123",
 			};
 			const result = loginSchema.safeParse(data);
-
-			expect(result.success).toBe(false);
-
-			if (!result.success) {
-				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_NUMBER
-				);
-				expect(issue).toBeDefined();
-			}
+			expect(result.success).toBe(true);
 		});
 
-		it("should fail if password does not contain a lowercase letter", () => {
+		it("should fail for empty password", () => {
 			const data = {
 				email: "test@example.com",
-				password: "PASSWORD123",
+				password: "",
 			};
 			const result = loginSchema.safeParse(data);
-
 			expect(result.success).toBe(false);
-
-			if (!result.success) {
-				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_LOWERCASE
-				);
-				expect(issue).toBeDefined();
-			}
-		});
-
-		it("should fail if password does not contain an uppercase letter", () => {
-			const data = {
-				email: "test@example.com",
-				password: "password123",
-			};
-			const result = loginSchema.safeParse(data);
-
-			expect(result.success).toBe(false);
-
-			if (!result.success) {
-				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_UPPERCASE
-				);
-				expect(issue).toBeDefined();
-			}
 		});
 	});
 

@@ -29,7 +29,8 @@ const nameSchema = z
  * Schema for password validation.
  * Rules:
  * - Minimum length: {@link VALIDATION_RULES.MIN_PASSWORD_LENGTH}
- * - Must contain at least one letter
+ * - Must contain at least one lowercase letter
+ * - Must contain at least one uppercase letter
  * - Must contain at least one digit
  */
 const passwordSchema = z
@@ -39,4 +40,13 @@ const passwordSchema = z
 	.regex(/[A-Z]/, VALIDATION_MESSAGES.PW_CONTAINS_UPPERCASE)
 	.regex(/\d/, VALIDATION_MESSAGES.PW_CONTAINS_NUMBER);
 
-export { emailSchema, nameSchema, passwordSchema };
+/**
+ * Schema for basic password validation (login, current password).
+ * Rules:
+ * - Minimum length: {@link VALIDATION_RULES.MIN_STRING_LENGTH}
+ */
+const basicPasswordSchema = z
+	.string()
+	.min(VALIDATION_RULES.MIN_STRING_LENGTH, VALIDATION_MESSAGES.MIN_NAME_LENGTH);
+
+export { basicPasswordSchema, emailSchema, nameSchema, passwordSchema };
