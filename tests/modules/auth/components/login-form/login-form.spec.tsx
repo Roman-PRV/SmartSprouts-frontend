@@ -145,7 +145,7 @@ describe("LoginForm", () => {
 			);
 
 			await user.type(emailInput, "test@example.com");
-			await user.type(passwordInput, "passwordonly");
+			await user.type(passwordInput, "PasswordOnly");
 
 			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			await user.click(submitButton);

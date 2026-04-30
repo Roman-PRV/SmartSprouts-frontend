@@ -238,8 +238,8 @@ describe("RegisterForm", () => {
 
 			await user.type(nameInput, "John Doe");
 			await user.type(emailInput, "test@example.com");
-			await user.type(passwordInput, "passwordonly");
-			await user.type(confirmPasswordInput, "passwordonly");
+			await user.type(passwordInput, "PasswordOnly");
+			await user.type(confirmPasswordInput, "PasswordOnly");
 
 			const submitButton = screen.getByRole("button", { name: i18n.t("auth.register.button") });
 			await user.click(submitButton);

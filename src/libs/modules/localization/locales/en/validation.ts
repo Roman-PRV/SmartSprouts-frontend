@@ -12,7 +12,9 @@ const validation = {
 		minLength: "Password must be at least {{min}} characters",
 		mustBeNew: "New password must be different from the current one",
 		mustContainLetter: "Password must contain at least one letter",
+		mustContainLowercase: "Password must contain at least one lowercase letter",
 		mustContainNumber: "Password must contain at least one number",
+		mustContainUppercase: "Password must contain at least one uppercase letter",
 		required: "Password is required",
 	},
 	passwordConfirmation: {

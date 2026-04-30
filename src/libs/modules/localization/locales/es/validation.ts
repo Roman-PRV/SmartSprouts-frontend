@@ -12,7 +12,9 @@ const validation = {
 		minLength: "La contraseña debe tener al menos {{min}} caracteres",
 		mustBeNew: "La nueva contraseña debe ser diferente de la actual",
 		mustContainLetter: "La contraseña debe contener al menos una letra",
+		mustContainLowercase: "La contraseña debe contener al menos una letra minúscula",
 		mustContainNumber: "La contraseña debe contener al menos un número",
+		mustContainUppercase: "La contraseña debe contener al menos una letra mayúscula",
 		required: "La contraseña es obligatoria",
 	},
 	passwordConfirmation: {
