@@ -11,6 +11,7 @@ const VALIDATION_MESSAGES = {
 	PW_CONTAINS_LETTER: "validation.password.mustContainLetter",
 	PW_CONTAINS_NUMBER: "validation.password.mustContainNumber",
 	PW_DO_NOT_MATCH: "validation.passwordConfirmation.mustMatch",
+	PW_MUST_BE_NEW: "validation.password.mustBeNew",
 } as const;
 
 export { VALIDATION_MESSAGES, VALIDATION_RULES };
