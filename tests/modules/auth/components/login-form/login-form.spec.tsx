@@ -133,31 +133,26 @@ describe("LoginForm", () => {
 	});
 
 	describe("Form Validation", () => {
-		it("shows validation error for password without number", async () => {
+		it("shows validation error for empty password", async () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
 			const emailInput = screen.getByLabelText(
 				getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))
 			);
-			const passwordInput = screen.getByLabelText(
-				getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))
-			);
+			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 
 			await user.type(emailInput, "test@example.com");
-			await user.type(passwordInput, "passwordonly");
-
-			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			await user.click(submitButton);
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER))
+					screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_REQUIRED))
 				).toBeInTheDocument();
 			});
 		});
 
-		it("shows validation error for too short password", async () => {
+		it("does not show complexity errors for simple password", async () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
@@ -169,17 +164,18 @@ describe("LoginForm", () => {
 			);
 
 			await user.type(emailInput, "test@example.com");
-			await user.type(passwordInput, "pa1");
+			await user.type(passwordInput, "123");
 
 			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			await user.click(submitButton);
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(
-						i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH })
-					)
-				).toBeInTheDocument();
+					screen.queryByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER))
+				).not.toBeInTheDocument();
+				expect(
+					screen.queryByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_LOWERCASE))
+				).not.toBeInTheDocument();
 			});
 		});
 	});

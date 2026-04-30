@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "sonner";
 
 import { Loader } from "~/libs/components/components";
 import { DataStatus } from "~/libs/enums/enums";
@@ -21,6 +22,7 @@ const App: React.FC = () => {
 	return (
 		<>
 			<Outlet />
+			<Toaster position="top-right" richColors />
 		</>
 	);
 };

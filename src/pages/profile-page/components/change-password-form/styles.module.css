@@ -1,0 +1,27 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-md);
+	background: var(--color-background-4);
+	border: 1px solid var(--color-background-light-gray);
+	border-radius: var(--border-radius-md);
+	box-shadow: var(--shadow-sm);
+	margin: var(--spacing-md) auto 0;
+	width: 100%;
+	max-width: 480px;
+}
+
+.card__title {
+	margin: 0;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-dark);
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	margin-top: var(--spacing-xs);
+}

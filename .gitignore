@@ -13,6 +13,7 @@ node_modules
 dist
 dist-ssr
 coverage
+CLAUDE.md
 *.local
 
 # Editor directories and files

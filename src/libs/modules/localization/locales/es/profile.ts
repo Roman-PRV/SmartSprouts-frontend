@@ -1,5 +1,25 @@
 export const profile = {
 	accuracy: "Precisión",
+	changePassword: {
+		button: "Cambiar Contraseña",
+		error: "Error al cambiar la contraseña. Por favor, inténtelo de nuevo.",
+		fields: {
+			confirmPassword: {
+				label: "Confirmar Nueva Contraseña",
+				placeholder: "Repetir nueva contraseña",
+			},
+			currentPassword: {
+				label: "Contraseña Actual",
+				placeholder: "Ingresar contraseña actual",
+			},
+			newPassword: {
+				label: "Nueva Contraseña",
+				placeholder: "Ingresar nueva contraseña",
+			},
+		},
+		success: "¡Contraseña cambiada con éxito!",
+		title: "Cambiar Contraseña",
+	},
 	completedLevels: "Niveles completados",
 	error: "Error al cargar el perfil",
 	title: "Mi Perfil",
