@@ -47,6 +47,6 @@ const passwordSchema = z
  */
 const basicPasswordSchema = z
 	.string()
-	.min(VALIDATION_RULES.MIN_STRING_LENGTH, VALIDATION_MESSAGES.MIN_NAME_LENGTH);
+	.min(VALIDATION_RULES.MIN_STRING_LENGTH, VALIDATION_MESSAGES.PW_REQUIRED);
 
 export { basicPasswordSchema, emailSchema, nameSchema, passwordSchema };

@@ -144,7 +144,7 @@ describe("Validation Schemas", () => {
 			expect(result.success).toBe(false);
 
 			if (!result.success) {
-				expect(result.error.issues[FIRST_INDEX]?.message).toBe(VALIDATION_MESSAGES.MIN_NAME_LENGTH);
+				expect(result.error.issues[FIRST_INDEX]?.message).toBe(VALIDATION_MESSAGES.PW_REQUIRED);
 			}
 		});
 	});

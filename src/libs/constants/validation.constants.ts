@@ -14,6 +14,7 @@ const VALIDATION_MESSAGES = {
 	PW_CONTAINS_UPPERCASE: "validation.password.mustContainUppercase",
 	PW_DO_NOT_MATCH: "validation.passwordConfirmation.mustMatch",
 	PW_MUST_BE_NEW: "validation.password.mustBeNew",
+	PW_REQUIRED: "validation.password.required",
 } as const;
 
 export { VALIDATION_MESSAGES, VALIDATION_RULES };

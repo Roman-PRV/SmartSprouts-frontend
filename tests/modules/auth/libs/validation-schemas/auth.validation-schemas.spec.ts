@@ -48,6 +48,11 @@ describe("Auth Validation Schemas", () => {
 			};
 			const result = loginSchema.safeParse(data);
 			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find((i) => i.path[FIRST_INDEX] === "password");
+				expect(issue?.message).toBe(VALIDATION_MESSAGES.PW_REQUIRED);
+			}
 		});
 	});
 

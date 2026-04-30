@@ -147,7 +147,7 @@ describe("LoginForm", () => {
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(i18n.t(VALIDATION_MESSAGES.MIN_NAME_LENGTH))
+					screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_REQUIRED))
 				).toBeInTheDocument();
 			});
 		});
