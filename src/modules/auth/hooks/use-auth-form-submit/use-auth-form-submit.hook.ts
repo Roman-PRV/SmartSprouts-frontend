@@ -1,5 +1,4 @@
 import { type AsyncThunkAction } from "@reduxjs/toolkit";
-import { t } from "i18next";
 import { useCallback } from "react";
 import { type FieldValues, type Path, type UseFormSetError } from "react-hook-form";
 
@@ -33,7 +32,7 @@ const useAuthFormSubmit = <T extends FieldValues, R>({
 					for (const [field, messages] of Object.entries(result.payload.errors)) {
 						if (Object.hasOwn(payload, field)) {
 							setError(field as Path<T>, {
-								message: messages[FIRST_INDEX] ?? t("validation.error"),
+								message: messages[FIRST_INDEX] ?? "validation.error",
 							});
 						}
 					}

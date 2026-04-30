@@ -44,7 +44,7 @@ const ChangePasswordForm: React.FC = () => {
 				for (const [field, messages] of Object.entries(error.errors)) {
 					if (field in payload) {
 						setError(field as keyof UpdatePasswordRequestDto, {
-							message: messages[FIRST_INDEX] ?? t("profile.changePassword.error"),
+							message: messages[FIRST_INDEX] ?? "profile.changePassword.error",
 						});
 						hasErrorsSet = true;
 					}
