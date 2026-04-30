@@ -7,7 +7,7 @@ const updatePasswordValidationSchema = z
 	.object({
 		current_password: basicPasswordSchema,
 		new_password: passwordSchema,
-		new_password_confirmation: passwordSchema,
+		new_password_confirmation: basicPasswordSchema,
 	})
 	.refine((data) => data.new_password === data.new_password_confirmation, {
 		message: VALIDATION_MESSAGES.PW_DO_NOT_MATCH,

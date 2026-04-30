@@ -35,7 +35,7 @@ const registerSchema = z
 		email: emailSchema,
 		name: nameSchema,
 		password: passwordSchema,
-		password_confirmation: passwordSchema,
+		password_confirmation: basicPasswordSchema,
 	})
 	.refine((data) => data.password === data.password_confirmation, {
 		message: VALIDATION_MESSAGES.PW_DO_NOT_MATCH,
