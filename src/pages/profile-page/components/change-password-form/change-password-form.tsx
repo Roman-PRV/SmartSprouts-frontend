@@ -2,9 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { Button, Input } from "~/libs/components/components";
-import { FIRST_INDEX, VALIDATION_RULES } from "~/libs/constants/constants";
-import { isThunkErrorPayload } from "~/libs/helpers/helpers";
-import { useAppDispatch, useForm, useTranslation } from "~/libs/hooks/hooks";
+import { VALIDATION_RULES } from "~/libs/constants/constants";
+import { useForm, useFormSubmit, useTranslation } from "~/libs/hooks/hooks";
 import {
 	updatePassword,
 	type UpdatePasswordRequestDto,
@@ -15,7 +14,6 @@ import styles from "./styles.module.css";
 
 const ChangePasswordForm: React.FC = () => {
 	const { t } = useTranslation();
-	const dispatch = useAppDispatch();
 
 	const {
 		formState: { errors, isSubmitting },
@@ -32,30 +30,15 @@ const ChangePasswordForm: React.FC = () => {
 		resolver: zodResolver(updatePasswordValidationSchema),
 	});
 
-	const handleFormSubmit = async (payload: UpdatePasswordRequestDto): Promise<void> => {
-		try {
-			await dispatch(updatePassword(payload)).unwrap();
+	const handleFormSubmit = useFormSubmit({
+		action: updatePassword,
+		onError: () => toast.error(t("profile.changePassword.error")),
+		onSuccess: () => {
 			reset();
 			toast.success(t("profile.changePassword.success"));
-		} catch (error) {
-			let hasErrorsSet = false;
-
-			if (isThunkErrorPayload(error) && error.errors) {
-				for (const [field, messages] of Object.entries(error.errors)) {
-					if (field in payload) {
-						setError(field as keyof UpdatePasswordRequestDto, {
-							message: messages[FIRST_INDEX] ?? "profile.changePassword.error",
-						});
-						hasErrorsSet = true;
-					}
-				}
-			}
-
-			if (!hasErrorsSet) {
-				toast.error(t("profile.changePassword.error"));
-			}
-		}
-	};
+		},
+		setError,
+	});
 
 	return (
 		<div className={styles["card"]}>
@@ -89,9 +72,7 @@ const ChangePasswordForm: React.FC = () => {
 				<Input
 					error={
 						errors.new_password_confirmation?.message &&
-						t(errors.new_password_confirmation.message, {
-							min: VALIDATION_RULES.MIN_PASSWORD_LENGTH,
-						})
+						t(errors.new_password_confirmation.message)
 					}
 					iconLeft="lock"
 					label={t("profile.changePassword.fields.confirmPassword.label")}
