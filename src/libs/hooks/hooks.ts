@@ -2,6 +2,7 @@ export { useAppDispatch } from "./use-app-dispatch/use-app-dispatch.hook";
 export { useAppSelector } from "./use-app-selector/use-app-selector.hook";
 export { useAudioPlayer } from "./use-audio-player/use-audio-player.hook";
 export { useStopAudioOnUnmount } from "./use-audio-player/use-stop-audio-on-unmount.hook";
+export { useFormSubmit } from "./use-form-submit/use-form-submit.hook";
 export { useGameFetch } from "./use-game-fetch/use-game-fetch.hook";
 export { useLanguageSync } from "./use-language-sync/use-language-sync.hook";
 export { useLevelsFetch } from "./use-levels-fetch/use-levels-fetch.hook";
