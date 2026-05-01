@@ -4,7 +4,7 @@ import { type FieldValues, type Path, type UseFormSetError } from "react-hook-fo
 
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { isThunkErrorPayload } from "~/libs/helpers/helpers";
-import { useAppDispatch } from "~/libs/hooks/hooks";
+import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
 import { type AsyncThunkConfig } from "~/libs/types/types";
 
 type Properties<T extends FieldValues, R> = {
