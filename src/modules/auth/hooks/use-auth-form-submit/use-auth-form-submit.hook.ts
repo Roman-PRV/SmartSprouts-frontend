@@ -25,7 +25,7 @@ const useAuthFormSubmit = <T extends FieldValues, R>({
 			dispatch(authActions.clearError());
 			await handleFormSubmit(payload);
 		},
-		[dispatch, handleFormSubmit],
+		[dispatch, handleFormSubmit]
 	);
 };
 

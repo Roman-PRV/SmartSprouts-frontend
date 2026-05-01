@@ -49,7 +49,7 @@ const useFormSubmit = <T extends FieldValues, R>({
 
 			onSuccess?.();
 		},
-		[action, dispatch, onError, onSuccess, setError],
+		[action, dispatch, onError, onSuccess, setError]
 	);
 
 	return handleFormSubmit;

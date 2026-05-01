@@ -71,8 +71,7 @@ const ChangePasswordForm: React.FC = () => {
 
 				<Input
 					error={
-						errors.new_password_confirmation?.message &&
-						t(errors.new_password_confirmation.message)
+						errors.new_password_confirmation?.message && t(errors.new_password_confirmation.message)
 					}
 					iconLeft="lock"
 					label={t("profile.changePassword.fields.confirmPassword.label")}
