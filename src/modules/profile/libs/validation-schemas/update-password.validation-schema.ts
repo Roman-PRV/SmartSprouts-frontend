@@ -3,6 +3,17 @@ import { z } from "zod";
 import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import { basicPasswordSchema, passwordSchema } from "~/libs/validation-schemas/validation-schemas";
 
+/**
+ * Schema for updating password.
+ * Includes:
+ * - current_password: {@link basicPasswordSchema}
+ * - new_password: {@link passwordSchema}
+ * - new_password_confirmation: {@link basicPasswordSchema}
+ *
+ * Additional checks:
+ * - Ensures new_password and new_password_confirmation match.
+ * - Ensures new_password is different from current_password.
+ */
 const updatePasswordValidationSchema = z
 	.object({
 		current_password: basicPasswordSchema,

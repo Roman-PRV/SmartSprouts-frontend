@@ -25,7 +25,7 @@ const loginSchema = z.object({
  * - email: {@link emailSchema}
  * - name: {@link nameSchema}
  * - password: {@link passwordSchema}
- * - password_confirmation: {@link passwordSchema}
+ * - password_confirmation: {@link basicPasswordSchema}
  *
  * Additional checks:
  * - Ensures password and password_confirmation match.
