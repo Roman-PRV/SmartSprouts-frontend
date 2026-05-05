@@ -9,7 +9,6 @@
 		"packages.d.ts",
 		"vite.config.ts",
 		"commitlint.config.ts",
-		"eslint.config.ts",
 		"project.config.ts",
 		"knip.config.ts"
 	],
