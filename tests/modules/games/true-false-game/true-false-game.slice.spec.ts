@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { getLevelById } from "~/games/true-false-game/api/slices/true-false-game-actions";
 import { actions, reducer } from "~/games/true-false-game/api/slices/true-false-game.slice";
 import { DataStatus } from "~/libs/enums/enums";
+import { HTTPCode } from "~/libs/modules/http/http";
 import { type TrueFalseGameLevelDto } from "~/games/true-false-game/libs/types/true-false-game-level-dto.type";
 
 describe("true-false-game slice", () => {
@@ -44,9 +45,52 @@ describe("true-false-game slice", () => {
 		expect(state.currentLevel).toEqual(mockLevel);
 	});
 
-	it("should handle getLevelById.rejected", () => {
+	it("should handle getLevelById.rejected with error payload", () => {
+		const errorPayload = { message: "Not Found", status: HTTPCode.NOT_FOUND };
+		const action = { payload: errorPayload, type: getLevelById.rejected.type };
+		const state = reducer(initialState, action);
+
+		expect(state.currentStatus).toEqual(DataStatus.REJECTED);
+		expect(state.error).toEqual(errorPayload);
+	});
+
+	it("should handle getLevelById.rejected without payload", () => {
 		const action = { type: getLevelById.rejected.type };
 		const state = reducer(initialState, action);
+
 		expect(state.currentStatus).toEqual(DataStatus.REJECTED);
+		expect(state.error).toBeNull();
+	});
+
+	it("should clear error on getLevelById.pending", () => {
+		const stateWithError = {
+			...initialState,
+			currentStatus: DataStatus.REJECTED,
+			error: { message: "Not Found", status: HTTPCode.NOT_FOUND },
+		};
+		const action = { type: getLevelById.pending.type };
+		const state = reducer(stateWithError, action);
+
+		expect(state.currentStatus).toEqual(DataStatus.PENDING);
+		expect(state.error).toBeNull();
+	});
+
+	it("should clear error on getLevelById.fulfilled", () => {
+		const mockLevel = {
+			id: 1,
+			statements: [],
+			title: "Level 1",
+		} as unknown as TrueFalseGameLevelDto;
+		const stateWithError = {
+			...initialState,
+			currentStatus: DataStatus.REJECTED,
+			error: { message: "Server Error", status: 500 },
+		};
+		const action = { payload: mockLevel, type: getLevelById.fulfilled.type };
+		const state = reducer(stateWithError, action);
+
+		expect(state.currentStatus).toEqual(DataStatus.FULFILLED);
+		expect(state.currentLevel).toEqual(mockLevel);
+		expect(state.error).toBeNull();
 	});
 });
