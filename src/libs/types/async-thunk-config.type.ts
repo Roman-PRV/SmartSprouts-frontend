@@ -6,6 +6,7 @@ type AsyncThunkConfig = {
 	rejectValue: {
 		errors?: Record<string, string[]> | undefined;
 		message: string;
+		status?: number | undefined;
 	};
 	state: ReturnType<typeof store.instance.getState>;
 };

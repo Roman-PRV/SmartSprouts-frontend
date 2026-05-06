@@ -9,6 +9,7 @@ describe("true-false-game slice", () => {
 	const initialState = {
 		currentLevel: null,
 		currentStatus: DataStatus.IDLE,
+		error: null,
 	};
 
 	it("should return the initial state", () => {
@@ -19,6 +20,7 @@ describe("true-false-game slice", () => {
 		const modifiedState = {
 			currentLevel: { id: 1, title: "Test Level" } as unknown as TrueFalseGameLevelDto,
 			currentStatus: DataStatus.FULFILLED,
+			error: null,
 		};
 		expect(reducer(modifiedState, actions.clearCurrentLevel())).toEqual(initialState);
 	});

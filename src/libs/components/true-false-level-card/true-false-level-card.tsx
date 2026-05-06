@@ -8,6 +8,7 @@ import {
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
+import { HTTPCode } from "~/libs/modules/http/http";
 import { type LevelCardProperties } from "~/libs/types/types";
 
 import styles from "./styles.module.css";
@@ -19,6 +20,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	const {
 		allAnswered,
 		answers,
+		error,
 		handleReset,
 		handleSelect,
 		handleSubmit,
@@ -52,7 +54,12 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	}
 
 	if (status === DataStatus.REJECTED) {
-		return <FallbackMessage message={t("games.trueFalse.error.load")} />;
+		const message =
+			error?.status === HTTPCode.NOT_FOUND
+				? t("games.trueFalse.error.notFound")
+				: t("games.trueFalse.error.load");
+
+		return <FallbackMessage message={message} />;
 	}
 
 	if (!level) {
