@@ -16,7 +16,7 @@
 		"test:coverage": "vitest --coverage"
 	},
 	"lint-staged": {
-		"src/**/*.{ts,tsx}": [
+		"{src,tests}/**/*.{ts,tsx}": [
 			"eslint --fix"
 		],
 		"**/*.{js,jsx}": [

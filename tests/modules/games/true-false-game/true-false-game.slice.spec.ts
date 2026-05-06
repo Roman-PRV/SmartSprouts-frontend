@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { getLevelById } from "~/games/true-false-game/api/slices/true-false-game-actions";
 import { actions, reducer } from "~/games/true-false-game/api/slices/true-false-game.slice";
+import { type TrueFalseGameLevelDto } from "~/games/true-false-game/libs/types/true-false-game-level-dto.type";
 import { DataStatus } from "~/libs/enums/enums";
 import { HTTPCode } from "~/libs/modules/http/http";
-import { type TrueFalseGameLevelDto } from "~/games/true-false-game/libs/types/true-false-game-level-dto.type";
 
 describe("true-false-game slice", () => {
 	const initialState = {
@@ -35,8 +35,8 @@ describe("true-false-game slice", () => {
 	it("should handle getLevelById.fulfilled", () => {
 		const mockLevel = {
 			id: 1,
-			title: "Level 1",
 			statements: [],
+			title: "Level 1",
 		} as unknown as TrueFalseGameLevelDto;
 		const action = { payload: mockLevel, type: getLevelById.fulfilled.type };
 		const state = reducer(initialState, action);
