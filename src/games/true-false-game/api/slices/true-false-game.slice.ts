@@ -31,7 +31,8 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(getLevelById.rejected, (state, action) => {
 			state.currentStatus = DataStatus.REJECTED;
-			state.error = action.payload ?? null;
+			state.error =
+				action.payload ?? (action.error.message ? { message: action.error.message } : null);
 		});
 	},
 	initialState,

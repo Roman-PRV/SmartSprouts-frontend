@@ -55,11 +55,15 @@ describe("true-false-game slice", () => {
 	});
 
 	it("should handle getLevelById.rejected without payload", () => {
-		const action = { type: getLevelById.rejected.type };
+		const errorMessage = "Internal Server Error";
+		const action = {
+			error: { message: errorMessage },
+			type: getLevelById.rejected.type,
+		};
 		const state = reducer(initialState, action);
 
 		expect(state.currentStatus).toEqual(DataStatus.REJECTED);
-		expect(state.error).toBeNull();
+		expect(state.error).toEqual({ message: errorMessage });
 	});
 
 	it("should clear error on getLevelById.pending", () => {
