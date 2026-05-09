@@ -147,8 +147,7 @@ const useTrueFalseGame = ({
 	let errorKind: null | ValueOf<typeof ErrorKind> = null;
 
 	if (error) {
-		errorKind =
-			error.status === HTTPCode.NOT_FOUND ? ErrorKind.NOT_FOUND : ErrorKind.GENERIC;
+		errorKind = error.status === HTTPCode.NOT_FOUND ? ErrorKind.NOT_FOUND : ErrorKind.GENERIC;
 	}
 
 	return {
