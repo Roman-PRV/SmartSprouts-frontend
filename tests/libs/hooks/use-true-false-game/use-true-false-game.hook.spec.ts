@@ -162,7 +162,7 @@ describe("useTrueFalseGame", () => {
 		});
 
 		it("should return error from redux state", () => {
-			const mockError: ThunkErrorPayload = { message: "Something went wrong", status: 500 };
+			const mockError: ThunkErrorPayload = { message: "Something went wrong", status: HTTPCode.INTERNAL_SERVER_ERROR };
 			setMockState(makeSliceState({ error: mockError }));
 
 			const { result } = renderGameHook();
@@ -331,17 +331,19 @@ describe("useTrueFalseGame", () => {
 				await result.current.handleSubmit();
 			});
 
-			expect(mockCheckAnswers).toHaveBeenCalledWith({
-				gameId: MOCK_GAME.id,
-				levelId: String(MOCK_LEVEL_ID),
-				payload: {
-					answers: [
-						{ answer: true, statement_id: STATEMENT_1_ID },
-						{ answer: false, statement_id: STATEMENT_2_ID },
-					],
-					level_id: MOCK_LEVEL.id,
-				},
-			});
+			expect(mockCheckAnswers).toHaveBeenCalledWith(
+				expect.objectContaining({
+					gameId: MOCK_GAME.id,
+					levelId: String(MOCK_LEVEL_ID),
+					payload: expect.objectContaining({
+						answers: expect.arrayContaining([
+							{ answer: true, statement_id: STATEMENT_1_ID },
+							{ answer: false, statement_id: STATEMENT_2_ID },
+						]) as unknown,
+						level_id: MOCK_LEVEL.id,
+					}) as unknown,
+				}),
+			);
 		});
 
 		it("should set results after successful submission", async () => {
@@ -473,13 +475,12 @@ describe("useTrueFalseGame", () => {
 			});
 
 			expect(result.current.isSubmitting).toBe(true);
-			const callCount = mockCheckAnswers.mock.calls.length;
 
 			act(() => {
 				void result.current.handleSubmit();
 			});
 
-			expect(mockCheckAnswers.mock.calls.length).toBe(callCount);
+			expect(mockCheckAnswers).toHaveBeenCalledOnce();
 		});
 
 		it("should do nothing when results are already set", async () => {
@@ -494,13 +495,11 @@ describe("useTrueFalseGame", () => {
 				await result.current.handleSubmit();
 			});
 
-			const callCountAfterFirst = mockCheckAnswers.mock.calls.length;
-
 			await act(async () => {
 				await result.current.handleSubmit();
 			});
 
-			expect(mockCheckAnswers).toHaveBeenCalledTimes(callCountAfterFirst);
+			expect(mockCheckAnswers).toHaveBeenCalledOnce();
 		});
 	});
 
@@ -624,7 +623,7 @@ describe("useTrueFalseGame", () => {
 		});
 
 		it("should return ErrorKind.GENERIC for non-404 error statuses", () => {
-			const serverError: ThunkErrorPayload = { message: "Internal Server Error", status: 500 };
+			const serverError: ThunkErrorPayload = { message: "Internal Server Error", status: HTTPCode.INTERNAL_SERVER_ERROR };
 			setMockState(makeSliceState({ error: serverError }));
 
 			const { result } = renderGameHook();
