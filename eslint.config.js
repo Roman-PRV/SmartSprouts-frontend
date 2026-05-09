@@ -183,6 +183,13 @@ const config = [
 			"sonarjs/void-use": "off",
 		},
 	},
+	{
+		files: ["tests/**/*.{ts,tsx}"],
+		rules: {
+			"@typescript-eslint/explicit-function-return-type": "off",
+			"@typescript-eslint/no-magic-numbers": "off",
+		},
+	},
 ];
 
 export default config;
