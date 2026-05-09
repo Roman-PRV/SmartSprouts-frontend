@@ -52,7 +52,7 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 		>
 			{error && (
 				<div className={getValidClassNames(styles["auth-form__error"])} role="alert">
-					{error}
+					{error.message}
 				</div>
 			)}
 

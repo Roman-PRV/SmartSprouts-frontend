@@ -1,29 +1,28 @@
-/**
- * @vitest-environment jsdom
- */
+// @vitest-environment jsdom
 import { configureStore } from "@reduxjs/toolkit";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 import { Provider } from "react-redux";
+import "@testing-library/jest-dom/vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import "@testing-library/jest-dom/vitest";
-
-import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
+import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { i18n } from "~/libs/modules/localization/localization";
 import { LoginForm } from "~/modules/auth/components/components";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
-import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 
 type AuthState = {
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
-	error: null | string;
+	error: null | { message: string };
 	isAuthenticated: boolean;
 	user: null | { email: string; id: number; name: string };
 };
 
-const createMockStore = (initialAuthState?: Partial<AuthState>) => {
+const REQUIRED_FIELD_COUNT = 2;
+
+const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<typeof configureStore> => {
 	return configureStore({
 		preloadedState: {
 			auth: {
@@ -40,8 +39,12 @@ const createMockStore = (initialAuthState?: Partial<AuthState>) => {
 	});
 };
 
-const renderWithProvider = (ui: React.ReactElement, initialAuthState?: Partial<AuthState>) => {
+const renderWithProvider = (
+	ui: React.ReactElement,
+	initialAuthState?: Partial<AuthState>
+): ReturnType<typeof render> & { store: ReturnType<typeof createMockStore> } => {
 	const store = createMockStore(initialAuthState);
+
 	return {
 		...render(<Provider store={store}>{ui}</Provider>),
 		store,
@@ -98,12 +101,12 @@ describe("LoginForm", () => {
 			renderWithProvider(<LoginForm />);
 
 			const requiredIndicators = screen.getAllByText("*");
-			expect(requiredIndicators).toHaveLength(2);
+			expect(requiredIndicators).toHaveLength(REQUIRED_FIELD_COUNT);
 		});
 
 		it("displays global error when present in state", () => {
 			const errorMessage = "Invalid credentials";
-			renderWithProvider(<LoginForm />, { error: errorMessage });
+			renderWithProvider(<LoginForm />, { error: { message: errorMessage } });
 
 			const errorAlert = screen.getByRole("alert");
 			expect(errorAlert).toBeInTheDocument();
@@ -226,7 +229,7 @@ describe("LoginForm", () => {
 		});
 
 		it("global error has role alert", () => {
-			renderWithProvider(<LoginForm />, { error: "Test error" });
+			renderWithProvider(<LoginForm />, { error: { message: "Test error" } });
 
 			const errorAlert = screen.getByRole("alert");
 			expect(errorAlert).toBeInTheDocument();

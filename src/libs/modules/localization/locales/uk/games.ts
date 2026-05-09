@@ -6,7 +6,7 @@ const games = {
 	},
 	level: {
 		errorTitle: "Помилка",
-		invalidId: "Недійсний або відсутній ID гри.",
+		invalidId: "Недійсний або відсутній ID рівня.",
 		noLevel: "Рівень не вибрано.",
 		notFound: "Контент гри не знайдено.",
 		title: "Рівень {{levelId}} — {{title}}",

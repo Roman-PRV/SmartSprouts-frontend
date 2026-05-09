@@ -1,13 +1,10 @@
-/**
- * @vitest-environment jsdom
- */
+// @vitest-environment jsdom
 import { configureStore } from "@reduxjs/toolkit";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-
 import "@testing-library/jest-dom/vitest";
 
 import { Navigation } from "~/libs/components/navigation/navigation";
@@ -17,7 +14,7 @@ import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
 type AuthState = {
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
-	error: null | string;
+	error: null | { message: string };
 	isAuthenticated: boolean;
 	user: null | { email: string; id: number; name: string };
 };
@@ -26,16 +23,20 @@ const mockLogout = vi.fn();
 
 const LocationDisplay: React.FC = () => {
 	const { pathname } = useLocation();
+
 	return <div data-testid="location">{pathname}</div>;
 };
 
 vi.mock("~/modules/auth/auth", () => ({
-	useLogout: () => ({
+	useLogout: (): { logout: typeof mockLogout } => ({
 		logout: mockLogout,
 	}),
 }));
 
-const createMockStore = (initialAuthState?: Partial<AuthState>) => {
+const DESKTOP_NAV_INDEX = 0;
+const FIRST_CALL_TIMES = 1;
+
+const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<typeof configureStore> => {
 	return configureStore({
 		preloadedState: {
 			auth: {
@@ -55,8 +56,9 @@ const createMockStore = (initialAuthState?: Partial<AuthState>) => {
 const renderWithProvider = (
 	initialAuthState?: Partial<AuthState>,
 	initialEntries: string[] = [AppRoute.ROOT]
-) => {
+): ReturnType<typeof render> & { store: ReturnType<typeof createMockStore> } => {
 	const store = createMockStore(initialAuthState);
+
 	return {
 		...render(
 			<Provider store={store}>
@@ -102,7 +104,7 @@ describe("Navigation", () => {
 		it("shows logout button in desktop menu when authenticated", () => {
 			renderWithProvider({ isAuthenticated: true });
 
-			const desktopNav = screen.getAllByRole("list")[0]!;
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
 			const logoutButton = within(desktopNav).getByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
@@ -113,7 +115,7 @@ describe("Navigation", () => {
 		it("does not show logout button in desktop menu when not authenticated", () => {
 			renderWithProvider({ isAuthenticated: false });
 
-			const desktopNav = screen.getAllByRole("list")[0]!;
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
 			const logoutButton = within(desktopNav).queryByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
@@ -165,14 +167,14 @@ describe("Navigation", () => {
 			const user = userEvent.setup();
 			renderWithProvider({ isAuthenticated: true });
 
-			const desktopNav = screen.getAllByRole("list")[0]!;
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
 			const logoutButton = within(desktopNav).getByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
 
 			await user.click(logoutButton);
 
-			expect(mockLogout).toHaveBeenCalledTimes(1);
+			expect(mockLogout).toHaveBeenCalledTimes(FIRST_CALL_TIMES);
 		});
 
 		it("triggers logout handler when mobile logout button is clicked", async () => {
@@ -193,7 +195,7 @@ describe("Navigation", () => {
 
 			await user.click(logoutButton);
 
-			expect(mockLogout).toHaveBeenCalledTimes(1);
+			expect(mockLogout).toHaveBeenCalledTimes(FIRST_CALL_TIMES);
 		});
 	});
 
@@ -213,7 +215,7 @@ describe("Navigation", () => {
 			});
 			expect(mobileMenu).toBeInTheDocument();
 
-			const logoutButton = within(mobileMenu!).getByRole("menuitem", {
+			const logoutButton = within(mobileMenu as HTMLElement).getByRole("menuitem", {
 				name: i18n.t("common.navigation.logout"),
 			});
 			await user.click(logoutButton);
@@ -359,7 +361,7 @@ describe("Navigation", () => {
 			});
 			expect(mobileMenu).toBeInTheDocument();
 
-			const gamesOption = within(mobileMenu!).getByRole("menuitem", {
+			const gamesOption = within(mobileMenu as HTMLElement).getByRole("menuitem", {
 				name: i18n.t("common.navigation.games"),
 			});
 			await user.click(gamesOption);
@@ -398,7 +400,7 @@ describe("Navigation", () => {
 			renderWithProvider({}, [unknownPath]);
 
 			const burgerButton = screen.getByRole("button", {
-				name: new RegExp(`current: Select option`),
+				name: new RegExp("current: Select option"),
 			});
 
 			expect(burgerButton).toBeInTheDocument();
@@ -411,7 +413,7 @@ describe("Navigation", () => {
 			// Since /gamesabc doesn't match /games or any other route exactly or as a sub-path, 
 			// it should fall back to the placeholder
 			const burgerButton = screen.getByRole("button", {
-				name: new RegExp(`current: Select option`),
+				name: new RegExp("current: Select option"),
 			});
 
 			expect(burgerButton).toBeInTheDocument();
@@ -422,7 +424,7 @@ describe("Navigation", () => {
 		it("has accessible aria-label for logout button in desktop menu", () => {
 			renderWithProvider({ isAuthenticated: true });
 
-			const desktopNav = screen.getAllByRole("list")[0]!;
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
 			const logoutButton = within(desktopNav).getByRole("button", {
 				name: i18n.t("common.navigation.logout"),
 			});
