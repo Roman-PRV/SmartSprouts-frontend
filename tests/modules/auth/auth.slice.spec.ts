@@ -215,7 +215,7 @@ describe("auth slice", () => {
 				user: { email: "test@example.com", id: 1, name: "Test User" },
 			};
 			const authApiMock = { register: vi.fn().mockResolvedValue(mockResponse) };
-			const storageMock = { set: vi.fn().mockResolvedValue() };
+			const storageMock = { set: vi.fn<() => Promise<void>>().mockResolvedValue() };
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const payload = {
@@ -316,8 +316,8 @@ describe("auth slice", () => {
 
 	describe("logout thunk", () => {
 		it("calls authApi.logout and drops token from storage", async () => {
-			const authApiMock = { logout: vi.fn().mockResolvedValue() };
-			const storageMock = { drop: vi.fn().mockResolvedValue() };
+			const authApiMock = { logout: vi.fn<() => Promise<void>>().mockResolvedValue() };
+			const storageMock = { drop: vi.fn<() => Promise<void>>().mockResolvedValue() };
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const thunk = logout();
@@ -329,7 +329,7 @@ describe("auth slice", () => {
 
 		it("drops token from storage even if authApi.logout fails", async () => {
 			const authApiMock = { logout: vi.fn().mockRejectedValue(new Error("Network error")) };
-			const storageMock = { drop: vi.fn().mockResolvedValue() };
+			const storageMock = { drop: vi.fn<() => Promise<void>>().mockResolvedValue() };
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const thunk = logout();
@@ -352,7 +352,7 @@ describe("auth slice", () => {
 				user: { email: "test@example.com", id: 1, name: "Test User" },
 			};
 			const authApiMock = { login: vi.fn().mockResolvedValue(mockResponse) };
-			const storageMock = { set: vi.fn().mockResolvedValue() };
+			const storageMock = { set: vi.fn<() => Promise<void>>().mockResolvedValue() };
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const payload = {
