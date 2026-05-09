@@ -459,6 +459,29 @@ describe("useTrueFalseGame", () => {
 			expect(mockCheckAnswers).not.toHaveBeenCalled();
 		});
 
+		it("should do nothing when already submitting", () => {
+			const { promise } = Promise.withResolvers<{ results: TrueFalseGameResultDto[] }>();
+			mockDispatch.mockReturnValue({
+				unwrap: vi.fn().mockReturnValue(promise),
+			});
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			act(() => {
+				void result.current.handleSubmit();
+			});
+
+			expect(result.current.isSubmitting).toBe(true);
+			const callCount = mockCheckAnswers.mock.calls.length;
+
+			act(() => {
+				void result.current.handleSubmit();
+			});
+
+			expect(mockCheckAnswers.mock.calls.length).toBe(callCount);
+		});
+
 		it("should do nothing when results are already set", async () => {
 			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
 			mockDispatch.mockReturnValue({
