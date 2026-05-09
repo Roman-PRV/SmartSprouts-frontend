@@ -424,6 +424,29 @@ describe("useTrueFalseGame", () => {
 			expect(result.current.isSubmitting).toBe(false);
 		});
 
+		it("should toggle isSubmitting state during submission lifecycle", async () => {
+			const { promise, resolve } = Promise.withResolvers<{ results: TrueFalseGameResultDto[] }>();
+			mockDispatch.mockReturnValue({
+				unwrap: vi.fn().mockReturnValue(promise),
+			});
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+			
+			const { result } = renderGameHook();
+
+			act(() => {
+				void result.current.handleSubmit();
+			});
+
+			expect(result.current.isSubmitting).toBe(true);
+
+			await act(async () => {
+				resolve({ results: MOCK_RESULTS });
+				await Promise.resolve();
+			});
+
+			expect(result.current.isSubmitting).toBe(false);
+		});
+
 		it("should do nothing when level is null", async () => {
 			setMockState(makeSliceState({ currentLevel: null }));
 
