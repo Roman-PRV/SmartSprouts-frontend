@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums";
-import { type ValueOf } from "~/libs/types/types";
+import { type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 import { type User } from "../libs/types/types";
 import { getAuthenticatedUser, login, logout, register } from "./actions";
 
 type State = {
 	dataStatus: ValueOf<typeof DataStatus>;
-	error: null | string;
+	error: null | ThunkErrorPayload;
 	isAuthenticated: boolean;
 	user: null | User;
 };
@@ -54,7 +54,9 @@ const { actions, reducer } = createSlice({
 			state.dataStatus = DataStatus.REJECTED;
 			state.isAuthenticated = false;
 			state.user = null;
-			state.error = action.payload?.message ?? action.error.message ?? "Login failed";
+			state.error = action.payload ?? {
+				message: action.error.message ?? "Login failed",
+			};
 		});
 
 		builder.addCase(logout.pending, (state) => {
@@ -89,7 +91,9 @@ const { actions, reducer } = createSlice({
 			state.dataStatus = DataStatus.REJECTED;
 			state.isAuthenticated = false;
 			state.user = null;
-			state.error = action.payload?.message ?? action.error.message ?? "Registration failed";
+			state.error = action.payload ?? {
+				message: action.error.message ?? "Registration failed",
+			};
 		});
 	},
 	initialState,

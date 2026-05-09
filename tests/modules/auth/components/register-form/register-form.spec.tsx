@@ -1,29 +1,29 @@
-/**
- * @vitest-environment jsdom
- */
+// @vitest-environment jsdom
 import { configureStore } from "@reduxjs/toolkit";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 import { Provider } from "react-redux";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-
 import "@testing-library/jest-dom/vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { i18n } from "~/libs/modules/localization/localization";
 import { RegisterForm } from "~/modules/auth/components/components";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
-import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 
 type AuthState = {
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
-	error: null | string;
+	error: null | { message: string };
 	isAuthenticated: boolean;
 	user: null | { email: string; id: number; name: string };
 };
 
-const createMockStore = (initialAuthState?: Partial<AuthState>) => {
+const REQUIRED_FIELD_COUNT = 4;
+const FIRST_MATCH_INDEX = 0;
+
+const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<typeof configureStore> => {
 	return configureStore({
 		preloadedState: {
 			auth: {
@@ -40,8 +40,12 @@ const createMockStore = (initialAuthState?: Partial<AuthState>) => {
 	});
 };
 
-const renderWithProvider = (ui: React.ReactElement, initialAuthState?: Partial<AuthState>) => {
+const renderWithProvider = (
+	ui: React.ReactElement,
+	initialAuthState?: Partial<AuthState>
+): ReturnType<typeof render> & { store: ReturnType<typeof createMockStore> } => {
 	const store = createMockStore(initialAuthState);
+
 	return {
 		...render(<Provider store={store}>{ui}</Provider>),
 		store,
@@ -126,12 +130,12 @@ describe("RegisterForm", () => {
 			renderWithProvider(<RegisterForm />);
 
 			const requiredIndicators = screen.getAllByText("*");
-			expect(requiredIndicators).toHaveLength(4);
+			expect(requiredIndicators).toHaveLength(REQUIRED_FIELD_COUNT);
 		});
 
 		it("displays global error when present in state", () => {
 			const errorMessage = "User already exists";
-			renderWithProvider(<RegisterForm />, { error: errorMessage });
+			renderWithProvider(<RegisterForm />, { error: { message: errorMessage } });
 
 			const errorAlert = screen.getByRole("alert");
 			expect(errorAlert).toBeInTheDocument();
@@ -246,7 +250,7 @@ describe("RegisterForm", () => {
 
 			await waitFor(() => {
 				expect(
-					screen.getAllByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER))[0]
+					screen.getAllByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER))[FIRST_MATCH_INDEX]
 				).toBeInTheDocument();
 			});
 		});
@@ -280,7 +284,7 @@ describe("RegisterForm", () => {
 				expect(
 					screen.getAllByText(
 						i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH })
-					)[0]
+					)[FIRST_MATCH_INDEX]
 				).toBeInTheDocument();
 			});
 		});
@@ -384,7 +388,7 @@ describe("RegisterForm", () => {
 		});
 
 		it("global error has role alert", () => {
-			renderWithProvider(<RegisterForm />, { error: "Test error" });
+			renderWithProvider(<RegisterForm />, { error: { message: "Test error" } });
 
 			const errorAlert = screen.getByRole("alert");
 			expect(errorAlert).toBeInTheDocument();
