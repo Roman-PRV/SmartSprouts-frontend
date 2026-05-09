@@ -1,3 +1,4 @@
+import { ErrorKind } from "~/games/true-false-game/libs/enums/enums";
 import {
 	AudioPlayButton,
 	Button,
@@ -8,7 +9,6 @@ import {
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
-import { HTTPCode } from "~/libs/modules/http/http";
 import { type LevelCardProperties } from "~/libs/types/types";
 
 import styles from "./styles.module.css";
@@ -20,7 +20,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	const {
 		allAnswered,
 		answers,
-		error,
+		errorKind,
 		handleReset,
 		handleSelect,
 		handleSubmit,
@@ -55,7 +55,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 
 	if (status === DataStatus.REJECTED) {
 		const message =
-			error?.status === HTTPCode.NOT_FOUND
+			errorKind === ErrorKind.NOT_FOUND
 				? t("games.trueFalse.error.notFound")
 				: t("games.trueFalse.error.load");
 
