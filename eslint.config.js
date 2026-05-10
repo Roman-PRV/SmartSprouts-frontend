@@ -129,6 +129,7 @@ const config = [
 			"sonarjs/todo-tag": "off",
 			indent: ["error", "tab", { SwitchCase: 1 }],
 			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+			"jsdoc/check-tag-names": ["error", { definedTags: ["vitest-environment"] }],
 			"jsdoc/no-undefined-types": ["error"],
 			"jsdoc/require-param": "off",
 			"jsdoc/require-returns": "off",
@@ -180,6 +181,13 @@ const config = [
 		files: ["**/*.tsx"],
 		rules: {
 			"sonarjs/void-use": "off",
+		},
+	},
+	{
+		files: ["tests/**/*.{ts,tsx}"],
+		rules: {
+			"@typescript-eslint/explicit-function-return-type": "off",
+			"@typescript-eslint/no-magic-numbers": "off",
 		},
 	},
 ];
