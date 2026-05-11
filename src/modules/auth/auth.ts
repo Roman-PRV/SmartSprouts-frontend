@@ -11,16 +11,9 @@ const authApi = new AuthApi({
 });
 
 export { authApi };
-export { AuthLayout, GoogleLoginButton, LoginForm, RegisterForm } from "./components/components";
+export { AuthLayout, LoginForm, RegisterForm } from "./components/components";
 export { useAuthFormSubmit, useLogout } from "./hooks/hooks";
 export { type LoginRequestDto, type RegisterRequestDto } from "./libs/types/types";
 export { loginSchema, registerSchema } from "./libs/validation-schemas/auth.validation-schemas";
-export {
-	fetchGoogleRedirectUrl,
-	getAuthenticatedUser,
-	login,
-	loginWithGoogle,
-	logout,
-	register,
-} from "./slices/actions";
+export { getAuthenticatedUser, login, loginWithGoogle, logout, register } from "./slices/actions";
 export { actions, reducer } from "./slices/auth.slice";
