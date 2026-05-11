@@ -1,4 +1,12 @@
 const auth = {
+	googleCallback: {
+		errors: {
+			authFailed: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
+			invalidAccount: "Tu cuenta de Google no contiene la información requerida.",
+			invalidState: "Tu sesión de inicio de sesión ha caducado. Inténtalo de nuevo.",
+		},
+		loading: "Completando el inicio de sesión…",
+	},
 	login: {
 		button: "Iniciar Sesión",
 		fields: {
@@ -13,6 +21,8 @@ const auth = {
 		},
 		footerLinkText: "Registrarse",
 		footerText: "¿No tienes una cuenta?",
+		googleButton: "Iniciar sesión con Google",
+		orDivider: "o",
 		subtitle: "Inicia sesión para continuar",
 		title: "Bienvenido de nuevo",
 	},
