@@ -1,5 +1,11 @@
 import { AppRoute } from "~/libs/enums/enums";
-import { useAppDispatch, useEffect, useNavigate, useTranslation } from "~/libs/hooks/hooks";
+import {
+	useAppDispatch,
+	useEffect,
+	useNavigate,
+	useRef,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { loginWithGoogle } from "~/modules/auth/auth";
 
 const GOOGLE_ERROR_I18N_KEYS: Record<string, string> = {
@@ -15,8 +21,18 @@ const AuthGoogleCallbackPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { t } = useTranslation();
+	// Guards against double execution in React StrictMode and re-runs caused by
+	// `t`/`navigate` identity changes (e.g. language switch) after the hash has
+	// already been consumed and stripped from the URL.
+	const hasProcessedReference = useRef(false);
 
 	useEffect(() => {
+		if (hasProcessedReference.current) {
+			return;
+		}
+
+		hasProcessedReference.current = true;
+
 		const parameters = new URLSearchParams(globalThis.location.hash.slice(HASH_PREFIX_LENGTH));
 		const accessToken = parameters.get("access_token");
 		const error = parameters.get("error");
