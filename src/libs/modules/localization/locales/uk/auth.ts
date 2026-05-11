@@ -22,6 +22,9 @@ const auth = {
 		footerLinkText: "Зареєструватися",
 		footerText: "Немає облікового запису?",
 		googleButton: "Увійти через Google",
+		googleErrors: {
+			redirectFailed: "Не вдалося розпочати вхід через Google. Спробуйте ще раз.",
+		},
 		orDivider: "або",
 		subtitle: "Увійдіть, щоб продовжити",
 		title: "З поверненням",

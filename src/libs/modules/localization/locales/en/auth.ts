@@ -22,6 +22,9 @@ const auth = {
 		footerLinkText: "Register",
 		footerText: "Don't have an account?",
 		googleButton: "Sign in with Google",
+		googleErrors: {
+			redirectFailed: "Unable to start Google sign-in. Please try again.",
+		},
 		orDivider: "or",
 		subtitle: "Login to continue",
 		title: "Welcome Back",

@@ -22,6 +22,9 @@ const auth = {
 		footerLinkText: "Registrarse",
 		footerText: "¿No tienes una cuenta?",
 		googleButton: "Iniciar sesión con Google",
+		googleErrors: {
+			redirectFailed: "No se pudo iniciar el inicio de sesión con Google. Inténtalo de nuevo.",
+		},
 		orDivider: "o",
 		subtitle: "Inicia sesión para continuar",
 		title: "Bienvenido de nuevo",

@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 import { Button } from "~/libs/components/components";
 import { useAppDispatch, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 
@@ -15,9 +17,10 @@ const GoogleLoginButton: React.FC = () => {
 			const url = await dispatch(fetchGoogleRedirectUrl()).unwrap();
 			globalThis.location.href = url;
 		} catch {
+			toast.error(t("auth.login.googleErrors.redirectFailed"));
 			setIsLoading(false);
 		}
-	}, [dispatch]);
+	}, [dispatch, t]);
 
 	return (
 		<Button fullWidth isLoading={isLoading} onClick={handleClick} size="lg" variant="secondary">
