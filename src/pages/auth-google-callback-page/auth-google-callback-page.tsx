@@ -17,9 +17,7 @@ const AuthGoogleCallbackPage: React.FC = () => {
 	const { t } = useTranslation();
 
 	useEffect(() => {
-		const parameters = new URLSearchParams(
-			globalThis.location.hash.slice(HASH_PREFIX_LENGTH),
-		);
+		const parameters = new URLSearchParams(globalThis.location.hash.slice(HASH_PREFIX_LENGTH));
 		const accessToken = parameters.get("access_token");
 		const error = parameters.get("error");
 

@@ -4,6 +4,7 @@ import { type ValueOf } from "~/libs/types/types";
 
 type HTTPApiOptions = Omit<HTTPOptions, "headers" | "payload"> & {
 	contentType?: ValueOf<typeof ContentType>;
+	credentials?: RequestCredentials;
 	hasAuth: boolean;
 	payload?: HTTPOptions["payload"];
 };

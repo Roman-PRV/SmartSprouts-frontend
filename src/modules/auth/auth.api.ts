@@ -40,6 +40,7 @@ class AuthApi extends BaseHTTPApi {
 		const url = this.getFullEndpoint(AuthApiPath.GOOGLE_REDIRECT, {});
 
 		const response = await this.load(url, {
+			credentials: "include",
 			hasAuth: false,
 			method: HTTPMethod.GET,
 			payload: null,

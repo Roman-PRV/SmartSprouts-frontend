@@ -95,6 +95,21 @@ const logout = createAsyncThunk<null, undefined, AsyncThunkConfig>(
 	}
 );
 
+const fetchGoogleRedirectUrl = createAsyncThunk<string, undefined, AsyncThunkConfig>(
+	"auth/fetchGoogleRedirectUrl",
+	async (_payload, { extra, rejectWithValue }) => {
+		const { authApi } = extra;
+
+		try {
+			const { url } = await authApi.getGoogleRedirectUrl();
+
+			return url;
+		} catch (error) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
 const loginWithGoogle = createAsyncThunk<User, string, AsyncThunkConfig>(
 	"auth/loginWithGoogle",
 	async (token, { extra, rejectWithValue }) => {
@@ -112,4 +127,4 @@ const loginWithGoogle = createAsyncThunk<User, string, AsyncThunkConfig>(
 	}
 );
 
-export { getAuthenticatedUser, login, loginWithGoogle, logout, register };
+export { fetchGoogleRedirectUrl, getAuthenticatedUser, login, loginWithGoogle, logout, register };
