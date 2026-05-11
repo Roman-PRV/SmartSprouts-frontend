@@ -6,6 +6,7 @@ import { StorageKey } from "~/libs/modules/storage/storage";
 import { type AsyncThunkConfig } from "~/libs/types/async-thunk-config.type";
 import { type ThunkErrorPayload } from "~/libs/types/types";
 import { actions, getAuthenticatedUser, login, loginWithGoogle, logout, register } from "~/modules/auth/auth";
+import { fetchGoogleRedirectUrl } from "~/modules/auth/slices/actions";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 type ThunkDispatch = AsyncThunkConfig["dispatch"];
@@ -434,6 +435,37 @@ describe("auth slice", () => {
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const thunk = loginWithGoogle(token);
+			const result = await thunk(mockDispatch, mockGetState, extra);
+
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as ThunkErrorPayload).message).toBe(errorMessage);
+		});
+	});
+
+	describe("fetchGoogleRedirectUrl thunk", () => {
+		it("calls authApi.getGoogleRedirectUrl and returns redirect url on success", async () => {
+			const redirectUrl = "https://accounts.google.com/o/oauth2/auth?client_id=test";
+			const authApiMock = {
+				getGoogleRedirectUrl: vi.fn().mockResolvedValue({ url: redirectUrl }),
+			};
+			const extra = { authApi: authApiMock } as unknown as ThunkExtra;
+
+			const thunk = fetchGoogleRedirectUrl();
+			const result = await thunk(mockDispatch, mockGetState, extra);
+
+			expect(authApiMock.getGoogleRedirectUrl).toHaveBeenCalled();
+			expect(result.meta.requestStatus).toBe("fulfilled");
+			expect(result.payload).toBe(redirectUrl);
+		});
+
+		it("returns rejected value with normalized error on api failure", async () => {
+			const errorMessage = "Network error";
+			const authApiMock = {
+				getGoogleRedirectUrl: vi.fn().mockRejectedValue(new Error(errorMessage)),
+			};
+			const extra = { authApi: authApiMock } as unknown as ThunkExtra;
+
+			const thunk = fetchGoogleRedirectUrl();
 			const result = await thunk(mockDispatch, mockGetState, extra);
 
 			expect(result.meta.requestStatus).toBe("rejected");
