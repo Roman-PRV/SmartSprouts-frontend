@@ -95,4 +95,21 @@ const logout = createAsyncThunk<null, undefined, AsyncThunkConfig>(
 	}
 );
 
-export { getAuthenticatedUser, login, logout, register };
+const loginWithGoogle = createAsyncThunk<User, string, AsyncThunkConfig>(
+	"auth/loginWithGoogle",
+	async (token, { extra, rejectWithValue }) => {
+		const { authApi, storage } = extra;
+
+		try {
+			await storage.set(StorageKey.TOKEN, token);
+
+			return await authApi.getAuthenticatedUser();
+		} catch (error) {
+			await storage.drop(StorageKey.TOKEN);
+
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+export { getAuthenticatedUser, login, loginWithGoogle, logout, register };

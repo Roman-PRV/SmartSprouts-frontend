@@ -4,7 +4,7 @@ import { DataStatus } from "~/libs/enums/enums";
 import { type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 import { type User } from "../libs/types/types";
-import { getAuthenticatedUser, login, logout, register } from "./actions";
+import { getAuthenticatedUser, login, loginWithGoogle, logout, register } from "./actions";
 
 type State = {
 	dataStatus: ValueOf<typeof DataStatus>;
@@ -74,6 +74,25 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = false;
 			state.user = null;
 			state.error = null;
+		});
+
+		builder.addCase(loginWithGoogle.pending, (state) => {
+			state.dataStatus = DataStatus.PENDING;
+			state.error = null;
+		});
+		builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
+			state.dataStatus = DataStatus.FULFILLED;
+			state.isAuthenticated = true;
+			state.user = action.payload;
+			state.error = null;
+		});
+		builder.addCase(loginWithGoogle.rejected, (state, action) => {
+			state.dataStatus = DataStatus.REJECTED;
+			state.isAuthenticated = false;
+			state.user = null;
+			state.error = action.payload ?? {
+				message: action.error.message ?? "Google sign-in failed",
+			};
 		});
 
 		builder.addCase(register.pending, (state) => {
