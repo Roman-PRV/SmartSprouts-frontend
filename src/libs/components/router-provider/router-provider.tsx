@@ -5,6 +5,7 @@ import { MainLayout } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { LevelContentPage } from "~/pages/level-content-page/level-content-page";
 import {
+	AuthGoogleCallbackPage,
 	GameContentPage,
 	GameSelectionPage,
 	HomePage,
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
 	},
 	{
 		children: [
+			{ element: <AuthGoogleCallbackPage />, path: AppRoute.AUTH_GOOGLE_CALLBACK },
 			{ element: <LoginPage />, path: AppRoute.LOGIN },
 			{ element: <RegisterPage />, path: AppRoute.REGISTER },
 		],
