@@ -5,7 +5,7 @@ import { HTTPCode, HTTPError } from "~/libs/modules/http/http";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type AsyncThunkConfig } from "~/libs/types/async-thunk-config.type";
 import { type ThunkErrorPayload } from "~/libs/types/types";
-import { actions, getAuthenticatedUser, login, logout, register } from "~/modules/auth/auth";
+import { actions, getAuthenticatedUser, login, loginWithGoogle, logout, register } from "~/modules/auth/auth";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 type ThunkDispatch = AsyncThunkConfig["dispatch"];
@@ -154,6 +154,50 @@ describe("auth slice", () => {
 
 			expect(state.dataStatus).toBe(DataStatus.REJECTED);
 			expect(state.error).toEqual({ message: "Network error" });
+		});
+
+		it("handles loginWithGoogle.pending action", () => {
+			const action = { type: loginWithGoogle.pending.type };
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.PENDING);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles loginWithGoogle.fulfilled action", () => {
+			const mockUser = { email: "test@example.com", id: 1, name: "Test User" };
+			const action = { payload: mockUser, type: loginWithGoogle.fulfilled.type };
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
+			expect(state.isAuthenticated).toBe(true);
+			expect(state.user).toEqual(mockUser);
+			expect(state.error).toBeNull();
+		});
+
+		it("handles loginWithGoogle.rejected action with payload message", () => {
+			const errorMessage = "Google sign-in failed";
+			const action = {
+				payload: { message: errorMessage } as ThunkErrorPayload,
+				type: loginWithGoogle.rejected.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.REJECTED);
+			expect(state.isAuthenticated).toBe(false);
+			expect(state.user).toBeNull();
+			expect(state.error).toEqual({ message: errorMessage });
+		});
+
+		it("handles loginWithGoogle.rejected action with default error message", () => {
+			const action = {
+				error: { message: "Google sign-in failed" },
+				type: loginWithGoogle.rejected.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.dataStatus).toBe(DataStatus.REJECTED);
+			expect(state.error).toEqual({ message: "Google sign-in failed" });
 		});
 
 		it("handles clearError action", () => {
@@ -333,15 +377,67 @@ describe("auth slice", () => {
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const thunk = logout();
+			const result = await thunk(mockDispatch, mockGetState, extra);
 
-			try {
-				await thunk(mockDispatch, mockGetState, extra);
-			} catch {
-				// Thunk might reject, but we check side effects
-			}
-
+			expect(result.meta.requestStatus).toBe("fulfilled");
 			expect(authApiMock.logout).toHaveBeenCalled();
 			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
+		});
+	});
+
+	describe("loginWithGoogle thunk", () => {
+		it("stores token and returns authenticated user on success", async () => {
+			const mockUser = { email: "test@example.com", id: 1, name: "Test User" };
+			const token = "google-access-token";
+			const authApiMock = { getAuthenticatedUser: vi.fn().mockResolvedValue(mockUser) };
+			const storageMock = {
+				drop: vi.fn(),
+				set: vi.fn<() => Promise<void>>().mockResolvedValue(),
+			};
+			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
+
+			const thunk = loginWithGoogle(token);
+			const result = await thunk(mockDispatch, mockGetState, extra);
+
+			expect(storageMock.set).toHaveBeenCalledWith(StorageKey.TOKEN, token);
+			expect(authApiMock.getAuthenticatedUser).toHaveBeenCalled();
+			expect(result.payload).toEqual(mockUser);
+		});
+
+		it("drops token from storage on API failure", async () => {
+			const token = "google-access-token";
+			const authApiMock = {
+				getAuthenticatedUser: vi.fn().mockRejectedValue(new Error("API error")),
+			};
+			const storageMock = {
+				drop: vi.fn<() => Promise<void>>().mockResolvedValue(),
+				set: vi.fn<() => Promise<void>>().mockResolvedValue(),
+			};
+			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
+
+			const thunk = loginWithGoogle(token);
+			await thunk(mockDispatch, mockGetState, extra);
+
+			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
+		});
+
+		it("returns rejected value on API failure", async () => {
+			const token = "google-access-token";
+			const errorMessage = "API error";
+			const authApiMock = {
+				getAuthenticatedUser: vi.fn().mockRejectedValue(new Error(errorMessage)),
+			};
+			const storageMock = {
+				drop: vi.fn<() => Promise<void>>().mockResolvedValue(),
+				set: vi.fn<() => Promise<void>>().mockResolvedValue(),
+			};
+			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
+
+			const thunk = loginWithGoogle(token);
+			const result = await thunk(mockDispatch, mockGetState, extra);
+
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as ThunkErrorPayload).message).toBe(errorMessage);
 		});
 	});
 
