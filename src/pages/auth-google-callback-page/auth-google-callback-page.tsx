@@ -1,11 +1,5 @@
 import { AppRoute } from "~/libs/enums/enums";
-import {
-	useAppDispatch,
-	useEffect,
-	useNavigate,
-	useRef,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useAppDispatch, useEffect, useNavigate, useRef, useTranslation } from "~/libs/hooks/hooks";
 import { loginWithGoogle } from "~/modules/auth/auth";
 
 const GOOGLE_ERROR_I18N_KEYS: Record<string, string> = {

@@ -7,6 +7,7 @@ export { Header } from "./header/header";
 export { Icon } from "./icon/icon";
 export { Input } from "./input/input";
 export { LanguageSwitcher } from "./language-switcher/language-switcher";
+export { LanguageSwitcherVariant } from "./language-switcher/language-switcher-variant.enum";
 export { LevelPreviewCard } from "./level-preview-card/level-preview-card";
 export { Loader } from "./loader/loader";
 export { Logo } from "./logo/logo";
