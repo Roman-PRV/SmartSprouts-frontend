@@ -2,12 +2,13 @@ import { type HTTP, type HTTPOptions } from "./libs/types/types";
 
 class BaseHTTP implements HTTP {
 	public load(path: string, options: HTTPOptions): Promise<Response> {
-		const { headers, method, payload } = options;
+		const { credentials, headers, method, payload } = options;
 
 		return fetch(path, {
 			body: payload,
 			headers,
 			method,
+			...(credentials && { credentials }),
 		});
 	}
 }

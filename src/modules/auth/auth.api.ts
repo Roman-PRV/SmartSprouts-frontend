@@ -36,6 +36,19 @@ class AuthApi extends BaseHTTPApi {
 		return await response.json<User>();
 	}
 
+	public async getGoogleRedirectUrl(): Promise<{ url: string }> {
+		const url = this.getFullEndpoint(AuthApiPath.GOOGLE_REDIRECT, {});
+
+		const response = await this.load(url, {
+			credentials: "include",
+			hasAuth: false,
+			method: HTTPMethod.GET,
+			payload: null,
+		});
+
+		return await response.json<{ url: string }>();
+	}
+
 	public async login(payload: LoginRequestDto): Promise<LoginResponseDto> {
 		const url = this.getFullEndpoint(AuthApiPath.LOGIN, {});
 

@@ -5,6 +5,24 @@
 	gap: 1.5rem;
 }
 
+/* Element: auth-form__divider */
+.auth-form__divider {
+	align-items: center;
+	color: var(--color-text-secondary);
+	display: flex;
+	font-family: var(--font-family);
+	font-size: var(--font-size-xs);
+	gap: var(--spacing-xs);
+}
+
+.auth-form__divider::before,
+.auth-form__divider::after {
+	background-color: var(--color-dark-border-subtle);
+	content: "";
+	flex: 1;
+	height: 1px;
+}
+
 /* Element: auth-form__error */
 .auth-form__error {
 	background-color: var(--color-background-error);

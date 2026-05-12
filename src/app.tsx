@@ -9,13 +9,20 @@ import { getAuthenticatedUser } from "~/modules/auth/auth";
 
 const App: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { dataStatus } = useAppSelector(({ auth }) => auth);
+	const { dataStatus, user } = useAppSelector(({ auth }) => auth);
 
 	useEffect(() => {
-		void dispatch(getAuthenticatedUser());
-	}, [dispatch]);
+		if (user) {
+			return;
+		}
 
-	if (dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING) {
+		void dispatch(getAuthenticatedUser());
+	}, [dispatch, user]);
+
+	const isBootstrapping =
+		!user && (dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING);
+
+	if (isBootstrapping) {
 		return <Loader variant="overlay" />;
 	}
 

@@ -1,3 +1,4 @@
+export { AuthGoogleCallbackPage } from "./auth-google-callback-page/auth-google-callback-page";
 export { GameContentPage } from "./game-content-page/game-content-page";
 export { GameSelectionPage } from "./game-selection-page/game-selection-page";
 export { HomePage } from "./home-page/home-page";

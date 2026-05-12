@@ -1,4 +1,12 @@
 const auth = {
+	googleCallback: {
+		errors: {
+			authFailed: "Не вдалося авторизуватись через Google. Спробуйте ще раз.",
+			invalidAccount: "Акаунт Google не містить необхідних даних.",
+			invalidState: "Сесія авторизації застаріла. Спробуйте ще раз.",
+		},
+		loading: "Завершуємо вхід…",
+	},
 	login: {
 		button: "Увійти",
 		fields: {
@@ -13,6 +21,11 @@ const auth = {
 		},
 		footerLinkText: "Зареєструватися",
 		footerText: "Немає облікового запису?",
+		googleButton: "Увійти через Google",
+		googleErrors: {
+			redirectFailed: "Не вдалося розпочати вхід через Google. Спробуйте ще раз.",
+		},
+		orDivider: "або",
 		subtitle: "Увійдіть, щоб продовжити",
 		title: "З поверненням",
 	},

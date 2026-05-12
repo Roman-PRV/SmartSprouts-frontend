@@ -4,9 +4,11 @@ import { Button, Input } from "~/libs/components/components";
 import { VALIDATION_RULES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useAppSelector, useForm, useTranslation } from "~/libs/hooks/hooks";
+import { useAppSelector, useForm, useLocation, useTranslation } from "~/libs/hooks/hooks";
 import { login, type LoginRequestDto, loginSchema, useAuthFormSubmit } from "~/modules/auth/auth";
 import styles from "~/modules/auth/styles/auth-form.module.css";
+
+import { GoogleLoginButton } from "../google-login-button/google-login-button";
 
 type Properties = {
 	onSuccess?: () => void;
@@ -15,6 +17,8 @@ type Properties = {
 const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
 	const { t } = useTranslation();
 	const { dataStatus, error } = useAppSelector((state) => state.auth);
+	const location = useLocation();
+	const googleError = (location.state as null | { googleError?: string })?.googleError;
 
 	const {
 		formState: { errors },
@@ -43,6 +47,12 @@ const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
 			noValidate
 			onSubmit={handleSubmit(handleFormSubmit)}
 		>
+			{googleError && (
+				<div className={getValidClassNames(styles["auth-form__error"])} role="alert">
+					{googleError}
+				</div>
+			)}
+
 			{error && (
 				<div className={getValidClassNames(styles["auth-form__error"])} role="alert">
 					{error.message}
@@ -76,6 +86,10 @@ const LoginForm: React.FC<Properties> = ({ onSuccess }) => {
 			<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">
 				{t("auth.login.button")}
 			</Button>
+
+			<div className={styles["auth-form__divider"]}>{t("auth.login.orDivider")}</div>
+
+			<GoogleLoginButton />
 		</form>
 	);
 };
