@@ -73,3 +73,9 @@
 		font-size: 1.75rem;
 	}
 }
+
+.auth-page__lang-switcher {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 1.25rem;
+}

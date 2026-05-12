@@ -1,0 +1,7 @@
+.language-switcher--base > button {
+	color: var(--color-brand);
+}
+
+.language-switcher--auth > button {
+	color: var(--color-text-primary);
+}
