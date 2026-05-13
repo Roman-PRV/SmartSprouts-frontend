@@ -1,29 +1,25 @@
-/**
- * @vitest-environment jsdom
- */
+// @vitest-environment jsdom
 import { configureStore } from "@reduxjs/toolkit";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
+import "@testing-library/jest-dom/vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import "@testing-library/jest-dom/vitest";
-
-import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
+import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { i18n } from "~/libs/modules/localization/localization";
 import { LoginForm } from "~/modules/auth/components/components";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
-import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 
-type AuthState = {
-	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
-	error: null | string;
-	isAuthenticated: boolean;
-	user: null | { email: string; id: number; name: string };
-};
+type AuthState = ReturnType<typeof authReducer>;
 
-const createMockStore = (initialAuthState?: Partial<AuthState>) => {
+const REQUIRED_FIELD_COUNT = 2;
+const VALID_CREDENTIAL_VALUE = "password123";
+
+const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<typeof configureStore> => {
 	return configureStore({
 		preloadedState: {
 			auth: {
@@ -40,12 +36,17 @@ const createMockStore = (initialAuthState?: Partial<AuthState>) => {
 	});
 };
 
-const renderWithProvider = (ui: React.ReactElement, initialAuthState?: Partial<AuthState>) => {
+const renderWithProvider = (
+	ui: React.ReactElement,
+	initialAuthState?: Partial<AuthState>
+): ReturnType<typeof render> => {
 	const store = createMockStore(initialAuthState);
-	return {
-		...render(<Provider store={store}>{ui}</Provider>),
-		store,
-	};
+
+	return render(
+		<Provider store={store}>
+			<MemoryRouter>{ui}</MemoryRouter>
+		</Provider>
+	);
 };
 
 describe("LoginForm", () => {
@@ -98,12 +99,12 @@ describe("LoginForm", () => {
 			renderWithProvider(<LoginForm />);
 
 			const requiredIndicators = screen.getAllByText("*");
-			expect(requiredIndicators).toHaveLength(2);
+			expect(requiredIndicators).toHaveLength(REQUIRED_FIELD_COUNT);
 		});
 
 		it("displays global error when present in state", () => {
 			const errorMessage = "Invalid credentials";
-			renderWithProvider(<LoginForm />, { error: errorMessage });
+			renderWithProvider(<LoginForm />, { error: { message: errorMessage } });
 
 			const errorAlert = screen.getByRole("alert");
 			expect(errorAlert).toBeInTheDocument();
@@ -133,31 +134,26 @@ describe("LoginForm", () => {
 	});
 
 	describe("Form Validation", () => {
-		it("shows validation error for password without number", async () => {
+		it("shows validation error for empty password", async () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
 			const emailInput = screen.getByLabelText(
 				getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))
 			);
-			const passwordInput = screen.getByLabelText(
-				getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))
-			);
+			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 
 			await user.type(emailInput, "test@example.com");
-			await user.type(passwordInput, "passwordonly");
-
-			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			await user.click(submitButton);
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER))
+					screen.getByText(i18n.t(VALIDATION_MESSAGES.PW_REQUIRED))
 				).toBeInTheDocument();
 			});
 		});
 
-		it("shows validation error for too short password", async () => {
+		it("does not validate password complexity", async () => {
 			const user = userEvent.setup();
 			renderWithProvider(<LoginForm />);
 
@@ -169,17 +165,18 @@ describe("LoginForm", () => {
 			);
 
 			await user.type(emailInput, "test@example.com");
-			await user.type(passwordInput, "pa1");
+			await user.type(passwordInput, "123");
 
 			const submitButton = screen.getByRole("button", { name: i18n.t("auth.login.button") });
 			await user.click(submitButton);
 
 			await waitFor(() => {
 				expect(
-					screen.getByText(
-						i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH })
-					)
-				).toBeInTheDocument();
+					screen.queryByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_NUMBER))
+				).not.toBeInTheDocument();
+				expect(
+					screen.queryByText(i18n.t(VALIDATION_MESSAGES.PW_CONTAINS_LOWERCASE))
+				).not.toBeInTheDocument();
 			});
 		});
 	});
@@ -210,6 +207,52 @@ describe("LoginForm", () => {
 		});
 	});
 
+	describe("Form Submission", () => {
+		it("calls authApi.login with correct credentials on valid submit", async () => {
+			const user = userEvent.setup();
+			const mockAuthApi = {
+				login: vi.fn().mockResolvedValue({
+					access_token: "token",
+					user: { email: "test@example.com", id: 1, name: "Test User" },
+				}),
+			};
+			const mockStorage = { drop: vi.fn(), get: vi.fn(), set: vi.fn().mockImplementation(() => Promise.resolve()) };
+			const store = configureStore({
+				middleware: (getDefaultMiddleware) =>
+					getDefaultMiddleware({
+						thunk: { extraArgument: { authApi: mockAuthApi, storage: mockStorage } },
+					}),
+				preloadedState: { auth: { dataStatus: DataStatus.IDLE, error: null, isAuthenticated: false, user: null } },
+				reducer: { auth: authReducer },
+			});
+
+			render(
+				<Provider store={store}>
+					<MemoryRouter>
+						<LoginForm />
+					</MemoryRouter>
+				</Provider>
+			);
+
+			await user.type(
+				screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.email.label"))),
+				"test@example.com"
+			);
+			await user.type(
+				screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.login.fields.password.label"))),
+				VALID_CREDENTIAL_VALUE
+			);
+			await user.click(screen.getByRole("button", { name: i18n.t("auth.login.button") }));
+
+			await waitFor(() => {
+				expect(mockAuthApi.login).toHaveBeenCalledWith({
+					email: "test@example.com",
+					password: VALID_CREDENTIAL_VALUE,
+				});
+			});
+		});
+	});
+
 	describe("Accessibility", () => {
 		it("has accessible email input with correct label", () => {
 			renderWithProvider(<LoginForm />);
@@ -230,7 +273,7 @@ describe("LoginForm", () => {
 		});
 
 		it("global error has role alert", () => {
-			renderWithProvider(<LoginForm />, { error: "Test error" });
+			renderWithProvider(<LoginForm />, { error: { message: "Test error" } });
 
 			const errorAlert = screen.getByRole("alert");
 			expect(errorAlert).toBeInTheDocument();

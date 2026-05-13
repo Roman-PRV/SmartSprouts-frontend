@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 
 import { APIPath, ContentType } from "~/libs/enums/enums";
 import { type HTTP } from "~/libs/modules/http/http";
@@ -14,25 +14,37 @@ import {
 	type User,
 } from "~/modules/auth/libs/types/types";
 
+const BASE_URL = "http://localhost:3000/api";
 const EXPECT_HTTP_CALLS = 1;
+const VALID_CREDENTIAL_VALUE = "password123";
 
-type HttpMock = { load: ReturnType<typeof vi.fn> };
+type HttpCallArguments = [
+	string,
+	{
+		credentials?: RequestCredentials;
+		headers: Headers;
+		method: string;
+		payload: null | string;
+	},
+];
+type HttpLoad = (...arguments_: HttpCallArguments) => Promise<Response>;
+
+type HttpMock = { load: Mock<HttpLoad> };
 type StorageMock = { get: ReturnType<typeof vi.fn> };
 
-function makeResponse<T>(data: T, ok = true, status = 200): Response {
-	return {
+const makeResponse = <T,>(data: T): Response =>
+	({
 		json: () => Promise.resolve(data),
-		ok,
-		status,
-		statusText: ok ? "OK" : "Bad Request",
+		ok: true,
+		status: 200,
+		statusText: "OK",
 		text: () => Promise.resolve(JSON.stringify(data)),
-	} as unknown as Response;
-}
+	}) as unknown as Response;
 
 describe("AuthApi.register", () => {
 	let http: HttpMock;
 	let storage: StorageMock;
-	const baseUrl = "http://localhost:3000/api";
+	const baseUrl = BASE_URL;
 
 	beforeEach(() => {
 		http = { load: vi.fn() };
@@ -43,8 +55,8 @@ describe("AuthApi.register", () => {
 		const payload: RegisterRequestDto = {
 			email: "test@example.com",
 			name: "Test User",
-			password: "password123",
-			password_confirmation: "password123",
+			password: VALID_CREDENTIAL_VALUE,
+			password_confirmation: VALID_CREDENTIAL_VALUE,
 		};
 
 		const responseData: RegisterResponseDto = {
@@ -70,17 +82,13 @@ describe("AuthApi.register", () => {
 		expect(http.load).toHaveBeenCalledWith(
 			`${baseUrl}${APIPath.AUTH}${AuthApiPath.REGISTER}`,
 			expect.objectContaining({
-				headers: expect.any(Headers),
+				headers: expect.any(Headers) as Headers,
 				method: HTTPMethod.POST,
 				payload: JSON.stringify(payload),
 			})
 		);
 
-		const firstCallArguments = http.load.mock.calls[0];
-		const [_, options] = firstCallArguments as [
-			string,
-			{ headers: Headers; method: string; payload: string },
-		];
+		const [, options] = http.load.mock.calls[0] as HttpCallArguments;
 		expect(options.headers.get("content-type")).toBe(ContentType.JSON);
 
 		expect(result).toEqual(responseData);
@@ -90,8 +98,8 @@ describe("AuthApi.register", () => {
 		const payload: RegisterRequestDto = {
 			email: "test@example.com",
 			name: "Test User",
-			password: "password123",
-			password_confirmation: "password123",
+			password: VALID_CREDENTIAL_VALUE,
+			password_confirmation: VALID_CREDENTIAL_VALUE,
 		};
 
 		const errorMessage = "Invalid data";
@@ -110,7 +118,7 @@ describe("AuthApi.register", () => {
 describe("AuthApi.login", () => {
 	let http: HttpMock;
 	let storage: StorageMock;
-	const baseUrl = "http://localhost:3000/api";
+	const baseUrl = BASE_URL;
 
 	beforeEach(() => {
 		http = { load: vi.fn() };
@@ -120,7 +128,7 @@ describe("AuthApi.login", () => {
 	it("sends correct request and returns data on success", async () => {
 		const payload: LoginRequestDto = {
 			email: "test@example.com",
-			password: "password123",
+			password: VALID_CREDENTIAL_VALUE,
 		};
 
 		const responseData: LoginResponseDto = {
@@ -146,17 +154,13 @@ describe("AuthApi.login", () => {
 		expect(http.load).toHaveBeenCalledWith(
 			`${baseUrl}${APIPath.AUTH}${AuthApiPath.LOGIN}`,
 			expect.objectContaining({
-				headers: expect.any(Headers),
+				headers: expect.any(Headers) as Headers,
 				method: HTTPMethod.POST,
 				payload: JSON.stringify(payload),
 			})
 		);
 
-		const firstCallArguments = http.load.mock.calls[0];
-		const [_, options] = firstCallArguments as [
-			string,
-			{ headers: Headers; method: string; payload: string },
-		];
+		const [, options] = http.load.mock.calls[0] as HttpCallArguments;
 		expect(options.headers.get("content-type")).toBe(ContentType.JSON);
 
 		expect(result).toEqual(responseData);
@@ -165,7 +169,7 @@ describe("AuthApi.login", () => {
 	it("propagates error when request fails", async () => {
 		const payload: LoginRequestDto = {
 			email: "test@example.com",
-			password: "password123",
+			password: VALID_CREDENTIAL_VALUE,
 		};
 
 		const errorMessage = "Invalid credentials";
@@ -184,7 +188,7 @@ describe("AuthApi.login", () => {
 describe("AuthApi.getAuthenticatedUser", () => {
 	let http: HttpMock;
 	let storage: StorageMock;
-	const baseUrl = "http://localhost:3000/api";
+	const baseUrl = BASE_URL;
 
 	beforeEach(() => {
 		http = { load: vi.fn() };
@@ -214,17 +218,13 @@ describe("AuthApi.getAuthenticatedUser", () => {
 		expect(http.load).toHaveBeenCalledWith(
 			`${baseUrl}${APIPath.AUTH}${AuthApiPath.AUTHENTICATED_USER}`,
 			expect.objectContaining({
-				headers: expect.any(Headers),
+				headers: expect.any(Headers) as Headers,
 				method: HTTPMethod.GET,
 				payload: null,
 			})
 		);
 
-		const firstCallArguments = http.load.mock.calls[0];
-		const [_, options] = firstCallArguments as [
-			string,
-			{ headers: Headers; method: string; payload: string },
-		];
+		const [, options] = http.load.mock.calls[0] as HttpCallArguments;
 		expect(options.headers.get("authorization")).toBe(`Bearer ${token}`);
 
 		expect(result).toEqual(responseData);
@@ -244,10 +244,57 @@ describe("AuthApi.getAuthenticatedUser", () => {
 	});
 });
 
+describe("AuthApi.getGoogleRedirectUrl", () => {
+	let http: HttpMock;
+	let storage: StorageMock;
+	const baseUrl = BASE_URL;
+
+	beforeEach(() => {
+		http = { load: vi.fn() };
+		storage = { get: vi.fn() };
+	});
+
+	it("sends GET request with credentials include and returns url", async () => {
+		const responseData = { url: "https://accounts.google.com/o/oauth2/auth?client_id=test" };
+		http.load.mockResolvedValueOnce(makeResponse(responseData));
+
+		const api = new AuthApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		const result = await api.getGoogleRedirectUrl();
+
+		expect(http.load).toHaveBeenCalledTimes(EXPECT_HTTP_CALLS);
+		expect(http.load).toHaveBeenCalledWith(
+			`${baseUrl}${APIPath.AUTH}${AuthApiPath.GOOGLE_REDIRECT}`,
+			expect.objectContaining({
+				credentials: "include",
+				method: HTTPMethod.GET,
+				payload: null,
+			})
+		);
+		expect(result).toEqual(responseData);
+	});
+
+	it("propagates error when request fails", async () => {
+		http.load.mockRejectedValueOnce(new Error("Network error"));
+
+		const api = new AuthApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		await expect(api.getGoogleRedirectUrl()).rejects.toThrow("Network error");
+	});
+});
+
 describe("AuthApi.logout", () => {
 	let http: HttpMock;
 	let storage: StorageMock;
-	const baseUrl = "http://localhost:3000/api";
+	const baseUrl = BASE_URL;
 
 	beforeEach(() => {
 		http = { load: vi.fn() };
@@ -272,17 +319,13 @@ describe("AuthApi.logout", () => {
 		expect(http.load).toHaveBeenCalledWith(
 			`${baseUrl}${APIPath.AUTH}${AuthApiPath.LOGOUT}`,
 			expect.objectContaining({
-				headers: expect.any(Headers),
+				headers: expect.any(Headers) as Headers,
 				method: HTTPMethod.POST,
 				payload: null,
 			})
 		);
 
-		const firstCallArguments = http.load.mock.calls[0];
-		const [_, options] = firstCallArguments as [
-			string,
-			{ headers: Headers; method: string; payload: string },
-		];
+		const [, options] = http.load.mock.calls[0] as HttpCallArguments;
 		expect(options.headers.get("authorization")).toBe(`Bearer ${token}`);
 	});
 });

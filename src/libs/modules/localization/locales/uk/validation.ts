@@ -3,14 +3,18 @@ const validation = {
 		invalid: "Будь ласка, введіть дійсний email",
 		required: "Email обов'язковий",
 	},
+	error: "Помилка валідації",
 	name: {
 		minLength: "Ім'я повинно містити щонайменше {{min}} символів",
 		required: "Ім'я обов'язкове",
 	},
 	password: {
 		minLength: "Пароль повинен містити щонайменше {{min}} символів",
+		mustBeNew: "Новий пароль не повинен збігатися з поточним",
 		mustContainLetter: "Пароль повинен містити щонайменше одну літеру",
+		mustContainLowercase: "Пароль повинен містити щонайменше одну маленьку літеру",
 		mustContainNumber: "Пароль повинен містити щонайменше одну цифру",
+		mustContainUppercase: "Пароль повинен містити щонайменше одну велику літеру",
 		required: "Пароль обов'язковий",
 	},
 	passwordConfirmation: {

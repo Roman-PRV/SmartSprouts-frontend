@@ -83,6 +83,10 @@ const logout = createAsyncThunk<null, undefined, AsyncThunkConfig>(
 
 		try {
 			await authApi.logout();
+		} catch {
+			// Client-side logout should always succeed.
+			// API errors (e.g., 401 or network issues) should not prevent
+			// local session cleanup.
 		} finally {
 			await storage.drop(StorageKey.TOKEN);
 		}
@@ -91,4 +95,36 @@ const logout = createAsyncThunk<null, undefined, AsyncThunkConfig>(
 	}
 );
 
-export { getAuthenticatedUser, login, logout, register };
+const fetchGoogleRedirectUrl = createAsyncThunk<string, undefined, AsyncThunkConfig>(
+	"auth/fetchGoogleRedirectUrl",
+	async (_payload, { extra, rejectWithValue }) => {
+		const { authApi } = extra;
+
+		try {
+			const { url } = await authApi.getGoogleRedirectUrl();
+
+			return url;
+		} catch (error) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+const loginWithGoogle = createAsyncThunk<User, string, AsyncThunkConfig>(
+	"auth/loginWithGoogle",
+	async (token, { extra, rejectWithValue }) => {
+		const { authApi, storage } = extra;
+
+		try {
+			await storage.set(StorageKey.TOKEN, token);
+
+			return await authApi.getAuthenticatedUser();
+		} catch (error) {
+			await storage.drop(StorageKey.TOKEN);
+
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+export { fetchGoogleRedirectUrl, getAuthenticatedUser, login, loginWithGoogle, logout, register };

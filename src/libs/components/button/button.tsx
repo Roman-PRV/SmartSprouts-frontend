@@ -15,7 +15,6 @@ import { type ButtonProperties } from "./types";
  * - Icon support (left and right)
  * - Full accessibility (ARIA attributes, keyboard navigation)
  * - Responsive design
- *
  * @example
  * ```tsx
  * // Basic usage

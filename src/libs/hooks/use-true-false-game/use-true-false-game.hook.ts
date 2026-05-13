@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { actions as trueFalseGameActions } from "~/games/true-false-game/api/true-false-game";
+import { ErrorKind } from "~/games/true-false-game/libs/enums/enums";
 import {
 	type TrueFalseGameLevelDto,
 	type TrueFalseGameResultDto,
@@ -10,7 +11,8 @@ import { type DataStatus } from "~/libs/enums/enums";
 import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
 import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
 import { useLanguageSync } from "~/libs/hooks/use-language-sync/use-language-sync.hook";
-import { type GameDescriptionDto, type ValueOf } from "~/libs/types/types";
+import { HTTPCode } from "~/libs/modules/http/http";
+import { type GameDescriptionDto, type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 type UseTrueFalseGameProperties = {
 	game: GameDescriptionDto;
@@ -20,6 +22,8 @@ type UseTrueFalseGameProperties = {
 type UseTrueFalseGameReturn = {
 	allAnswered: boolean;
 	answers: Record<number, boolean>;
+	error: null | ThunkErrorPayload;
+	errorKind: null | ValueOf<typeof ErrorKind>;
 	handleReset: () => void;
 	handleSelect: (statementId: number, value: boolean) => void;
 	handleSubmit: () => Promise<void>;
@@ -39,6 +43,7 @@ const useTrueFalseGame = ({
 
 	const level = useAppSelector((state) => state.trueFalseLevels.currentLevel);
 	const status = useAppSelector((state) => state.trueFalseLevels.currentStatus);
+	const error = useAppSelector((state) => state.trueFalseLevels.error);
 
 	const [answers, setAnswers] = useState<Record<number, boolean>>({});
 	const [results, setResults] = useState<null | TrueFalseGameResultDto[]>(null);
@@ -139,9 +144,17 @@ const useTrueFalseGame = ({
 		(level?.statements.length ?? EMPTY_ARRAY_LENGTH) > EMPTY_ARRAY_LENGTH &&
 		level?.statements.every((s) => s.id in answers) === true;
 
+	let errorKind: null | ValueOf<typeof ErrorKind> = null;
+
+	if (error) {
+		errorKind = error.status === HTTPCode.NOT_FOUND ? ErrorKind.NOT_FOUND : ErrorKind.GENERIC;
+	}
+
 	return {
 		allAnswered,
 		answers,
+		error,
+		errorKind,
 		handleReset,
 		handleSelect,
 		handleSubmit,

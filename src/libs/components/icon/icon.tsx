@@ -9,9 +9,9 @@ type Properties = {
 };
 
 const Icon: React.FC<Properties> = ({ className, color, name }: Properties) => {
-	const Icon = iconNameToSvg[name];
+	const IconSvgComponent = iconNameToSvg[name];
 
-	return <Icon className={className} color={color} />;
+	return <IconSvgComponent className={className} color={color} />;
 };
 
 export { Icon };

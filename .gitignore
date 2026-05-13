@@ -10,8 +10,13 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+build
+*.tsbuildinfo
 dist
 dist-ssr
+coverage
+CLAUDE.md
+.claude
 *.local
 
 # Editor directories and files

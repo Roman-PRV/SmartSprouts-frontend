@@ -11,5 +11,5 @@ This file defines the behavior and preferences for the AI assistant in this proj
 - When generating styles, do so using the BEM concept.
 - All comments in the code must be in English.
 - Always use tabs instead of spaces.
-- Always use the `getValidClassNames` helper when applying multiple or conditional CSS classes to elements.
+- Use `getValidClassNames` helper only when applying multiple CSS classes or conditional classes to elements. For a single static class, apply it directly as a string literal without the helper.
 - When your answer requires documentation or code examples from external libraries (React, Next.js, Zustand, TanStack Query, etc.), first use the Context7 MCP server to find the version of the documentation that is relevant to the project, and then formulate your answer based on that data.

@@ -11,7 +11,7 @@ describe("Auth Validation Schemas", () => {
 		it("should validate correct login data", () => {
 			const data = {
 				email: "test@example.com",
-				password: "password123",
+				password: "Password123",
 			};
 			const result = loginSchema.safeParse(data);
 			expect(result.success).toBe(true);
@@ -20,7 +20,7 @@ describe("Auth Validation Schemas", () => {
 		it("should fail for invalid email", () => {
 			const data = {
 				email: "invalid-email",
-				password: "password123",
+				password: "Password123",
 			};
 			const result = loginSchema.safeParse(data);
 
@@ -32,37 +32,26 @@ describe("Auth Validation Schemas", () => {
 			}
 		});
 
-		it("should fail if password does not contain a number", () => {
+		it("should validate simple login password", () => {
 			const data = {
 				email: "test@example.com",
-				password: "password",
+				password: "123",
 			};
 			const result = loginSchema.safeParse(data);
-
-			expect(result.success).toBe(false);
-
-			if (!result.success) {
-				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_NUMBER
-				);
-				expect(issue).toBeDefined();
-			}
+			expect(result.success).toBe(true);
 		});
 
-		it("should fail if password does not contain a letter", () => {
+		it("should fail for empty password", () => {
 			const data = {
 				email: "test@example.com",
-				password: "123456",
+				password: "",
 			};
 			const result = loginSchema.safeParse(data);
-
 			expect(result.success).toBe(false);
 
 			if (!result.success) {
-				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_LETTER
-				);
-				expect(issue).toBeDefined();
+				const issue = result.error.issues.find((i) => i.path[FIRST_INDEX] === "password");
+				expect(issue?.message).toBe(VALIDATION_MESSAGES.PW_REQUIRED);
 			}
 		});
 	});
@@ -72,8 +61,8 @@ describe("Auth Validation Schemas", () => {
 			const data = {
 				email: "test@example.com",
 				name: "Test User",
-				password: "password123",
-				password_confirmation: "password123",
+				password: "Password123",
+				password_confirmation: "Password123",
 			};
 			const result = registerSchema.safeParse(data);
 			expect(result.success).toBe(true);
@@ -83,8 +72,8 @@ describe("Auth Validation Schemas", () => {
 			const data = {
 				email: "test@example.com",
 				name: "Test User",
-				password: "password123",
-				password_confirmation: "password456",
+				password: "Password123",
+				password_confirmation: "Password456",
 			};
 			const result = registerSchema.safeParse(data);
 
@@ -109,12 +98,12 @@ describe("Auth Validation Schemas", () => {
 			expect(result.success).toBe(false);
 		});
 
-		it("should fail if password does not contain a letter", () => {
+		it("should fail if password does not contain a lowercase letter", () => {
 			const data = {
 				email: "test@example.com",
 				name: "Test User",
-				password: "123456",
-				password_confirmation: "123456",
+				password: "PASSWORD123",
+				password_confirmation: "PASSWORD123",
 			};
 			const result = registerSchema.safeParse(data);
 
@@ -122,7 +111,26 @@ describe("Auth Validation Schemas", () => {
 
 			if (!result.success) {
 				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_LETTER
+					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_LOWERCASE
+				);
+				expect(issue).toBeDefined();
+			}
+		});
+
+		it("should fail if password does not contain an uppercase letter", () => {
+			const data = {
+				email: "test@example.com",
+				name: "Test User",
+				password: "password123",
+				password_confirmation: "password123",
+			};
+			const result = registerSchema.safeParse(data);
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_UPPERCASE
 				);
 				expect(issue).toBeDefined();
 			}

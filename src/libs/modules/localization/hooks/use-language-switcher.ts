@@ -1,6 +1,6 @@
 import { useTranslation } from "~/libs/hooks/hooks";
 
-import { Language } from "../enums/language.enum";
+import { AVAILABLE_LANGUAGES, Language } from "../enums/language.enum";
 import { type LanguageSwitcher } from "../types/localization.types";
 
 const useLanguageSwitcher = (): LanguageSwitcher => {
@@ -10,10 +10,10 @@ const useLanguageSwitcher = (): LanguageSwitcher => {
 		await i18n.changeLanguage(language);
 	};
 
-	const isSupportedLanguage = Object.values(Language).includes(i18n.language as Language);
+	const isSupportedLanguage = AVAILABLE_LANGUAGES.includes(i18n.language as Language);
 
 	return {
-		availableLanguages: Object.values(Language),
+		availableLanguages: AVAILABLE_LANGUAGES,
 		changeLanguage,
 		currentLanguage: isSupportedLanguage ? (i18n.language as Language) : Language.EN,
 	};

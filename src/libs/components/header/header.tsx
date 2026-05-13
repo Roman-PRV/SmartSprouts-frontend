@@ -1,4 +1,9 @@
-import { LanguageSwitcher, Logo, Navigation } from "~/libs/components/components";
+import {
+	LanguageSwitcher,
+	LanguageSwitcherVariant,
+	Logo,
+	Navigation,
+} from "~/libs/components/components";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 
 import styles from "./styles.module.css";
@@ -15,7 +20,7 @@ const Header: React.FC = () => {
 			</div>
 
 			<div className={styles["header__lang"]}>
-				<LanguageSwitcher />
+				<LanguageSwitcher variant={LanguageSwitcherVariant.BASE} />
 			</div>
 		</header>
 	);

@@ -1,4 +1,11 @@
-import { AudioPlayButton, Link } from "~/libs/components/components";
+import { ErrorKind } from "~/games/true-false-game/libs/enums/enums";
+import {
+	AudioPlayButton,
+	Button,
+	FallbackMessage,
+	Link,
+	Loader,
+} from "~/libs/components/components";
 import { DataStatus, GameKey } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useCallback, useMemo, useTranslation, useTrueFalseGame } from "~/libs/hooks/hooks";
@@ -13,6 +20,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	const {
 		allAnswered,
 		answers,
+		errorKind,
 		handleReset,
 		handleSelect,
 		handleSubmit,
@@ -42,15 +50,20 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 	}, [results]);
 
 	if (status === DataStatus.PENDING) {
-		return <div>{t("games.trueFalse.loading.load")}</div>;
+		return <Loader variant="overlay" />;
 	}
 
 	if (status === DataStatus.REJECTED) {
-		return <div>{t("games.trueFalse.error.load")}</div>;
+		const message =
+			errorKind === ErrorKind.NOT_FOUND
+				? t("games.trueFalse.error.notFound")
+				: t("games.trueFalse.error.load");
+
+		return <FallbackMessage message={message} />;
 	}
 
 	if (!level) {
-		return <div>{t("games.trueFalse.error.notFound")}</div>;
+		return <FallbackMessage message={t("games.trueFalse.error.notFound")} />;
 	}
 
 	const isTextMode = game.key === GameKey.TRUE_FALSE_TEXT;
@@ -99,13 +112,15 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				})}
 			</div>
 
-			<button
-				className={styles["level-card__submit"]}
-				disabled={!allAnswered || isSubmitting || isLevelCompleted}
+			<Button
+				disabled={!allAnswered || isLevelCompleted}
+				fullWidth
+				isLoading={isSubmitting}
 				onClick={handleSubmitClick}
+				size="lg"
 			>
-				{isSubmitting ? t("games.trueFalse.loading.check") : t("games.trueFalse.submit")}
-			</button>
+				{t("games.trueFalse.submit")}
+			</Button>
 
 			{hasSubmitError && (
 				<div className={styles["level-card__error"]}>{t("games.trueFalse.error.check")}</div>
@@ -114,23 +129,17 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			<div className={styles["level-card__actions"]}>
 				<Link
 					className={getValidClassNames(
-						styles["level-card__action-button"],
-						styles["level-card__action-button--secondary"]
+						styles["level-card__action"],
+						styles["level-card__back-link"]
 					)}
 					to={`/games/${game.id}`}
 				>
 					{t("games.trueFalse.actions.back")}
 				</Link>
 
-				<button
-					className={getValidClassNames(
-						styles["level-card__action-button"],
-						styles["level-card__action-button--accent"]
-					)}
-					onClick={handleReset}
-				>
+				<Button className={styles["level-card__action"]} onClick={handleReset} variant="secondary">
 					{t("games.trueFalse.actions.reset")}
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

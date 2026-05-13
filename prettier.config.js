@@ -1,15 +1,16 @@
 /**
- * @type {import('prettier').Config}
+ * @type {import("prettier").Config}
  */
 
 const config = {
 	arrowParens: "always",
 	bracketSpacing: true,
-	printWidth: 80,
+	endOfLine: "lf",
+	printWidth: 100,
 	quoteProps: "preserve",
 	semi: true,
 	singleQuote: false,
-	tabWidth: 2,
+	trailingComma: "es5",
 	useTabs: true,
 };
 

@@ -5,8 +5,8 @@ type Properties = {
 };
 
 const FallbackMessage: React.FC<Properties> = ({ message }) => (
-	<div className={styles["fallback-message"]}>
-		<h1>{message}</h1>
+	<div className={styles["fallback-message"]} role="alert">
+		<p>{message}</p>
 	</div>
 );
 

@@ -1,6 +1,6 @@
 import reactPlugin from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
-import { type ConfigEnv, defineConfig, loadEnv } from "vite";
+import { type ConfigEnv, loadEnv } from "vite";
 import svgr from "vite-plugin-svgr";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig as defineVitestConfig } from "vitest/config";

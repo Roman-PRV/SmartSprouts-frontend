@@ -16,7 +16,6 @@ import { type InputProperties } from "./types";
  * - Full accessibility (ARIA attributes, label association)
  * - Error message display
  * - Responsive design
- *
  * @example
  * // Basic usage
  * <Input
@@ -25,7 +24,6 @@ import { type InputProperties } from "./types";
  *   placeholder="Enter your username"
  *   onChange={(e) => console.log(e.target.value)}
  * />
- *
  * @example
  * // With react-hook-form
  * const { register, formState: { errors } } = useForm();
@@ -35,7 +33,6 @@ import { type InputProperties } from "./types";
  *   error={errors.email?.message}
  *   {...register("email")}
  * />
- *
  * @example
  * // With validation error
  * <Input
@@ -44,7 +41,6 @@ import { type InputProperties } from "./types";
  *   value="invalid"
  *   error="Username already taken"
  * />
- *
  * @example
  * // With icons
  * <Input
@@ -54,7 +50,6 @@ import { type InputProperties } from "./types";
  *   iconRight="close"
  *   placeholder="Search..."
  * />
- *
  * @example
  * // Password input
  * <Input

@@ -4,7 +4,6 @@ import { type IconName } from "~/libs/types/types";
 
 /**
  * Properties for the Button component.
- *
  * @example
  * ```tsx
  * // Basic usage
@@ -55,14 +54,6 @@ type ButtonProperties = ComponentPropsWithoutRef<"button"> & {
 type ButtonSize = "lg" | "md" | "sm";
 
 /**
- * HTML button type attribute values.
- * - `button`: Standard button (default)
- * - `submit`: Submit button for forms
- * - `reset`: Reset button for forms
- */
-type ButtonType = "button" | "reset" | "submit";
-
-/**
  * Visual style variants for the Button component.
  * - `primary`: Main action button with accent color
  * - `secondary`: Alternative action button with neutral styling
@@ -72,4 +63,4 @@ type ButtonType = "button" | "reset" | "submit";
  */
 type ButtonVariant = "danger" | "ghost" | "primary" | "secondary" | "unstyled";
 
-export { type ButtonProperties, type ButtonSize, type ButtonType, type ButtonVariant };
+export { type ButtonProperties };

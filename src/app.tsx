@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "sonner";
 
 import { Loader } from "~/libs/components/components";
 import { DataStatus } from "~/libs/enums/enums";
@@ -8,19 +9,27 @@ import { getAuthenticatedUser } from "~/modules/auth/auth";
 
 const App: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { dataStatus } = useAppSelector(({ auth }) => auth);
+	const { dataStatus, user } = useAppSelector(({ auth }) => auth);
 
 	useEffect(() => {
-		void dispatch(getAuthenticatedUser());
-	}, [dispatch]);
+		if (user) {
+			return;
+		}
 
-	if (dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING) {
-		return <Loader />;
+		void dispatch(getAuthenticatedUser());
+	}, [dispatch, user]);
+
+	const isBootstrapping =
+		!user && (dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING);
+
+	if (isBootstrapping) {
+		return <Loader variant="overlay" />;
 	}
 
 	return (
 		<>
 			<Outlet />
+			<Toaster position="top-right" richColors />
 		</>
 	);
 };

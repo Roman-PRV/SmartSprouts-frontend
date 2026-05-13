@@ -10,7 +10,7 @@ This app helps children improve their cognitive skills.
 
 ## 2. Tech Stack
 
-- React 18
+- React 19
 - TypeScript
 - Vite
 - TailwindCSS
@@ -38,7 +38,7 @@ See the instructions in the corresponding repository.
 ## 4. Scripts
 
 - `dev` Starts the Vite development server for local development.
-- `build` Runs a full TypeScript build (tsc -b) and then compiles the app with Vite for production.
+- `build` Runs a full TypeScript type check across the entire project and then compiles the app with Vite for production.
 - `preview` Serves the production build locally using Vite’s preview server.
 - `lint` Runs ESLint on all .ts and .tsx files in src/, automatically fixing issues.
 - `format` Formats all .ts, .tsx, .css, and .md files in src/ using Prettier.

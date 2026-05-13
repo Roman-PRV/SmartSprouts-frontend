@@ -6,6 +6,7 @@ const config: KnipConfig = {
 	ignore: ["src/vite-env.d.ts", "**/*.test.ts"],
 	prettier: ["./prettier.config.js"],
 	stylelint: ["./stylelint.config.js"],
+	ignoreDependencies: ["husky", "tailwindcss"],
 };
 
 export default config;

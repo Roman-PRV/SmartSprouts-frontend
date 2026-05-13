@@ -11,6 +11,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import sonarjs from "eslint-plugin-sonarjs";
 import unicorn from "eslint-plugin-unicorn";
 import globals from "globals";
+import jsdoc from "eslint-plugin-jsdoc";
 
 /** @typedef {import("eslint").Linter.Config} */
 let Config;
@@ -34,6 +35,7 @@ const config = [
 			"project.config.ts",
 			"knip.config.ts",
 			"commitlint.config.ts",
+			"coverage",
 		],
 	},
 	{
@@ -61,6 +63,7 @@ const config = [
 			"react-hooks": reactHooks,
 			sonarjs,
 			unicorn,
+			jsdoc,
 		},
 		rules: {
 			...js.configs.recommended.rules,
@@ -72,6 +75,7 @@ const config = [
 			...react.configs.recommended.rules,
 			...reactHooks.configs.recommended.rules,
 			...jsxA11y.configs.recommended.rules,
+			...jsdoc.configs["recommended-typescript-flavor-error"].rules,
 			...perfectionist.configs["recommended-natural"].rules,
 
 			"@typescript-eslint/consistent-type-exports": ["error"],
@@ -123,8 +127,17 @@ const config = [
 			"react/react-in-jsx-scope": ["off"],
 			"unicorn/no-null": ["off"],
 			"sonarjs/todo-tag": "off",
-			indent: ["error", "tab"],
+			indent: ["error", "tab", { SwitchCase: 1 }],
 			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+			"jsdoc/check-tag-names": ["error", { definedTags: ["vitest-environment"] }],
+			"jsdoc/no-undefined-types": ["error"],
+			"jsdoc/require-param": "off",
+			"jsdoc/require-returns": "off",
+			"jsdoc/require-param-type": "off",
+			"jsdoc/require-returns-type": "off",
+			"jsdoc/require-param-description": "off",
+			"jsdoc/require-returns-description": "off",
+
 			// Allow async functions in event handlers (e.g., onSubmit for react-hook-form)
 			"@typescript-eslint/no-misused-promises": [
 				"error",
@@ -168,6 +181,13 @@ const config = [
 		files: ["**/*.tsx"],
 		rules: {
 			"sonarjs/void-use": "off",
+		},
+	},
+	{
+		files: ["tests/**/*.{ts,tsx}"],
+		rules: {
+			"@typescript-eslint/explicit-function-return-type": "off",
+			"@typescript-eslint/no-magic-numbers": "off",
 		},
 	},
 ];

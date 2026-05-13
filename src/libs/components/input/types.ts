@@ -2,7 +2,6 @@ import { type IconName } from "~/libs/types/types";
 
 /**
  * Properties for the Input component.
- *
  * @example
  * ```tsx
  * // Basic text input
@@ -90,4 +89,4 @@ type InputProperties = {
  */
 type InputType = "email" | "number" | "password" | "search" | "text";
 
-export { type InputProperties, type InputType };
+export { type InputProperties };

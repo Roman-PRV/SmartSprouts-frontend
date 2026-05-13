@@ -1,4 +1,12 @@
 const auth = {
+	googleCallback: {
+		errors: {
+			authFailed: "Failed to sign in with Google. Please try again.",
+			invalidAccount: "Your Google account does not contain the required information.",
+			invalidState: "Your sign-in session has expired. Please try again.",
+		},
+		loading: "Completing sign-in…",
+	},
 	login: {
 		button: "Login",
 		fields: {
@@ -13,6 +21,11 @@ const auth = {
 		},
 		footerLinkText: "Register",
 		footerText: "Don't have an account?",
+		googleButton: "Sign in with Google",
+		googleErrors: {
+			redirectFailed: "Unable to start Google sign-in. Please try again.",
+		},
+		orDivider: "or",
 		subtitle: "Login to continue",
 		title: "Welcome Back",
 	},

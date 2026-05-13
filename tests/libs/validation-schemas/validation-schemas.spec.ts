@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { FIRST_INDEX, VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import {
+	basicPasswordSchema,
 	emailSchema,
 	nameSchema,
 	passwordSchema,
@@ -67,12 +68,12 @@ describe("Validation Schemas", () => {
 
 	describe("passwordSchema", () => {
 		it("should validate correct password", () => {
-			const result = passwordSchema.safeParse("password123");
+			const result = passwordSchema.safeParse("Password123");
 			expect(result.success).toBe(true);
 		});
 
 		it("should preserve leading and trailing spaces", () => {
-			const passwordWithSpaces = "  password123  ";
+			const passwordWithSpaces = "  Password123  ";
 			const result = passwordSchema.safeParse(passwordWithSpaces);
 
 			expect(result.success).toBe(true);
@@ -92,7 +93,7 @@ describe("Validation Schemas", () => {
 		});
 
 		it("should fail if password does not contain a number", () => {
-			const result = passwordSchema.safeParse("password");
+			const result = passwordSchema.safeParse("Password");
 
 			expect(result.success).toBe(false);
 
@@ -101,6 +102,49 @@ describe("Validation Schemas", () => {
 					(i) => i.message === VALIDATION_MESSAGES.PW_CONTAINS_NUMBER
 				);
 				expect(issue).toBeDefined();
+			}
+		});
+
+		it("should fail if password does not contain a lowercase letter", () => {
+			const result = passwordSchema.safeParse("PASSWORD123");
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.message === VALIDATION_MESSAGES.PW_CONTAINS_LOWERCASE
+				);
+				expect(issue).toBeDefined();
+			}
+		});
+
+		it("should fail if password does not contain an uppercase letter", () => {
+			const result = passwordSchema.safeParse("password123");
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find(
+					(i) => i.message === VALIDATION_MESSAGES.PW_CONTAINS_UPPERCASE
+				);
+				expect(issue).toBeDefined();
+			}
+		});
+	});
+
+	describe("basicPasswordSchema", () => {
+		it("should validate simple password", () => {
+			const result = basicPasswordSchema.safeParse("123");
+			expect(result.success).toBe(true);
+		});
+
+		it("should fail for empty string", () => {
+			const result = basicPasswordSchema.safeParse("");
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				expect(result.error.issues[FIRST_INDEX]?.message).toBe(VALIDATION_MESSAGES.PW_REQUIRED);
 			}
 		});
 	});

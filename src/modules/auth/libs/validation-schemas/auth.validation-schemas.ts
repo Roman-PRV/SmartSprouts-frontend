@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { VALIDATION_MESSAGES } from "~/libs/constants/constants";
 import {
+	basicPasswordSchema,
 	emailSchema,
 	nameSchema,
 	passwordSchema,
@@ -11,11 +12,11 @@ import {
  * Schema for login form validation.
  * Includes:
  * - email: {@link emailSchema}
- * - password: {@link passwordSchema}
+ * - password: {@link basicPasswordSchema}
  */
 const loginSchema = z.object({
 	email: emailSchema,
-	password: passwordSchema,
+	password: basicPasswordSchema,
 });
 
 /**
@@ -24,7 +25,7 @@ const loginSchema = z.object({
  * - email: {@link emailSchema}
  * - name: {@link nameSchema}
  * - password: {@link passwordSchema}
- * - password_confirmation: {@link passwordSchema}
+ * - password_confirmation: {@link basicPasswordSchema}
  *
  * Additional checks:
  * - Ensures password and password_confirmation match.
@@ -34,7 +35,7 @@ const registerSchema = z
 		email: emailSchema,
 		name: nameSchema,
 		password: passwordSchema,
-		password_confirmation: passwordSchema,
+		password_confirmation: basicPasswordSchema,
 	})
 	.refine((data) => data.password === data.password_confirmation, {
 		message: VALIDATION_MESSAGES.PW_DO_NOT_MATCH,

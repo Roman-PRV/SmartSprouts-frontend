@@ -1,4 +1,4 @@
-import { FallbackMessage } from "~/libs/components/components";
+import { FallbackMessage, Loader } from "~/libs/components/components";
 import { useGameFetch, useParams, useTranslation } from "~/libs/hooks/hooks";
 
 import { getLevelComponent } from "./level-component-selector";
@@ -9,26 +9,37 @@ const LevelContentPage: React.FC = () => {
 	const { id, levelId } = useParams();
 	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
 
+	const renderError = (message: string): React.JSX.Element => (
+		<div className={styles["page"]}>
+			<header className={styles["page__header"]}>
+				<h1 className={styles["page__title"]}>{t("games.level.errorTitle")}</h1>
+			</header>
+			<main className={styles["page__content"]}>
+				<FallbackMessage message={message} />
+			</main>
+		</div>
+	);
+
 	if (!id) {
-		return <FallbackMessage message={t("games.level.invalidId")} />;
+		return renderError(t("games.level.invalidId"));
 	}
 
 	if (!levelId) {
-		return <FallbackMessage message={t("games.level.noLevel")} />;
+		return renderError(t("games.level.noLevel"));
 	}
 
 	if (isGameLoading) {
-		return <FallbackMessage message={t("games.level.loading")} />;
+		return <Loader variant="overlay" />;
 	}
 
 	if (!currentGame) {
-		return <FallbackMessage message={t("games.level.notFound")} />;
+		return renderError(t("games.level.notFound"));
 	}
 
 	const LevelComponent = getLevelComponent(currentGame.key);
 
 	if (!LevelComponent) {
-		return <FallbackMessage message={t("games.level.unsupportedType", { key: currentGame.key })} />;
+		return renderError(t("games.level.unsupportedType", { key: currentGame.key }));
 	}
 
 	return (
