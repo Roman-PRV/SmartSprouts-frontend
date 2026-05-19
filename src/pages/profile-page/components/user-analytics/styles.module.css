@@ -3,17 +3,17 @@
 	grid-template-columns: repeat(4, 1fr);
 	gap: var(--spacing-sm);
 	width: 100%;
-	margin: 0;
 	padding: 0;
+	margin: 0;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (width <= 1024px) {
 	.analytics {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (width <= 576px) {
 	.analytics {
 		grid-template-columns: 1fr;
 	}
@@ -35,23 +35,23 @@
 }
 
 .analytics__item:hover {
-	transform: translateY(calc(var(--spacing-xxs) * -1));
 	box-shadow: var(--shadow-subtle);
+	transform: translateY(calc(var(--spacing-xxs) * -1));
 }
 
 .analytics__value {
 	margin: 0 0 var(--spacing-xs);
 	font-size: var(--font-size-xl);
 	font-weight: var(--font-weight-bold);
-	color: var(--color-background-accent);
 	line-height: 1.2;
+	color: var(--color-background-accent);
 }
 
 .analytics__label {
 	margin: 0;
 	font-size: var(--font-size-xs);
-	color: var(--color-text-secondary);
 	font-weight: var(--font-weight-semibold);
-	text-align: center;
 	line-height: 1.4;
+	color: var(--color-text-secondary);
+	text-align: center;
 }

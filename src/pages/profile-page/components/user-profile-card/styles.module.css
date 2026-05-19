@@ -1,7 +1,7 @@
 .card {
 	display: flex;
-	align-items: center;
 	gap: var(--spacing-sm);
+	align-items: center;
 	padding: var(--spacing-md);
 	background: var(--color-background-4);
 	border: 1px solid var(--color-background-light-gray);
@@ -10,17 +10,17 @@
 }
 
 .card__avatar {
-	width: var(--spacing-xxl);
-	height: var(--spacing-xxl);
-	border-radius: var(--border-radius-full);
-	background: linear-gradient(135deg, var(--color-background-1), var(--color-background-2));
-	color: var(--color-text-light);
 	display: flex;
+	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
+	width: var(--spacing-xxl);
+	height: var(--spacing-xxl);
 	font-size: 2rem;
 	font-weight: var(--font-weight-bold);
-	flex-shrink: 0;
+	color: var(--color-text-light);
+	background: linear-gradient(135deg, var(--color-background-1), var(--color-background-2));
+	border-radius: var(--border-radius-full);
 }
 
 .card__info {
@@ -33,13 +33,13 @@
 	margin: 0;
 	font-size: var(--font-size-lg);
 	font-weight: var(--font-weight-semibold);
-	color: var(--color-text-dark);
 	line-height: 1.2;
+	color: var(--color-text-dark);
 }
 
 .card__email {
 	margin: 0;
 	font-size: var(--font-size-sm);
-	color: var(--color-text-secondary);
 	line-height: 1.2;
+	color: var(--color-text-secondary);
 }
