@@ -7,7 +7,7 @@ const config = {
 		"max-nesting-depth": 0,
 		"no-descending-specificity": true,
 		"selector-class-pattern": null,
-		"unit-disallowed-list": ["em", "rem"],
+		"unit-disallowed-list": ["em"],
 	},
 };
 

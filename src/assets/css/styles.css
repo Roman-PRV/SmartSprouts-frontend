@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "./fonts.css";
-@import "./scaffolding.css";
-@import "./variables.css";
-@import "./custom-utilities.css";
+@import url("tailwindcss");
+@import url("./fonts.css");
+@import url("./scaffolding.css");
+@import url("./variables.css");
+@import url("./custom-utilities.css");

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint (ESLint)
+        run: npm run lint:ci
+
+      - name: Lint (Stylelint)
+        run: npm run stylelint:ci
+
+      - name: Knip — unused exports/files
+        run: npx knip
+
+      - name: Vitest
+        run: npm run test:ci
+
+      - name: Build smoke
+        run: npm run build

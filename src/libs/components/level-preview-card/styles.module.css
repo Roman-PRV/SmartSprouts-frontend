@@ -1,21 +1,21 @@
 .card {
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	background: var(--color-background-4);
-	border: 1px solid var(--color-background-light-gray);
-	border-radius: var(--border-radius-md);
+	min-height: 160px;
 	overflow: hidden;
 	cursor: pointer;
 	outline: none;
+	background: var(--color-background-4);
+	border: 1px solid var(--color-background-light-gray);
+	border-radius: var(--border-radius-md);
 	transition:
 		box-shadow 120ms ease,
 		transform 120ms ease;
-	position: relative;
-	min-height: 160px;
-	animation: fadeInUp 0.4s ease-out backwards;
+	animation: fade-in-up 0.4s ease-out backwards;
 }
 
-@keyframes fadeInUp {
+@keyframes fade-in-up {
 	from {
 		opacity: 0;
 		transform: translateY(20px);
@@ -56,12 +56,12 @@
 }
 
 .card:focus {
-	box-shadow: 0 0 0 3px rgba(12, 121, 151, 0.12);
+	box-shadow: 0 0 0 3px rgb(12 121 151 / 12%);
 }
 
 .card:hover {
+	box-shadow: 0 6px 18px rgb(0 0 0 / 6%);
 	transform: translateY(-4px);
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .card__image {
@@ -70,14 +70,14 @@
 }
 
 .card__image-fallback {
-	width: 100%;
-	aspect-ratio: 200/120;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--color-background-light-gray);
-	color: var(--color-text-muted);
+	width: 100%;
+	aspect-ratio: 200/120;
 	font-size: 14px;
+	color: var(--color-text-muted);
+	background-color: var(--color-background-light-gray);
 }
 
 .card__number {
@@ -88,17 +88,17 @@
 }
 
 .card__content {
-	padding: 12px;
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: 6px;
-	flex: 1;
+	padding: 12px;
 }
 
 .card__title {
 	margin: 0;
 	font-size: 1.2rem;
+	font-weight: 600;
 	line-height: 1.2;
 	color: var(--color-text-dark);
-	font-weight: 600;
 }

@@ -8,17 +8,17 @@
 
 /* Element: input-label */
 .input-label {
+	display: flex;
+	align-items: center;
 	font-family: var(--font-family);
 	font-size: 0.875rem;
 	font-weight: 600;
 	color: var(--color-text-dark);
-	display: flex;
-	align-items: center;
 }
 
 .input-label__required {
-	color: var(--color-accent-1);
 	font-weight: 700;
+	color: var(--color-accent-1);
 }
 
 /* Element: input-container */
@@ -37,10 +37,10 @@
 	font-size: 1rem;
 	font-weight: 400;
 	color: var(--color-text-dark);
+	outline: none;
 	background: var(--color-background-4);
 	border: 2px solid var(--color-background-light-gray);
 	border-radius: var(--border-radius-md);
-	outline: none;
 	transition:
 		border-color 0.2s ease,
 		box-shadow 0.2s ease,
@@ -54,20 +54,20 @@
 
 /* Focus state */
 .input:focus {
+	background: var(--color-background-4);
 	border-color: var(--color-background-accent);
 	box-shadow: 0 0 0 3px var(--color-shadow-accent-focus);
-	background: var(--color-background-4);
 }
 
 /* Hover state */
-.input:hover:not(:disabled):not(.input--error) {
+.input:hover:not(:disabled, .input--error) {
 	border-color: var(--color-text-secondary);
 }
 
 /* Modifier: input--error */
 .input--error {
-	border-color: var(--color-accent-1);
 	background: color-mix(in srgb, var(--color-accent-1) 3%, var(--color-background-4));
+	border-color: var(--color-accent-1);
 }
 
 .input--error:focus {
@@ -77,10 +77,10 @@
 
 /* Modifier: input--disabled */
 .input--disabled {
-	opacity: 0.6;
+	color: var(--color-text-2);
 	cursor: not-allowed;
 	background: var(--color-background-light-gray);
-	color: var(--color-text-2);
+	opacity: 0.6;
 }
 
 /* Modifier: input--with-icon-left */
@@ -107,9 +107,9 @@
 }
 
 .input-icon svg {
+	display: block;
 	width: 100%;
 	height: 100%;
-	display: block;
 }
 
 .input-icon--left {
@@ -120,35 +120,35 @@
 	right: 14px;
 }
 
-/* Icon color changes on focus */
-.input-container:has(.input:focus) .input-icon {
-	color: var(--color-background-accent);
-}
-
+/* Icon color changes on focus/error */
 .input-container:has(.input--error) .input-icon {
 	color: var(--color-accent-1);
 }
 
+.input-container:has(.input:focus) .input-icon {
+	color: var(--color-background-accent);
+}
+
 /* Element: input-error */
 .input-error {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+	margin-top: 2px;
 	font-family: var(--font-family);
 	font-size: 0.8125rem;
 	font-weight: 500;
 	color: var(--color-accent-1);
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	margin-top: 2px;
 }
 
 /* Modifier: input-wrapper--disabled */
 .input-wrapper--disabled .input-label {
-	opacity: 0.6;
 	cursor: not-allowed;
+	opacity: 0.6;
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
 	.input {
 		padding: 10px 14px;
 		font-size: 0.9375rem;
@@ -184,7 +184,7 @@
 	}
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
 	.input {
 		padding: 8px 12px;
 		font-size: 0.875rem;
