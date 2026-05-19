@@ -17,7 +17,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - run: npm install
+      - run: npm ci
 
       - name: Typecheck
         run: npm run typecheck

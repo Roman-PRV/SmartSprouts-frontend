@@ -49,6 +49,9 @@
 		"sonner": "2.0.7",
 		"zod": "4.2.1"
 	},
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "4.60.1"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "19.8.1",
 		"@commitlint/config-conventional": "19.8.1",
