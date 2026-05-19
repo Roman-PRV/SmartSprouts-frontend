@@ -8,10 +8,13 @@
 		"build": "npm run typecheck && vite build",
 		"preview": "vite preview",
 		"lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
+		"lint:ci": "eslint \"src/**/*.{ts,tsx}\"",
+		"stylelint:ci": "stylelint \"src/**/*.css\"",
 		"format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
 		"typecheck": "tsc --noEmit",
 		"check-config": "npm run lint && npm run typecheck",
 		"test": "vitest",
+		"test:ci": "vitest --run --reporter=default",
 		"test:watch": "vitest --watch",
 		"test:coverage": "vitest --coverage"
 	},
@@ -22,7 +25,11 @@
 		"**/*.{js,jsx}": [
 			"eslint --fix"
 		],
-		"**/*.{css,scss,md,json}": [
+		"**/*.css": [
+			"stylelint --fix",
+			"prettier --write"
+		],
+		"**/*.{scss,md,json}": [
 			"prettier --write"
 		]
 	},

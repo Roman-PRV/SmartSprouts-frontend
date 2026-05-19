@@ -5,8 +5,8 @@
 
 .dropdown__toggle {
 	display: flex;
-	align-items: center;
 	gap: 6px;
+	align-items: center;
 	padding: 4px 8px;
 	font-weight: 600;
 	color: var(--color-brand);
@@ -42,19 +42,19 @@
 	position: absolute;
 	top: 100%;
 	right: 0;
-	margin-top: 4px;
+	z-index: var(--z-index-high);
 	min-width: 100px;
+	padding: 4px;
+	margin-top: 4px;
+	list-style: none;
 	background-color: var(--color-background-4);
 	border-radius: var(--border-radius-md);
 	box-shadow: var(--shadow-medium);
-	z-index: var(--z-index-high);
-	padding: 4px;
-	list-style: none;
 }
 
 .dropdown--disabled {
-	opacity: 0.6;
 	cursor: not-allowed;
+	opacity: 0.6;
 }
 
 .dropdown--disabled .dropdown__toggle {
