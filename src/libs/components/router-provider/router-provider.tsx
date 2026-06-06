@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { App } from "~/app";
 import { MainLayout } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
+import { AdminLayout, RequireAdmin } from "~/modules/admin/admin";
 import { LevelContentPage } from "~/pages/level-content-page/level-content-page";
 import {
 	AuthGoogleCallbackPage,
@@ -37,6 +38,24 @@ export const router = createBrowserRouter([
 					},
 				],
 				element: <MainLayout />,
+			},
+			{
+				children: [
+					{
+						children: [
+							{
+								children: [
+									// Child routes (ADMIN_GAME_LEVELS, ADMIN_GAME_LEVEL_EDITOR) are
+									// populated by WIW-FE-01; they use absolute paths under /admin.
+								],
+								element: <AdminLayout />,
+								path: AppRoute.ADMIN_ROOT,
+							},
+						],
+						element: <RequireAdmin />,
+					},
+				],
+				element: <ProtectedRoute />,
 			},
 		],
 		element: <App />,
