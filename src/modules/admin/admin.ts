@@ -1,1 +1,1 @@
-export { AdminLayout, RequireAdmin, SidebarNav } from "./components/components";
+export { AdminLayout, RequireAdmin } from "./components/components";
