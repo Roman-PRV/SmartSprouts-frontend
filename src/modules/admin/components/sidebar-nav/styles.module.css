@@ -1,10 +1,11 @@
 .sidebar-nav {
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: column;
 	gap: var(--spacing-xs);
 	width: 16rem;
-	min-height: 100%;
 	padding: var(--spacing-sm);
+	overflow-y: auto;
 	font-family: var(--font-family);
 	color: var(--color-text-1);
 	background-color: var(--color-background-light-gray);
