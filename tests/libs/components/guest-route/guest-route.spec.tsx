@@ -14,7 +14,7 @@ type AuthState = {
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
 	error: null | { message: string };
 	isAuthenticated: boolean;
-	user: null | { email: string; id: number; name: string };
+	user: null | { email: string; id: number; is_admin: boolean; name: string };
 };
 
 const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<typeof configureStore> => {
