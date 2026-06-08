@@ -1,9 +1,15 @@
 export { type AsyncThunkConfig } from "./async-thunk-config.type";
+export { type CanvasCoordsApi } from "./canvas-coords-api.type";
 export { type GameDescriptionDto } from "./game-description-dto.type";
 export { type IconName } from "./icon-name.type";
+export { type ImageDimensions } from "./image-dimensions.type";
 export { type LevelCardProperties } from "./level-card-properties.type";
 export { type LevelDescriptionDto } from "./level-description-dto.type";
+export { type Point } from "./point.type";
+export { type Polygon } from "./polygon.type";
 export { type ServerErrorDetail } from "./server-error-detail.type";
 export { type ServerErrorResponse } from "./server-error-response.type";
+export { type StageSize } from "./stage-size.type";
+export { type Stroke } from "./stroke.type";
 export { type ThunkErrorPayload } from "./thunk-error.payload.type";
 export { type ValueOf } from "./value-of.type";

@@ -1,0 +1,3 @@
+const EMPTY_DIMENSION = 0;
+
+export { EMPTY_DIMENSION };
