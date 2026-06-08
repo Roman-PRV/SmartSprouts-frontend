@@ -53,4 +53,19 @@ describe("useFitStageSize", () => {
 
 		expect(result.current).toBe(first);
 	});
+
+	it("memoises across new object references when primitive dimensions are unchanged", () => {
+		const { rerender, result } = renderFit(
+			{ height: 400, width: 800 },
+			{ height: 200, width: 400 }
+		);
+		const first = result.current;
+
+		rerender({
+			container: { height: 400, width: 800 },
+			image: { height: 200, width: 400 },
+		});
+
+		expect(result.current).toBe(first);
+	});
 });

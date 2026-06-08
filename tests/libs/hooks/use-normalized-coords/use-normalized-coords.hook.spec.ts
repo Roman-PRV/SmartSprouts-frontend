@@ -121,5 +121,14 @@ describe("useNormalizedCoords", () => {
 
 			expect(result.current).not.toBe(first);
 		});
+
+		it("returns the same api instance for a new stage object with identical dimensions", () => {
+			const { rerender, result } = renderCoords();
+			const first = result.current;
+
+			rerender({ stage: { height: STAGE.height, width: STAGE.width } });
+
+			expect(result.current).toBe(first);
+		});
 	});
 });

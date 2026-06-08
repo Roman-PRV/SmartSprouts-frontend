@@ -4,9 +4,9 @@ import { EMPTY_DIMENSION } from "~/libs/constants/constants";
 import { type CanvasCoordsApi, type Point, type StageSize } from "~/libs/types/types";
 
 const useNormalizedCoords = (stageSize: StageSize): CanvasCoordsApi => {
-	return useMemo<CanvasCoordsApi>(() => {
-		const { height, width } = stageSize;
+	const { height, width } = stageSize;
 
+	return useMemo<CanvasCoordsApi>(() => {
 		const toNormalized = ([pixelX, pixelY]: Point): Point => {
 			if (width <= EMPTY_DIMENSION || height <= EMPTY_DIMENSION) {
 				return [EMPTY_DIMENSION, EMPTY_DIMENSION];
@@ -21,7 +21,7 @@ const useNormalizedCoords = (stageSize: StageSize): CanvasCoordsApi => {
 		];
 
 		return { toNormalized, toPixel };
-	}, [stageSize]);
+	}, [height, width]);
 };
 
 export { useNormalizedCoords };
