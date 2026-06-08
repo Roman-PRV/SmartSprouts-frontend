@@ -13,6 +13,7 @@ import { DataStatus } from "~/libs/enums/enums";
 import { i18n } from "~/libs/modules/localization/i18n";
 import { AdminLayout } from "~/modules/admin/components/admin-layout/admin-layout";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
+import { reducer as gamesReducer } from "~/modules/games/games";
 
 const mockLogout = vi.fn();
 
@@ -34,9 +35,18 @@ const renderAdminLayout = (): ReturnType<typeof render> => {
 				isAuthenticated: true,
 				user: { email: "a@a.com", id: 1, is_admin: true, name: "Admin" },
 			},
+			games: {
+				currentGame: null,
+				currentGameLevels: null,
+				currentGameStatus: DataStatus.IDLE,
+				games: [],
+				gamesStatus: DataStatus.FULFILLED,
+				levelsStatus: DataStatus.IDLE,
+			},
 		},
 		reducer: {
 			auth: authReducer,
+			games: gamesReducer,
 		},
 	});
 

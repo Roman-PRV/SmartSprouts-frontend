@@ -1,3 +1,6 @@
+export { AdminLevelEditorPage } from "./admin/admin-level-editor-page/admin-level-editor-page";
+export { AdminLevelsListPage } from "./admin/admin-levels-list-page/admin-levels-list-page";
+export { AdminWelcomePage } from "./admin/admin-welcome-page/admin-welcome-page";
 export { AuthGoogleCallbackPage } from "./auth-google-callback-page/auth-google-callback-page";
 export { GameContentPage } from "./game-content-page/game-content-page";
 export { GameSelectionPage } from "./game-selection-page/game-selection-page";

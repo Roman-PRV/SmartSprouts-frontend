@@ -6,6 +6,9 @@ import { AppRoute } from "~/libs/enums/enums";
 import { AdminLayout, RequireAdmin } from "~/modules/admin/admin";
 import { LevelContentPage } from "~/pages/level-content-page/level-content-page";
 import {
+	AdminLevelEditorPage,
+	AdminLevelsListPage,
+	AdminWelcomePage,
 	AuthGoogleCallbackPage,
 	GameContentPage,
 	GameSelectionPage,
@@ -45,8 +48,15 @@ export const router = createBrowserRouter([
 						children: [
 							{
 								children: [
-									// Child routes (ADMIN_GAME_LEVELS, ADMIN_GAME_LEVEL_EDITOR) are
-									// populated by WIW-FE-01; they use absolute paths under /admin.
+									{ element: <AdminWelcomePage />, index: true },
+									{
+										element: <AdminLevelsListPage />,
+										path: AppRoute.ADMIN_GAME_LEVELS,
+									},
+									{
+										element: <AdminLevelEditorPage />,
+										path: AppRoute.ADMIN_GAME_LEVEL_EDITOR,
+									},
 								],
 								element: <AdminLayout />,
 								path: AppRoute.ADMIN_ROOT,

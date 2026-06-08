@@ -1,1 +1,1 @@
-export { AdminLayout, RequireAdmin } from "./components/components";
+export { AdminLayout, AdminPageFallback, RequireAdmin } from "./components/components";
