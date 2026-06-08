@@ -15,14 +15,14 @@ type UseGameFetchReturn = {
 	isLoading: boolean;
 };
 
-const mockUseGameFetch = vi.fn<() => UseGameFetchReturn>();
+const mockUseGameFetch = vi.fn<(id: string | undefined) => UseGameFetchReturn>();
 
 vi.mock("~/libs/hooks/hooks", async (importOriginal) => {
 	const actual = await importOriginal<typeof hooksModule>();
 
 	return {
 		...actual,
-		useGameFetch: () => mockUseGameFetch(),
+		useGameFetch: (id: string | undefined) => mockUseGameFetch(id),
 	};
 });
 
@@ -73,6 +73,15 @@ describe("AdminLevelEditorPage", () => {
 		renderAt("/admin/games/42/levels/abc");
 
 		expect(screen.getByText(/Invalid level id/i)).toBeInTheDocument();
+	});
+
+	it("does not fetch the game when levelId is invalid", () => {
+		mockUseGameFetch.mockReturnValue({ currentGame: null, isLoading: false });
+
+		renderAt("/admin/games/42/levels/abc");
+
+		expect(mockUseGameFetch).toHaveBeenCalledWith(undefined);
+		expect(mockUseGameFetch).not.toHaveBeenCalledWith("42");
 	});
 
 	it("falls back to unsupportedGame for keys without an editor", () => {

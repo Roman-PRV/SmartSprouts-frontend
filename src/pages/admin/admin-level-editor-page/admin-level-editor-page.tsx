@@ -9,8 +9,8 @@ import styles from "./styles.module.css";
 const AdminLevelEditorPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { gameId, levelId } = useParams();
-	const { currentGame, isLoading } = useGameFetch(gameId);
 	const parsedLevelId = parseLevelId(levelId);
+	const { currentGame, isLoading } = useGameFetch(parsedLevelId === null ? undefined : gameId);
 
 	if (!gameId) {
 		return <AdminPageFallback message={t("admin.errors.invalidGameId")} />;
