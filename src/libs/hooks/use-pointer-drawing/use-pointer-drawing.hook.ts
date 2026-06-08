@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { type Point } from "~/libs/types/types";
@@ -59,7 +59,7 @@ const usePointerDrawing = (
 	);
 
 	const onEnd = useCallback((): void => {
-		if (!enabled || !isDrawingReference.current) {
+		if (!isDrawingReference.current) {
 			return;
 		}
 
@@ -69,7 +69,7 @@ const usePointerDrawing = (
 		inFlightReference.current = [];
 		setInFlightPoints([]);
 
-		if (captured.length > EMPTY_ARRAY_LENGTH) {
+		if (enabled && captured.length > EMPTY_ARRAY_LENGTH) {
 			onComplete?.(captured);
 		}
 	}, [enabled, onComplete]);
@@ -83,6 +83,15 @@ const usePointerDrawing = (
 		inFlightReference.current = [];
 		setInFlightPoints([]);
 	}, []);
+
+	// Auto-cancel an in-flight stroke when drawing is disabled mid-gesture.
+	useEffect(() => {
+		if (!enabled && isDrawingReference.current) {
+			isDrawingReference.current = false;
+			inFlightReference.current = [];
+			setInFlightPoints([]);
+		}
+	}, [enabled]);
 
 	const handlers = useMemo<PointerHandlers>(
 		() => ({ onCancel, onEnd, onMove, onStart }),

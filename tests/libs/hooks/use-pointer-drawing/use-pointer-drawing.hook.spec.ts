@@ -130,4 +130,70 @@ describe("usePointerDrawing", () => {
 			[150, 200],
 		]);
 	});
+
+	it("auto-cancels an in-flight stroke when enabled flips to false", () => {
+		const onComplete = vi.fn();
+		const { rerender, result } = renderHook(
+			({ enabled }) => usePointerDrawing(identityNormalize, enabled, onComplete),
+			{ initialProps: { enabled: true } }
+		);
+
+		act(() => {
+			result.current.handlers.onStart([1, 1]);
+		});
+		act(() => {
+			result.current.handlers.onMove([2, 2]);
+		});
+
+		rerender({ enabled: false });
+
+		expect(result.current.inFlightPoints).toEqual([]);
+		expect(onComplete).not.toHaveBeenCalled();
+	});
+
+	it("cleans up but does not commit when onEnd fires after disable", () => {
+		const onComplete = vi.fn();
+		const { rerender, result } = renderHook(
+			({ enabled }) => usePointerDrawing(identityNormalize, enabled, onComplete),
+			{ initialProps: { enabled: true } }
+		);
+
+		act(() => {
+			result.current.handlers.onStart([1, 1]);
+		});
+
+		rerender({ enabled: false });
+
+		act(() => {
+			result.current.handlers.onEnd();
+		});
+
+		expect(result.current.inFlightPoints).toEqual([]);
+		expect(onComplete).not.toHaveBeenCalled();
+	});
+
+	it("accepts a fresh stroke after a mid-stroke disable + re-enable cycle", () => {
+		const onComplete = vi.fn();
+		const { rerender, result } = renderHook(
+			({ enabled }) => usePointerDrawing(identityNormalize, enabled, onComplete),
+			{ initialProps: { enabled: true } }
+		);
+
+		act(() => {
+			result.current.handlers.onStart([1, 1]);
+		});
+
+		rerender({ enabled: false });
+		rerender({ enabled: true });
+
+		act(() => {
+			result.current.handlers.onStart([9, 9]);
+		});
+		act(() => {
+			result.current.handlers.onEnd();
+		});
+
+		expect(onComplete).toHaveBeenCalledTimes(1);
+		expect(onComplete).toHaveBeenCalledWith([[9, 9]]);
+	});
 });
