@@ -27,7 +27,14 @@ const usePointerDrawing = (
 ): UsePointerDrawingReturn => {
 	const isDrawingReference = useRef<boolean>(false);
 	const inFlightReference = useRef<Point[]>([]);
+	// Latest-callback ref so handler identity stays stable even when caller
+	// passes an inline `onComplete` (changing each render).
+	const onCompleteReference = useRef(onComplete);
 	const [inFlightPoints, setInFlightPoints] = useState<Point[]>([]);
+
+	useEffect(() => {
+		onCompleteReference.current = onComplete;
+	}, [onComplete]);
 
 	const onStart = useCallback(
 		(pixel: Point): void => {
@@ -70,9 +77,9 @@ const usePointerDrawing = (
 		setInFlightPoints([]);
 
 		if (enabled && captured.length > EMPTY_ARRAY_LENGTH) {
-			onComplete?.(captured);
+			onCompleteReference.current?.(captured);
 		}
-	}, [enabled, onComplete]);
+	}, [enabled]);
 
 	const onCancel = useCallback((): void => {
 		if (!isDrawingReference.current) {

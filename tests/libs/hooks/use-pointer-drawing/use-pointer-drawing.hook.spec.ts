@@ -172,6 +172,41 @@ describe("usePointerDrawing", () => {
 		expect(onComplete).not.toHaveBeenCalled();
 	});
 
+	it("keeps handlers identity stable when only onComplete reference changes", () => {
+		const { rerender, result } = renderHook(
+			({ onComplete }) => usePointerDrawing(identityNormalize, true, onComplete),
+			{ initialProps: { onComplete: vi.fn() as (points: Point[]) => void } }
+		);
+
+		const firstHandlers = result.current.handlers;
+
+		rerender({ onComplete: vi.fn() as (points: Point[]) => void });
+
+		expect(result.current.handlers).toBe(firstHandlers);
+	});
+
+	it("calls the latest onComplete reference on end after caller swaps the callback", () => {
+		const first = vi.fn();
+		const second = vi.fn();
+		const { rerender, result } = renderHook(
+			({ onComplete }) => usePointerDrawing(identityNormalize, true, onComplete),
+			{ initialProps: { onComplete: first as (points: Point[]) => void } }
+		);
+
+		act(() => {
+			result.current.handlers.onStart([1, 1]);
+		});
+
+		rerender({ onComplete: second as (points: Point[]) => void });
+
+		act(() => {
+			result.current.handlers.onEnd();
+		});
+
+		expect(first).not.toHaveBeenCalled();
+		expect(second).toHaveBeenCalledWith([[1, 1]]);
+	});
+
 	it("accepts a fresh stroke after a mid-stroke disable + re-enable cycle", () => {
 		const onComplete = vi.fn();
 		const { rerender, result } = renderHook(

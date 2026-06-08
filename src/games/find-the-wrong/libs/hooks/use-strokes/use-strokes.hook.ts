@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+import { generateClientId } from "~/libs/helpers/helpers";
 import { type Point, type Stroke } from "~/libs/types/types";
 
 type UseStrokesReturn = {
@@ -12,7 +13,7 @@ const useStrokes = (): UseStrokesReturn => {
 	const [strokes, setStrokes] = useState<Stroke[]>([]);
 
 	const addStroke = useCallback((points: Point[]): void => {
-		setStrokes((previous) => [...previous, { id: crypto.randomUUID(), points }]);
+		setStrokes((previous) => [...previous, { id: generateClientId(), points }]);
 	}, []);
 
 	const clearAll = useCallback((): void => {

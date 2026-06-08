@@ -1,6 +1,7 @@
 export { clamp01 } from "./clamp01/clamp01.helper";
 export { configureString } from "./configure-string/configure-string.helper";
 export { flattenPointsToPixels } from "./flatten-points-to-pixels/flatten-points-to-pixels.helper";
+export { generateClientId } from "./generate-client-id/generate-client-id.helper";
 export { getValidClassNames } from "./get-valid-class-names/get-valid-class-names.helper";
 export { isThunkErrorPayload } from "./is-thunk-error-payload/is-thunk-error-payload.helper";
 export { normalizeError } from "./normalize-error/normalize-error.helper";
