@@ -21,7 +21,7 @@ import {
 import { GuestRoute } from "../guest-route/guest-route";
 import { ProtectedRoute } from "../protected-route/protected-route";
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
 	{
 		children: [
 			{
@@ -80,3 +80,5 @@ export const router = createBrowserRouter([
 		element: <GuestRoute />,
 	},
 ]);
+
+export { router };

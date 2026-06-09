@@ -1,5 +1,5 @@
 type FeedbackOverlay = {
-	itemId: string;
+	itemId: number;
 	matched: boolean;
 };
 

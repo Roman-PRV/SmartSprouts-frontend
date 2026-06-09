@@ -12,7 +12,7 @@ type Properties = {
 };
 
 const PolygonOverlay: React.FC<Properties> = memo(({ coords, feedbackOverlay, polygons }) => {
-	const matchedById = useMemo<Map<string, boolean>>(
+	const matchedById = useMemo<Map<number, boolean>>(
 		() => new Map(feedbackOverlay?.map((overlay) => [overlay.itemId, overlay.matched]) ?? []),
 		[feedbackOverlay]
 	);
