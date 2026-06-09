@@ -75,13 +75,12 @@ describe("AdminLevelEditorPage", () => {
 		expect(screen.getByText(/Invalid level id/i)).toBeInTheDocument();
 	});
 
-	it("does not fetch the game when levelId is invalid", () => {
-		mockUseGameFetch.mockReturnValue({ currentGame: null, isLoading: false });
+	it("shows invalid levelId fallback before any game-load guards", () => {
+		mockUseGameFetch.mockReturnValue({ currentGame: null, isLoading: true });
 
 		renderAt("/admin/games/42/levels/abc");
 
-		expect(mockUseGameFetch).toHaveBeenCalledWith(undefined);
-		expect(mockUseGameFetch).not.toHaveBeenCalledWith("42");
+		expect(screen.getByText(/Invalid level id/i)).toBeInTheDocument();
 	});
 
 	it("falls back to unsupportedGame for keys without an editor", () => {

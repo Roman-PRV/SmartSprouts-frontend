@@ -1,4 +1,4 @@
-export { Language } from "./enums/language.enum";
+export { AVAILABLE_LANGUAGES, Language } from "./enums/language.enum";
 export { useLanguageSwitcher } from "./hooks/use-language-switcher";
 export { i18n } from "./i18n";
 export { LANGUAGE_TO_LABEL } from "./libs/constants/language.constants";

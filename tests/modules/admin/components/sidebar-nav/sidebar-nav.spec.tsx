@@ -1,12 +1,14 @@
 // @vitest-environment jsdom
 import { configureStore } from "@reduxjs/toolkit";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
 
 import { DataStatus, GameKey, type GameKeyType } from "~/libs/enums/enums";
+import { i18n } from "~/libs/modules/localization/localization";
 import { SidebarNav } from "~/modules/admin/components/sidebar-nav/sidebar-nav";
 import { reducer as gamesReducer } from "~/modules/games/games";
 
@@ -99,6 +101,29 @@ describe("SidebarNav", () => {
 		);
 
 		expect(spy).not.toHaveBeenCalled();
+
+		spy.mockRestore();
+	});
+
+	it("renders error fallback with a working retry button on REJECTED", async () => {
+		const user = userEvent.setup();
+		const store = buildStore({ games: [], gamesStatus: DataStatus.REJECTED });
+		const spy = vi.spyOn(store, "dispatch");
+
+		render(
+			<Provider store={store}>
+				<MemoryRouter>
+					<SidebarNav />
+				</MemoryRouter>
+			</Provider>
+		);
+
+		expect(screen.getByText(i18n.t("admin.nav.loadError"))).toBeInTheDocument();
+		expect(screen.queryByRole("link")).not.toBeInTheDocument();
+
+		await user.click(screen.getByRole("button", { name: i18n.t("admin.nav.retry") }));
+
+		expect(spy).toHaveBeenCalled();
 
 		spy.mockRestore();
 	});
