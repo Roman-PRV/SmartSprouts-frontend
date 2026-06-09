@@ -1,7 +1,7 @@
 import type { Point } from "./point.type";
 
 type Polygon = {
-	id: string;
+	id: number;
 	points: Point[];
 };
 

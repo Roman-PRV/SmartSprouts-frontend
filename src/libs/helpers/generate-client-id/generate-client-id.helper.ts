@@ -1,6 +1,6 @@
 const BASE36_RADIX = 36;
 const RANDOM_BYTE_COUNT = 8;
-const HEX_PAD = 2;
+const PAD_LENGTH = 2;
 const COUNTER_STEP = 1;
 
 let fallbackCounter = 0;
@@ -12,7 +12,7 @@ const generateClientId = (): string => {
 		crypto.getRandomValues(bytes);
 
 		return Array.from(bytes, (byte) =>
-			byte.toString(BASE36_RADIX).padStart(HEX_PAD, "0")
+			byte.toString(BASE36_RADIX).padStart(PAD_LENGTH, "0")
 		).join("");
 	}
 

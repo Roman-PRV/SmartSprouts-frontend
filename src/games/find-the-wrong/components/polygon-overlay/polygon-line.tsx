@@ -16,7 +16,6 @@ type Properties = {
 
 const PolygonLine: React.FC<Properties> = memo(({ coords, matched, polygon }) => {
 	const points = useMemo(() => flattenPointsToPixels(polygon.points, coords), [polygon, coords]);
-	const fill = matched ? { fill: MATCHED_FILL } : {};
 
 	return (
 		<Line
@@ -24,7 +23,7 @@ const PolygonLine: React.FC<Properties> = memo(({ coords, matched, polygon }) =>
 			points={points}
 			stroke={POLYGON_STROKE}
 			strokeWidth={POLYGON_STROKE_WIDTH}
-			{...fill}
+			{...(matched ? { fill: MATCHED_FILL } : {})}
 		/>
 	);
 });
