@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 
+import { Button, FallbackMessage } from "~/libs/components/components";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
@@ -18,18 +19,15 @@ import styles from "./styles.module.css";
 
 type ItemClassNameOptions = {
 	isActive: boolean;
-	isDisabled: boolean;
+	isDisabled?: boolean;
 };
 
-const getItemClassName = ({ isActive, isDisabled }: ItemClassNameOptions): string =>
+const getItemClassName = ({ isActive, isDisabled = false }: ItemClassNameOptions): string =>
 	getValidClassNames(
 		styles["sidebar-nav__item"],
 		isActive && styles["sidebar-nav__item--active"],
 		isDisabled && styles["sidebar-nav__item--disabled"]
 	);
-
-const getNavLinkClassName = ({ isActive }: { isActive: boolean }): string =>
-	getItemClassName({ isActive, isDisabled: false });
 
 const SidebarNav: React.FC = () => {
 	const { t } = useTranslation();
@@ -50,6 +48,7 @@ const SidebarNav: React.FC = () => {
 	useLanguageSync(fetchGames);
 
 	const isLoading = gamesStatus === DataStatus.IDLE || gamesStatus === DataStatus.PENDING;
+	const isRejected = gamesStatus === DataStatus.REJECTED;
 
 	if (isLoading) {
 		return (
@@ -64,6 +63,19 @@ const SidebarNav: React.FC = () => {
 						key={gameKey}
 					/>
 				))}
+			</nav>
+		);
+	}
+
+	if (isRejected) {
+		return (
+			<nav className={styles["sidebar-nav"]}>
+				<div className={styles["sidebar-nav__error"]}>
+					<FallbackMessage message={t("admin.nav.loadError")} />
+					<Button onClick={fetchGames} type="button" variant="secondary">
+						{t("admin.nav.retry")}
+					</Button>
+				</div>
 			</nav>
 		);
 	}
@@ -87,11 +99,7 @@ const SidebarNav: React.FC = () => {
 				}
 
 				return (
-					<NavLink
-						className={getNavLinkClassName}
-						key={gameKey}
-						to={buildAdminLevelsListUrl(game.id)}
-					>
+					<NavLink className={getItemClassName} key={gameKey} to={buildAdminLevelsListUrl(game.id)}>
 						{game.title}
 					</NavLink>
 				);

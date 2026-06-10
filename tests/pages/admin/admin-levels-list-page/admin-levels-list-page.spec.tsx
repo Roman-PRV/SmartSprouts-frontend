@@ -10,6 +10,13 @@ import { GameKey } from "~/libs/enums/enums";
 import { type GameDescriptionDto } from "~/libs/types/types";
 import { AdminLevelsListPage } from "~/pages/admin/admin-levels-list-page/admin-levels-list-page";
 
+vi.mock(
+	"~/modules/admin/games/find-the-wrong/components/find-the-wrong-levels-list-section/find-the-wrong-levels-list-section",
+	() => ({
+		FindTheWrongLevelsListSection: () => <h2>Find the wrong levels</h2>,
+	})
+);
+
 type UseGameFetchReturn = {
 	currentGame: GameDescriptionDto | null;
 	isLoading: boolean;

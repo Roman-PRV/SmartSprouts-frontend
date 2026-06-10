@@ -10,7 +10,7 @@ const AdminLevelEditorPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { gameId, levelId } = useParams();
 	const parsedLevelId = parseLevelId(levelId);
-	const { currentGame, isLoading } = useGameFetch(parsedLevelId === null ? undefined : gameId);
+	const { currentGame, isLoading } = useGameFetch(gameId);
 
 	if (!gameId) {
 		return <AdminPageFallback message={t("admin.errors.invalidGameId")} />;

@@ -53,3 +53,10 @@
 	border-radius: var(--border-radius-sm);
 	opacity: 0.5;
 }
+
+.sidebar-nav__error {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	align-items: stretch;
+}

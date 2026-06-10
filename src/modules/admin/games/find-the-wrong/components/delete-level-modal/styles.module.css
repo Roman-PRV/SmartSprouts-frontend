@@ -1,0 +1,11 @@
+.body {
+	margin: 0 0 var(--spacing-md);
+	font-size: var(--font-size-sm);
+	color: var(--color-text-1);
+}
+
+.actions {
+	display: flex;
+	gap: var(--spacing-sm);
+	justify-content: flex-end;
+}

@@ -7,3 +7,31 @@ if (typeof navigator !== "undefined") {
 if (typeof Element !== "undefined") {
 	Element.prototype.scrollIntoView = vi.fn();
 }
+
+if (typeof HTMLDialogElement !== "undefined") {
+	const proto = HTMLDialogElement.prototype;
+
+	if (typeof proto.showModal !== "function") {
+		proto.showModal = function showModal(this: HTMLDialogElement): void {
+			this.setAttribute("open", "");
+		};
+	}
+
+	if (typeof proto.show !== "function") {
+		proto.show = function show(this: HTMLDialogElement): void {
+			this.setAttribute("open", "");
+		};
+	}
+
+	if (typeof proto.close !== "function") {
+		proto.close = function close(this: HTMLDialogElement, returnValue?: string): void {
+			this.removeAttribute("open");
+
+			if (returnValue !== undefined) {
+				this.returnValue = returnValue;
+			}
+
+			this.dispatchEvent(new Event("close"));
+		};
+	}
+}
