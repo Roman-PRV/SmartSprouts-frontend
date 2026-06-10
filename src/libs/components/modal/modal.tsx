@@ -1,9 +1,7 @@
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback, useEffect, useRef, useTranslation } from "~/libs/hooks/hooks";
+import { useCallback, useEffect, useId, useRef, useTranslation } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
-
-const TITLE_ID = "modal-title";
 
 type Properties = {
 	children: React.ReactNode;
@@ -15,6 +13,7 @@ type Properties = {
 
 const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, title }) => {
 	const { t } = useTranslation();
+	const titleId = useId();
 	const dialogReference = useRef<HTMLDialogElement>(null);
 
 	useEffect(() => {
@@ -57,14 +56,14 @@ const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, tit
 
 	return (
 		<dialog
-			aria-labelledby={title ? TITLE_ID : undefined}
+			aria-labelledby={title ? titleId : undefined}
 			className={getValidClassNames(styles["modal"], className)}
 			onClose={onClose}
 			ref={dialogReference}
 		>
 			{title && (
 				<header className={styles["modal__header"]}>
-					<h2 className={styles["modal__title"]} id={TITLE_ID}>
+					<h2 className={styles["modal__title"]} id={titleId}>
 						{title}
 					</h2>
 					<button
