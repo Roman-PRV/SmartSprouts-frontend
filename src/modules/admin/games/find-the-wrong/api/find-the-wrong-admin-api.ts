@@ -45,12 +45,16 @@ class FindTheWrongAdminApi extends BaseHTTPApi {
 		});
 	}
 
-	public async getLevelsList(gameId: string): Promise<FindTheWrongAdminLevelDto[]> {
+	public async getLevelsList(
+		gameId: string,
+		signal?: AbortSignal
+	): Promise<FindTheWrongAdminLevelDto[]> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
 		const response = await this.load(url, {
 			hasAuth: true,
 			method: HTTPMethod.GET,
+			...(signal && { signal }),
 		});
 
 		return await response.json<FindTheWrongAdminLevelDto[]>();

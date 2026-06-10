@@ -11,11 +11,11 @@ type DeleteLevelArgument = { gameId: string; levelId: number };
 
 const getLevelsList = createAsyncThunk<FindTheWrongAdminLevelDto[], string, AsyncThunkConfig>(
 	`${sliceName}/get-levels-list`,
-	async (gameId, { extra, rejectWithValue }) => {
+	async (gameId, { extra, rejectWithValue, signal }) => {
 		try {
 			const { findTheWrongAdminApi } = extra;
 
-			return await findTheWrongAdminApi.getLevelsList(gameId);
+			return await findTheWrongAdminApi.getLevelsList(gameId, signal);
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
