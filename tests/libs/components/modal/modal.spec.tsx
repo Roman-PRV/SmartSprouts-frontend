@@ -82,4 +82,21 @@ describe("Modal", () => {
 
 		expect(onClose).toHaveBeenCalledTimes(1);
 	});
+
+	it("does not call onClose when consumer flips isOpen prop from true to false", () => {
+		const onClose = vi.fn();
+		const { rerender } = render(
+			<Modal isOpen onClose={onClose} title="Controlled">
+				<p>Body</p>
+			</Modal>
+		);
+
+		rerender(
+			<Modal isOpen={false} onClose={onClose} title="Controlled">
+				<p>Body</p>
+			</Modal>
+		);
+
+		expect(onClose).not.toHaveBeenCalled();
+	});
 });

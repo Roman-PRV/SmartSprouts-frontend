@@ -15,6 +15,7 @@ const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, tit
 	const { t } = useTranslation();
 	const titleId = useId();
 	const dialogReference = useRef<HTMLDialogElement>(null);
+	const isClosingFromPropertyReference = useRef(false);
 
 	useEffect(() => {
 		const dialog = dialogReference.current;
@@ -26,6 +27,7 @@ const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, tit
 		if (isOpen && !dialog.open) {
 			dialog.showModal();
 		} else if (!isOpen && dialog.open) {
+			isClosingFromPropertyReference.current = true;
 			dialog.close();
 		}
 	}, [isOpen]);
@@ -54,11 +56,21 @@ const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, tit
 		dialogReference.current?.close();
 	}, []);
 
+	const handleDialogClose = useCallback(() => {
+		if (isClosingFromPropertyReference.current) {
+			isClosingFromPropertyReference.current = false;
+
+			return;
+		}
+
+		onClose();
+	}, [onClose]);
+
 	return (
 		<dialog
 			aria-labelledby={title ? titleId : undefined}
 			className={getValidClassNames(styles["modal"], className)}
-			onClose={onClose}
+			onClose={handleDialogClose}
 			ref={dialogReference}
 		>
 			{title && (
