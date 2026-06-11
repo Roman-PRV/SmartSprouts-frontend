@@ -74,6 +74,7 @@ const Input = forwardRef<HTMLInputElement, InputProperties>(
 			onChange,
 			placeholder,
 			required = false,
+			size = "md",
 			type = "text",
 			value,
 		},
@@ -87,12 +88,14 @@ const Input = forwardRef<HTMLInputElement, InputProperties>(
 
 		const wrapperClasses = getValidClassNames(
 			styles["input-wrapper"],
+			styles[`input-wrapper--${size}`],
 			disabled && styles["input-wrapper--disabled"],
 			className
 		);
 
 		const inputClasses = getValidClassNames(
 			styles["input"],
+			styles[`input--${size}`],
 			hasError && styles["input--error"],
 			disabled && styles["input--disabled"],
 			iconLeft && styles["input--with-icon-left"],

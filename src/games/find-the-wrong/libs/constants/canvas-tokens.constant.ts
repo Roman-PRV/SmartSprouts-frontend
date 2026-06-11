@@ -1,0 +1,29 @@
+const CANVAS_HANDLE = {
+	RADIUS: 6,
+	STROKE: "rgba(0, 0, 0, 0.85)",
+	STROKE_WIDTH: 1,
+} as const;
+
+const CANVAS_INSERT_HANDLE = {
+	ICON_HALF_LENGTH: 3,
+	ICON_STROKE_WIDTH: 1.5,
+	RADIUS: 7,
+} as const;
+
+const CANVAS_POLYGON = {
+	STROKE_WIDTH_ACTIVE: 3,
+	STROKE_WIDTH_DEFAULT: 2,
+} as const;
+
+const CANVAS_PALETTE = {
+	ACTIVE_FILL: "rgba(255, 215, 0, 0.12)",
+	ACTIVE_STROKE: "rgba(255, 215, 0, 0.95)",
+	DRAWING_STROKE: "rgba(0, 200, 255, 0.95)",
+	IDLE_STROKE: "rgba(255, 255, 255, 0.6)",
+	INSERT_BACKDROP: "rgba(255, 255, 255, 0.9)",
+	MATCHED_FILL: "rgba(0, 200, 0, 0.3)",
+	PLAYER_STROKE: "rgba(255, 255, 255, 0.85)",
+	TRANSPARENT: "rgba(0, 0, 0, 0)",
+} as const;
+
+export { CANVAS_HANDLE, CANVAS_INSERT_HANDLE, CANVAS_PALETTE, CANVAS_POLYGON };

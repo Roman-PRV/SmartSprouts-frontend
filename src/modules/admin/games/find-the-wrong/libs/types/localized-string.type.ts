@@ -1,7 +1,5 @@
-type LocalizedString = {
-	en: string;
-	es: string;
-	uk: string;
-};
+import { type Language } from "~/libs/modules/localization/localization";
+
+type LocalizedString = Record<Language, string>;
 
 export type { LocalizedString };

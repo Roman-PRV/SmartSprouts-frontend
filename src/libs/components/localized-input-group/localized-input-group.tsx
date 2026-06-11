@@ -12,6 +12,7 @@ type Properties<TFieldValues extends FieldValues> = Readonly<{
 	getPlaceholder?: (lang: Language) => string;
 	register: UseFormRegister<TFieldValues>;
 	required?: boolean;
+	size?: "md" | "sm";
 }>;
 
 /**
@@ -26,6 +27,7 @@ function LocalizedInputGroup<TFieldValues extends FieldValues>({
 	getPlaceholder,
 	register,
 	required = false,
+	size = "md",
 }: Properties<TFieldValues>): React.ReactElement {
 	const { t } = useTranslation();
 
@@ -40,6 +42,7 @@ function LocalizedInputGroup<TFieldValues extends FieldValues>({
 						key={lang}
 						label={getLabel(lang)}
 						required={required}
+						size={size}
 						{...(getPlaceholder && { placeholder: getPlaceholder(lang) })}
 						{...register(`${fieldName}.${lang}` as FieldPath<TFieldValues>)}
 					/>

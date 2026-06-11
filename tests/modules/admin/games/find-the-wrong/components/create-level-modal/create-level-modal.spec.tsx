@@ -47,8 +47,9 @@ const setup = (createdLevel?: FindTheWrongAdminLevelDto): Setup => {
 		preloadedState: {
 			findTheWrongAdmin: {
 				currentLevel: null,
-				error: null,
+				levelError: null,
 				levelsList: [],
+				listError: null,
 				listStatus: DataStatus.IDLE,
 				loadStatus: DataStatus.IDLE,
 			},

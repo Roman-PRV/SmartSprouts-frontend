@@ -47,6 +47,16 @@
 		background-color 0.2s ease;
 }
 
+/* Size: small */
+.input--sm {
+	padding: 8px 12px;
+	font-size: 0.875rem;
+}
+
+.input-wrapper--sm .input-label {
+	font-size: 0.75rem;
+}
+
 .input::placeholder {
 	color: var(--color-text-2);
 	opacity: 1;
@@ -139,6 +149,10 @@
 	font-size: 0.8125rem;
 	font-weight: 500;
 	color: var(--color-accent-1);
+}
+
+.input-wrapper--sm .input-error {
+	font-size: 0.75rem;
 }
 
 /* Modifier: input-wrapper--disabled */

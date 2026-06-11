@@ -4,9 +4,7 @@ import { Line } from "react-konva";
 import { flattenPointsToPixels } from "~/libs/helpers/helpers";
 import { type CanvasCoordsApi, type Polygon } from "~/libs/types/types";
 
-const POLYGON_STROKE = "rgba(255, 255, 255, 0.85)";
-const POLYGON_STROKE_WIDTH = 2;
-const MATCHED_FILL = "rgba(0, 200, 0, 0.3)";
+import { CANVAS_PALETTE, CANVAS_POLYGON } from "../../libs/constants/constants";
 
 type Properties = {
 	coords: CanvasCoordsApi;
@@ -21,9 +19,9 @@ const PolygonLine: React.FC<Properties> = memo(({ coords, matched, polygon }) =>
 		<Line
 			closed
 			points={points}
-			stroke={POLYGON_STROKE}
-			strokeWidth={POLYGON_STROKE_WIDTH}
-			{...(matched ? { fill: MATCHED_FILL } : {})}
+			stroke={CANVAS_PALETTE.PLAYER_STROKE}
+			strokeWidth={CANVAS_POLYGON.STROKE_WIDTH_DEFAULT}
+			{...(matched ? { fill: CANVAS_PALETTE.MATCHED_FILL } : {})}
 		/>
 	);
 });
