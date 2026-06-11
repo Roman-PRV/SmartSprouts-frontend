@@ -52,6 +52,7 @@ const admin = {
 		editor: {
 			addNewItem: "Add new item",
 			drawingHint: "Click to add vertices. {{count}} placed (need at least 3).",
+			emptyItems: "No items yet. Use \"Add new item\" to create the first one.",
 			fields: {
 				image: {
 					currentFile: "Current file: {{name}}",

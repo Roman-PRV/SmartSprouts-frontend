@@ -52,6 +52,7 @@ const admin = {
 		editor: {
 			addNewItem: "Añadir objeto",
 			drawingHint: "Haz clic para añadir vértices. {{count}} colocados (mínimo 3).",
+			emptyItems: "Aún no hay objetos. Usa \"Añadir objeto\" para crear el primero.",
 			fields: {
 				image: {
 					currentFile: "Archivo actual: {{name}}",

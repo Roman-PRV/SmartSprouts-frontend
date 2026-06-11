@@ -66,7 +66,7 @@ const ItemsAdminPanel: React.FC<Properties> = ({
 				</h3>
 			</header>
 			{items.length === EMPTY_ITEMS_COUNT ? (
-				<FallbackMessage message={t("admin.findTheWrong.emptyList")} />
+				<FallbackMessage message={t("admin.findTheWrong.editor.emptyItems")} />
 			) : (
 				<ul className={styles["panel__list"]}>
 					{items.map((item, index) => (
