@@ -72,12 +72,22 @@ type InputProperties = {
 	/** Whether the input is required (adds visual indicator and aria-required) */
 	required?: boolean;
 
+	/** Size variant of the input. Defaults to "md" */
+	size?: InputSize;
+
 	/** Type of the input field. Defaults to "text" */
 	type?: InputType;
 
 	/** Current value of the input */
 	value?: string;
 };
+
+/**
+ * Size variants for the Input component.
+ * - `sm`: Compact input with reduced padding and font size (admin / dense forms)
+ * - `md`: Default size for primary forms
+ */
+type InputSize = "md" | "sm";
 
 /**
  * Supported input types for the Input component.

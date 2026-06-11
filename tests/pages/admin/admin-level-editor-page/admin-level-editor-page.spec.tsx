@@ -26,6 +26,21 @@ vi.mock("~/libs/hooks/hooks", async (importOriginal) => {
 	};
 });
 
+const editorSectionTestId = "editor-section-stub";
+
+vi.mock("~/modules/admin/libs/constants/admin-games-registry.constants", () => ({
+	ADMIN_GAMES_REGISTRY: [
+		{
+			EditorSection: ({ levelId }: { levelId: number }): React.ReactElement => (
+				<div data-testid={editorSectionTestId}>{`Editor: level ${String(levelId)}`}</div>
+			),
+			gameKey: "find_the_wrong" as const,
+			labelKey: "admin.nav.findTheWrong",
+			LevelsListSection: (): React.ReactElement => <div />,
+		},
+	],
+}));
+
 const buildGame = (key: string): GameDescriptionDto => ({
 	description: "Find the wrong description",
 	icon_url: "",
@@ -61,7 +76,7 @@ describe("AdminLevelEditorPage", () => {
 
 		renderAt("/admin/games/42/levels/7");
 
-		expect(screen.getByRole("heading", { name: /Editor: level 7/i })).toBeInTheDocument();
+		expect(screen.getByTestId(editorSectionTestId)).toHaveTextContent(/Editor: level 7/i);
 	});
 
 	it("rejects non-numeric levelId before fetching game", () => {

@@ -49,7 +49,71 @@ const admin = {
 			error: "Failed to delete the level. Please try again.",
 			success: "Level deleted.",
 		},
+		editor: {
+			addNewItem: "Add new item",
+			drawingHint: "Click to add vertices. {{count}} placed (need at least 3).",
+			fields: {
+				image: {
+					currentFile: "Current file: {{name}}",
+					hint: "JPEG, PNG or WebP, up to {{maxMb}} MB",
+					label: "Background image (optional)",
+				},
+			},
+			finishPolygon: "Finish polygon",
+			itemsHeading: "Items",
+			loadError: "Failed to load the level. Please try again.",
+			noImageHint: "Upload a background image to start drawing items.",
+			retry: "Retry",
+			saveLevel: "Save level",
+			title: "Edit level",
+			updateError: "Failed to save the level. Please try again.",
+			updateSuccess: "Level updated.",
+		},
 		emptyList: "No levels yet. Create the first one to get started.",
+		item: {
+			actions: {
+				cancelDrawing: "Cancel drawing",
+				delete: "Delete",
+				edit: "Edit",
+				save: "Save",
+			},
+			create: {
+				cancel: "Cancel",
+				error: "Failed to create the item. Please try again.",
+				modalTitle: "Create item",
+				submit: "Create item",
+				success: "Item created.",
+			},
+			delete: {
+				cancel: "Cancel",
+				confirmBody: "Item “{{name}}” will be permanently removed.",
+				confirmCta: "Delete",
+				confirmTitle: "Delete item",
+				error: "Failed to delete the item. Please try again.",
+				success: "Item deleted.",
+			},
+			fields: {
+				explanation: {
+					en: { label: "Explanation (English)" },
+					es: { label: "Explanation (Spanish)" },
+					uk: { label: "Explanation (Ukrainian)" },
+				},
+				name: {
+					en: { label: "Name (English)" },
+					es: { label: "Name (Spanish)" },
+					uk: { label: "Name (Ukrainian)" },
+				},
+			},
+			update: {
+				error: "Failed to update the item. Please try again.",
+				success: "Item updated.",
+			},
+			validation: {
+				nameRequired: "Name is required.",
+				polygonMinPoints: "Polygon needs at least 3 points.",
+				tooLong: "Up to {{max}} characters allowed.",
+			},
+		},
 		list: {
 			actions: {
 				delete: "Delete",

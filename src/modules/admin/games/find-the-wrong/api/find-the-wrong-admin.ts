@@ -11,4 +11,15 @@ const findTheWrongAdminApi = new FindTheWrongAdminApi({
 });
 
 export { findTheWrongAdminApi };
-export { actions, createLevel, deleteLevel, getLevelsList, reducer } from "./slices/find-the-wrong-admin";
+export {
+	actions,
+	createItem,
+	createLevel,
+	deleteItem,
+	deleteLevel,
+	getLevel,
+	getLevelsList,
+	reducer,
+	updateItem,
+	updateLevel,
+} from "./slices/find-the-wrong-admin";

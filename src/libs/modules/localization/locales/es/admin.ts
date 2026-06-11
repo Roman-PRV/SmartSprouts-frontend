@@ -49,7 +49,71 @@ const admin = {
 			error: "No se pudo eliminar el nivel. Inténtalo de nuevo.",
 			success: "Nivel eliminado.",
 		},
+		editor: {
+			addNewItem: "Añadir objeto",
+			drawingHint: "Haz clic para añadir vértices. {{count}} colocados (mínimo 3).",
+			fields: {
+				image: {
+					currentFile: "Archivo actual: {{name}}",
+					hint: "JPEG, PNG o WebP, hasta {{maxMb}} MB",
+					label: "Imagen de fondo (opcional)",
+				},
+			},
+			finishPolygon: "Finalizar objeto",
+			itemsHeading: "Objetos",
+			loadError: "No se pudo cargar el nivel. Inténtalo de nuevo.",
+			noImageHint: "Sube una imagen de fondo para empezar a dibujar objetos.",
+			retry: "Reintentar",
+			saveLevel: "Guardar nivel",
+			title: "Editar nivel",
+			updateError: "No se pudo guardar el nivel. Inténtalo de nuevo.",
+			updateSuccess: "Nivel actualizado.",
+		},
 		emptyList: "Aún no hay niveles. Crea el primero para comenzar.",
+		item: {
+			actions: {
+				cancelDrawing: "Cancelar dibujo",
+				delete: "Eliminar",
+				edit: "Editar",
+				save: "Guardar",
+			},
+			create: {
+				cancel: "Cancelar",
+				error: "No se pudo crear el objeto. Inténtalo de nuevo.",
+				modalTitle: "Crear objeto",
+				submit: "Crear objeto",
+				success: "Objeto creado.",
+			},
+			delete: {
+				cancel: "Cancelar",
+				confirmBody: "El objeto “{{name}}” se eliminará de forma permanente.",
+				confirmCta: "Eliminar",
+				confirmTitle: "Eliminar objeto",
+				error: "No se pudo eliminar el objeto. Inténtalo de nuevo.",
+				success: "Objeto eliminado.",
+			},
+			fields: {
+				explanation: {
+					en: { label: "Explicación (inglés)" },
+					es: { label: "Explicación (español)" },
+					uk: { label: "Explicación (ucraniano)" },
+				},
+				name: {
+					en: { label: "Nombre (inglés)" },
+					es: { label: "Nombre (español)" },
+					uk: { label: "Nombre (ucraniano)" },
+				},
+			},
+			update: {
+				error: "No se pudo actualizar el objeto. Inténtalo de nuevo.",
+				success: "Objeto actualizado.",
+			},
+			validation: {
+				nameRequired: "El nombre es obligatorio.",
+				polygonMinPoints: "El polígono debe tener al menos 3 puntos.",
+				tooLong: "Máximo {{max}} caracteres.",
+			},
+		},
 		list: {
 			actions: {
 				delete: "Eliminar",
