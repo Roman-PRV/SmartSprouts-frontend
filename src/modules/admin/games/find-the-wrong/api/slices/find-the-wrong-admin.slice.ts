@@ -84,10 +84,16 @@ const { actions, name, reducer } = createSlice({
 		});
 
 		builder.addCase(updateLevel.fulfilled, (state, action) => {
+			if (action.payload.items !== undefined) {
+				state.currentLevel = action.payload;
+
+				return;
+			}
+
 			const previousItems = state.currentLevel?.items;
 
 			state.currentLevel = previousItems
-				? { ...action.payload, items: previousItems, items_count: previousItems.length }
+				? { ...action.payload, items: previousItems }
 				: action.payload;
 		});
 

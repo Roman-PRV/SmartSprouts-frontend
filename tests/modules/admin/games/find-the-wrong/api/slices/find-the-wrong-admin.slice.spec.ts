@@ -283,19 +283,38 @@ describe("find-the-wrong-admin slice", () => {
 			expect(state.currentLevel).toEqual(payload);
 		});
 
-		it("preserves existing items when the response omits them", () => {
+		it("preserves existing items when the response omits them, keeps server items_count", () => {
 			const item1 = sampleItem(1);
 			const item2 = sampleItem(2);
 			const seeded = {
 				...initialState,
 				currentLevel: { ...sampleLevel(1), items: [item1, item2], items_count: 2 },
 			};
-			const payload = { ...sampleLevel(1), image_url: "/updated.png" };
+			const payload = { ...sampleLevel(1), image_url: "/updated.png", items_count: 2 };
 			const state = reducer(seeded, { payload, type: updateLevel.fulfilled.type });
 
 			expect(state.currentLevel?.items).toEqual([item1, item2]);
 			expect(state.currentLevel?.items_count).toBe(2);
 			expect(state.currentLevel?.image_url).toBe("/updated.png");
+		});
+
+		it("trusts server payload fully when items are present", () => {
+			const localItem = sampleItem(1);
+			const serverItem = sampleItem(99);
+			const seeded = {
+				...initialState,
+				currentLevel: { ...sampleLevel(1), items: [localItem], items_count: 1 },
+			};
+			const payload = {
+				...sampleLevel(1),
+				image_url: "/updated.png",
+				items: [serverItem],
+				items_count: 1,
+			};
+			const state = reducer(seeded, { payload, type: updateLevel.fulfilled.type });
+
+			expect(state.currentLevel?.items).toEqual([serverItem]);
+			expect(state.currentLevel?.items_count).toBe(1);
 		});
 	});
 
