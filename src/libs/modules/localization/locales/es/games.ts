@@ -4,6 +4,25 @@ const games = {
 		invalidId: "ID de juego no válido o ausente.",
 		notFound: "Contenido del juego no encontrado.",
 	},
+	findTheWrong: {
+		actions: {
+			back: "Volver a los niveles",
+			clear: "Borrar",
+			done: "Listo",
+			playAgain: "Jugar de nuevo",
+		},
+		error: {
+			load: "Error al cargar el nivel. Por favor, inténtalo de nuevo.",
+			noImage: "Este nivel no tiene imagen.",
+			notFound: "Nivel no encontrado.",
+			submit: "Error al enviar tu intento. Por favor, inténtalo de nuevo.",
+		},
+		result: {
+			foundSection: "Encontrados",
+			missedSection: "Omitidos",
+			scoreSummary: "{{score}} de {{total}} encontrados",
+		},
+	},
 	level: {
 		errorTitle: "Error",
 		invalidId: "ID de nivel no válido o ausente.",

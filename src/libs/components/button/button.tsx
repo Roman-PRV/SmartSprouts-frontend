@@ -5,44 +5,7 @@ import { useCallback } from "~/libs/hooks/hooks";
 import styles from "./styles.module.css";
 import { type ButtonProperties } from "./types";
 
-/**
- * Universal Button component with consistent styling, behavior, and accessibility.
- *
- * Features:
- * - Multiple variants (primary, secondary, danger, ghost)
- * - Three sizes (sm, md, lg)
- * - Loading state with spinner
- * - Icon support (left and right)
- * - Full accessibility (ARIA attributes, keyboard navigation)
- * - Responsive design
- * @example
- * ```tsx
- * // Basic usage
- * <Button variant="primary" onClick={handleSubmit}>
- *   Submit
- * </Button>
- *
- * // With icons
- * <Button variant="secondary" iconLeft="login">
- *   Sign In
- * </Button>
- *
- * // Loading state
- * <Button variant="primary" isLoading>
- *   Processing...
- * </Button>
- *
- * // Full width
- * <Button variant="primary" fullWidth>
- *   Continue
- * </Button>
- *
- * // Form submit button
- * <Button type="submit" variant="primary" disabled={!isValid}>
- *   Save Changes
- * </Button>
- * ```
- */
+/** Universal button; `isLoading` shows a spinner and suppresses `onClick`, like `disabled`. */
 const Button: React.FC<ButtonProperties> = ({
 	children,
 	className = "",

@@ -123,7 +123,9 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			</Button>
 
 			{hasSubmitError && (
-				<div className={styles["level-card__error"]}>{t("games.trueFalse.error.check")}</div>
+				<div className={styles["level-card__error"]} role="alert">
+					{t("games.trueFalse.error.check")}
+				</div>
 			)}
 
 			<div className={styles["level-card__actions"]}>

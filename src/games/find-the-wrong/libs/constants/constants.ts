@@ -5,6 +5,8 @@ export {
 	CANVAS_POLYGON,
 } from "./canvas-tokens.constant";
 export {
+	CLOSURE_GAP_RATIO,
+	IOU_FOUND_THRESHOLD,
 	IOU_THREE_STARS,
 	IOU_TWO_STARS,
 	MIN_STROKE_POINTS_FOR_IOU,

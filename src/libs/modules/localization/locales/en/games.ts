@@ -4,6 +4,25 @@ const games = {
 		invalidId: "Invalid or missing game ID.",
 		notFound: "Game content not found.",
 	},
+	findTheWrong: {
+		actions: {
+			back: "Back to levels",
+			clear: "Clear",
+			done: "Done",
+			playAgain: "Play again",
+		},
+		error: {
+			load: "Failed to load the level. Please try again.",
+			noImage: "This level has no image.",
+			notFound: "Level not found.",
+			submit: "Failed to submit your attempt. Please try again.",
+		},
+		result: {
+			foundSection: "Found",
+			missedSection: "Missed",
+			scoreSummary: "{{score}} of {{total}} found",
+		},
+	},
 	level: {
 		errorTitle: "Error",
 		invalidId: "Invalid or missing level ID.",

@@ -1,6 +1,7 @@
 import { type FieldPath, type FieldValues, type UseFormRegister } from "react-hook-form";
 
 import { Input } from "~/libs/components/input/input";
+import { type InputSize } from "~/libs/components/input/types";
 import { useTranslation } from "~/libs/hooks/hooks";
 import { AVAILABLE_LANGUAGES, type Language } from "~/libs/modules/localization/localization";
 
@@ -12,7 +13,7 @@ type Properties<TFieldValues extends FieldValues> = Readonly<{
 	getPlaceholder?: (lang: Language) => string;
 	register: UseFormRegister<TFieldValues>;
 	required?: boolean;
-	size?: "md" | "sm";
+	size?: InputSize;
 }>;
 
 /**

@@ -4,6 +4,25 @@ const games = {
 		invalidId: "Недійсний або відсутній ID гри.",
 		notFound: "Контент гри не знайдено.",
 	},
+	findTheWrong: {
+		actions: {
+			back: "До рівнів",
+			clear: "Очистити",
+			done: "Готово",
+			playAgain: "Грати ще раз",
+		},
+		error: {
+			load: "Помилка при завантаженні рівня. Будь ласка, спробуйте ще раз.",
+			noImage: "У цього рівня немає зображення.",
+			notFound: "Рівень не знайдено.",
+			submit: "Не вдалося надіслати відповідь. Будь ласка, спробуйте ще раз.",
+		},
+		result: {
+			foundSection: "Знайдено",
+			missedSection: "Пропущено",
+			scoreSummary: "Знайдено {{score}} з {{total}}",
+		},
+	},
 	level: {
 		errorTitle: "Помилка",
 		invalidId: "Недійсний або відсутній ID рівня.",
