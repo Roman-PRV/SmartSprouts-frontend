@@ -35,7 +35,7 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 		void handleSubmit();
 	}, [handleSubmit]);
 
-	if (status === DataStatus.PENDING) {
+	if (status === DataStatus.PENDING || status === DataStatus.IDLE) {
 		return <Loader variant="overlay" />;
 	}
 
