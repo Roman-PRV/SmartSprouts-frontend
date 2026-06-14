@@ -2,6 +2,7 @@ export { AudioPlayButton } from "./audio-play-button/audio-play-button";
 export { Button } from "./button/button";
 export { Dropdown } from "./dropdown/dropdown";
 export { FallbackMessage } from "./fallback-message/fallback-message";
+export { FindTheWrongLevelCard } from "./find-the-wrong-level-card/find-the-wrong-level-card";
 export { Footer } from "./footer/footer";
 export { Header } from "./header/header";
 export { Icon } from "./icon/icon";

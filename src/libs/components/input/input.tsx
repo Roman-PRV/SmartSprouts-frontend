@@ -6,59 +6,7 @@ import { getValidClassNames } from "~/libs/helpers/helpers";
 import styles from "./styles.module.css";
 import { type InputProperties } from "./types";
 
-/**
- * Universal Input component with consistent styling, validation states, and behavior.
- *
- * Features:
- * - Multiple input types (text, email, password, number, search)
- * - Visual states (default, focus, error, disabled)
- * - Icon support (left and right)
- * - Full accessibility (ARIA attributes, label association)
- * - Error message display
- * - Responsive design
- * @example
- * // Basic usage
- * <Input
- *   label="Username"
- *   name="username"
- *   placeholder="Enter your username"
- *   onChange={(e) => console.log(e.target.value)}
- * />
- * @example
- * // With react-hook-form
- * const { register, formState: { errors } } = useForm();
- * <Input
- *   label="Email"
- *   type="email"
- *   error={errors.email?.message}
- *   {...register("email")}
- * />
- * @example
- * // With validation error
- * <Input
- *   label="Username"
- *   name="username"
- *   value="invalid"
- *   error="Username already taken"
- * />
- * @example
- * // With icons
- * <Input
- *   label="Search"
- *   name="search"
- *   iconLeft="search"
- *   iconRight="close"
- *   placeholder="Search..."
- * />
- * @example
- * // Password input
- * <Input
- *   type="password"
- *   label="Password"
- *   name="password"
- *   placeholder="Enter password"
- * />
- */
+/** Universal text input; forwards its ref so it pairs with react-hook-form's `register`. */
 const Input = forwardRef<HTMLInputElement, InputProperties>(
 	(
 		{

@@ -3,6 +3,7 @@ export { useAppSelector } from "./use-app-selector/use-app-selector.hook";
 export { useAudioPlayer } from "./use-audio-player/use-audio-player.hook";
 export { useStopAudioOnUnmount } from "./use-audio-player/use-stop-audio-on-unmount.hook";
 export { useContainerSize } from "./use-container-size/use-container-size.hook";
+export { useFindTheWrongGame } from "./use-find-the-wrong-game/use-find-the-wrong-game.hook";
 export { useFitStageSize } from "./use-fit-stage-size/use-fit-stage-size.hook";
 export { useFormSubmit } from "./use-form-submit/use-form-submit.hook";
 export { useGameFetch } from "./use-game-fetch/use-game-fetch.hook";

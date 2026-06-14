@@ -1,50 +1,24 @@
-import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
-import {
-	pointInPolygon,
-	polygonIoU,
-	segmentCrossesPolygon,
-} from "~/libs/helpers/helpers";
+import { polygonIoU } from "~/libs/helpers/helpers";
 import { type Point, type Stroke } from "~/libs/types/types";
 
 import {
+	CLOSURE_GAP_RATIO,
+	IOU_FOUND_THRESHOLD,
 	IOU_THREE_STARS,
 	IOU_TWO_STARS,
 	MIN_STROKE_POINTS_FOR_IOU,
 } from "../../constants/constants";
-import {
-	type MatchableItem,
-	type MatchedItem,
-	type MatchResult,
-} from "../../types/types";
+import { type MatchableItem, type MatchedItem, type MatchResult } from "../../types/types";
 
+const FIRST_POINT_INDEX = 0;
+const LAST_POINT_OFFSET = 1;
+const X = 0;
+const Y = 1;
 const ZERO_IOU = 0;
-const NEXT_POINT_OFFSET = 1;
-const MIN_STARS = 1;
+const ZERO_LENGTH = 0;
+const ONE_STAR = 1;
 const TWO_STARS = 2;
 const THREE_STARS = 3;
-
-const strokeHitsPolygon = (stroke: Stroke, polygon: Point[]): boolean => {
-	for (const point of stroke.points) {
-		if (pointInPolygon(point, polygon)) {
-			return true;
-		}
-	}
-
-	for (let index = 0; index + NEXT_POINT_OFFSET < stroke.points.length; index++) {
-		const current = stroke.points[index];
-		const next = stroke.points[index + NEXT_POINT_OFFSET];
-
-		if (current === undefined || next === undefined) {
-			continue;
-		}
-
-		if (segmentCrossesPolygon(current, next, polygon)) {
-			return true;
-		}
-	}
-
-	return false;
-};
 
 const starsForIoU = (iou: number): number => {
 	if (iou >= IOU_THREE_STARS) {
@@ -55,18 +29,60 @@ const starsForIoU = (iou: number): number => {
 		return TWO_STARS;
 	}
 
-	return MIN_STARS;
+	return ONE_STAR;
 };
 
-const findBestIoU = (hittingStrokes: Stroke[], polygon: Point[]): number => {
+/**
+ * A stroke is a closed loop when its endpoints meet up: the gap between the
+ * first and last point is at most `CLOSURE_GAP_RATIO` of the stroke's
+ * bounding-box diagonal. Open lines and arcs (endpoints far apart) fail this,
+ * so auto-closing them into a spurious area polygon can't produce a match.
+ */
+const isClosedLoop = (points: Point[]): boolean => {
+	const first = points[FIRST_POINT_INDEX];
+	const last = points[points.length - LAST_POINT_OFFSET];
+
+	if (!first || !last) {
+		return false;
+	}
+
+	let minX = first[X];
+	let minY = first[Y];
+	let maxX = first[X];
+	let maxY = first[Y];
+
+	for (const [x, y] of points) {
+		minX = Math.min(minX, x);
+		minY = Math.min(minY, y);
+		maxX = Math.max(maxX, x);
+		maxY = Math.max(maxY, y);
+	}
+
+	const diagonal = Math.hypot(maxX - minX, maxY - minY);
+
+	if (diagonal <= ZERO_LENGTH) {
+		return false;
+	}
+
+	const gap = Math.hypot(last[X] - first[X], last[Y] - first[Y]);
+
+	return gap <= CLOSURE_GAP_RATIO * diagonal;
+};
+
+/**
+ * A stroke can score only if it has enough points to enclose area and forms a
+ * closed loop. This is stroke-intrinsic, so it is filtered once per attempt
+ * rather than re-checked for every item.
+ */
+const isValidLoop = (stroke: Stroke): boolean =>
+	stroke.points.length >= MIN_STROKE_POINTS_FOR_IOU && isClosedLoop(stroke.points);
+
+/** Best area-overlap (IoU) between any pre-validated loop and the item polygon. */
+const bestStrokeIoU = (loops: Stroke[], polygon: Point[]): number => {
 	let best = ZERO_IOU;
 
-	for (const stroke of hittingStrokes) {
-		if (stroke.points.length < MIN_STROKE_POINTS_FOR_IOU) {
-			continue;
-		}
-
-		const iou = polygonIoU(stroke.points, polygon);
+	for (const loop of loops) {
+		const iou = polygonIoU(loop.points, polygon);
 
 		if (iou > best) {
 			best = iou;
@@ -76,34 +92,25 @@ const findBestIoU = (hittingStrokes: Stroke[], polygon: Point[]): number => {
 	return best;
 };
 
-const bestMatchForItem = (strokes: Stroke[], item: MatchableItem): MatchedItem | null => {
-	const hittingStrokes = strokes.filter((stroke) => strokeHitsPolygon(stroke, item.polygon));
-
-	if (hittingStrokes.length === EMPTY_ARRAY_LENGTH) {
-		return null;
-	}
-
-	const iou = findBestIoU(hittingStrokes, item.polygon);
-
-	return {
-		iou,
-		itemId: item.id,
-		stars: starsForIoU(iou),
-	};
-};
-
-/** Maps each item to the best-matching stroke and assigns a star rating via IoU. */
+/**
+ * Matches each item by how well a drawn loop encloses it (area IoU), not by
+ * whether the pen merely touched it. An item is "found" only when the best
+ * stroke's IoU clears `IOU_FOUND_THRESHOLD`; this rejects open scribbles
+ * (near-zero area) and catch-all loops around the whole image (tiny IoU vs a
+ * huge union), while a tight circle earns more stars.
+ */
 const matchStrokesToItems = (strokes: Stroke[], items: MatchableItem[]): MatchResult => {
 	const found: MatchedItem[] = [];
 	const missedItemIds: number[] = [];
+	const loops = strokes.filter((stroke) => isValidLoop(stroke));
 
 	for (const item of items) {
-		const matched = bestMatchForItem(strokes, item);
+		const iou = bestStrokeIoU(loops, item.polygon);
 
-		if (matched === null) {
-			missedItemIds.push(item.id);
+		if (iou >= IOU_FOUND_THRESHOLD) {
+			found.push({ iou, itemId: item.id, stars: starsForIoU(iou) });
 		} else {
-			found.push(matched);
+			missedItemIds.push(item.id);
 		}
 	}
 

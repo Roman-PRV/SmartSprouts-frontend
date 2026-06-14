@@ -1,9 +1,9 @@
-import { TrueFalseLevelCard } from "~/libs/components/components";
+import { FindTheWrongLevelCard, TrueFalseLevelCard } from "~/libs/components/components";
 import { GameKey, type GameKeyType } from "~/libs/enums/enums";
 import { type LevelCardComponent } from "~/libs/types/level-card-component.type";
 
 const LevelCardComponentMap: Record<GameKeyType, LevelCardComponent> = {
-	[GameKey.FIND_THE_WRONG]: TrueFalseLevelCard,
+	[GameKey.FIND_THE_WRONG]: FindTheWrongLevelCard,
 	[GameKey.TRUE_FALSE_IMAGE]: TrueFalseLevelCard,
 	[GameKey.TRUE_FALSE_TEXT]: TrueFalseLevelCard,
 };
