@@ -2,6 +2,7 @@ const games = {
 	content: {
 		errorTitle: "Помилка",
 		invalidId: "Недійсний або відсутній ID гри.",
+		loadError: "Не вдалося завантажити гру. Будь ласка, спробуйте ще раз.",
 		notFound: "Контент гри не знайдено.",
 	},
 	findTheWrong: {

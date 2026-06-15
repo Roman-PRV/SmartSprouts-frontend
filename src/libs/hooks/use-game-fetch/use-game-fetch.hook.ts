@@ -1,43 +1,25 @@
-import { useCallback, useEffect } from "react";
-
-import { DataStatus } from "~/libs/enums/enums";
-import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
-import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
-import { useLanguageSync } from "~/libs/hooks/use-language-sync/use-language-sync.hook";
+import { useFetchById } from "~/libs/hooks/use-fetch-by-id/use-fetch-by-id.hook";
 import { type GameDescriptionDto } from "~/libs/types/types";
-import { actions as gamesActions } from "~/modules/games/slices/games";
+import { getById } from "~/modules/games/slices/actions";
 
 type UseGameFetchReturn = {
 	currentGame: GameDescriptionDto | null;
+	hasError: boolean;
 	isLoading: boolean;
 };
 
 const useGameFetch = (id: string | undefined): UseGameFetchReturn => {
-	const dispatch = useAppDispatch();
-	const currentGame = useAppSelector((state) => state.games.currentGame);
-	const currentGameStatus = useAppSelector((state) => state.games.currentGameStatus);
-
-	const fetchGame = useCallback(() => {
-		if (id) {
-			void dispatch(gamesActions.getById(id));
-		}
-	}, [dispatch, id]);
-
-	useLanguageSync(fetchGame);
-
-	useEffect(() => {
-		if (!id || currentGame?.id === id) {
-			return;
-		}
-
-		fetchGame();
-	}, [id, currentGame?.id, fetchGame]);
-
-	const matchedGame = currentGame?.id === id ? currentGame : null;
-	const isLoading = matchedGame === null && currentGameStatus !== DataStatus.REJECTED;
+	const { data, hasError, isLoading } = useFetchById<GameDescriptionDto>({
+		createFetch: getById,
+		id,
+		selectData: (state) => state.games.currentGame,
+		selectLoadedId: (state) => state.games.currentGame?.id ?? null,
+		selectStatus: (state) => state.games.currentGameStatus,
+	});
 
 	return {
-		currentGame: matchedGame,
+		currentGame: data,
+		hasError,
 		isLoading,
 	};
 };

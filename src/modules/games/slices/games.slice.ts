@@ -45,7 +45,11 @@ const { actions, name, reducer } = createSlice({
 			state.currentGameStatus = DataStatus.FULFILLED;
 			state.currentGame = action.payload;
 		});
-		builder.addCase(getById.rejected, (state) => {
+		builder.addCase(getById.rejected, (state, action) => {
+			if (action.meta.aborted) {
+				return;
+			}
+
 			state.currentGameStatus = DataStatus.REJECTED;
 		});
 		builder.addCase(getLevelsList.pending, (state) => {
@@ -56,7 +60,11 @@ const { actions, name, reducer } = createSlice({
 			state.currentGameLevels = action.payload;
 			state.currentLevelsGameId = action.meta.arg;
 		});
-		builder.addCase(getLevelsList.rejected, (state) => {
+		builder.addCase(getLevelsList.rejected, (state, action) => {
+			if (action.meta.aborted) {
+				return;
+			}
+
 			state.levelsStatus = DataStatus.REJECTED;
 		});
 	},

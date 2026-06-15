@@ -2,6 +2,7 @@ const games = {
 	content: {
 		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
+		loadError: "Failed to load the game. Please try again.",
 		notFound: "Game content not found.",
 	},
 	findTheWrong: {

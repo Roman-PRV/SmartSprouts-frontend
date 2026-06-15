@@ -1,25 +1,26 @@
 /**
  * @vitest-environment jsdom
+ *
+ * Thin-wrapper tests: full fetch-by-id logic is covered in
+ * use-fetch-by-id.hook.spec. Here we only verify the wiring — getLevelsList as
+ * the action, the level selectors, and the data→levels rename.
  */
 import { renderHook } from "@testing-library/react";
-import { act } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DataStatus } from "~/libs/enums/enums";
-
-// ─── Hoisted mocks ────────────────────────────────────────────────────────────
+import { type LevelDescriptionDto, type ValueOf } from "~/libs/types/types";
 
 const { mockDispatch, mockGetLevelsList, mockUseLanguageSync } = vi.hoisted(() => {
-	const mockGetLevelsList = vi.fn((id: string) => ({ payload: id, type: "games/get-levels" }));
-	const mockDispatch = vi.fn();
+	const mockAbort = vi.fn();
+	const mockDispatch = vi.fn(() => ({ abort: mockAbort }));
+	const mockGetLevelsList = vi.fn((id: string) => ({ id, type: "games/get-levels" }));
 	const mockUseLanguageSync = vi.fn<(callback: () => void) => void>();
 
 	return { mockDispatch, mockGetLevelsList, mockUseLanguageSync };
 });
 
-vi.mock("~/modules/games/slices/actions", () => ({
-	getLevelsList: mockGetLevelsList,
-}));
+vi.mock("~/modules/games/slices/actions", () => ({ getLevelsList: mockGetLevelsList }));
 
 vi.mock("~/libs/hooks/use-app-dispatch/use-app-dispatch.hook", () => ({
 	useAppDispatch: (): typeof mockDispatch => mockDispatch,
@@ -33,19 +34,18 @@ vi.mock("~/libs/hooks/use-language-sync/use-language-sync.hook", () => ({
 	useLanguageSync: mockUseLanguageSync,
 }));
 
-// ─── Imports (after vi.mock calls) ───────────────────────────────────────────
-
 import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
 import { useLevelsFetch } from "~/libs/hooks/use-levels-fetch/use-levels-fetch.hook";
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const mockUseAppSelector = vi.mocked(useAppSelector);
 
 type GamesState = {
+	currentGameLevels: LevelDescriptionDto[] | null;
 	currentLevelsGameId: null | string;
-	levelsStatus: (typeof DataStatus)[keyof typeof DataStatus];
+	levelsStatus: ValueOf<typeof DataStatus>;
 };
+
+const LEVELS = [{ id: 10 }] as unknown as LevelDescriptionDto[];
 
 const setMockState = (state: GamesState): void => {
 	mockUseAppSelector.mockImplementation((selector) =>
@@ -53,82 +53,47 @@ const setMockState = (state: GamesState): void => {
 	);
 };
 
-const renderLevelsFetch = (id: string | undefined) =>
-	renderHook((current: string | undefined) => useLevelsFetch(current), { initialProps: id });
-
 describe("useLevelsFetch", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
-	it("fetches on mount when no levels are cached", () => {
-		setMockState({ currentLevelsGameId: null, levelsStatus: DataStatus.IDLE });
-
-		const { result } = renderLevelsFetch("1");
-
-		expect(mockGetLevelsList).toHaveBeenCalledWith("1");
-		expect(result.current.isLoading).toBe(true);
-	});
-
-	it("does not refetch when cached levels already belong to the id", () => {
-		setMockState({ currentLevelsGameId: "1", levelsStatus: DataStatus.FULFILLED });
-
-		const { result } = renderLevelsFetch("1");
-
-		expect(mockGetLevelsList).not.toHaveBeenCalled();
-		expect(result.current.isLoading).toBe(false);
-	});
-
-	it("does not dispatch again on rerender with the same id", () => {
-		setMockState({ currentLevelsGameId: "1", levelsStatus: DataStatus.FULFILLED });
-
-		const { rerender } = renderLevelsFetch("1");
-		rerender("1");
-
-		expect(mockGetLevelsList).not.toHaveBeenCalled();
-	});
-
-	it("refetches when the id changes to a game whose levels are not cached", () => {
-		setMockState({ currentLevelsGameId: "1", levelsStatus: DataStatus.FULFILLED });
-
-		const { rerender } = renderLevelsFetch("1");
-		rerender("2");
-
-		expect(mockGetLevelsList).toHaveBeenCalledWith("2");
-	});
-
-	it("treats levels cached for a different id as loading (no stale levels exposed)", () => {
-		setMockState({ currentLevelsGameId: "1", levelsStatus: DataStatus.FULFILLED });
-
-		const { result } = renderLevelsFetch("2");
-
-		expect(result.current.isLoading).toBe(true);
-	});
-
-	it("stops loading on rejection so the consumer can show an error", () => {
-		setMockState({ currentLevelsGameId: null, levelsStatus: DataStatus.REJECTED });
-
-		const { result } = renderLevelsFetch("1");
-
-		expect(result.current.isLoading).toBe(false);
-	});
-
-	it("registers a language-sync callback that refetches the levels", () => {
-		setMockState({ currentLevelsGameId: "1", levelsStatus: DataStatus.FULFILLED });
-
-		let capturedCallback: (() => void) | undefined;
-		mockUseLanguageSync.mockImplementation((callback: () => void) => {
-			capturedCallback = callback;
+	it("fetches levels via getLevelsList when uncached", () => {
+		setMockState({
+			currentGameLevels: null,
+			currentLevelsGameId: null,
+			levelsStatus: DataStatus.IDLE,
 		});
 
-		renderLevelsFetch("1");
+		const { result } = renderHook(() => useLevelsFetch("5"));
 
-		expect(capturedCallback).toBeDefined();
+		expect(mockGetLevelsList).toHaveBeenCalledWith("5");
+		expect(result.current).toEqual({ hasError: false, isLoading: true, levels: null });
+	});
 
-		act(() => {
-			capturedCallback?.();
+	it("returns matched levels without refetching", () => {
+		setMockState({
+			currentGameLevels: LEVELS,
+			currentLevelsGameId: "5",
+			levelsStatus: DataStatus.FULFILLED,
 		});
 
-		expect(mockGetLevelsList).toHaveBeenCalledWith("1");
+		const { result } = renderHook(() => useLevelsFetch("5"));
+
+		expect(mockGetLevelsList).not.toHaveBeenCalled();
+		expect(result.current).toEqual({ hasError: false, isLoading: false, levels: LEVELS });
+	});
+
+	it("hides levels cached for a different id", () => {
+		setMockState({
+			currentGameLevels: LEVELS,
+			currentLevelsGameId: "1",
+			levelsStatus: DataStatus.FULFILLED,
+		});
+
+		const { result } = renderHook(() => useLevelsFetch("2"));
+
+		expect(result.current.levels).toBeNull();
+		expect(result.current.isLoading).toBe(true);
 	});
 });
