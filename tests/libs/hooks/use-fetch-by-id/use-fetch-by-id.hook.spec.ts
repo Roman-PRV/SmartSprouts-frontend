@@ -52,7 +52,7 @@ const setMockState = (state: TestState): void => {
 
 const createFetch = vi.fn((id: string) => ({ id, type: "test/fetch" }));
 
-const renderFetchById = (id: string | undefined) =>
+const renderFetchById = (id?: string) =>
 	renderHook((current: string | undefined) =>
 		useFetchById<string>({
 			createFetch: createFetch as never,
@@ -76,6 +76,7 @@ describe("useFetchById", () => {
 		expect(createFetch).toHaveBeenCalledWith("1");
 		expect(result.current.data).toBeNull();
 		expect(result.current.isLoading).toBe(true);
+		expect(result.current.hasError).toBe(false);
 	});
 
 	it("does not fetch when cached id already matches", () => {
@@ -86,6 +87,7 @@ describe("useFetchById", () => {
 		expect(createFetch).not.toHaveBeenCalled();
 		expect(result.current.data).toBe("game-1");
 		expect(result.current.isLoading).toBe(false);
+		expect(result.current.hasError).toBe(false);
 	});
 
 	it("refetches when the id changes", () => {
@@ -134,12 +136,13 @@ describe("useFetchById", () => {
 		expect(result.current.isLoading).toBe(false);
 	});
 
-	it("stops loading on rejection", () => {
+	it("reports an error and stops loading on rejection", () => {
 		setMockState({ data: null, loadedId: null, status: DataStatus.REJECTED });
 
 		const { result } = renderFetchById("1");
 
 		expect(result.current.isLoading).toBe(false);
+		expect(result.current.hasError).toBe(true);
 	});
 
 	it("registers a language-sync callback that refetches", () => {

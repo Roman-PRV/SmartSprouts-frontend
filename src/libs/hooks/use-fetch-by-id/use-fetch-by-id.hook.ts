@@ -8,6 +8,7 @@ import { useLanguageSync } from "~/libs/hooks/use-language-sync/use-language-syn
 import { type AsyncThunkConfig, type ValueOf } from "~/libs/types/types";
 
 type FetchByIdConfig<TData> = {
+	/** Must be a stable reference (module-level thunk creator), else the effect loops. */
 	createFetch: (id: string) => AsyncThunkAction<TData, string, AsyncThunkConfig>;
 	id: string | undefined;
 	selectData: (state: RootState) => null | TData;
@@ -17,6 +18,7 @@ type FetchByIdConfig<TData> = {
 
 type FetchByIdReturn<TData> = {
 	data: null | TData;
+	hasError: boolean;
 	isLoading: boolean;
 };
 
@@ -74,9 +76,11 @@ const useFetchById = <TData,>({
 
 	const isMatched = id !== undefined && loadedId === id;
 	const isLoading = id !== undefined && !isMatched && status !== DataStatus.REJECTED;
+	const hasError = id !== undefined && status === DataStatus.REJECTED;
 
 	return {
 		data: isMatched ? data : null,
+		hasError,
 		isLoading,
 	};
 };

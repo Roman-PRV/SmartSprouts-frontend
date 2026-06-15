@@ -3,12 +3,13 @@ import { type LevelDescriptionDto } from "~/libs/types/types";
 import { getLevelsList } from "~/modules/games/slices/actions";
 
 type UseLevelsFetchReturn = {
+	hasError: boolean;
 	isLoading: boolean;
 	levels: LevelDescriptionDto[] | null;
 };
 
 const useLevelsFetch = (id: string | undefined): UseLevelsFetchReturn => {
-	const { data, isLoading } = useFetchById<LevelDescriptionDto[]>({
+	const { data, hasError, isLoading } = useFetchById<LevelDescriptionDto[]>({
 		createFetch: getLevelsList,
 		id,
 		selectData: (state) => state.games.currentGameLevels,
@@ -17,6 +18,7 @@ const useLevelsFetch = (id: string | undefined): UseLevelsFetchReturn => {
 	});
 
 	return {
+		hasError,
 		isLoading,
 		levels: data,
 	};

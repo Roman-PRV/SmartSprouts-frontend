@@ -1,6 +1,5 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
-import { DataStatus } from "~/libs/enums/enums";
-import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
+import { useTranslation } from "~/libs/hooks/hooks";
 import { type GameDescriptionDto, type LevelDescriptionDto } from "~/libs/types/types";
 
 import { GameLevelsContent } from "./game-levels-content/game-levels-content";
@@ -8,14 +7,13 @@ import styles from "./styles.module.css";
 
 type Properties = {
 	game: GameDescriptionDto;
+	hasError: boolean;
 	levels: LevelDescriptionDto[] | null;
 };
 
-const GameLevelsPreview: React.FC<Properties> = ({ game, levels }) => {
+const GameLevelsPreview: React.FC<Properties> = ({ game, hasError, levels }) => {
 	const { t } = useTranslation();
-	const levelsStatus = useAppSelector((state) => state.games.levelsStatus);
 
-	const hasError = levelsStatus === DataStatus.REJECTED;
 	const hasLevels = Boolean(levels && levels.length > EMPTY_ARRAY_LENGTH);
 
 	return (

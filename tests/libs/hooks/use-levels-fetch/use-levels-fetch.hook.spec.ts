@@ -68,7 +68,7 @@ describe("useLevelsFetch", () => {
 		const { result } = renderHook(() => useLevelsFetch("5"));
 
 		expect(mockGetLevelsList).toHaveBeenCalledWith("5");
-		expect(result.current).toEqual({ isLoading: true, levels: null });
+		expect(result.current).toEqual({ hasError: false, isLoading: true, levels: null });
 	});
 
 	it("returns matched levels without refetching", () => {
@@ -81,7 +81,7 @@ describe("useLevelsFetch", () => {
 		const { result } = renderHook(() => useLevelsFetch("5"));
 
 		expect(mockGetLevelsList).not.toHaveBeenCalled();
-		expect(result.current).toEqual({ isLoading: false, levels: LEVELS });
+		expect(result.current).toEqual({ hasError: false, isLoading: false, levels: LEVELS });
 	});
 
 	it("hides levels cached for a different id", () => {

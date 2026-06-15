@@ -8,7 +8,7 @@ const GameContentPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { id } = useParams();
 	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
-	const { isLoading: isLevelsLoading, levels } = useLevelsFetch(id);
+	const { hasError: hasLevelsError, isLoading: isLevelsLoading, levels } = useLevelsFetch(id);
 
 	const renderError = (message: string): React.JSX.Element => (
 		<div className={styles["game-content-page__error-container"]}>
@@ -35,7 +35,7 @@ const GameContentPage: React.FC = () => {
 		return renderError(t("games.content.notFound"));
 	}
 
-	return <GameLevelsPreview game={currentGame} levels={levels} />;
+	return <GameLevelsPreview game={currentGame} hasError={hasLevelsError} levels={levels} />;
 };
 
 export { GameContentPage };
