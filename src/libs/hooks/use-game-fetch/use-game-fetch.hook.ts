@@ -14,7 +14,8 @@ type UseGameFetchReturn = {
 
 const useGameFetch = (id: string | undefined): UseGameFetchReturn => {
 	const dispatch = useAppDispatch();
-	const { currentGame, currentGameStatus } = useAppSelector((state) => state.games);
+	const currentGame = useAppSelector((state) => state.games.currentGame);
+	const currentGameStatus = useAppSelector((state) => state.games.currentGameStatus);
 
 	const fetchGame = useCallback(() => {
 		if (id) {
@@ -25,22 +26,18 @@ const useGameFetch = (id: string | undefined): UseGameFetchReturn => {
 	useLanguageSync(fetchGame);
 
 	useEffect(() => {
-		if (id && currentGameStatus === DataStatus.IDLE) {
-			fetchGame();
+		if (!id || currentGame?.id === id) {
+			return;
 		}
-	}, [id, currentGameStatus, fetchGame]);
 
-	useEffect(() => {
-		return (): void => {
-			dispatch(gamesActions.clearCurrentGame());
-		};
-	}, [dispatch]);
+		fetchGame();
+	}, [id, currentGame?.id, fetchGame]);
 
-	const isLoading =
-		currentGameStatus === DataStatus.PENDING || currentGameStatus === DataStatus.IDLE;
+	const matchedGame = currentGame?.id === id ? currentGame : null;
+	const isLoading = matchedGame === null && currentGameStatus !== DataStatus.REJECTED;
 
 	return {
-		currentGame,
+		currentGame: matchedGame,
 		isLoading,
 	};
 };

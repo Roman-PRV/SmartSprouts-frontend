@@ -10,6 +10,7 @@ type State = {
 	currentGame: GameDescriptionDto | null;
 	currentGameLevels: LevelDescriptionDto[] | null;
 	currentGameStatus: ValueOf<typeof DataStatus>;
+	currentLevelsGameId: null | string;
 	games: GameDescriptionDto[];
 	gamesStatus: ValueOf<typeof DataStatus>;
 	levelsStatus: ValueOf<typeof DataStatus>;
@@ -19,6 +20,7 @@ const initialState: State = {
 	currentGame: null,
 	currentGameLevels: null,
 	currentGameStatus: DataStatus.IDLE,
+	currentLevelsGameId: null,
 	games: [],
 	gamesStatus: DataStatus.IDLE,
 	levelsStatus: DataStatus.IDLE,
@@ -52,6 +54,7 @@ const { actions, name, reducer } = createSlice({
 		builder.addCase(getLevelsList.fulfilled, (state, action) => {
 			state.levelsStatus = DataStatus.FULFILLED;
 			state.currentGameLevels = action.payload;
+			state.currentLevelsGameId = action.meta.arg;
 		});
 		builder.addCase(getLevelsList.rejected, (state) => {
 			state.levelsStatus = DataStatus.REJECTED;
@@ -59,14 +62,7 @@ const { actions, name, reducer } = createSlice({
 	},
 	initialState,
 	name: "games",
-	reducers: {
-		clearCurrentGame: (state) => {
-			state.currentGame = null;
-			state.currentGameLevels = null;
-			state.currentGameStatus = DataStatus.IDLE;
-			state.levelsStatus = DataStatus.IDLE;
-		},
-	},
+	reducers: {},
 });
 
 export { actions, name, reducer };

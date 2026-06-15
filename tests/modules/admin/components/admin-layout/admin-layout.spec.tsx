@@ -39,6 +39,7 @@ const renderAdminLayout = (): ReturnType<typeof render> => {
 				currentGame: null,
 				currentGameLevels: null,
 				currentGameStatus: DataStatus.IDLE,
+				currentLevelsGameId: null,
 				games: [],
 				gamesStatus: DataStatus.FULFILLED,
 				levelsStatus: DataStatus.IDLE,
