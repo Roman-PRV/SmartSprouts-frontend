@@ -13,6 +13,7 @@ type UseLevelsFetchReturn = {
 const useLevelsFetch = (id: string | undefined): UseLevelsFetchReturn => {
 	const dispatch = useAppDispatch();
 	const levelsStatus = useAppSelector((state) => state.games.levelsStatus);
+	const currentLevelsGameId = useAppSelector((state) => state.games.currentLevelsGameId);
 
 	const fetchLevels = useCallback(() => {
 		if (id) {
@@ -23,12 +24,15 @@ const useLevelsFetch = (id: string | undefined): UseLevelsFetchReturn => {
 	useLanguageSync(fetchLevels);
 
 	useEffect(() => {
-		if (id && levelsStatus === DataStatus.IDLE) {
-			fetchLevels();
+		if (!id || currentLevelsGameId === id) {
+			return;
 		}
-	}, [id, fetchLevels, levelsStatus]);
 
-	const isLoading = levelsStatus === DataStatus.PENDING || levelsStatus === DataStatus.IDLE;
+		fetchLevels();
+	}, [id, currentLevelsGameId, fetchLevels]);
+
+	const isMatched = id !== undefined && currentLevelsGameId === id;
+	const isLoading = !isMatched && levelsStatus !== DataStatus.REJECTED;
 
 	return {
 		isLoading,

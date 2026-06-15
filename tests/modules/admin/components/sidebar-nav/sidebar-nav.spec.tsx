@@ -24,6 +24,7 @@ const buildStore = ({ games, gamesStatus }: GamesPreload): ReturnType<typeof con
 				currentGame: null,
 				currentGameLevels: null,
 				currentGameStatus: DataStatus.IDLE,
+				currentLevelsGameId: null,
 				games: games.map((entry) => ({
 					description: "",
 					icon_url: "",
