@@ -43,18 +43,21 @@ const useFetchById = <TData,>({
 	const data = useAppSelector(selectData);
 
 	const abortReference = useRef<(() => void) | null>(null);
+	const attemptedIdReference = useRef<string | undefined>(undefined);
 
 	const fetchById = useCallback(() => {
 		if (!id) {
 			return;
 		}
 
+		attemptedIdReference.current = id;
 		abortReference.current?.();
 
 		const promise = dispatch(createFetch(id));
 
 		abortReference.current = (): void => {
 			promise.abort();
+			abortReference.current = null;
 		};
 	}, [dispatch, createFetch, id]);
 
@@ -74,13 +77,17 @@ const useFetchById = <TData,>({
 		};
 	}, []);
 
+	// Error/loading are gated to the CURRENT id: a REJECTED status left over from
+	// a previous id must not flash as an error on the next one before its fetch
+	// starts.
 	const isMatched = id !== undefined && loadedId === id;
-	const isLoading = id !== undefined && !isMatched && status !== DataStatus.REJECTED;
-	const hasError = id !== undefined && status === DataStatus.REJECTED;
+	const isErrorForCurrentId =
+		id !== undefined && status === DataStatus.REJECTED && attemptedIdReference.current === id;
+	const isLoading = id !== undefined && !isMatched && !isErrorForCurrentId;
 
 	return {
 		data: isMatched ? data : null,
-		hasError,
+		hasError: isErrorForCurrentId,
 		isLoading,
 	};
 };

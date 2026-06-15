@@ -69,7 +69,7 @@ describe("useGameFetch", () => {
 		const { result } = renderHook(() => useGameFetch("5"));
 
 		expect(mockGetById).toHaveBeenCalledWith("5");
-		expect(result.current).toEqual({ currentGame: null, isLoading: true });
+		expect(result.current).toEqual({ currentGame: null, hasError: false, isLoading: true });
 	});
 
 	it("returns the matched game without refetching", () => {
@@ -78,7 +78,7 @@ describe("useGameFetch", () => {
 		const { result } = renderHook(() => useGameFetch("5"));
 
 		expect(mockGetById).not.toHaveBeenCalled();
-		expect(result.current).toEqual({ currentGame: makeGame("5"), isLoading: false });
+		expect(result.current).toEqual({ currentGame: makeGame("5"), hasError: false, isLoading: false });
 	});
 
 	it("hides a game cached for a different id", () => {

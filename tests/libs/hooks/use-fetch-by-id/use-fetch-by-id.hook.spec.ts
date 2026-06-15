@@ -136,13 +136,30 @@ describe("useFetchById", () => {
 		expect(result.current.isLoading).toBe(false);
 	});
 
-	it("reports an error and stops loading on rejection", () => {
-		setMockState({ data: null, loadedId: null, status: DataStatus.REJECTED });
+	it("reports an error and stops loading when the current id's fetch rejects", () => {
+		// Realistic transition: the fetch runs (PENDING) — marking the attempted
+		// id — then rejects, so the error is attributed to the current id.
+		setMockState({ data: null, loadedId: null, status: DataStatus.PENDING });
+		const { rerender, result } = renderFetchById("1");
 
-		const { result } = renderFetchById("1");
+		setMockState({ data: null, loadedId: null, status: DataStatus.REJECTED });
+		rerender("1");
 
 		expect(result.current.isLoading).toBe(false);
 		expect(result.current.hasError).toBe(true);
+	});
+
+	it("does not attribute a REJECTED status from another id to a matched id", () => {
+		// Levels for "2" are cached (matched), but the global status is REJECTED
+		// from a later, different id's failed fetch. The matched data must show
+		// without a spurious error.
+		setMockState({ data: "game-2", loadedId: "2", status: DataStatus.REJECTED });
+
+		const { result } = renderFetchById("2");
+
+		expect(result.current.data).toBe("game-2");
+		expect(result.current.hasError).toBe(false);
+		expect(result.current.isLoading).toBe(false);
 	});
 
 	it("registers a language-sync callback that refetches", () => {

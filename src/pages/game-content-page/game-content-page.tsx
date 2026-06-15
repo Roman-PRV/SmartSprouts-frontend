@@ -7,7 +7,7 @@ import styles from "./styles.module.css";
 const GameContentPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { id } = useParams();
-	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
+	const { currentGame, hasError: hasGameError, isLoading: isGameLoading } = useGameFetch(id);
 	const { hasError: hasLevelsError, isLoading: isLevelsLoading, levels } = useLevelsFetch(id);
 
 	const renderError = (message: string): React.JSX.Element => (
@@ -29,6 +29,10 @@ const GameContentPage: React.FC = () => {
 
 	if (isPageLoading) {
 		return <Loader variant="page" />;
+	}
+
+	if (hasGameError) {
+		return renderError(t("games.content.loadError"));
 	}
 
 	if (!currentGame) {
