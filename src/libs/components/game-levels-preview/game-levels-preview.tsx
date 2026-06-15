@@ -1,22 +1,22 @@
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
-import { type GameDescriptionDto } from "~/libs/types/types";
+import { type GameDescriptionDto, type LevelDescriptionDto } from "~/libs/types/types";
 
 import { GameLevelsContent } from "./game-levels-content/game-levels-content";
 import styles from "./styles.module.css";
 
 type Properties = {
 	game: GameDescriptionDto;
+	levels: LevelDescriptionDto[] | null;
 };
 
-const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
+const GameLevelsPreview: React.FC<Properties> = ({ game, levels }) => {
 	const { t } = useTranslation();
-	const currentGameLevels = useAppSelector((state) => state.games.currentGameLevels);
 	const levelsStatus = useAppSelector((state) => state.games.levelsStatus);
 
 	const hasError = levelsStatus === DataStatus.REJECTED;
-	const hasLevels = Boolean(currentGameLevels && currentGameLevels.length > EMPTY_ARRAY_LENGTH);
+	const hasLevels = Boolean(levels && levels.length > EMPTY_ARRAY_LENGTH);
 
 	return (
 		<div className={styles["game-levels-preview__container"]}>
@@ -28,7 +28,7 @@ const GameLevelsPreview: React.FC<Properties> = ({ game }) => {
 					game={game}
 					hasError={hasError}
 					hasLevels={hasLevels}
-					levels={currentGameLevels ?? []}
+					levels={levels ?? []}
 				/>
 			</section>
 		</div>

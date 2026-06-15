@@ -65,7 +65,11 @@
 }
 
 .card__image {
-	width: 100%;
+	width: calc(100% - 24px);
+	aspect-ratio: 200/200;
+	margin: 12px;
+	object-fit: cover;
+	object-position: center;
 	background: linear-gradient(180deg, var(--color-background-1), var(--color-background-2));
 }
 
@@ -73,8 +77,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
-	aspect-ratio: 200/120;
+	width: calc(100% - 24px);
+	aspect-ratio: 200/200;
+	margin: 12px;
 	font-size: 14px;
 	color: var(--color-text-muted);
 	background-color: var(--color-background-light-gray);
