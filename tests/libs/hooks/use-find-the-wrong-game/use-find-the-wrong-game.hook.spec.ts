@@ -55,7 +55,13 @@ vi.mock("~/libs/hooks/use-language-sync/use-language-sync.hook", () => ({
 	useLanguageSync: mockUseLanguageSync,
 }));
 
+vi.mock("sonner", () => ({
+	toast: { error: vi.fn(), info: vi.fn(), success: vi.fn() },
+}));
+
 // ─── Imports (after vi.mock calls) ───────────────────────────────────────────
+
+import { toast } from "sonner";
 
 import { useAppSelector } from "~/libs/hooks/use-app-selector/use-app-selector.hook";
 import { useFindTheWrongGame } from "~/libs/hooks/use-find-the-wrong-game/use-find-the-wrong-game.hook";
@@ -324,6 +330,40 @@ describe("useFindTheWrongGame", () => {
 			expect(result.current.strokes).toEqual([]);
 			expect(result.current.submitResult).toBeNull();
 			expect(result.current.hasSubmitError).toBe(false);
+		});
+	});
+
+	describe("stroke capture", () => {
+		it("keeps a closed loop", () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			act(() => {
+				result.current.addStroke(STROKE_AROUND_ITEM);
+			});
+
+			expect(result.current.strokes).toHaveLength(1);
+		});
+
+		it("discards an open contour that can never score", () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			const openArc = [
+				[0, 0],
+				[0.5, 0.1],
+				[1, 0],
+			] as [number, number][];
+
+			act(() => {
+				result.current.addStroke(openArc);
+			});
+
+			expect(result.current.strokes).toEqual([]);
+			expect(result.current.hasMarks).toBe(false);
+			expect(vi.mocked(toast.info)).toHaveBeenCalledOnce();
 		});
 	});
 

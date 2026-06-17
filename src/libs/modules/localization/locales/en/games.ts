@@ -28,6 +28,9 @@ const games = {
 			label: "Play mode",
 			marker: "Tap",
 		},
+		notice: {
+			openStroke: "Close the loop around the object so it counts.",
+		},
 		result: {
 			foundSection: "Found",
 			missedSection: "Missed",

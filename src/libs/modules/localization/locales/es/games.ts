@@ -28,6 +28,9 @@ const games = {
 			label: "Modo de juego",
 			marker: "Tocar",
 		},
+		notice: {
+			openStroke: "Cierra el contorno alrededor del objeto para que cuente.",
+		},
 		result: {
 			foundSection: "Encontrados",
 			missedSection: "Omitidos",

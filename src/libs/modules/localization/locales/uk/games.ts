@@ -28,6 +28,9 @@ const games = {
 			label: "Спосіб гри",
 			marker: "Ставити хрестик",
 		},
+		notice: {
+			openStroke: "Замкни лінію навколо предмета, щоб вона зарахувалася.",
+		},
 		result: {
 			foundSection: "Знайдено",
 			missedSection: "Пропущено",

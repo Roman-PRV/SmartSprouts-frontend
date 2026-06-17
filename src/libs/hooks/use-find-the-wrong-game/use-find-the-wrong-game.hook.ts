@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 import { actions as findTheWrongGameActions } from "~/games/find-the-wrong/api/find-the-wrong-game";
 import {
@@ -6,6 +8,7 @@ import {
 	ErrorKind,
 	type FindTheWrongLevelDto,
 	InteractionMode,
+	isClosedLoop,
 	type Marker,
 	type MatchableItem,
 	matchStrokesToItems,
@@ -57,6 +60,7 @@ const useFindTheWrongGame = ({
 	levelId,
 }: UseFindTheWrongGameProperties): UseFindTheWrongGameReturn => {
 	const dispatch = useAppDispatch();
+	const { t } = useTranslation();
 	const levelIdString = String(levelId);
 
 	const level = useAppSelector((state) => state.findTheWrongLevels.currentLevel);
@@ -70,7 +74,7 @@ const useFindTheWrongGame = ({
 
 	const markLimit = matchables.length;
 
-	const { addStroke, clearAll: clearStrokes, strokes } = useStrokes(markLimit);
+	const { addStroke: addRawStroke, clearAll: clearStrokes, strokes } = useStrokes(markLimit);
 	const { clearAll: clearMarkers, markers, toggleMarker } = useMarkers(markLimit);
 	const [interactionMode, setInteractionModeState] = useState<ValueOf<typeof InteractionMode>>(
 		InteractionMode.CIRCLE
@@ -83,6 +87,19 @@ const useFindTheWrongGame = ({
 	const isMarkerMode = interactionMode === InteractionMode.MARKER;
 	const markCount = isMarkerMode ? markers.length : strokes.length;
 	const hasMarks = markCount > EMPTY_ARRAY_LENGTH;
+
+	const addStroke = useCallback(
+		(points: Point[]): void => {
+			if (isClosedLoop(points)) {
+				addRawStroke(points);
+
+				return;
+			}
+
+			toast.info(t("games.findTheWrong.notice.openStroke"));
+		},
+		[addRawStroke, t]
+	);
 
 	useEffect(() => {
 		startReference.current = Date.now();
@@ -146,17 +163,18 @@ const useFindTheWrongGame = ({
 		clearStrokes();
 	}, [isMarkerMode, clearMarkers, clearStrokes]);
 
-	const handleReset = useCallback((): void => {
+	const resetAttempt = useCallback((): void => {
 		clearStrokes();
 		clearMarkers();
-		setSubmitResult(null);
 		setHasSubmitError(false);
 		startReference.current = Date.now();
 	}, [clearStrokes, clearMarkers]);
 
-	// Switching mode starts a clean attempt: drop both interaction states and
-	// restart the timer so marker timing is fair. Selecting the current mode is a
-	// no-op — the hook owns this invariant regardless of how the UI is wired.
+	const handleReset = useCallback((): void => {
+		resetAttempt();
+		setSubmitResult(null);
+	}, [resetAttempt]);
+
 	const setInteractionMode = useCallback(
 		(mode: ValueOf<typeof InteractionMode>): void => {
 			if (mode === interactionMode) {
@@ -164,12 +182,9 @@ const useFindTheWrongGame = ({
 			}
 
 			setInteractionModeState(mode);
-			clearStrokes();
-			clearMarkers();
-			setHasSubmitError(false);
-			startReference.current = Date.now();
+			resetAttempt();
 		},
-		[interactionMode, clearStrokes, clearMarkers]
+		[interactionMode, resetAttempt]
 	);
 
 	useLanguageSync(

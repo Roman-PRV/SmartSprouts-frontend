@@ -9,6 +9,7 @@ export { ErrorKind, InteractionMode } from "./libs/enums/enums";
 export {
 	buildSubmitPayload,
 	INTERACTION_MODES,
+	isClosedLoop,
 	isInteractionMode,
 	matchStrokesToItems,
 	matchTapsToItems,

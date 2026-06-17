@@ -186,7 +186,7 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 						<MarkerLayer coords={coords} markers={markers} />
 					) : (
 						<>
-							<StrokeLayer coords={coords} strokes={strokes} />
+							<StrokeLayer coords={coords} highlightClosed={isPlayerMode} strokes={strokes} />
 							<InFlightStrokeLine coords={coords} points={drawing.inFlightPoints} />
 						</>
 					)}
