@@ -9,12 +9,17 @@ type UseStrokesReturn = {
 	strokes: Stroke[];
 };
 
-const useStrokes = (): UseStrokesReturn => {
+const useStrokes = (limit = Number.POSITIVE_INFINITY): UseStrokesReturn => {
 	const [strokes, setStrokes] = useState<Stroke[]>([]);
 
-	const addStroke = useCallback((points: Point[]): void => {
-		setStrokes((previous) => [...previous, { id: generateClientId(), points }]);
-	}, []);
+	const addStroke = useCallback(
+		(points: Point[]): void => {
+			setStrokes((previous) =>
+				previous.length >= limit ? previous : [...previous, { id: generateClientId(), points }]
+			);
+		},
+		[limit]
+	);
 
 	const clearAll = useCallback((): void => {
 		setStrokes([]);

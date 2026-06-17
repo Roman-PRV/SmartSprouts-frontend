@@ -1,13 +1,17 @@
 export {
 	CANVAS_HANDLE,
 	CANVAS_INSERT_HANDLE,
+	CANVAS_MARKER,
 	CANVAS_PALETTE,
 	CANVAS_POLYGON,
 } from "./canvas-tokens.constant";
+export { MARKER_HIT_RADIUS } from "./marker.constant";
 export {
 	CLOSURE_GAP_RATIO,
 	IOU_FOUND_THRESHOLD,
 	IOU_THREE_STARS,
 	IOU_TWO_STARS,
 	MIN_STROKE_POINTS_FOR_IOU,
+	STAR_TIME_THREE_SECONDS,
+	STAR_TIME_TWO_SECONDS,
 } from "./match.constant";

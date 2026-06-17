@@ -12,11 +12,21 @@ const games = {
 			done: "Listo",
 			playAgain: "Jugar de nuevo",
 		},
+		counter: "Usadas {{used}} de {{limit}}",
 		error: {
 			load: "Error al cargar el nivel. Por favor, inténtalo de nuevo.",
 			noImage: "Este nivel no tiene imagen.",
 			notFound: "Nivel no encontrado.",
 			submit: "Error al enviar tu intento. Por favor, inténtalo de nuevo.",
+		},
+		hint: {
+			circle: "Rodea los objetos incorrectos.",
+			marker: "Toca los objetos incorrectos.",
+		},
+		mode: {
+			circle: "Rodear",
+			label: "Modo de juego",
+			marker: "Tocar",
 		},
 		result: {
 			foundSection: "Encontrados",

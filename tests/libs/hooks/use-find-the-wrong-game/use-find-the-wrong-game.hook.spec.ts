@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	ErrorKind,
 	type FindTheWrongLevelDto,
+	InteractionMode,
 	type SubmitAttemptResponseDto,
 } from "~/games/find-the-wrong/find-the-wrong";
 import { DataStatus } from "~/libs/enums/enums";
@@ -323,6 +324,150 @@ describe("useFindTheWrongGame", () => {
 			expect(result.current.strokes).toEqual([]);
 			expect(result.current.submitResult).toBeNull();
 			expect(result.current.hasSubmitError).toBe(false);
+		});
+	});
+
+	describe("marker mode", () => {
+		it("defaults to circle mode", () => {
+			const { result } = renderGameHook();
+
+			expect(result.current.interactionMode).toBe(InteractionMode.CIRCLE);
+		});
+
+		it("selecting the already-active mode is a no-op (keeps marks)", () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			act(() => {
+				result.current.addStroke(STROKE_AROUND_ITEM);
+			});
+
+			expect(result.current.hasMarks).toBe(true);
+
+			// Re-selecting CIRCLE (the current mode) must not wipe the stroke.
+			act(() => {
+				result.current.setInteractionMode(InteractionMode.CIRCLE);
+			});
+
+			expect(result.current.interactionMode).toBe(InteractionMode.CIRCLE);
+			expect(result.current.hasMarks).toBe(true);
+		});
+
+		it("switching to marker mode clears existing strokes", () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			act(() => {
+				result.current.addStroke(STROKE_AROUND_ITEM);
+			});
+
+			expect(result.current.hasMarks).toBe(true);
+
+			act(() => {
+				result.current.setInteractionMode(InteractionMode.MARKER);
+			});
+
+			expect(result.current.interactionMode).toBe(InteractionMode.MARKER);
+			expect(result.current.strokes).toEqual([]);
+			expect(result.current.hasMarks).toBe(false);
+		});
+
+		it("does nothing on submit when there are no markers", async () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			act(() => {
+				result.current.setInteractionMode(InteractionMode.MARKER);
+			});
+
+			await act(async () => {
+				await result.current.handleSubmit();
+			});
+
+			expect(mockSubmitAttempt).not.toHaveBeenCalled();
+		});
+
+		it("submits a marker payload built from taps inside an item", async () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+			mockDispatch.mockReturnValue({ unwrap: vi.fn().mockResolvedValue(MOCK_RESPONSE) });
+
+			const { result } = renderGameHook();
+
+			act(() => {
+				result.current.setInteractionMode(InteractionMode.MARKER);
+			});
+
+			act(() => {
+				result.current.toggleMarker([0.5, 0.5]);
+			});
+
+			expect(result.current.markers).toHaveLength(1);
+
+			await act(async () => {
+				await result.current.handleSubmit();
+			});
+
+			expect(mockSubmitAttempt).toHaveBeenCalledWith(
+				expect.objectContaining({
+					payload: expect.objectContaining({
+						found: expect.arrayContaining([
+							expect.objectContaining({ item_id: ITEM_ID }),
+						]) as unknown,
+						interaction_mode: "marker",
+					}) as unknown,
+				})
+			);
+		});
+
+		it("exposes markLimit as the item count and caps markers at it", () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			expect(result.current.markLimit).toBe(1);
+			expect(result.current.markCount).toBe(0);
+
+			act(() => {
+				result.current.setInteractionMode(InteractionMode.MARKER);
+			});
+
+			act(() => {
+				result.current.toggleMarker([0.5, 0.5]);
+			});
+
+			expect(result.current.markCount).toBe(1);
+
+			// A further tap elsewhere is blocked — the level has a single item.
+			act(() => {
+				result.current.toggleMarker([0.1, 0.9]);
+			});
+
+			expect(result.current.markCount).toBe(1);
+		});
+
+		it("toggles a marker off when tapped again nearby", () => {
+			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
+
+			const { result } = renderGameHook();
+
+			act(() => {
+				result.current.setInteractionMode(InteractionMode.MARKER);
+			});
+
+			act(() => {
+				result.current.toggleMarker([0.5, 0.5]);
+			});
+
+			expect(result.current.markers).toHaveLength(1);
+
+			act(() => {
+				result.current.toggleMarker([0.5, 0.5]);
+			});
+
+			expect(result.current.markers).toHaveLength(0);
 		});
 	});
 

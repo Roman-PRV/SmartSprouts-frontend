@@ -1,3 +1,6 @@
+import { type ValueOf } from "~/libs/types/types";
+
+import { type InteractionMode } from "../../enums/enums";
 import {
 	type MatchedItem,
 	type MatchResult,
@@ -12,10 +15,12 @@ const toFoundEntry = ({ itemId, stars }: MatchedItem): SubmitAttemptFoundEntry =
 
 const buildSubmitPayload = (
 	result: MatchResult,
-	durationSeconds: number
+	durationSeconds: number,
+	interactionMode: ValueOf<typeof InteractionMode>
 ): SubmitAttemptPayload => ({
 	duration_seconds: durationSeconds,
 	found: result.found.map((entry) => toFoundEntry(entry)),
+	interaction_mode: interactionMode,
 	missed_item_ids: [...result.missedItemIds],
 });
 

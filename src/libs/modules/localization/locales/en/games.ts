@@ -12,11 +12,21 @@ const games = {
 			done: "Done",
 			playAgain: "Play again",
 		},
+		counter: "Used {{used}} of {{limit}}",
 		error: {
 			load: "Failed to load the level. Please try again.",
 			noImage: "This level has no image.",
 			notFound: "Level not found.",
 			submit: "Failed to submit your attempt. Please try again.",
+		},
+		hint: {
+			circle: "Circle the wrong objects.",
+			marker: "Tap the wrong objects.",
+		},
+		mode: {
+			circle: "Circle",
+			label: "Play mode",
+			marker: "Tap",
 		},
 		result: {
 			foundSection: "Found",

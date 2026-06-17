@@ -7,5 +7,6 @@ export { getStagePointer } from "./get-stage-pointer/get-stage-pointer.helper";
 export { getValidClassNames } from "./get-valid-class-names/get-valid-class-names.helper";
 export { isThunkErrorPayload } from "./is-thunk-error-payload/is-thunk-error-payload.helper";
 export { normalizeError } from "./normalize-error/normalize-error.helper";
+export { pointInPolygon } from "./point-in-polygon/point-in-polygon.helper";
 export { polygonIoU } from "./polygon-iou/polygon-iou.helper";
 export { validateFormData } from "./validation/validation.helper";

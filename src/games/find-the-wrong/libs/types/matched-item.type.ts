@@ -1,5 +1,6 @@
 type MatchedItem = {
-	iou: number;
+	/** Area overlap for circle mode; absent for marker (tap) mode. */
+	iou?: number;
 	itemId: number;
 	stars: number;
 };

@@ -11,6 +11,7 @@ import {
 	useMemo,
 	useNormalizedCoords,
 	usePointerDrawing,
+	useTapDetection,
 } from "~/libs/hooks/hooks";
 import {
 	type CanvasCoordsApi,
@@ -20,22 +21,38 @@ import {
 	type Stroke,
 } from "~/libs/types/types";
 
-import { type FeedbackOverlay } from "../../libs/types/types";
+import { type FeedbackOverlay, type Marker } from "../../libs/types/types";
+import { MarkerLayer } from "../marker-layer/marker-layer";
 import { PolygonOverlay } from "../polygon-overlay/polygon-overlay";
 import { InFlightStrokeLine } from "../stroke-layer/in-flight-stroke-line";
 import { StrokeLayer } from "../stroke-layer/stroke-layer";
 import styles from "./styles.module.css";
 
+const NO_STROKES: Stroke[] = [];
+const NO_MARKERS: Marker[] = [];
+
 type CommonProperties = {
 	imageUrl: string;
 	polygons: Polygon[];
+};
+
+// `never` guards forbid wiring an interaction prop that does nothing in the
+// given mode (e.g. an editor receiving onStrokeComplete) — a silent no-op
+// otherwise, since a union allows any member's prop through excess-prop checks.
+type EditorProperties = CommonProperties & {
+	editorSlot?: (api: CanvasCoordsApi) => React.ReactNode;
+	mode: "editor";
+	onMarkerToggle?: never;
+	onStrokeComplete?: never;
 	strokes: Stroke[];
 };
 
-type EditorProperties = CommonProperties & {
-	editorSlot?: (api: CanvasCoordsApi) => React.ReactNode;
-	feedbackOverlay?: never;
-	mode: "editor";
+type MarkerProperties = CommonProperties & {
+	editorSlot?: never;
+	feedbackOverlay?: FeedbackOverlay[];
+	markers: Marker[];
+	mode: "marker";
+	onMarkerToggle?: (point: Point) => void;
 	onStrokeComplete?: never;
 };
 
@@ -43,10 +60,12 @@ type PlayerProperties = CommonProperties & {
 	editorSlot?: never;
 	feedbackOverlay?: FeedbackOverlay[];
 	mode: "player";
+	onMarkerToggle?: never;
 	onStrokeComplete?: (points: Point[]) => void;
+	strokes: Stroke[];
 };
 
-type Properties = EditorProperties | PlayerProperties;
+type Properties = EditorProperties | MarkerProperties | PlayerProperties;
 
 const getPointerPoint = (event: KonvaEventObject<PointerEvent>): null | Point => {
 	const position = event.target.getStage()?.getPointerPosition();
@@ -59,8 +78,13 @@ const getPointerPoint = (event: KonvaEventObject<PointerEvent>): null | Point =>
 };
 
 const DrawingCanvas: React.FC<Properties> = (properties) => {
-	const { imageUrl, polygons, strokes } = properties;
+	const { imageUrl, polygons } = properties;
 	const isPlayerMode = properties.mode === "player";
+	const isMarkerMode = properties.mode === "marker";
+
+	const strokes = properties.mode === "marker" ? NO_STROKES : properties.strokes;
+	const markers = properties.mode === "marker" ? properties.markers : NO_MARKERS;
+	const onMarkerToggle = properties.mode === "marker" ? properties.onMarkerToggle : undefined;
 
 	const { containerReference, size: containerSize } = useContainerSize<HTMLDivElement>();
 	const [image, imageStatus] = useImage(imageUrl);
@@ -87,16 +111,21 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 
 	const playerStrokeHandler = isPlayerMode ? properties.onStrokeComplete : undefined;
 	const drawing = usePointerDrawing(toClampedNormalized, isPlayerMode, playerStrokeHandler);
+	const tap = useTapDetection(toClampedNormalized, isMarkerMode, onMarkerToggle);
+
+	// Both hooks expose an identical handler shape, so the canvas just delegates
+	// pointer events to the active interaction without per-event mode branching.
+	const interaction = isMarkerMode ? tap : drawing;
 
 	const handlePointerDown = useCallback(
 		(event: KonvaEventObject<PointerEvent>): void => {
 			const point = getPointerPoint(event);
 
 			if (point) {
-				drawing.handlers.onStart(point);
+				interaction.handlers.onStart(point);
 			}
 		},
-		[drawing.handlers]
+		[interaction.handlers]
 	);
 
 	const handlePointerMove = useCallback(
@@ -104,15 +133,24 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 			const point = getPointerPoint(event);
 
 			if (point) {
-				drawing.handlers.onMove(point);
+				interaction.handlers.onMove(point);
 			}
 		},
-		[drawing.handlers]
+		[interaction.handlers]
 	);
 
-	const playerFeedback = isPlayerMode ? properties.feedbackOverlay : undefined;
+	const handlePointerUp = useCallback((): void => {
+		interaction.handlers.onEnd();
+	}, [interaction.handlers]);
+
+	const handlePointerCancel = useCallback((): void => {
+		interaction.handlers.onCancel();
+	}, [interaction.handlers]);
+
+	const playerFeedback =
+		properties.mode === "editor" ? undefined : properties.feedbackOverlay;
 	const editorSlot = properties.mode === "editor" ? properties.editorSlot : undefined;
-	const showPolygons = isPlayerMode && playerFeedback !== undefined;
+	const showPolygons = playerFeedback !== undefined;
 	const hasStageDimensions =
 		stageSize.width > EMPTY_DIMENSION && stageSize.height > EMPTY_DIMENSION;
 
@@ -124,11 +162,11 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 		<div className={styles["container"]} ref={containerReference}>
 			<Stage
 				height={stageSize.height}
-				onPointerCancel={drawing.handlers.onCancel}
+				onPointerCancel={handlePointerCancel}
 				onPointerDown={handlePointerDown}
-				onPointerLeave={drawing.handlers.onCancel}
+				onPointerLeave={handlePointerCancel}
 				onPointerMove={handlePointerMove}
-				onPointerUp={drawing.handlers.onEnd}
+				onPointerUp={handlePointerUp}
 				width={stageSize.width}
 			>
 				<Layer>
@@ -144,8 +182,14 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 					</Layer>
 				) : null}
 				<Layer listening={false}>
-					<StrokeLayer coords={coords} strokes={strokes} />
-					<InFlightStrokeLine coords={coords} points={drawing.inFlightPoints} />
+					{isMarkerMode ? (
+						<MarkerLayer coords={coords} markers={markers} />
+					) : (
+						<>
+							<StrokeLayer coords={coords} strokes={strokes} />
+							<InFlightStrokeLine coords={coords} points={drawing.inFlightPoints} />
+						</>
+					)}
 				</Layer>
 				{editorSlot ? <Layer>{editorSlot(coords)}</Layer> : null}
 			</Stage>

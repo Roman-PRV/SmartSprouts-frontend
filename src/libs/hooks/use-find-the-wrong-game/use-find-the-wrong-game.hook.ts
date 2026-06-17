@@ -5,9 +5,13 @@ import {
 	buildSubmitPayload,
 	ErrorKind,
 	type FindTheWrongLevelDto,
+	InteractionMode,
+	type Marker,
 	type MatchableItem,
 	matchStrokesToItems,
+	matchTapsToItems,
 	type SubmitAttemptResponseDto,
+	useMarkers,
 	useStrokes,
 } from "~/games/find-the-wrong/find-the-wrong";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
@@ -29,16 +33,23 @@ type UseFindTheWrongGameProperties = {
 
 type UseFindTheWrongGameReturn = {
 	addStroke: (points: Point[]) => void;
-	clearStrokes: () => void;
+	clearMarks: () => void;
 	errorKind: null | ValueOf<typeof ErrorKind>;
 	handleReset: () => void;
 	handleSubmit: () => Promise<void>;
+	hasMarks: boolean;
 	hasSubmitError: boolean;
+	interactionMode: ValueOf<typeof InteractionMode>;
 	isSubmitting: boolean;
 	level: FindTheWrongLevelDto | null;
+	markCount: number;
+	markers: Marker[];
+	markLimit: number;
+	setInteractionMode: (mode: ValueOf<typeof InteractionMode>) => void;
 	status: ValueOf<typeof DataStatus>;
 	strokes: ReturnType<typeof useStrokes>["strokes"];
 	submitResult: null | SubmitAttemptResponseDto;
+	toggleMarker: (point: Point) => void;
 };
 
 const useFindTheWrongGame = ({
@@ -52,24 +63,33 @@ const useFindTheWrongGame = ({
 	const status = useAppSelector((state) => state.findTheWrongLevels.currentStatus);
 	const error = useAppSelector((state) => state.findTheWrongLevels.error);
 
-	const { addStroke, clearAll, strokes } = useStrokes();
-	const [submitResult, setSubmitResult] = useState<null | SubmitAttemptResponseDto>(null);
-	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-	const [hasSubmitError, setHasSubmitError] = useState<boolean>(false);
-	const startReference = useRef<number>(Date.now());
-
 	const matchables = useMemo<MatchableItem[]>(
 		() => (level?.items ?? []).map((item) => ({ id: item.id, polygon: item.polygon })),
 		[level]
 	);
 
-	// Restart the attempt timer whenever a fresh level loads.
+	const markLimit = matchables.length;
+
+	const { addStroke, clearAll: clearStrokes, strokes } = useStrokes(markLimit);
+	const { clearAll: clearMarkers, markers, toggleMarker } = useMarkers(markLimit);
+	const [interactionMode, setInteractionModeState] = useState<ValueOf<typeof InteractionMode>>(
+		InteractionMode.CIRCLE
+	);
+	const [submitResult, setSubmitResult] = useState<null | SubmitAttemptResponseDto>(null);
+	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+	const [hasSubmitError, setHasSubmitError] = useState<boolean>(false);
+	const startReference = useRef<number>(Date.now());
+
+	const isMarkerMode = interactionMode === InteractionMode.MARKER;
+	const markCount = isMarkerMode ? markers.length : strokes.length;
+	const hasMarks = markCount > EMPTY_ARRAY_LENGTH;
+
 	useEffect(() => {
 		startReference.current = Date.now();
 	}, [level?.id]);
 
 	const handleSubmit = useCallback(async (): Promise<void> => {
-		if (!level || isSubmitting || submitResult !== null || strokes.length === EMPTY_ARRAY_LENGTH) {
+		if (!level || isSubmitting || submitResult !== null || !hasMarks) {
 			return;
 		}
 
@@ -77,13 +97,15 @@ const useFindTheWrongGame = ({
 		setHasSubmitError(false);
 
 		try {
-			const result = matchStrokesToItems(strokes, matchables);
+			const result = isMarkerMode
+				? matchTapsToItems(markers, matchables, startReference.current)
+				: matchStrokesToItems(strokes, matchables);
 			const elapsed = Math.round((Date.now() - startReference.current) / MS_PER_SECOND);
 			const durationSeconds = Math.min(
 				Math.max(elapsed, MIN_DURATION_SECONDS),
 				MAX_DURATION_SECONDS
 			);
-			const payload = buildSubmitPayload(result, durationSeconds);
+			const payload = buildSubmitPayload(result, durationSeconds, interactionMode);
 
 			const response = await dispatch(
 				findTheWrongGameActions.submitAttempt({
@@ -99,14 +121,56 @@ const useFindTheWrongGame = ({
 		} finally {
 			setIsSubmitting(false);
 		}
-	}, [level, isSubmitting, submitResult, strokes, matchables, dispatch, game.id, levelIdString]);
+	}, [
+		level,
+		isSubmitting,
+		submitResult,
+		hasMarks,
+		isMarkerMode,
+		markers,
+		strokes,
+		matchables,
+		interactionMode,
+		dispatch,
+		game.id,
+		levelIdString,
+	]);
+
+	const clearMarks = useCallback((): void => {
+		if (isMarkerMode) {
+			clearMarkers();
+
+			return;
+		}
+
+		clearStrokes();
+	}, [isMarkerMode, clearMarkers, clearStrokes]);
 
 	const handleReset = useCallback((): void => {
-		clearAll();
+		clearStrokes();
+		clearMarkers();
 		setSubmitResult(null);
 		setHasSubmitError(false);
 		startReference.current = Date.now();
-	}, [clearAll]);
+	}, [clearStrokes, clearMarkers]);
+
+	// Switching mode starts a clean attempt: drop both interaction states and
+	// restart the timer so marker timing is fair. Selecting the current mode is a
+	// no-op — the hook owns this invariant regardless of how the UI is wired.
+	const setInteractionMode = useCallback(
+		(mode: ValueOf<typeof InteractionMode>): void => {
+			if (mode === interactionMode) {
+				return;
+			}
+
+			setInteractionModeState(mode);
+			clearStrokes();
+			clearMarkers();
+			setHasSubmitError(false);
+			startReference.current = Date.now();
+		},
+		[interactionMode, clearStrokes, clearMarkers]
+	);
 
 	useLanguageSync(
 		useCallback(() => {
@@ -134,16 +198,23 @@ const useFindTheWrongGame = ({
 
 	return {
 		addStroke,
-		clearStrokes: clearAll,
+		clearMarks,
 		errorKind,
 		handleReset,
 		handleSubmit,
+		hasMarks,
 		hasSubmitError,
+		interactionMode,
 		isSubmitting,
 		level,
+		markCount,
+		markers,
+		markLimit,
+		setInteractionMode,
 		status,
 		strokes,
 		submitResult,
+		toggleMarker,
 	};
 };
 
