@@ -166,6 +166,16 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 				{t("games.findTheWrong.counter", { limit: markLimit, used: markCount })}
 			</p>
 
+			<Button
+				disabled={!hasMarks}
+				fullWidth
+				isLoading={isSubmitting}
+				onClick={handleSubmitClick}
+				size="lg"
+			>
+				{t("games.actions.submit")}
+			</Button>
+
 			{hasSubmitError && (
 				<div className={styles["level-card__error"]} role="alert">
 					{t("games.findTheWrong.error.submit")}
@@ -173,17 +183,25 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 			)}
 
 			<div className={styles["level-card__actions"]}>
-				<Button disabled={!hasMarks} onClick={clearMarks} variant="secondary">
-					{t("games.findTheWrong.actions.clear")}
-				</Button>
-				<Button disabled={!hasMarks} isLoading={isSubmitting} onClick={handleSubmitClick}>
-					{t("games.findTheWrong.actions.done")}
+				<Link
+					className={getValidClassNames(
+						styles["level-card__action"],
+						styles["level-card__back-link"]
+					)}
+					to={`/games/${game.id}`}
+				>
+					{t("games.actions.back")}
+				</Link>
+
+				<Button
+					className={styles["level-card__action"]}
+					disabled={!hasMarks}
+					onClick={clearMarks}
+					variant="secondary"
+				>
+					{t("games.actions.reset")}
 				</Button>
 			</div>
-
-			<Link className={styles["level-card__back-link"]} to={`/games/${game.id}`}>
-				{t("games.findTheWrong.actions.back")}
-			</Link>
 		</div>
 	);
 };

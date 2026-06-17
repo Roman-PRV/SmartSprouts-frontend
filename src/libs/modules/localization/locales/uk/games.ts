@@ -1,4 +1,9 @@
 const games = {
+	actions: {
+		back: "До рівнів",
+		reset: "Скинути",
+		submit: "Перевірити",
+	},
 	content: {
 		errorTitle: "Помилка",
 		invalidId: "Недійсний або відсутній ID гри.",
@@ -7,9 +12,6 @@ const games = {
 	},
 	findTheWrong: {
 		actions: {
-			back: "До рівнів",
-			clear: "Очистити",
-			done: "Готово",
 			playAgain: "Грати ще раз",
 		},
 		counter: "Використано {{used}} з {{limit}}",
@@ -57,10 +59,8 @@ const games = {
 	},
 	trueFalse: {
 		actions: {
-			back: "До рівнів",
 			markFalse: "Позначити як невірно",
 			markTrue: "Позначити як вірно",
-			reset: "Скинути рівень",
 		},
 		error: {
 			check: "Не вдалося перевірити відповіді. Будь ласка, спробуйте ще раз.",
@@ -75,7 +75,6 @@ const games = {
 			correct: "Правильно",
 			incorrect: "Неправильно",
 		},
-		submit: "Перевірити",
 	},
 };
 

@@ -119,7 +119,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 				onClick={handleSubmitClick}
 				size="lg"
 			>
-				{t("games.trueFalse.submit")}
+				{t("games.actions.submit")}
 			</Button>
 
 			{hasSubmitError && (
@@ -136,11 +136,11 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 					)}
 					to={`/games/${game.id}`}
 				>
-					{t("games.trueFalse.actions.back")}
+					{t("games.actions.back")}
 				</Link>
 
 				<Button className={styles["level-card__action"]} onClick={handleReset} variant="secondary">
-					{t("games.trueFalse.actions.reset")}
+					{t("games.actions.reset")}
 				</Button>
 			</div>
 		</div>

@@ -1,4 +1,9 @@
 const games = {
+	actions: {
+		back: "Back to levels",
+		reset: "Reset",
+		submit: "Check answers",
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
@@ -7,9 +12,6 @@ const games = {
 	},
 	findTheWrong: {
 		actions: {
-			back: "Back to levels",
-			clear: "Clear",
-			done: "Done",
 			playAgain: "Play again",
 		},
 		counter: "Used {{used}} of {{limit}}",
@@ -57,10 +59,8 @@ const games = {
 	},
 	trueFalse: {
 		actions: {
-			back: "Back to Levels",
 			markFalse: "Mark as false",
 			markTrue: "Mark as true",
-			reset: "Reset Level",
 		},
 		error: {
 			check: "Failed to check answers. Please try again.",
@@ -75,7 +75,6 @@ const games = {
 			correct: "Correct",
 			incorrect: "Incorrect",
 		},
-		submit: "Check Answers",
 	},
 };
 

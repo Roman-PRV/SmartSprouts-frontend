@@ -1,4 +1,9 @@
 const games = {
+	actions: {
+		back: "Volver a los niveles",
+		reset: "Reiniciar",
+		submit: "Comprobar",
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "ID de juego no válido o ausente.",
@@ -7,9 +12,6 @@ const games = {
 	},
 	findTheWrong: {
 		actions: {
-			back: "Volver a los niveles",
-			clear: "Borrar",
-			done: "Listo",
 			playAgain: "Jugar de nuevo",
 		},
 		counter: "Usadas {{used}} de {{limit}}",
@@ -57,10 +59,8 @@ const games = {
 	},
 	trueFalse: {
 		actions: {
-			back: "Volver a los niveles",
 			markFalse: "Marcar como falso",
 			markTrue: "Marcar como verdadero",
-			reset: "Reiniciar nivel",
 		},
 		error: {
 			check: "Error al comprobar las respuestas. Inténtalo de nuevo.",
@@ -75,7 +75,6 @@ const games = {
 			correct: "Correcto",
 			incorrect: "Incorrecto",
 		},
-		submit: "Comprobar respuestas",
 	},
 };
 
