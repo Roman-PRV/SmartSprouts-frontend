@@ -14,8 +14,10 @@ const useStrokes = (limit = Number.POSITIVE_INFINITY): UseStrokesReturn => {
 
 	const addStroke = useCallback(
 		(points: Point[]): void => {
+			const newStroke: Stroke = { id: generateClientId(), points };
+
 			setStrokes((previous) =>
-				previous.length >= limit ? previous : [...previous, { id: generateClientId(), points }]
+				previous.length >= limit ? previous : [...previous, newStroke]
 			);
 		},
 		[limit]

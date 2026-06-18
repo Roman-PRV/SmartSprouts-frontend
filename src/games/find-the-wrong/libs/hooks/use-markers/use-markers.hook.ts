@@ -29,6 +29,8 @@ const useMarkers = (limit = Number.POSITIVE_INFINITY): UseMarkersReturn => {
 
 	const toggleMarker = useCallback(
 		(point: Point): void => {
+			const newMarker: Marker = { id: generateClientId(), placedAtMs: Date.now(), point };
+
 			setMarkers((previous) => {
 				const existing = previous.find((marker) => isNear(marker.point, point));
 
@@ -40,7 +42,7 @@ const useMarkers = (limit = Number.POSITIVE_INFINITY): UseMarkersReturn => {
 					return previous;
 				}
 
-				return [...previous, { id: generateClientId(), placedAtMs: Date.now(), point }];
+				return [...previous, newMarker];
 			});
 		},
 		[limit]
