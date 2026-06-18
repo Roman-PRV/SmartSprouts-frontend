@@ -43,6 +43,13 @@
 	width: 100%;
 }
 
+/* Modifier: button--centered */
+.button--centered {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 /* Variant: primary */
 .button--primary {
 	color: var(--color-text-light);
@@ -234,7 +241,7 @@
 }
 
 /* Responsive design */
-@media (width <= 768px) {
+@media (width <=768px) {
 	.button--sm {
 		padding: 6px 12px;
 		font-size: 0.8125rem;
@@ -251,7 +258,7 @@
 	}
 }
 
-@media (width <= 480px) {
+@media (width <=480px) {
 	.button--sm {
 		padding: 6px 10px;
 		font-size: 0.75rem;

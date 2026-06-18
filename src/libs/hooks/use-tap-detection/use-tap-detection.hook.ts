@@ -49,11 +49,16 @@ const useTapDetection = (
 		[enabled]
 	);
 
-	const onMove = useCallback((pixel: Point): void => {
-		if (startReference.current) {
+	const onMove = useCallback(
+		(pixel: Point): void => {
+			if (!enabled || !startReference.current) {
+				return;
+			}
+
 			lastReference.current = pixel;
-		}
-	}, []);
+		},
+		[enabled]
+	);
 
 	const onEnd = useCallback((): void => {
 		const start = startReference.current;

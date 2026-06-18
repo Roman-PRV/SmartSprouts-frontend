@@ -58,6 +58,23 @@ describe("useTapDetection", () => {
 		expect(onTap).not.toHaveBeenCalled();
 	});
 
+	it("ignores movement while disabled (no phantom tap)", () => {
+		const onTap = vi.fn();
+		const { result } = renderHook(() => useTapDetection(toNormalized, false, onTap));
+
+		act(() => {
+			result.current.handlers.onStart([10, 10]);
+		});
+		act(() => {
+			result.current.handlers.onMove([12, 12]);
+		});
+		act(() => {
+			result.current.handlers.onEnd();
+		});
+
+		expect(onTap).not.toHaveBeenCalled();
+	});
+
 	it("does nothing when disabled", () => {
 		const onTap = vi.fn();
 		const { result } = renderHook(() => useTapDetection(toNormalized, false, onTap));

@@ -155,9 +155,15 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 
 					{renderCanvas(false)}
 
-					<Button fullWidth onClick={exitReview} size="lg">
-						{t("games.actions.backToResults")}
-					</Button>
+					<div className={styles["level-card__primary"]}>
+						<Button
+							className={styles["level-card__primary-button"]}
+							onClick={exitReview}
+							size="lg"
+						>
+							{t("games.actions.backToResults")}
+						</Button>
+					</div>
 				</div>
 			);
 		}
@@ -218,15 +224,17 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 				{t("games.findTheWrong.counter", { limit: markLimit, used: markCount })}
 			</p>
 
-			<Button
-				disabled={!hasMarks}
-				fullWidth
-				isLoading={isSubmitting}
-				onClick={handleSubmitClick}
-				size="lg"
-			>
-				{t("games.actions.submit")}
-			</Button>
+			<div className={styles["level-card__primary"]}>
+				<Button
+					className={styles["level-card__primary-button"]}
+					disabled={!hasMarks}
+					isLoading={isSubmitting}
+					onClick={handleSubmitClick}
+					size="lg"
+				>
+					{t("games.actions.submit")}
+				</Button>
+			</div>
 
 			{hasSubmitError && (
 				<div className={styles["level-card__error"]} role="alert">

@@ -115,6 +115,18 @@
 	max-width: 200px;
 }
 
+/* Centered, width-capped primary button (submit / back-to-results) so it does
+   not stretch across the full-width card. */
+.level-card__primary {
+	display: flex;
+	justify-content: center;
+}
+
+.level-card__primary-button {
+	width: 100%;
+	max-width: 540px;
+}
+
 /* Element: level-card__counter */
 .level-card__counter {
 	margin: 0 0 8px;
