@@ -157,7 +157,7 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 
 					<div className={styles["level-card__primary"]}>
 						<Button
-							className={styles["level-card__primary-button"]}
+							fullWidth
 							onClick={exitReview}
 							size="lg"
 						>
@@ -226,8 +226,8 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 
 			<div className={styles["level-card__primary"]}>
 				<Button
-					className={styles["level-card__primary-button"]}
 					disabled={!hasMarks}
+					fullWidth
 					isLoading={isSubmitting}
 					onClick={handleSubmitClick}
 					size="lg"

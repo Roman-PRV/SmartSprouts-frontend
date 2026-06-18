@@ -43,13 +43,6 @@
 	width: 100%;
 }
 
-/* Modifier: button--centered */
-.button--centered {
-	display: block;
-	margin-right: auto;
-	margin-left: auto;
-}
-
 /* Variant: primary */
 .button--primary {
 	color: var(--color-text-light);

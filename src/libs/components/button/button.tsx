@@ -7,7 +7,6 @@ import { type ButtonProperties } from "./types";
 
 /** Universal button; `isLoading` shows a spinner and suppresses `onClick`, like `disabled`. */
 const Button: React.FC<ButtonProperties> = ({
-	centered = false,
 	children,
 	className = "",
 	disabled = false,
@@ -42,7 +41,6 @@ const Button: React.FC<ButtonProperties> = ({
 		isUnstyled && styles["button--unstyled"],
 
 		fullWidth && styles["button--full-width"],
-		centered && styles["button--centered"],
 		isLoading && styles["button--loading"],
 		isDisabled && styles["button--disabled"],
 		className

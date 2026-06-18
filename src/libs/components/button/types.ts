@@ -24,9 +24,6 @@ import { type IconName } from "~/libs/types/types";
  */
 
 type ButtonProperties = ComponentPropsWithoutRef<"button"> & {
-	/** Whether the button should be centered */
-	centered?: boolean;
-
 	/** Whether the button should take up the full width of its container */
 	fullWidth?: boolean;
 
