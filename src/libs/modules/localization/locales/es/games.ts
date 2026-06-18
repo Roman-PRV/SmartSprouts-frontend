@@ -1,4 +1,11 @@
 const games = {
+	actions: {
+		back: "Volver a los niveles",
+		backToResults: "Volver a resultados",
+		reset: "Reiniciar",
+		review: "Ver marcas",
+		submit: "Comprobar",
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "ID de juego no válido o ausente.",
@@ -7,16 +14,26 @@ const games = {
 	},
 	findTheWrong: {
 		actions: {
-			back: "Volver a los niveles",
-			clear: "Borrar",
-			done: "Listo",
 			playAgain: "Jugar de nuevo",
 		},
+		counter: "Usadas {{used}} de {{limit}}",
 		error: {
 			load: "Error al cargar el nivel. Por favor, inténtalo de nuevo.",
 			noImage: "Este nivel no tiene imagen.",
 			notFound: "Nivel no encontrado.",
 			submit: "Error al enviar tu intento. Por favor, inténtalo de nuevo.",
+		},
+		hint: {
+			circle: "Rodea los objetos incorrectos.",
+			marker: "Toca los objetos incorrectos.",
+		},
+		mode: {
+			circle: "Rodear",
+			label: "Modo de juego",
+			marker: "Tocar",
+		},
+		notice: {
+			openStroke: "Cierra el contorno alrededor del objeto para que cuente.",
 		},
 		result: {
 			foundSection: "Encontrados",
@@ -44,10 +61,8 @@ const games = {
 	},
 	trueFalse: {
 		actions: {
-			back: "Volver a los niveles",
 			markFalse: "Marcar como falso",
 			markTrue: "Marcar como verdadero",
-			reset: "Reiniciar nivel",
 		},
 		error: {
 			check: "Error al comprobar las respuestas. Inténtalo de nuevo.",
@@ -62,7 +77,6 @@ const games = {
 			correct: "Correcto",
 			incorrect: "Incorrecto",
 		},
-		submit: "Comprobar respuestas",
 	},
 };
 

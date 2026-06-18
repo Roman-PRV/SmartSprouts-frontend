@@ -1,6 +1,6 @@
-/* Block: level-card */
+/* Block: level-card (default = image mode; image is the focus, so wider) */
 .level-card {
-	max-width: 800px;
+	max-width: 1000px;
 	padding: 24px;
 	margin: 0 auto;
 	background: var(--color-background-4);
@@ -169,6 +169,11 @@
 		gap: 12px;
 		margin-bottom: 20px;
 	}
+}
+
+/* Text mode has no image — keep a comfortable reading width. */
+.level-card--text-mode {
+	max-width: 720px;
 }
 
 .level-card--text-mode .level-card__text {

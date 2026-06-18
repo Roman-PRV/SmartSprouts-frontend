@@ -5,14 +5,22 @@ export {
 	CANVAS_PALETTE,
 	CANVAS_POLYGON,
 } from "./libs/constants/constants";
-export { ErrorKind } from "./libs/enums/enums";
-export { buildSubmitPayload, matchStrokesToItems } from "./libs/helpers/helpers";
-export { useStrokes } from "./libs/hooks/hooks";
+export { ErrorKind, InteractionMode } from "./libs/enums/enums";
+export {
+	buildSubmitPayload,
+	INTERACTION_MODES,
+	isClosedLoop,
+	isInteractionMode,
+	matchStrokesToItems,
+	matchTapsToItems,
+} from "./libs/helpers/helpers";
+export { useMarkers, useStrokes } from "./libs/hooks/hooks";
 export {
 	type FeedbackOverlay,
 	type FindTheWrongItemDto,
 	type FindTheWrongLevelDto,
 	type FindTheWrongRevealItemDto,
+	type Marker,
 	type MatchableItem,
 	type MatchedItem,
 	type MatchResult,

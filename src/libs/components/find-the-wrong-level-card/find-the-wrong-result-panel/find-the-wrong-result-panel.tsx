@@ -15,6 +15,7 @@ const FIRST_STAR = 1;
 
 type Properties = {
 	onPlayAgain: () => void;
+	onReview: () => void;
 	result: SubmitAttemptResponseDto;
 };
 
@@ -52,7 +53,7 @@ const RevealRow: React.FC<RevealRowProperties> = ({ item, muted = false }) => {
 	);
 };
 
-const FindTheWrongResultPanel: React.FC<Properties> = ({ onPlayAgain, result }) => {
+const FindTheWrongResultPanel: React.FC<Properties> = ({ onPlayAgain, onReview, result }) => {
 	const { t } = useTranslation();
 
 	return (
@@ -90,9 +91,14 @@ const FindTheWrongResultPanel: React.FC<Properties> = ({ onPlayAgain, result }) 
 				</section>
 			)}
 
-			<Button fullWidth onClick={onPlayAgain} size="lg">
-				{t("games.findTheWrong.actions.playAgain")}
-			</Button>
+			<div className={styles["panel__actions"]}>
+				<Button fullWidth onClick={onReview} size="lg" variant="secondary">
+					{t("games.actions.review")}
+				</Button>
+				<Button fullWidth onClick={onPlayAgain} size="lg">
+					{t("games.findTheWrong.actions.playAgain")}
+				</Button>
+			</div>
 		</div>
 	);
 };

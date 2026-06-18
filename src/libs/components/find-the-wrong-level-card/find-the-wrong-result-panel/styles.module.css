@@ -88,6 +88,15 @@
 	color: var(--color-text-primary);
 }
 
+/* Element: panel__actions (width-capped + centered so buttons don't stretch) */
+.panel__actions {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	max-width: 540px;
+	margin: 0 auto;
+}
+
 @media (width <= 768px) {
 	.panel {
 		padding: 20px;

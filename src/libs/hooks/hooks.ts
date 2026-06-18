@@ -12,6 +12,7 @@ export { useLevelsFetch } from "./use-levels-fetch/use-levels-fetch.hook";
 export { useNormalizedCoords } from "./use-normalized-coords/use-normalized-coords.hook";
 export { usePointerDrawing } from "./use-pointer-drawing/use-pointer-drawing.hook";
 export { useProfileFetch } from "./use-profile-fetch/use-profile-fetch.hook";
+export { useTapDetection } from "./use-tap-detection/use-tap-detection.hook";
 export { useTrueFalseGame } from "./use-true-false-game/use-true-false-game.hook";
 export { useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 export { useForm } from "react-hook-form";
