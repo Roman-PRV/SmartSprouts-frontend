@@ -1,7 +1,9 @@
 const games = {
 	actions: {
 		back: "До рівнів",
+		backToResults: "До результатів",
 		reset: "Скинути",
+		review: "Подивитись позначки",
 		submit: "Перевірити",
 	},
 	content: {

@@ -14,7 +14,13 @@ import {
 } from "~/libs/components/components";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback, useFindTheWrongGame, useId, useTranslation } from "~/libs/hooks/hooks";
+import {
+	useCallback,
+	useFindTheWrongGame,
+	useId,
+	useState,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { type LevelCardProperties, type ValueOf } from "~/libs/types/types";
 
 import { FindTheWrongResultPanel } from "./find-the-wrong-result-panel/find-the-wrong-result-panel";
@@ -59,10 +65,24 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 	} = useFindTheWrongGame({ game, levelId });
 
 	const modeGroupName = useId();
+	const [isReviewing, setIsReviewing] = useState<boolean>(false);
 
 	const handleSubmitClick = useCallback((): void => {
 		void handleSubmit();
 	}, [handleSubmit]);
+
+	const handlePlayAgain = useCallback((): void => {
+		setIsReviewing(false);
+		handleReset();
+	}, [handleReset]);
+
+	const startReview = useCallback((): void => {
+		setIsReviewing(true);
+	}, []);
+
+	const exitReview = useCallback((): void => {
+		setIsReviewing(false);
+	}, []);
 
 	const handleModeChange = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -92,11 +112,65 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 		return <FallbackMessage message={t("games.findTheWrong.error.notFound")} />;
 	}
 
+	const isMarkerMode = interactionMode === InteractionMode.MARKER;
+
+	const renderCanvas = (interactive: boolean): React.JSX.Element => {
+		if (!level.image_url) {
+			return <FallbackMessage message={t("games.findTheWrong.error.noImage")} />;
+		}
+
+		return (
+			<div className={styles["level-card__canvas"]}>
+				{isMarkerMode ? (
+					<DrawingCanvas
+						imageUrl={level.image_url}
+						interactive={interactive}
+						markers={markers}
+						mode="marker"
+						onMarkerToggle={toggleMarker}
+						polygons={[]}
+					/>
+				) : (
+					<DrawingCanvas
+						imageUrl={level.image_url}
+						interactive={interactive}
+						mode="player"
+						onStrokeComplete={addStroke}
+						polygons={[]}
+						strokes={strokes}
+					/>
+				)}
+			</div>
+		);
+	};
+
 	if (submitResult) {
-		return <FindTheWrongResultPanel onPlayAgain={handleReset} result={submitResult} />;
+		if (isReviewing) {
+			return (
+				<div className={styles["level-card"]}>
+					<div className={styles["level-card__title-container"]}>
+						<h2 className={styles["level-card__title"]}>{level.title}</h2>
+						<AudioPlayButton url={level.title_audio_url} />
+					</div>
+
+					{renderCanvas(false)}
+
+					<Button fullWidth onClick={exitReview} size="lg">
+						{t("games.actions.backToResults")}
+					</Button>
+				</div>
+			);
+		}
+
+		return (
+			<FindTheWrongResultPanel
+				onPlayAgain={handlePlayAgain}
+				onReview={startReview}
+				result={submitResult}
+			/>
+		);
 	}
 
-	const isMarkerMode = interactionMode === InteractionMode.MARKER;
 	const activeHint = MODE_CONFIG[interactionMode].hintKey;
 
 	return (
@@ -138,29 +212,7 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 
 			<p className={styles["level-card__hint"]}>{t(activeHint)}</p>
 
-			{level.image_url ? (
-				<div className={styles["level-card__canvas"]}>
-					{isMarkerMode ? (
-						<DrawingCanvas
-							imageUrl={level.image_url}
-							markers={markers}
-							mode="marker"
-							onMarkerToggle={toggleMarker}
-							polygons={[]}
-						/>
-					) : (
-						<DrawingCanvas
-							imageUrl={level.image_url}
-							mode="player"
-							onStrokeComplete={addStroke}
-							polygons={[]}
-							strokes={strokes}
-						/>
-					)}
-				</div>
-			) : (
-				<FallbackMessage message={t("games.findTheWrong.error.noImage")} />
-			)}
+			{renderCanvas(true)}
 
 			<p className={styles["level-card__counter"]}>
 				{t("games.findTheWrong.counter", { limit: markLimit, used: markCount })}

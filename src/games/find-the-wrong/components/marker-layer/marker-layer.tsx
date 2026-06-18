@@ -6,13 +6,14 @@ import { MarkerX } from "./marker-x";
 type Properties = {
 	coords: CanvasCoordsApi;
 	markers: Marker[];
+	readOnly?: boolean;
 };
 
-const MarkerLayer: React.FC<Properties> = ({ coords, markers }) => {
+const MarkerLayer: React.FC<Properties> = ({ coords, markers, readOnly = false }) => {
 	return (
 		<>
 			{markers.map((marker) => (
-				<MarkerX coords={coords} key={marker.id} marker={marker} />
+				<MarkerX coords={coords} key={marker.id} marker={marker} readOnly={readOnly} />
 			))}
 		</>
 	);

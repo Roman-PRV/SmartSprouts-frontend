@@ -88,6 +88,13 @@
 	color: var(--color-text-primary);
 }
 
+/* Element: panel__actions */
+.panel__actions {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
 @media (width <= 768px) {
 	.panel {
 		padding: 20px;

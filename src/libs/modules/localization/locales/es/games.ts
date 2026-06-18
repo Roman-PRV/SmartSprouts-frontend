@@ -1,7 +1,9 @@
 const games = {
 	actions: {
 		back: "Volver a los niveles",
+		backToResults: "Volver a resultados",
 		reset: "Reiniciar",
+		review: "Ver marcas",
 		submit: "Comprobar",
 	},
 	content: {

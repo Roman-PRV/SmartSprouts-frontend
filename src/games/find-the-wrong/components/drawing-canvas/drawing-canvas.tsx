@@ -50,6 +50,7 @@ type EditorProperties = CommonProperties & {
 type MarkerProperties = CommonProperties & {
 	editorSlot?: never;
 	feedbackOverlay?: FeedbackOverlay[];
+	interactive?: boolean;
 	markers: Marker[];
 	mode: "marker";
 	onMarkerToggle?: (point: Point) => void;
@@ -59,6 +60,7 @@ type MarkerProperties = CommonProperties & {
 type PlayerProperties = CommonProperties & {
 	editorSlot?: never;
 	feedbackOverlay?: FeedbackOverlay[];
+	interactive?: boolean;
 	mode: "player";
 	onMarkerToggle?: never;
 	onStrokeComplete?: (points: Point[]) => void;
@@ -81,6 +83,9 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 	const { imageUrl, polygons } = properties;
 	const isPlayerMode = properties.mode === "player";
 	const isMarkerMode = properties.mode === "marker";
+	// Editor is always interactive; player/marker can be put in read-only review.
+	const isInteractive = properties.mode === "editor" ? true : (properties.interactive ?? true);
+	const isReadOnly = !isInteractive;
 
 	const strokes = properties.mode === "marker" ? NO_STROKES : properties.strokes;
 	const markers = properties.mode === "marker" ? properties.markers : NO_MARKERS;
@@ -110,8 +115,12 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 	);
 
 	const playerStrokeHandler = isPlayerMode ? properties.onStrokeComplete : undefined;
-	const drawing = usePointerDrawing(toClampedNormalized, isPlayerMode, playerStrokeHandler);
-	const tap = useTapDetection(toClampedNormalized, isMarkerMode, onMarkerToggle);
+	const drawing = usePointerDrawing(
+		toClampedNormalized,
+		isPlayerMode && isInteractive,
+		playerStrokeHandler
+	);
+	const tap = useTapDetection(toClampedNormalized, isMarkerMode && isInteractive, onMarkerToggle);
 
 	// Both hooks expose an identical handler shape, so the canvas just delegates
 	// pointer events to the active interaction without per-event mode branching.
@@ -183,10 +192,15 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 				) : null}
 				<Layer listening={false}>
 					{isMarkerMode ? (
-						<MarkerLayer coords={coords} markers={markers} />
+						<MarkerLayer coords={coords} markers={markers} readOnly={isReadOnly} />
 					) : (
 						<>
-							<StrokeLayer coords={coords} highlightClosed={isPlayerMode} strokes={strokes} />
+							<StrokeLayer
+								coords={coords}
+								highlightClosed={isPlayerMode}
+								readOnly={isReadOnly}
+								strokes={strokes}
+							/>
 							<InFlightStrokeLine coords={coords} points={drawing.inFlightPoints} />
 						</>
 					)}

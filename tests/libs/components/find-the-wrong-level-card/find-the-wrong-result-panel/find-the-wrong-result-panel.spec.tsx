@@ -38,7 +38,7 @@ describe("FindTheWrongResultPanel", () => {
 	});
 
 	it("renders the score summary", () => {
-		render(<FindTheWrongResultPanel onPlayAgain={vi.fn()} result={MOCK_RESULT} />);
+		render(<FindTheWrongResultPanel onPlayAgain={vi.fn()} onReview={vi.fn()} result={MOCK_RESULT} />);
 
 		expect(
 			screen.getByText(
@@ -48,7 +48,7 @@ describe("FindTheWrongResultPanel", () => {
 	});
 
 	it("renders found and missed item names", () => {
-		render(<FindTheWrongResultPanel onPlayAgain={vi.fn()} result={MOCK_RESULT} />);
+		render(<FindTheWrongResultPanel onPlayAgain={vi.fn()} onReview={vi.fn()} result={MOCK_RESULT} />);
 
 		expect(screen.getByText("Apple")).toBeInTheDocument();
 		expect(screen.getByText("Car")).toBeInTheDocument();
@@ -57,7 +57,7 @@ describe("FindTheWrongResultPanel", () => {
 	});
 
 	it("renders found and missed section headings", () => {
-		render(<FindTheWrongResultPanel onPlayAgain={vi.fn()} result={MOCK_RESULT} />);
+		render(<FindTheWrongResultPanel onPlayAgain={vi.fn()} onReview={vi.fn()} result={MOCK_RESULT} />);
 
 		expect(
 			screen.getByRole("heading", { name: i18n.t("games.findTheWrong.result.foundSection") })
@@ -71,7 +71,9 @@ describe("FindTheWrongResultPanel", () => {
 		const onPlayAgain = vi.fn();
 		const user = userEvent.setup();
 
-		render(<FindTheWrongResultPanel onPlayAgain={onPlayAgain} result={MOCK_RESULT} />);
+		render(
+			<FindTheWrongResultPanel onPlayAgain={onPlayAgain} onReview={vi.fn()} result={MOCK_RESULT} />
+		);
 
 		await user.click(
 			screen.getByRole("button", { name: i18n.t("games.findTheWrong.actions.playAgain") })
@@ -80,13 +82,28 @@ describe("FindTheWrongResultPanel", () => {
 		expect(onPlayAgain).toHaveBeenCalledOnce();
 	});
 
+	it("calls onReview when the review button is clicked", async () => {
+		const onReview = vi.fn();
+		const user = userEvent.setup();
+
+		render(
+			<FindTheWrongResultPanel onPlayAgain={vi.fn()} onReview={onReview} result={MOCK_RESULT} />
+		);
+
+		await user.click(screen.getByRole("button", { name: i18n.t("games.actions.review") }));
+
+		expect(onReview).toHaveBeenCalledOnce();
+	});
+
 	it("omits a section when its item list is empty", () => {
 		const resultWithoutMissed: SubmitAttemptResponseDto = {
 			...MOCK_RESULT,
 			missed_items: [],
 		};
 
-		render(<FindTheWrongResultPanel onPlayAgain={vi.fn()} result={resultWithoutMissed} />);
+		render(
+			<FindTheWrongResultPanel onPlayAgain={vi.fn()} onReview={vi.fn()} result={resultWithoutMissed} />
+		);
 
 		expect(
 			screen.queryByRole("heading", { name: i18n.t("games.findTheWrong.result.missedSection") })

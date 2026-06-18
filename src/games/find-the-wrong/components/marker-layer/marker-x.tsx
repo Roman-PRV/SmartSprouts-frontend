@@ -10,31 +10,35 @@ import { type Marker } from "../../libs/types/types";
 const CENTER_X_INDEX = 0;
 const CENTER_Y_INDEX = 1;
 const FALLBACK_PIXEL = 0;
+// Muted slate for the read-only review pass, so marks read as non-interactive.
+const REVIEW_STROKE = "rgba(100, 116, 139, 0.95)";
 
 type Properties = {
 	coords: CanvasCoordsApi;
 	marker: Marker;
+	readOnly?: boolean;
 };
 
-const MarkerX: React.FC<Properties> = memo(({ coords, marker }) => {
+const MarkerX: React.FC<Properties> = memo(({ coords, marker, readOnly = false }) => {
 	const pixels = useMemo(() => flattenPointsToPixels([marker.point], coords), [marker, coords]);
 
 	const centerX = pixels[CENTER_X_INDEX] ?? FALLBACK_PIXEL;
 	const centerY = pixels[CENTER_Y_INDEX] ?? FALLBACK_PIXEL;
 	const half = CANVAS_MARKER.HALF_SIZE;
+	const strokeColor = readOnly ? REVIEW_STROKE : CANVAS_MARKER.STROKE;
 
 	return (
 		<>
 			<Line
 				lineCap="round"
 				points={[centerX - half, centerY - half, centerX + half, centerY + half]}
-				stroke={CANVAS_MARKER.STROKE}
+				stroke={strokeColor}
 				strokeWidth={CANVAS_MARKER.STROKE_WIDTH}
 			/>
 			<Line
 				lineCap="round"
 				points={[centerX - half, centerY + half, centerX + half, centerY - half]}
-				stroke={CANVAS_MARKER.STROKE}
+				stroke={strokeColor}
 				strokeWidth={CANVAS_MARKER.STROKE_WIDTH}
 			/>
 		</>

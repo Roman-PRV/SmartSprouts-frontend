@@ -5,10 +5,16 @@ import { StrokeLine } from "./stroke-line";
 type Properties = {
 	coords: CanvasCoordsApi;
 	highlightClosed?: boolean;
+	readOnly?: boolean;
 	strokes: Stroke[];
 };
 
-const StrokeLayer: React.FC<Properties> = ({ coords, highlightClosed = false, strokes }) => {
+const StrokeLayer: React.FC<Properties> = ({
+	coords,
+	highlightClosed = false,
+	readOnly = false,
+	strokes,
+}) => {
 	return (
 		<>
 			{strokes.map((stroke) => (
@@ -16,6 +22,7 @@ const StrokeLayer: React.FC<Properties> = ({ coords, highlightClosed = false, st
 					coords={coords}
 					highlightClosed={highlightClosed}
 					key={stroke.id}
+					readOnly={readOnly}
 					stroke={stroke}
 				/>
 			))}
