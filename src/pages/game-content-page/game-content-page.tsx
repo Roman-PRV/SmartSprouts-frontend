@@ -7,8 +7,8 @@ import styles from "./styles.module.css";
 const GameContentPage: React.FC = () => {
 	const { t } = useTranslation();
 	const { id } = useParams();
-	const { currentGame, isLoading: isGameLoading } = useGameFetch(id);
-	const { isLoading: isLevelsLoading } = useLevelsFetch(id);
+	const { currentGame, hasError: hasGameError, isLoading: isGameLoading } = useGameFetch(id);
+	const { hasError: hasLevelsError, isLoading: isLevelsLoading, levels } = useLevelsFetch(id);
 
 	const renderError = (message: string): React.JSX.Element => (
 		<div className={styles["game-content-page__error-container"]}>
@@ -31,11 +31,15 @@ const GameContentPage: React.FC = () => {
 		return <Loader variant="page" />;
 	}
 
+	if (hasGameError) {
+		return renderError(t("games.content.loadError"));
+	}
+
 	if (!currentGame) {
 		return renderError(t("games.content.notFound"));
 	}
 
-	return <GameLevelsPreview game={currentGame} />;
+	return <GameLevelsPreview game={currentGame} hasError={hasLevelsError} levels={levels} />;
 };
 
 export { GameContentPage };

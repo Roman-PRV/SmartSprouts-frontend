@@ -1,4 +1,5 @@
 const APIPath = {
+	ADMIN: "/admin",
 	AUTH: "/auth",
 	GAMES: "/games",
 	PROFILE: "/profile",

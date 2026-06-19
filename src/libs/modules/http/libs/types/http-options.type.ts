@@ -6,6 +6,7 @@ type HTTPOptions = {
 	headers: Headers;
 	method: ValueOf<typeof HTTPMethod>;
 	payload: BodyInit | null;
+	signal?: AbortSignal;
 };
 
 export { type HTTPOptions };

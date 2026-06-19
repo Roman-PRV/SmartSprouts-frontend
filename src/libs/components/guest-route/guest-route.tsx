@@ -4,7 +4,7 @@ import { AppRoute } from "~/libs/enums/enums";
 import { useAppSelector } from "~/libs/hooks/hooks";
 
 const GuestRoute: React.FC = () => {
-	const { isAuthenticated } = useAppSelector(({ auth }) => auth);
+	const isAuthenticated = useAppSelector(({ auth }) => auth.isAuthenticated);
 
 	if (isAuthenticated) {
 		return <Navigate replace to={AppRoute.PROFILE} />;

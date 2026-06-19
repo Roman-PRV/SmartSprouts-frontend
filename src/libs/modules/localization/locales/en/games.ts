@@ -1,8 +1,45 @@
 const games = {
+	actions: {
+		back: "Back to levels",
+		backToResults: "Back to results",
+		reset: "Reset",
+		review: "Review marks",
+		submit: "Check answers",
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
+		loadError: "Failed to load the game. Please try again.",
 		notFound: "Game content not found.",
+	},
+	findTheWrong: {
+		actions: {
+			playAgain: "Play again",
+		},
+		counter: "Used {{used}} of {{limit}}",
+		error: {
+			load: "Failed to load the level. Please try again.",
+			noImage: "This level has no image.",
+			notFound: "Level not found.",
+			submit: "Failed to submit your attempt. Please try again.",
+		},
+		hint: {
+			circle: "Circle the wrong objects.",
+			marker: "Tap the wrong objects.",
+		},
+		mode: {
+			circle: "Circle",
+			label: "Play mode",
+			marker: "Tap",
+		},
+		notice: {
+			openStroke: "Close the loop around the object so it counts.",
+		},
+		result: {
+			foundSection: "Found",
+			missedSection: "Missed",
+			scoreSummary: "{{score}} of {{total}} found",
+		},
 	},
 	level: {
 		errorTitle: "Error",
@@ -24,10 +61,8 @@ const games = {
 	},
 	trueFalse: {
 		actions: {
-			back: "Back to Levels",
 			markFalse: "Mark as false",
 			markTrue: "Mark as true",
-			reset: "Reset Level",
 		},
 		error: {
 			check: "Failed to check answers. Please try again.",
@@ -42,7 +77,6 @@ const games = {
 			correct: "Correct",
 			incorrect: "Incorrect",
 		},
-		submit: "Check Answers",
 	},
 };
 

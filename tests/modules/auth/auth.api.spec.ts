@@ -64,6 +64,7 @@ describe("AuthApi.register", () => {
 			user: {
 				email: "test@example.com",
 				id: 1,
+				is_admin: false,
 				name: "Test User",
 			},
 		};
@@ -136,6 +137,7 @@ describe("AuthApi.login", () => {
 			user: {
 				email: "test@example.com",
 				id: 1,
+				is_admin: false,
 				name: "Test User",
 			},
 		};
@@ -196,11 +198,13 @@ describe("AuthApi.getAuthenticatedUser", () => {
 	});
 
 	it("sends correct request and returns user on success", async () => {
-		const responseData: User = {
+		const expectedUser: User = {
 			email: "test@example.com",
 			id: 1,
+			is_admin: false,
 			name: "Test User",
 		};
+		const responseData = { user: expectedUser };
 		const token = "some-token";
 
 		http.load.mockResolvedValueOnce(makeResponse(responseData));
@@ -227,7 +231,7 @@ describe("AuthApi.getAuthenticatedUser", () => {
 		const [, options] = http.load.mock.calls[0] as HttpCallArguments;
 		expect(options.headers.get("authorization")).toBe(`Bearer ${token}`);
 
-		expect(result).toEqual(responseData);
+		expect(result).toEqual(expectedUser);
 	});
 
 	it("propagates error when request fails", async () => {

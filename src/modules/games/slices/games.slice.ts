@@ -10,6 +10,7 @@ type State = {
 	currentGame: GameDescriptionDto | null;
 	currentGameLevels: LevelDescriptionDto[] | null;
 	currentGameStatus: ValueOf<typeof DataStatus>;
+	currentLevelsGameId: null | string;
 	games: GameDescriptionDto[];
 	gamesStatus: ValueOf<typeof DataStatus>;
 	levelsStatus: ValueOf<typeof DataStatus>;
@@ -19,6 +20,7 @@ const initialState: State = {
 	currentGame: null,
 	currentGameLevels: null,
 	currentGameStatus: DataStatus.IDLE,
+	currentLevelsGameId: null,
 	games: [],
 	gamesStatus: DataStatus.IDLE,
 	levelsStatus: DataStatus.IDLE,
@@ -43,7 +45,11 @@ const { actions, name, reducer } = createSlice({
 			state.currentGameStatus = DataStatus.FULFILLED;
 			state.currentGame = action.payload;
 		});
-		builder.addCase(getById.rejected, (state) => {
+		builder.addCase(getById.rejected, (state, action) => {
+			if (action.meta.aborted) {
+				return;
+			}
+
 			state.currentGameStatus = DataStatus.REJECTED;
 		});
 		builder.addCase(getLevelsList.pending, (state) => {
@@ -52,21 +58,19 @@ const { actions, name, reducer } = createSlice({
 		builder.addCase(getLevelsList.fulfilled, (state, action) => {
 			state.levelsStatus = DataStatus.FULFILLED;
 			state.currentGameLevels = action.payload;
+			state.currentLevelsGameId = action.meta.arg;
 		});
-		builder.addCase(getLevelsList.rejected, (state) => {
+		builder.addCase(getLevelsList.rejected, (state, action) => {
+			if (action.meta.aborted) {
+				return;
+			}
+
 			state.levelsStatus = DataStatus.REJECTED;
 		});
 	},
 	initialState,
 	name: "games",
-	reducers: {
-		clearCurrentGame: (state) => {
-			state.currentGame = null;
-			state.currentGameLevels = null;
-			state.currentGameStatus = DataStatus.IDLE;
-			state.levelsStatus = DataStatus.IDLE;
-		},
-	},
+	reducers: {},
 });
 
 export { actions, name, reducer };

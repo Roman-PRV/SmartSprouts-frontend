@@ -19,7 +19,7 @@ const LOGOUT_OPTION = "logout";
 
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
-	const { isAuthenticated } = useAppSelector((state) => state.auth);
+	const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 	const { logout } = useLogout();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();

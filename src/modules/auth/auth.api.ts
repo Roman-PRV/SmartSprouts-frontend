@@ -33,7 +33,9 @@ class AuthApi extends BaseHTTPApi {
 			payload: null,
 		});
 
-		return await response.json<User>();
+		const data = await response.json<{ user: User }>();
+
+		return data.user;
 	}
 
 	public async getGoogleRedirectUrl(): Promise<{ url: string }> {

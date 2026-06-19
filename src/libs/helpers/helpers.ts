@@ -1,5 +1,12 @@
+export { clamp01 } from "./clamp01/clamp01.helper";
 export { configureString } from "./configure-string/configure-string.helper";
+export { extractFileName } from "./extract-file-name/extract-file-name.helper";
+export { flattenPointsToPixels } from "./flatten-points-to-pixels/flatten-points-to-pixels.helper";
+export { generateClientId } from "./generate-client-id/generate-client-id.helper";
+export { getStagePointer } from "./get-stage-pointer/get-stage-pointer.helper";
 export { getValidClassNames } from "./get-valid-class-names/get-valid-class-names.helper";
 export { isThunkErrorPayload } from "./is-thunk-error-payload/is-thunk-error-payload.helper";
 export { normalizeError } from "./normalize-error/normalize-error.helper";
+export { pointInPolygon } from "./point-in-polygon/point-in-polygon.helper";
+export { polygonIoU } from "./polygon-iou/polygon-iou.helper";
 export { validateFormData } from "./validation/validation.helper";

@@ -3,8 +3,12 @@ import { createBrowserRouter } from "react-router-dom";
 import { App } from "~/app";
 import { MainLayout } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
+import { AdminLayout, RequireAdmin } from "~/modules/admin/admin";
 import { LevelContentPage } from "~/pages/level-content-page/level-content-page";
 import {
+	AdminLevelEditorPage,
+	AdminLevelsListPage,
+	AdminWelcomePage,
 	AuthGoogleCallbackPage,
 	GameContentPage,
 	GameSelectionPage,
@@ -17,7 +21,7 @@ import {
 import { GuestRoute } from "../guest-route/guest-route";
 import { ProtectedRoute } from "../protected-route/protected-route";
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
 	{
 		children: [
 			{
@@ -38,6 +42,31 @@ export const router = createBrowserRouter([
 				],
 				element: <MainLayout />,
 			},
+			{
+				children: [
+					{
+						children: [
+							{
+								children: [
+									{ element: <AdminWelcomePage />, index: true },
+									{
+										element: <AdminLevelsListPage />,
+										path: AppRoute.ADMIN_GAME_LEVELS,
+									},
+									{
+										element: <AdminLevelEditorPage />,
+										path: AppRoute.ADMIN_GAME_LEVEL_EDITOR,
+									},
+								],
+								element: <AdminLayout />,
+								path: AppRoute.ADMIN_ROOT,
+							},
+						],
+						element: <RequireAdmin />,
+					},
+				],
+				element: <ProtectedRoute />,
+			},
 		],
 		element: <App />,
 		path: AppRoute.ROOT,
@@ -51,3 +80,5 @@ export const router = createBrowserRouter([
 		element: <GuestRoute />,
 	},
 ]);
+
+export { router };

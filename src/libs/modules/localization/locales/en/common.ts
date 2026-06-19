@@ -1,5 +1,6 @@
 const common = {
 	accessibility: {
+		close: "Close",
 		loading: "Loading",
 	},
 	button: {

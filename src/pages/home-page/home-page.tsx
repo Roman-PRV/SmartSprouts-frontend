@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
 
 const HomePage: React.FC = () => {
 	const { t } = useTranslation();
-	const { isAuthenticated } = useAppSelector(({ auth }) => auth);
+	const isAuthenticated = useAppSelector(({ auth }) => auth.isAuthenticated);
 
 	return (
 		<div className={styles["home-page"]}>

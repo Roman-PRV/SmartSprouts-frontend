@@ -7,18 +7,28 @@ import {
 import { configureStore } from "@reduxjs/toolkit";
 
 import {
+	findTheWrongGameApi,
+	reducer as findTheWrongGameReducer,
+} from "~/games/find-the-wrong/api/find-the-wrong-game";
+import {
 	trueFalseGameApi,
 	reducer as trueFalseGameReducer,
 } from "~/games/true-false-game/api/true-false-game";
 import { AppEnvironment } from "~/libs/enums/enums";
 import { type Config } from "~/libs/modules/config/config";
 import { storage } from "~/libs/modules/storage/storage";
+import {
+	findTheWrongAdminApi,
+	reducer as findTheWrongAdminReducer,
+} from "~/modules/admin/games/find-the-wrong/find-the-wrong-admin";
 import { authApi, reducer as authReducer, logout } from "~/modules/auth/auth";
 import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 import { profileApi, reducer as profileReducer } from "~/modules/profile/profile";
 
 type ExtraArguments = {
 	authApi: typeof authApi;
+	findTheWrongAdminApi: typeof findTheWrongAdminApi;
+	findTheWrongGameApi: typeof findTheWrongGameApi;
 	gamesApi: typeof gamesApi;
 	profileApi: typeof profileApi;
 	storage: typeof storage;
@@ -27,6 +37,8 @@ type ExtraArguments = {
 
 type RootReducer = {
 	auth: ReturnType<typeof authReducer>;
+	findTheWrongAdmin: ReturnType<typeof findTheWrongAdminReducer>;
+	findTheWrongLevels: ReturnType<typeof findTheWrongGameReducer>;
 	games: ReturnType<typeof gamesReducer>;
 	profile: ReturnType<typeof profileReducer>;
 	trueFalseLevels: ReturnType<typeof trueFalseGameReducer>;
@@ -34,6 +46,8 @@ type RootReducer = {
 
 const rootReducer = combineReducers({
 	auth: authReducer,
+	findTheWrongAdmin: findTheWrongAdminReducer,
+	findTheWrongLevels: findTheWrongGameReducer,
 	games: gamesReducer,
 	profile: profileReducer,
 	trueFalseLevels: trueFalseGameReducer,
@@ -62,6 +76,8 @@ class Store {
 	public get extraArguments(): ExtraArguments {
 		return {
 			authApi,
+			findTheWrongAdminApi,
+			findTheWrongGameApi,
 			gamesApi,
 			profileApi,
 			storage,
