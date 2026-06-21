@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { afterEach, describe, expect, it } from "vitest";
 
-import defaultPlaceholder from "~/assets/img/default-icon.png";
+import defaultPlaceholder from "~/assets/img/default-icon.svg";
 import { FallbackImage } from "~/libs/components/fallback-image/fallback-image";
 
 const SRC = "https://cdn.example.com/real-image.png";

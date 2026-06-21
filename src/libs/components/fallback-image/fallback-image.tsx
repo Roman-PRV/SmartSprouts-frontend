@@ -1,4 +1,4 @@
-import defaultPlaceholder from "~/assets/img/default-icon.png";
+import defaultPlaceholder from "~/assets/img/default-icon.svg";
 import { useCallback, useEffect, useState } from "~/libs/hooks/hooks";
 
 type Properties = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src"> & {
