@@ -1,4 +1,4 @@
-import { Link } from "~/libs/components/components";
+import { FallbackImage, Link } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { configureString, getValidClassNames } from "~/libs/helpers/helpers";
 import { type GameDescriptionDto } from "~/libs/types/types";
@@ -16,7 +16,7 @@ const GameCard: React.FC<Properties> = ({ game }) => {
 
 	return (
 		<Link className={getValidClassNames(styles["game-card"])} to={gamePath}>
-			<img
+			<FallbackImage
 				alt={game.title}
 				className={getValidClassNames(styles["game-card__image"])}
 				src={game.icon_url}
