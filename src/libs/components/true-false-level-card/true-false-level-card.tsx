@@ -2,6 +2,7 @@ import { ErrorKind } from "~/games/true-false-game/libs/enums/enums";
 import {
 	AudioPlayButton,
 	Button,
+	FallbackImage,
 	FallbackMessage,
 	Link,
 	Loader,
@@ -80,7 +81,7 @@ const TrueFalseLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =>
 			</div>
 
 			{level.image_url && (
-				<img
+				<FallbackImage
 					alt={level.title}
 					className={getValidClassNames(styles["level-card__image"], imageModifierClass)}
 					src={level.image_url}
