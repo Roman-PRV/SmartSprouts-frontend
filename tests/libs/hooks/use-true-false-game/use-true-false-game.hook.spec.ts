@@ -16,32 +16,32 @@ import { type GameDescriptionDto, type ThunkErrorPayload } from "~/libs/types/ty
 // ─── Hoisted mocks ────────────────────────────────────────────────────────────
 
 const {
-	mockCheckAnswers,
 	mockClearCurrentLevel,
 	mockDispatch,
 	mockGetLevelById,
+	mockSubmitAttempt,
 	mockUseLanguageSync,
 } = vi.hoisted(() => {
 	const mockGetLevelById = vi.fn().mockReturnValue({ type: "true-false-game/get-level-by-id" });
-	const mockCheckAnswers = vi.fn().mockReturnValue({ type: "true-false-game/check-answers" });
+	const mockSubmitAttempt = vi.fn().mockReturnValue({ type: "true-false-game/submit-attempt" });
 	const mockClearCurrentLevel = vi.fn().mockReturnValue({ type: "true-false-game/clearCurrentLevel" });
 	const mockDispatch = vi.fn();
 	const mockUseLanguageSync = vi.fn<(callback: () => void) => void>();
 
 	return {
-		mockCheckAnswers,
 		mockClearCurrentLevel,
 		mockDispatch,
 		mockGetLevelById,
+		mockSubmitAttempt,
 		mockUseLanguageSync,
 	};
 });
 
 vi.mock("~/games/true-false-game/api/true-false-game", () => ({
 	actions: {
-		checkAnswers: mockCheckAnswers,
 		clearCurrentLevel: mockClearCurrentLevel,
 		getLevelById: mockGetLevelById,
+		submitAttempt: mockSubmitAttempt,
 	},
 }));
 
@@ -314,7 +314,7 @@ describe("useTrueFalseGame", () => {
 	});
 
 	describe("handleSubmit", () => {
-		it("should dispatch checkAnswers with the correct payload", async () => {
+		it("should dispatch submitAttempt with the correct payload", async () => {
 			setMockState(makeSliceState({ currentLevel: MOCK_LEVEL }));
 			mockDispatch.mockReturnValue({
 				unwrap: vi.fn().mockResolvedValue({ results: MOCK_RESULTS }),
@@ -331,7 +331,7 @@ describe("useTrueFalseGame", () => {
 				await result.current.handleSubmit();
 			});
 
-			expect(mockCheckAnswers).toHaveBeenCalledWith(
+			expect(mockSubmitAttempt).toHaveBeenCalledWith(
 				expect.objectContaining({
 					gameId: MOCK_GAME.id,
 					levelId: String(MOCK_LEVEL_ID),
@@ -458,7 +458,7 @@ describe("useTrueFalseGame", () => {
 				await result.current.handleSubmit();
 			});
 
-			expect(mockCheckAnswers).not.toHaveBeenCalled();
+			expect(mockSubmitAttempt).not.toHaveBeenCalled();
 		});
 
 		it("should do nothing when already submitting", () => {
@@ -480,7 +480,7 @@ describe("useTrueFalseGame", () => {
 				void result.current.handleSubmit();
 			});
 
-			expect(mockCheckAnswers).toHaveBeenCalledOnce();
+			expect(mockSubmitAttempt).toHaveBeenCalledOnce();
 		});
 
 		it("should do nothing when results are already set", async () => {
@@ -499,7 +499,7 @@ describe("useTrueFalseGame", () => {
 				await result.current.handleSubmit();
 			});
 
-			expect(mockCheckAnswers).toHaveBeenCalledOnce();
+			expect(mockSubmitAttempt).toHaveBeenCalledOnce();
 		});
 	});
 

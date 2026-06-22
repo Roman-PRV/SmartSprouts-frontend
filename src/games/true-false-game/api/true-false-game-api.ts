@@ -6,7 +6,7 @@ import { type Storage } from "~/libs/modules/storage/storage";
 
 import type {
 	TrueFalseGameAnswerRequestDto,
-	TrueFalseGameCheckResponseDto,
+	TrueFalseGameAttemptResponseDto,
 	TrueFalseGameLevelDto,
 } from "../libs/types/types";
 
@@ -21,34 +21,6 @@ type Constructor = {
 class TrueFalseGameApi extends BaseHTTPApi {
 	public constructor({ baseUrl, http, storage }: Constructor) {
 		super({ baseUrl, http, path: APIPath.GAMES, storage });
-	}
-
-	/**
-	 * POST /games/{gameId}/levels/{levelId}/check
-	 */
-	public async checkAnswers(
-		gameId: string,
-		levelId: string,
-		payload: TrueFalseGameAnswerRequestDto
-	): Promise<TrueFalseGameCheckResponseDto> {
-		const url = this.getFullEndpoint(
-			TrueFalseGameApiPath.$GAME_ID,
-			TrueFalseGameApiPath.LEVELS,
-			TrueFalseGameApiPath.$LEVEL_ID,
-			TrueFalseGameApiPath.CHECK,
-			{ gameId, levelId }
-		);
-
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
-		});
-
-		const data = await response.json<TrueFalseGameCheckResponseDto>();
-
-		return data;
 	}
 
 	/**
@@ -69,6 +41,32 @@ class TrueFalseGameApi extends BaseHTTPApi {
 		});
 
 		return await response.json<TrueFalseGameLevelDto>();
+	}
+
+	/**
+	 * POST /games/{gameId}/levels/{levelId}/attempts
+	 */
+	public async submitAttempt(
+		gameId: string,
+		levelId: string,
+		payload: TrueFalseGameAnswerRequestDto
+	): Promise<TrueFalseGameAttemptResponseDto> {
+		const url = this.getFullEndpoint(
+			TrueFalseGameApiPath.$GAME_ID,
+			TrueFalseGameApiPath.LEVELS,
+			TrueFalseGameApiPath.$LEVEL_ID,
+			TrueFalseGameApiPath.ATTEMPTS,
+			{ gameId, levelId }
+		);
+
+		const response = await this.load(url, {
+			contentType: ContentType.JSON,
+			hasAuth: true,
+			method: HTTPMethod.POST,
+			payload: JSON.stringify(payload),
+		});
+
+		return await response.json<TrueFalseGameAttemptResponseDto>();
 	}
 }
 
