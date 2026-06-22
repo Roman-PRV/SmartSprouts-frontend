@@ -24,7 +24,7 @@ class TrueFalseGameApi extends BaseHTTPApi {
 	}
 
 	/**
-	 * POST /games/{gameId}/levels/{levelId}/check
+	 * POST /games/{gameId}/levels/{levelId}/attempts
 	 */
 	public async checkAnswers(
 		gameId: string,
@@ -35,7 +35,7 @@ class TrueFalseGameApi extends BaseHTTPApi {
 			TrueFalseGameApiPath.$GAME_ID,
 			TrueFalseGameApiPath.LEVELS,
 			TrueFalseGameApiPath.$LEVEL_ID,
-			TrueFalseGameApiPath.CHECK,
+			TrueFalseGameApiPath.ATTEMPTS,
 			{ gameId, levelId }
 		);
 
