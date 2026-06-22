@@ -1,10 +1,10 @@
-import { checkAnswers, getLevelById } from "./true-false-game-actions";
+import { getLevelById, submitAttempt } from "./true-false-game-actions";
 import { actions } from "./true-false-game.slice";
 
 const allActions = {
 	...actions,
-	checkAnswers,
 	getLevelById,
+	submitAttempt,
 };
 
 export { allActions as actions };
