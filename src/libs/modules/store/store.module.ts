@@ -7,6 +7,10 @@ import {
 import { configureStore } from "@reduxjs/toolkit";
 
 import {
+	arithmeticGameApi,
+	reducer as arithmeticGameReducer,
+} from "~/games/arithmetic/api/arithmetic-game";
+import {
 	findTheWrongGameApi,
 	reducer as findTheWrongGameReducer,
 } from "~/games/find-the-wrong/api/find-the-wrong-game";
@@ -26,6 +30,7 @@ import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 import { profileApi, reducer as profileReducer } from "~/modules/profile/profile";
 
 type ExtraArguments = {
+	arithmeticGameApi: typeof arithmeticGameApi;
 	authApi: typeof authApi;
 	findTheWrongAdminApi: typeof findTheWrongAdminApi;
 	findTheWrongGameApi: typeof findTheWrongGameApi;
@@ -36,6 +41,7 @@ type ExtraArguments = {
 };
 
 type RootReducer = {
+	arithmeticLevels: ReturnType<typeof arithmeticGameReducer>;
 	auth: ReturnType<typeof authReducer>;
 	findTheWrongAdmin: ReturnType<typeof findTheWrongAdminReducer>;
 	findTheWrongLevels: ReturnType<typeof findTheWrongGameReducer>;
@@ -45,6 +51,7 @@ type RootReducer = {
 };
 
 const rootReducer = combineReducers({
+	arithmeticLevels: arithmeticGameReducer,
 	auth: authReducer,
 	findTheWrongAdmin: findTheWrongAdminReducer,
 	findTheWrongLevels: findTheWrongGameReducer,
@@ -75,6 +82,7 @@ class Store {
 
 	public get extraArguments(): ExtraArguments {
 		return {
+			arithmeticGameApi,
 			authApi,
 			findTheWrongAdminApi,
 			findTheWrongGameApi,
