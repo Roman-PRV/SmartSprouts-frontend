@@ -1,30 +1,19 @@
 // Virtual board geometry for the arithmetic drag-and-stick board. Cards live in
-// a fixed px coordinate space that the player UI scales into its container.
-// Cells are sized card + gap, so a jittered one-card-per-cell scatter (jitter
-// kept below the gap) can never overlap.
-const CARD_WIDTH = 96;
+// a fixed px coordinate space that the player UI scales to fill its container.
+const CARD_WIDTH = 110;
 const CARD_HEIGHT = 64;
-const CARD_GAP = 28;
-const BOARD_PADDING = 16;
 
-// Max center-to-center distance at which a dragged answer snaps onto a free
-// equation. Sized generously for imprecise child drags.
-const SNAP_THRESHOLD = 60;
+// Column gap (also the room a glued answer drops into to the right of its
+// equation) — kept a little wider than a card so the pair never touches the next
+// column. Cards sit on an even grid; this gap is the only horizontal whitespace.
+const CARD_GAP_X = 120;
+// Row gap; cards align in rows (no vertical jitter) so resting cards never
+// intersect and so never pair by accident.
+const CARD_GAP_Y = 50;
+const BOARD_PADDING = 20;
 
-// When an answer snaps, it sticks just below its equation by this gap so the
-// pair reads as one glued unit.
-const SNAP_STICK_GAP = 8;
+// Spread the 20 cards across 5 columns × 4 rows so the board is wide-and-short
+// and fills the card width.
+const MAX_COLUMNS = 5;
 
-// Fraction of a cell's spare space (the gap) used to jitter a card off its grid
-// anchor. Kept below 1 so a jittered card never crosses into a neighbour cell.
-const CARD_JITTER_RATIO = 0.6;
-
-export {
-	BOARD_PADDING,
-	CARD_GAP,
-	CARD_HEIGHT,
-	CARD_JITTER_RATIO,
-	CARD_WIDTH,
-	SNAP_STICK_GAP,
-	SNAP_THRESHOLD,
-};
+export { BOARD_PADDING, CARD_GAP_X, CARD_GAP_Y, CARD_HEIGHT, CARD_WIDTH, MAX_COLUMNS };

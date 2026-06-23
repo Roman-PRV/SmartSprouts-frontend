@@ -1,0 +1,88 @@
+/* Block: board — responsive wrapper. Its width fills the card; the fixed
+   virtual surface inside is scaled (in JS) to match, so there is no scrollbar. */
+.board {
+	position: relative;
+	width: 100%;
+	margin: 0 auto 24px;
+	overflow: hidden;
+	background: var(--color-background-2);
+	border-radius: var(--border-radius-md);
+}
+
+/* Element: board__surface — the fixed-size coordinate space the hook scatters
+   into; scaled to fill .board via an inline transform. */
+.board__surface {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-origin: top left;
+}
+
+/* Element: card — a draggable equation or answer tile. Card width/height are set
+   inline from the same constants the hook scatters with, so hit-testing aligns
+   with rendering. */
+.card {
+	position: absolute;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 8px;
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	font-weight: 700;
+	color: var(--color-text-dark);
+	white-space: nowrap;
+	touch-action: none;
+	cursor: grab;
+	user-select: none;
+	background: var(--color-background-4);
+	border: 2px solid var(--color-background-3);
+	border-radius: var(--border-radius-md);
+	box-shadow: 0 2px 6px var(--color-shadow-dark-subtle);
+}
+
+.card:active {
+	cursor: grabbing;
+}
+
+/* Equation cards are fixed — not draggable. */
+.card--static {
+	cursor: default;
+}
+
+.card--static:active {
+	cursor: default;
+}
+
+/* Modifier: equation card. */
+.card--equation {
+	background: var(--color-background-3);
+	border: 2px solid var(--color-background-1);
+}
+
+/* Modifier: answer card — the draggable tokens. */
+.card--answer {
+	background: var(--color-background-1);
+}
+
+/* Modifier: a card that is part of a formed pair — brand outline, no offset
+   shadow so the two halves read as one. */
+.card--paired {
+	border-color: var(--color-brand);
+	box-shadow: none;
+}
+
+/* Seamless join: the equation is always the left half, the answer the right
+   half. Flatten and drop the touching edges so the pair looks like one capsule. */
+.card--equation.card--paired {
+	border-right-width: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.card--answer.card--paired {
+	border-left-width: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}

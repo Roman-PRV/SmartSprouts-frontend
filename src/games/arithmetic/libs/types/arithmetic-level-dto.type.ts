@@ -6,7 +6,6 @@ type ArithmeticLevelDto = {
 	image_url: null | string;
 	operator: string;
 	title: string;
-	title_audio_url: null | string;
 };
 
 export type { ArithmeticLevelDto };

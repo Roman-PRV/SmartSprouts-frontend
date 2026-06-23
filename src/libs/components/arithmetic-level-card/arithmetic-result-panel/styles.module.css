@@ -1,0 +1,60 @@
+.panel {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.panel__score {
+	margin: 0;
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--color-text-dark);
+	text-align: center;
+}
+
+.panel__list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	padding: 12px 16px;
+	font-size: var(--font-size-lg);
+	color: var(--color-text-dark);
+	background: var(--color-background-2);
+	border-radius: var(--border-radius-md);
+}
+
+.row--incorrect {
+	background: var(--color-background-error);
+}
+
+.row__equation {
+	font-weight: 700;
+}
+
+.row__mark {
+	font-weight: 700;
+}
+
+.row__mark--correct {
+	color: var(--color-accent-3);
+}
+
+.row__mark--incorrect {
+	color: var(--color-accent-1);
+}
+
+.row__expected {
+	margin-left: auto;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-secondary);
+}
