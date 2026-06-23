@@ -1,5 +1,6 @@
 export { useAppDispatch } from "./use-app-dispatch/use-app-dispatch.hook";
 export { useAppSelector } from "./use-app-selector/use-app-selector.hook";
+export { useArithmeticGame } from "./use-arithmetic-game/use-arithmetic-game.hook";
 export { useAudioPlayer } from "./use-audio-player/use-audio-player.hook";
 export { useStopAudioOnUnmount } from "./use-audio-player/use-stop-audio-on-unmount.hook";
 export { useContainerSize } from "./use-container-size/use-container-size.hook";

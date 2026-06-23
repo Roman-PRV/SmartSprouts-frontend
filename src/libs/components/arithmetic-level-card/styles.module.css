@@ -1,0 +1,80 @@
+.level-card {
+	/* Bounded so the fixed-size board always fills the card width (scales down to
+	   fit) instead of sitting centred with empty space beside it. */
+	max-width: 1000px;
+	padding: 24px;
+	margin: 0 auto;
+	background: var(--color-background-4);
+	border-radius: var(--border-radius-lg);
+	box-shadow: 0 2px 12px var(--color-shadow-dark-subtle);
+}
+
+.level-card__title {
+	margin: 0 0 20px;
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--color-text-dark);
+	text-align: center;
+}
+
+/* Constrain the submit button so it does not stretch edge-to-edge (matches
+   find-the-wrong). */
+.level-card__primary {
+	max-width: 540px;
+	margin: 0 auto;
+}
+
+.level-card__error {
+	padding: 12px 16px;
+	margin-top: 16px;
+	color: var(--color-accent-1);
+	text-align: center;
+	background: var(--color-background-error);
+	border-radius: var(--border-radius-md);
+}
+
+.level-card__actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	margin-top: 16px;
+}
+
+.level-card__action {
+	flex: 1;
+	max-width: 200px;
+}
+
+/* Back link styled as a secondary button to match the action row. */
+.level-card__back-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 24px;
+	font-size: var(--font-size-base);
+	font-weight: 600;
+	color: var(--color-text-dark);
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	background: var(--color-background-light-gray);
+	border: 2px solid var(--color-background-light-gray);
+	border-radius: var(--border-radius-md);
+	transition: all 0.2s ease;
+}
+
+.level-card__back-link:hover {
+	background: color-mix(in srgb, var(--color-background-light-gray) 85%, black);
+	border-color: var(--color-text-secondary);
+	box-shadow: 0 4px 12px var(--color-shadow-dark);
+	transform: translateY(-2px);
+}
+
+.level-card__back-link:active {
+	box-shadow: 0 2px 6px var(--color-shadow-dark-light);
+	transform: translateY(0);
+}
+
+.level-card__back-link:focus-visible {
+	box-shadow: 0 0 0 3px var(--color-shadow-accent-focus);
+}

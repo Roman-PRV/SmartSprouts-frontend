@@ -18,8 +18,6 @@ const OTHER_EQUATIONS: ArithmeticEquationDto[] = [
 	{ id: 2, operand_a: 5, operand_b: 2, result: 10 },
 ];
 
-const FAR_AWAY = 1000;
-
 type Board = ReturnType<typeof useCardBoard>;
 
 const dragOnto = (current: () => Board, key: string, targetKey: string): void => {
@@ -54,14 +52,13 @@ describe("useCardBoard", () => {
 		expect(result.current.pairs["eq-1"]).toBe("ans-0");
 	});
 
-	it("does not pair an answer dropped far from every equation", () => {
+	it("does not pair an answer released without reaching an equation", () => {
 		const { result } = renderHook(() => useCardBoard(EQUATIONS));
 
+		// Resting positions are a full row/column pitch apart (> SNAP_THRESHOLD),
+		// so simply picking up and dropping an answer must not pair it.
 		act(() => {
 			result.current.onDragStart("ans-0");
-		});
-		act(() => {
-			result.current.onDragMove("ans-0", FAR_AWAY, FAR_AWAY);
 		});
 		act(() => {
 			result.current.onDragEnd("ans-0");
