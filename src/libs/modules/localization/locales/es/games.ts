@@ -6,6 +6,20 @@ const games = {
 		review: "Ver marcas",
 		submit: "Comprobar",
 	},
+	arithmetic: {
+		actions: {
+			playAgain: "Jugar de nuevo",
+		},
+		error: {
+			load: "No se pudo cargar el nivel. Inténtalo de nuevo.",
+			notFound: "Nivel no encontrado.",
+			submit: "No se pudieron enviar las respuestas. Inténtalo de nuevo.",
+		},
+		result: {
+			expected: "Debería ser {{value}}",
+			score: "{{score}} de {{total}} correctas",
+		},
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "ID de juego no válido o ausente.",

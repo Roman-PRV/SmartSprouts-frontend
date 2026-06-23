@@ -6,6 +6,20 @@ const games = {
 		review: "Review marks",
 		submit: "Check answers",
 	},
+	arithmetic: {
+		actions: {
+			playAgain: "Play again",
+		},
+		error: {
+			load: "Failed to load the level. Please try again.",
+			notFound: "Level not found.",
+			submit: "Failed to submit your answers. Please try again.",
+		},
+		result: {
+			expected: "Should be {{value}}",
+			score: "{{score}} of {{total}} correct",
+		},
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",

@@ -6,10 +6,12 @@ import {
 } from "~/games/arithmetic/arithmetic";
 import { EMPTY_ARRAY_LENGTH } from "~/libs/constants/constants";
 
-import { CARD_HEIGHT, SNAP_STICK_GAP, SNAP_THRESHOLD } from "./libs/constants/card-board.constant";
+import { CARD_WIDTH } from "./libs/constants/card-board.constant";
+import { cardsOverlap } from "./libs/helpers/cards-overlap/cards-overlap.helper";
+import { clampCardPosition } from "./libs/helpers/clamp-card-position/clamp-card-position.helper";
 import { createBoardSeed } from "./libs/helpers/create-board-seed/create-board-seed.helper";
 import { createRandom } from "./libs/helpers/create-random/create-random.helper";
-import { findNearestFreeEquation } from "./libs/helpers/find-nearest-free-equation/find-nearest-free-equation.helper";
+import { findOverlappingFreeEquation } from "./libs/helpers/find-overlapping-free-equation/find-overlapping-free-equation.helper";
 import { scatterCards } from "./libs/helpers/scatter-cards/scatter-cards.helper";
 import { shuffle } from "./libs/helpers/shuffle/shuffle.helper";
 import {
@@ -29,6 +31,8 @@ type BoardState = {
 	answerCards: AnswerCard[];
 	boardSize: BoardSize;
 	equationCards: EquationCard[];
+	// Scatter positions a dropped card bounces back to if it would overlap others.
+	homePositions: Record<string, CardPosition>;
 	pairs: Record<string, null | string>;
 	positions: Record<string, CardPosition>;
 };
@@ -62,23 +66,17 @@ type BoardAction =
 	| { state: BoardState; type: typeof BoardActionType.RESET };
 
 /**
- * Release any pair that involves `key`: dragging either the equation or its
- * stuck answer breaks the link, so the answer becomes free again.
+ * Free the answer `key` from its pair (only answers are draggable), so picking it
+ * up detaches it from its equation.
  */
 const releasePair = (
 	pairs: Record<string, null | string>,
-	key: string
+	answerKey: string
 ): Record<string, null | string> => {
 	const next = { ...pairs };
 
-	if (key in next) {
-		next[key] = null;
-
-		return next;
-	}
-
 	for (const equationKey of Object.keys(next)) {
-		if (next[equationKey] === key) {
+		if (next[equationKey] === answerKey) {
 			next[equationKey] = null;
 		}
 	}
@@ -106,11 +104,11 @@ const createBoardState = (equations: ArithmeticEquationDto[]): BoardState => {
 		value,
 	}));
 
-	const keys = [
-		...equationCards.map((card) => card.key),
-		...answerCards.map((card) => card.key),
-	];
-	const { boardSize, positions } = scatterCards(keys, random);
+	const { boardSize, positions } = scatterCards({
+		answerKeys: answerCards.map((card) => card.key),
+		equationKeys: equationCards.map((card) => card.key),
+		random,
+	});
 
 	const pairs: Record<string, null | string> = {};
 
@@ -118,45 +116,72 @@ const createBoardState = (equations: ArithmeticEquationDto[]): BoardState => {
 		pairs[card.key] = null;
 	}
 
-	return { activeKey: null, answerCards, boardSize, equationCards, pairs, positions };
+	return {
+		activeKey: null,
+		answerCards,
+		boardSize,
+		equationCards,
+		homePositions: { ...positions },
+		pairs,
+		positions,
+	};
 };
 
 const reducer = (state: BoardState, action: BoardAction): BoardState => {
 	switch (action.type) {
 		case BoardActionType.DRAG_END: {
-			const answerCard = state.answerCards.find((card) => card.key === action.key);
-			const answerPosition = state.positions[action.key];
+			const position = state.positions[action.key];
 
-			if (answerCard === undefined || answerPosition === undefined) {
+			if (position === undefined) {
 				return { ...state, activeKey: null };
 			}
 
-			const equationKey = findNearestFreeEquation({
-				answerPosition,
-				equationCards: state.equationCards,
-				pairs: state.pairs,
-				positions: state.positions,
-				threshold: SNAP_THRESHOLD,
-			});
+			const isAnswer = state.answerCards.some((card) => card.key === action.key);
 
-			if (equationKey === null) {
-				return { ...state, activeKey: null };
+			if (isAnswer) {
+				const equationKey = findOverlappingFreeEquation({
+					answerPosition: position,
+					equationCards: state.equationCards,
+					pairs: state.pairs,
+					positions: state.positions,
+				});
+
+				if (equationKey !== null) {
+					const equationPosition = state.positions[equationKey] as CardPosition;
+
+					return {
+						...state,
+						activeKey: null,
+						pairs: { ...state.pairs, [equationKey]: action.key },
+						positions: {
+							...state.positions,
+							// Glue the answer flush to the equation's right edge (no gap)
+							// so the pair reads as one seamless capsule.
+							[action.key]: { x: equationPosition.x + CARD_WIDTH, y: equationPosition.y },
+						},
+					};
+				}
 			}
 
-			const equationPosition = state.positions[equationKey] as CardPosition;
+			// Not paired: if dropped on top of others, bounce it back home (best
+			// effort — the home cell is normally free, though another card could in
+			// theory have been parked there meanwhile).
+			const others = Object.entries(state.positions)
+				.filter(([otherKey]) => otherKey !== action.key)
+				.map(([, otherPosition]) => otherPosition);
 
-			return {
-				...state,
-				activeKey: null,
-				pairs: { ...state.pairs, [equationKey]: action.key },
-				positions: {
-					...state.positions,
-					[action.key]: {
-						x: equationPosition.x,
-						y: equationPosition.y + CARD_HEIGHT + SNAP_STICK_GAP,
+			if (cardsOverlap(position, others)) {
+				return {
+					...state,
+					activeKey: null,
+					positions: {
+						...state.positions,
+						[action.key]: state.homePositions[action.key] ?? position,
 					},
-				},
-			};
+				};
+			}
+
+			return { ...state, activeKey: null };
 		}
 
 		case BoardActionType.DRAG_MOVE: {
@@ -166,12 +191,14 @@ const reducer = (state: BoardState, action: BoardAction): BoardState => {
 				return state;
 			}
 
+			const next = clampCardPosition({
+				boardSize: state.boardSize,
+				position: { x: current.x + action.dx, y: current.y + action.dy },
+			});
+
 			return {
 				...state,
-				positions: {
-					...state.positions,
-					[action.key]: { x: current.x + action.dx, y: current.y + action.dy },
-				},
+				positions: { ...state.positions, [action.key]: next },
 			};
 		}
 
@@ -272,4 +299,4 @@ const useCardBoard = (equations: ArithmeticEquationDto[]): UseCardBoardReturn =>
 	};
 };
 
-export { useCardBoard };
+export { type UseCardBoardReturn, useCardBoard };
