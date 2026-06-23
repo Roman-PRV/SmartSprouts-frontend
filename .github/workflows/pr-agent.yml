@@ -6,12 +6,13 @@ on:
   issue_comment:            # enables /review, /describe, /improve, /ask commands in PR comments
     types: [created]
 
-# Serialize runs per PR without cancelling: PR-Agent's own describe/improve
-# comments fire issue_comment events that queue a new run in this group, and
-# cancel-in-progress would let that bot-triggered run kill the in-flight review
-# before the job-level `if` skips it (concurrency is evaluated before `if`).
+# Never let one run cancel another. PR-Agent's own describe/improve output fires
+# issue_comment events; keying each comment run by comment.id keeps them in their
+# own groups so they are skipped by the job `if` instead of evicting each other
+# (or the in-flight review) from a single shared queue. pull_request events have
+# no comment.id, so they share one per-PR group and simply serialize.
 concurrency:
-  group: pr-agent-${{ github.event.pull_request.number || github.event.issue.number }}
+  group: pr-agent-${{ github.event.pull_request.number || github.event.issue.number }}-${{ github.event_name }}-${{ github.event.comment.id }}
   cancel-in-progress: false
 
 permissions:
