@@ -38,7 +38,13 @@ const ArithmeticResultPanel: React.FC<Properties> = ({ onPlayAgain, operator, re
 						<span className={styles["row__equation"]}>
 							{entry.operand_a} {operator} {entry.operand_b} = {entry.given_answer}
 						</span>
-						<span aria-hidden className={styles["row__mark"]}>
+						<span
+							aria-hidden
+							className={getValidClassNames(
+								styles["row__mark"],
+								entry.correct ? styles["row__mark--correct"] : styles["row__mark--incorrect"]
+							)}
+						>
 							{entry.correct ? "✓" : "✗"}
 						</span>
 						{!entry.correct && (

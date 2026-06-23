@@ -45,6 +45,14 @@
 	font-weight: 700;
 }
 
+.row__mark--correct {
+	color: var(--color-accent-3);
+}
+
+.row__mark--incorrect {
+	color: var(--color-accent-1);
+}
+
 .row__expected {
 	margin-left: auto;
 	font-size: var(--font-size-sm);
