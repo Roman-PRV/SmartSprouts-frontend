@@ -9,19 +9,12 @@
 	box-shadow: 0 2px 12px var(--color-shadow-dark-subtle);
 }
 
-.level-card__title-container {
-	display: flex;
-	gap: 12px;
-	align-items: center;
-	justify-content: center;
-	margin-bottom: 20px;
-}
-
 .level-card__title {
-	margin: 0;
+	margin: 0 0 20px;
 	font-size: 1.75rem;
 	font-weight: 700;
 	color: var(--color-text-dark);
+	text-align: center;
 }
 
 /* Constrain the submit button so it does not stretch edge-to-edge (matches

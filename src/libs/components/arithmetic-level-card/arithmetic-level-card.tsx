@@ -1,6 +1,5 @@
 import { ErrorKind } from "~/games/arithmetic/arithmetic";
 import {
-	AudioPlayButton,
 	Button,
 	FallbackMessage,
 	Link,
@@ -55,10 +54,7 @@ const ArithmeticLevelCard: React.FC<LevelCardProperties> = ({ game, levelId }) =
 
 	return (
 		<div className={styles["level-card"]}>
-			<div className={styles["level-card__title-container"]}>
-				<h2 className={styles["level-card__title"]}>{level.title}</h2>
-				<AudioPlayButton url={level.title_audio_url} />
-			</div>
+			<h2 className={styles["level-card__title"]}>{level.title}</h2>
 
 			{isCompleted ? (
 				<ArithmeticResultPanel
