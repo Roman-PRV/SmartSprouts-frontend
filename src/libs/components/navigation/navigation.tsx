@@ -20,6 +20,7 @@ const LOGOUT_OPTION = "logout";
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
 	const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+	const isAdmin = useAppSelector((state) => Boolean(state.auth.user?.is_admin));
 	const { logout } = useLogout();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
@@ -35,12 +36,16 @@ const Navigation: React.FC = () => {
 			{ label: t("common.navigation.profile"), value: AppRoute.PROFILE },
 		];
 
+		if (isAdmin) {
+			options.push({ label: t("common.navigation.adminPanel"), value: AppRoute.ADMIN_ROOT });
+		}
+
 		if (isAuthenticated) {
 			options.push({ label: t("common.navigation.logout"), value: LOGOUT_OPTION });
 		}
 
 		return options;
-	}, [t, isAuthenticated]);
+	}, [t, isAdmin, isAuthenticated]);
 
 	const handleMobileMenuSelect = useCallback(
 		(value: string): void => {
@@ -128,6 +133,16 @@ const Navigation: React.FC = () => {
 							{t("common.navigation.profile")}
 						</NavLink>
 					</li>
+					{isAdmin && (
+						<li>
+							<NavLink
+								className={getDynamicNavLinkClassName(AppRoute.ADMIN_ROOT)}
+								to={AppRoute.ADMIN_ROOT}
+							>
+								{t("common.navigation.adminPanel")}
+							</NavLink>
+						</li>
+					)}
 					{isAuthenticated && (
 						<li>
 							<Button

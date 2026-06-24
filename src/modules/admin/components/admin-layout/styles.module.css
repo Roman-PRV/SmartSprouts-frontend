@@ -47,6 +47,36 @@
 	color: var(--color-text-light);
 }
 
+/* Header actions use the same look as the player menu (navigation__nav-item):
+   plain brand-coloured text links, no button chrome. */
+.admin-layout__menu {
+	display: flex;
+	gap: var(--spacing-md);
+	align-items: center;
+	padding: 0;
+	margin: 0;
+	font-size: var(--font-size-base);
+	list-style: none;
+}
+
+.admin-layout__menu-item {
+	color: var(--color-brand);
+	cursor: pointer;
+	background: none;
+	border: none;
+	transition: color 0.2s ease-in-out;
+}
+
+.admin-layout__menu-item:hover {
+	color: var(--color-brand-hover);
+}
+
+.admin-layout__menu-item:focus-visible {
+	outline: 2px solid var(--color-background-accent);
+	outline-offset: 4px;
+	border-radius: var(--border-radius-sm);
+}
+
 .admin-layout__body {
 	display: flex;
 	flex: 1 1 auto;

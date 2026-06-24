@@ -138,6 +138,7 @@ const admin = {
 		},
 	},
 	header: {
+		exitToApp: "Вийти з адмінки",
 		loggedInAs: "Ви увійшли як {{name}}",
 		title: "Адміністрування",
 	},

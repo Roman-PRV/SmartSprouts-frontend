@@ -162,6 +162,63 @@ describe("Navigation", () => {
 		});
 	});
 
+	describe("Admin Panel Entry Visibility", () => {
+		const adminUser = {
+			email: "admin@a.com",
+			id: 1,
+			is_admin: true,
+			name: "Admin",
+		};
+		const regularUser = {
+			email: "user@a.com",
+			id: 2,
+			is_admin: false,
+			name: "User",
+		};
+
+		it("shows the admin panel link in desktop menu for an admin", () => {
+			renderWithProvider({ isAuthenticated: true, user: adminUser });
+
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
+			const adminLink = within(desktopNav).getByRole("link", {
+				name: i18n.t("common.navigation.adminPanel"),
+			});
+
+			expect(adminLink).toBeInTheDocument();
+			expect(adminLink).toHaveAttribute("href", AppRoute.ADMIN_ROOT);
+		});
+
+		it("does not show the admin panel link for an authenticated non-admin", () => {
+			renderWithProvider({ isAuthenticated: true, user: regularUser });
+
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
+			const adminLink = within(desktopNav).queryByRole("link", {
+				name: i18n.t("common.navigation.adminPanel"),
+			});
+
+			expect(adminLink).not.toBeInTheDocument();
+		});
+
+		it("shows the admin panel option in mobile menu for an admin", async () => {
+			const user = userEvent.setup();
+			renderWithProvider({ isAuthenticated: true, user: adminUser });
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const adminOption = within(mobileMenu).getByRole("menuitem", {
+				name: i18n.t("common.navigation.adminPanel"),
+			});
+
+			expect(adminOption).toBeInTheDocument();
+		});
+	});
+
 	describe("Logout Handler", () => {
 		it("triggers logout handler when desktop logout button is clicked", async () => {
 			const user = userEvent.setup();
