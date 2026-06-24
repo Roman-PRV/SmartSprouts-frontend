@@ -59,6 +59,10 @@ const Navigation: React.FC = () => {
 			value: item.route,
 		}));
 
+		if (isAdmin) {
+			options.push({ label: t("common.navigation.adminPanel"), value: AppRoute.ADMIN_ROOT });
+		}
+
 		if (isAuthenticated) {
 			options.push({ label: t("common.navigation.logout"), value: LOGOUT_OPTION });
 		}
