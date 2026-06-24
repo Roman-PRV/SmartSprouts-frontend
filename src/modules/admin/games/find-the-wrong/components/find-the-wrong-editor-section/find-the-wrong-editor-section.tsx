@@ -50,8 +50,7 @@ const FindTheWrongEditorSection: React.FC<AdminLevelEditorSectionProperties> = (
 	} = useFindTheWrongAdminLevel({ gameId: game.id, levelId });
 
 	const polygonAutosaveCallback = useCallback(
-		(itemId: number, points: Point[]): Promise<void> =>
-			autosaveItem(itemId, { polygon: points }),
+		(itemId: number, points: Point[]): Promise<void> => autosaveItem(itemId, { polygon: points }),
 		[autosaveItem]
 	);
 	const { schedule: schedulePolygonAutosave } = usePolygonAutosave(polygonAutosaveCallback);
@@ -159,9 +158,7 @@ const FindTheWrongEditorSection: React.FC<AdminLevelEditorSectionProperties> = (
 	if (loadStatus === DataStatus.REJECTED) {
 		return (
 			<section className={sectionStyles["section"]}>
-				<FallbackMessage
-					message={error?.message ?? t("admin.findTheWrong.editor.loadError")}
-				/>
+				<FallbackMessage message={error?.message ?? t("admin.findTheWrong.editor.loadError")} />
 				<Button onClick={refetch} size="sm" type="button" variant="primary">
 					{t("admin.findTheWrong.editor.retry")}
 				</Button>
@@ -180,9 +177,7 @@ const FindTheWrongEditorSection: React.FC<AdminLevelEditorSectionProperties> = (
 	return (
 		<section className={sectionStyles["section"]}>
 			<header className={styles["editor__header"]}>
-				<h2 className={sectionStyles["section__title"]}>
-					{t("admin.findTheWrong.editor.title")}
-				</h2>
+				<h2 className={sectionStyles["section__title"]}>{t("admin.findTheWrong.editor.title")}</h2>
 			</header>
 
 			<div className={styles["editor__layout"]}>

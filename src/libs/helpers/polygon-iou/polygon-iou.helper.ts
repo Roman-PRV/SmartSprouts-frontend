@@ -22,8 +22,7 @@ const ringArea = (ring: ClippingRing): number => {
 	let area = EMPTY_AREA;
 
 	for (
-		let currentIndex = FIRST_INDEX,
-			previousIndex = ring.length - PREVIOUS_INDEX_OFFSET;
+		let currentIndex = FIRST_INDEX, previousIndex = ring.length - PREVIOUS_INDEX_OFFSET;
 		currentIndex < ring.length;
 		previousIndex = currentIndex, currentIndex++
 	) {

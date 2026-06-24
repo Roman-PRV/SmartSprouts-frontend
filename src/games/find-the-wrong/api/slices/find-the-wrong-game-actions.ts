@@ -21,32 +21,34 @@ type SubmitAttemptThunkPayload = {
 	payload: SubmitAttemptPayload;
 };
 
-const getLevelById = createAsyncThunk<
-	FindTheWrongLevelDto,
-	GetLevelByIdPayload,
-	AsyncThunkConfig
->(`${sliceName}/get-level-by-id`, async ({ gameId, levelId }, { extra, rejectWithValue }) => {
-	try {
-		const { findTheWrongGameApi } = extra;
+const getLevelById = createAsyncThunk<FindTheWrongLevelDto, GetLevelByIdPayload, AsyncThunkConfig>(
+	`${sliceName}/get-level-by-id`,
+	async ({ gameId, levelId }, { extra, rejectWithValue }) => {
+		try {
+			const { findTheWrongGameApi } = extra;
 
-		return await findTheWrongGameApi.getLevelById(gameId, levelId);
-	} catch (error: unknown) {
-		return rejectWithValue(normalizeError(error));
+			return await findTheWrongGameApi.getLevelById(gameId, levelId);
+		} catch (error: unknown) {
+			return rejectWithValue(normalizeError(error));
+		}
 	}
-});
+);
 
 const submitAttempt = createAsyncThunk<
 	SubmitAttemptResponseDto,
 	SubmitAttemptThunkPayload,
 	AsyncThunkConfig
->(`${sliceName}/submit-attempt`, async ({ gameId, levelId, payload }, { extra, rejectWithValue }) => {
-	try {
-		const { findTheWrongGameApi } = extra;
+>(
+	`${sliceName}/submit-attempt`,
+	async ({ gameId, levelId, payload }, { extra, rejectWithValue }) => {
+		try {
+			const { findTheWrongGameApi } = extra;
 
-		return await findTheWrongGameApi.submitAttempt(gameId, levelId, payload);
-	} catch (error: unknown) {
-		return rejectWithValue(normalizeError(error));
+			return await findTheWrongGameApi.submitAttempt(gameId, levelId, payload);
+		} catch (error: unknown) {
+			return rejectWithValue(normalizeError(error));
+		}
 	}
-});
+);
 
 export { getLevelById, submitAttempt };

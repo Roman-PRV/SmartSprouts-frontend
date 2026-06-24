@@ -42,8 +42,7 @@ const admin = {
 		},
 		delete: {
 			cancel: "Cancel",
-			confirmBody:
-				"Level “{{title}}” and all its items will be permanently removed.",
+			confirmBody: "Level “{{title}}” and all its items will be permanently removed.",
 			confirmCta: "Delete",
 			confirmTitle: "Delete level",
 			error: "Failed to delete the level. Please try again.",

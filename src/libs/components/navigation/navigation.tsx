@@ -1,6 +1,6 @@
 import type { DropdownOption, RenderToggleProperties } from "~/libs/components/dropdown/dropdown";
 
-import { Dropdown, Icon, MenuItem, NavLink } from "~/libs/components/components";
+import { Dropdown, Icon, MenuItem } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
@@ -13,7 +13,6 @@ import {
 } from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
 
-import menuStyles from "../menu-item/styles.module.css";
 import styles from "./styles.module.css";
 
 const LOGOUT_OPTION = "logout";
@@ -84,22 +83,6 @@ const Navigation: React.FC = () => {
 		return matchingOption?.value ?? pathname;
 	}, [pathname, navigationOptions]);
 
-	const getDynamicNavLinkClassName = useCallback(
-		(route: string) =>
-			({ isActive }: { isActive: boolean }): string => {
-				const isOnTree =
-					isActive ||
-					(route === AppRoute.ROOT ? pathname === AppRoute.ROOT : pathname.startsWith(`${route}/`));
-
-				return getValidClassNames(
-					menuStyles["menu-item"],
-					isOnTree && menuStyles["menu-item--highlighted"],
-					pathname === route && menuStyles["menu-item--active"]
-				);
-			},
-		[pathname]
-	);
-
 	return (
 		<nav className={getValidClassNames(styles["navigation"])}>
 			<div className={getValidClassNames(styles["navigation__container"])}>
@@ -120,28 +103,17 @@ const Navigation: React.FC = () => {
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
 					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.ROOT)} to={AppRoute.ROOT}>
-							{t("common.navigation.home")}
-						</NavLink>
+						<MenuItem to={AppRoute.ROOT}>{t("common.navigation.home")}</MenuItem>
 					</li>
 					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.GAMES)} end to={AppRoute.GAMES}>
-							{t("common.navigation.games")}
-						</NavLink>
+						<MenuItem to={AppRoute.GAMES}>{t("common.navigation.games")}</MenuItem>
 					</li>
 					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.PROFILE)} to={AppRoute.PROFILE}>
-							{t("common.navigation.profile")}
-						</NavLink>
+						<MenuItem to={AppRoute.PROFILE}>{t("common.navigation.profile")}</MenuItem>
 					</li>
 					{isAdmin && (
 						<li>
-							<NavLink
-								className={getDynamicNavLinkClassName(AppRoute.ADMIN_ROOT)}
-								to={AppRoute.ADMIN_ROOT}
-							>
-								{t("common.navigation.adminPanel")}
-							</NavLink>
+							<MenuItem to={AppRoute.ADMIN_ROOT}>{t("common.navigation.adminPanel")}</MenuItem>
 						</li>
 					)}
 					{isAuthenticated && (

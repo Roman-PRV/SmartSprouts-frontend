@@ -39,11 +39,7 @@ const SidebarNav: React.FC = () => {
 		return (
 			<nav className={styles["sidebar-nav"]}>
 				{ADMIN_GAMES_REGISTRY.map(({ gameKey }) => (
-					<span
-						aria-busy="true"
-						className={styles["sidebar-nav__skeleton"]}
-						key={gameKey}
-					/>
+					<span aria-busy="true" className={styles["sidebar-nav__skeleton"]} key={gameKey} />
 				))}
 			</nav>
 		);

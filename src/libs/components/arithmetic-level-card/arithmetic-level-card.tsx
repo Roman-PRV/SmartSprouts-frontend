@@ -1,10 +1,5 @@
 import { ErrorKind } from "~/games/arithmetic/arithmetic";
-import {
-	Button,
-	FallbackMessage,
-	Link,
-	Loader,
-} from "~/libs/components/components";
+import { Button, FallbackMessage, Link, Loader } from "~/libs/components/components";
 import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useArithmeticGame, useCallback, useTranslation } from "~/libs/hooks/hooks";

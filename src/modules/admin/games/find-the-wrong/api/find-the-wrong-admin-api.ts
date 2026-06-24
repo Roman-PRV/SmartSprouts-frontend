@@ -97,11 +97,7 @@ class FindTheWrongAdminApi extends BaseHTTPApi {
 		});
 	}
 
-	public async deleteLevel(
-		gameId: string,
-		levelId: number,
-		signal?: AbortSignal
-	): Promise<void> {
+	public async deleteLevel(gameId: string, levelId: number, signal?: AbortSignal): Promise<void> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVEL_DETAIL, {
 			gameId,
 			levelId: String(levelId),

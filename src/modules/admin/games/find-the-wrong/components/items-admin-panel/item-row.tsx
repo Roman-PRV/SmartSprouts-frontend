@@ -52,11 +52,7 @@ const ItemRow: React.FC<Properties> = ({
 
 	return (
 		<li className={styles["panel__item"]} data-active={isActive}>
-			<button
-				className={styles["panel__item-summary"]}
-				onClick={handleSelect}
-				type="button"
-			>
+			<button className={styles["panel__item-summary"]} onClick={handleSelect} type="button">
 				<span className={styles["panel__item-index"]}>{displayNumber}</span>
 				<span className={styles["panel__item-name"]}>{displayName}</span>
 			</button>

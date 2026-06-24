@@ -28,8 +28,4 @@ const updateLevelValidationSchema = z.object({
 type UpdateLevelFormInput = z.input<typeof updateLevelValidationSchema>;
 type UpdateLevelFormValues = z.output<typeof updateLevelValidationSchema>;
 
-export {
-	type UpdateLevelFormInput,
-	type UpdateLevelFormValues,
-	updateLevelValidationSchema,
-};
+export { type UpdateLevelFormInput, type UpdateLevelFormValues, updateLevelValidationSchema };

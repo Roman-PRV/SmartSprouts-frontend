@@ -24,4 +24,3 @@ const insertVertexAfter = (points: Point[], edgeIndex: number, point: Point): Po
 };
 
 export { insertVertexAfter, MIN_POLYGON_VERTICES, moveVertex, removeVertex };
-
