@@ -219,6 +219,43 @@ describe("Navigation", () => {
 		});
 	});
 
+	describe("Desktop/Mobile parity", () => {
+		it("renders the same visible entries in the desktop list and the mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider({
+				isAuthenticated: true,
+				user: { email: "admin@a.com", id: 1, is_admin: true, name: "Admin" },
+			});
+
+			const expectedLabels = [
+				i18n.t("common.navigation.home"),
+				i18n.t("common.navigation.games"),
+				i18n.t("common.navigation.profile"),
+				i18n.t("common.navigation.adminPanel"),
+				i18n.t("common.navigation.logout"),
+			];
+
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
+
+			for (const label of expectedLabels) {
+				expect(within(desktopNav).getByText(label)).toBeInTheDocument();
+			}
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+
+			for (const label of expectedLabels) {
+				expect(within(mobileMenu).getByText(label)).toBeInTheDocument();
+			}
+		});
+	});
+
 	describe("Logout Handler", () => {
 		it("triggers logout handler when desktop logout button is clicked", async () => {
 			const user = userEvent.setup();

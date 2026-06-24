@@ -17,6 +17,12 @@ import styles from "./styles.module.css";
 
 const LOGOUT_OPTION = "logout";
 
+type NavItem = {
+	isVisible: boolean;
+	labelKey: string;
+	route: string;
+};
+
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
 	const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -29,23 +35,36 @@ const Navigation: React.FC = () => {
 		void logout();
 	}, [logout]);
 
-	const navigationOptions = useMemo<DropdownOption<string>[]>(() => {
-		const options: DropdownOption<string>[] = [
-			{ label: t("common.navigation.home"), value: AppRoute.ROOT },
-			{ label: t("common.navigation.games"), value: AppRoute.GAMES },
-			{ label: t("common.navigation.profile"), value: AppRoute.PROFILE },
-		];
+	// Single source of the route entries; both the desktop list and the mobile
+	// dropdown map over this so they can never drift. Logout is appended separately
+	// because it is an action, not a route.
+	const navItems = useMemo<NavItem[]>(
+		() =>
+			[
+				{ isVisible: true, labelKey: "common.navigation.home", route: AppRoute.ROOT },
+				{ isVisible: true, labelKey: "common.navigation.games", route: AppRoute.GAMES },
+				{ isVisible: true, labelKey: "common.navigation.profile", route: AppRoute.PROFILE },
+				{
+					isVisible: isAdmin,
+					labelKey: "common.navigation.adminPanel",
+					route: AppRoute.ADMIN_ROOT,
+				},
+			].filter((item) => item.isVisible),
+		[isAdmin]
+	);
 
-		if (isAdmin) {
-			options.push({ label: t("common.navigation.adminPanel"), value: AppRoute.ADMIN_ROOT });
-		}
+	const navigationOptions = useMemo<DropdownOption<string>[]>(() => {
+		const options: DropdownOption<string>[] = navItems.map((item) => ({
+			label: t(item.labelKey),
+			value: item.route,
+		}));
 
 		if (isAuthenticated) {
 			options.push({ label: t("common.navigation.logout"), value: LOGOUT_OPTION });
 		}
 
 		return options;
-	}, [t, isAdmin, isAuthenticated]);
+	}, [t, navItems, isAuthenticated]);
 
 	const handleMobileMenuSelect = useCallback(
 		(value: string): void => {
@@ -102,20 +121,11 @@ const Navigation: React.FC = () => {
 					value={currentActiveValue}
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
-					<li>
-						<MenuItem to={AppRoute.ROOT}>{t("common.navigation.home")}</MenuItem>
-					</li>
-					<li>
-						<MenuItem to={AppRoute.GAMES}>{t("common.navigation.games")}</MenuItem>
-					</li>
-					<li>
-						<MenuItem to={AppRoute.PROFILE}>{t("common.navigation.profile")}</MenuItem>
-					</li>
-					{isAdmin && (
-						<li>
-							<MenuItem to={AppRoute.ADMIN_ROOT}>{t("common.navigation.adminPanel")}</MenuItem>
+					{navItems.map((item) => (
+						<li key={item.route}>
+							<MenuItem to={item.route}>{t(item.labelKey)}</MenuItem>
 						</li>
-					)}
+					))}
 					{isAuthenticated && (
 						<li>
 							<MenuItem ariaLabel={t("common.navigation.logout")} onClick={handleLogout}>
