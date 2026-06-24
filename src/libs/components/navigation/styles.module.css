@@ -52,31 +52,6 @@
 	}
 }
 
-.navigation__nav-item {
-	color: var(--color-brand);
-	transition: color 0.2s ease-in-out;
-}
-
-.navigation__nav-item:hover {
-	color: var(--color-brand-hover);
-}
-
-.navigation__nav-item:focus-visible {
-	outline: 2px solid var(--color-background-accent);
-	outline-offset: 4px;
-	border-radius: var(--border-radius-sm);
-}
-
-.navigation__nav-item--highlighted {
-	font-weight: 700;
-	color: var(--color-brand-hover);
-}
-
-.navigation__nav-item--active {
-	pointer-events: none;
-	cursor: default;
-}
-
 /* Mobile dropdown menu styles */
 .navigation__mobile-menu {
 	position: fixed;

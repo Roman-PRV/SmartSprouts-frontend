@@ -139,6 +139,7 @@ const admin = {
 		},
 	},
 	header: {
+		exitToApp: "Exit admin panel",
 		loggedInAs: "Logged in as {{name}}",
 		title: "Admin",
 	},

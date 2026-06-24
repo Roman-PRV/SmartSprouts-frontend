@@ -1,6 +1,6 @@
 import type { DropdownOption, RenderToggleProperties } from "~/libs/components/dropdown/dropdown";
 
-import { Button, Dropdown, Icon, NavLink } from "~/libs/components/components";
+import { Dropdown, Icon, MenuItem, NavLink } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
@@ -13,6 +13,7 @@ import {
 } from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
 
+import menuStyles from "../menu-item/styles.module.css";
 import styles from "./styles.module.css";
 
 const LOGOUT_OPTION = "logout";
@@ -20,6 +21,7 @@ const LOGOUT_OPTION = "logout";
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
 	const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+	const isAdmin = useAppSelector((state) => Boolean(state.auth.user?.is_admin));
 	const { logout } = useLogout();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
@@ -35,12 +37,16 @@ const Navigation: React.FC = () => {
 			{ label: t("common.navigation.profile"), value: AppRoute.PROFILE },
 		];
 
+		if (isAdmin) {
+			options.push({ label: t("common.navigation.adminPanel"), value: AppRoute.ADMIN_ROOT });
+		}
+
 		if (isAuthenticated) {
 			options.push({ label: t("common.navigation.logout"), value: LOGOUT_OPTION });
 		}
 
 		return options;
-	}, [t, isAuthenticated]);
+	}, [t, isAdmin, isAuthenticated]);
 
 	const handleMobileMenuSelect = useCallback(
 		(value: string): void => {
@@ -86,9 +92,9 @@ const Navigation: React.FC = () => {
 					(route === AppRoute.ROOT ? pathname === AppRoute.ROOT : pathname.startsWith(`${route}/`));
 
 				return getValidClassNames(
-					styles["navigation__nav-item"],
-					isOnTree && styles["navigation__nav-item--highlighted"],
-					pathname === route && styles["navigation__nav-item--active"]
+					menuStyles["menu-item"],
+					isOnTree && menuStyles["menu-item--highlighted"],
+					pathname === route && menuStyles["menu-item--active"]
 				);
 			},
 		[pathname]
@@ -128,16 +134,21 @@ const Navigation: React.FC = () => {
 							{t("common.navigation.profile")}
 						</NavLink>
 					</li>
+					{isAdmin && (
+						<li>
+							<NavLink
+								className={getDynamicNavLinkClassName(AppRoute.ADMIN_ROOT)}
+								to={AppRoute.ADMIN_ROOT}
+							>
+								{t("common.navigation.adminPanel")}
+							</NavLink>
+						</li>
+					)}
 					{isAuthenticated && (
 						<li>
-							<Button
-								aria-label={t("common.navigation.logout")}
-								className={getValidClassNames(styles["navigation__nav-item"])}
-								onClick={handleLogout}
-								variant="unstyled"
-							>
+							<MenuItem ariaLabel={t("common.navigation.logout")} onClick={handleLogout}>
 								{t("common.navigation.logout")}
-							</Button>
+							</MenuItem>
 						</li>
 					)}
 				</ul>

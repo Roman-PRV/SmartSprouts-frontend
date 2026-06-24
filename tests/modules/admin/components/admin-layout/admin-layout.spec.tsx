@@ -55,6 +55,7 @@ const renderAdminLayout = (): ReturnType<typeof render> => {
 		<Provider store={store}>
 			<MemoryRouter initialEntries={["/admin"]}>
 				<Routes>
+					<Route element={<div>App Home</div>} path="/" />
 					<Route element={<AdminLayout />} path="/admin">
 						<Route element={<div>Admin Inner</div>} index />
 					</Route>
@@ -89,5 +90,18 @@ describe("AdminLayout", () => {
 		await userEvent.click(logoutButton);
 
 		expect(mockLogout).toHaveBeenCalledTimes(1);
+	});
+
+	it("navigates to the app root without logging out when exit is clicked", async () => {
+		renderAdminLayout();
+
+		const exitLink = screen.getByRole("link", {
+			name: i18n.t("admin.header.exitToApp"),
+		});
+
+		await userEvent.click(exitLink);
+
+		expect(screen.getByText("App Home")).toBeInTheDocument();
+		expect(mockLogout).not.toHaveBeenCalled();
 	});
 });
