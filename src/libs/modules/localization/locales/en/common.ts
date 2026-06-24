@@ -19,6 +19,7 @@ const common = {
 		},
 	},
 	navigation: {
+		adminPanel: "Admin panel",
 		games: "Games",
 		home: "Home",
 		logout: "Logout",

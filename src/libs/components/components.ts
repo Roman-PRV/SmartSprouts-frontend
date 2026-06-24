@@ -16,6 +16,7 @@ export { Loader } from "./loader/loader";
 export { LocalizedInputGroup } from "./localized-input-group/localized-input-group";
 export { Logo } from "./logo/logo";
 export { MainLayout } from "./main-layout/main-layout";
+export { MenuItem } from "./menu-item/menu-item";
 export { Modal } from "./modal/modal";
 export { Navigation } from "./navigation/navigation";
 export { TrueFalseLevelCard } from "./true-false-level-card/true-false-level-card";
