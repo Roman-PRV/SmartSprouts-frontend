@@ -1,6 +1,6 @@
 import type { DropdownOption, RenderToggleProperties } from "~/libs/components/dropdown/dropdown";
 
-import { Button, Dropdown, Icon, NavLink } from "~/libs/components/components";
+import { Dropdown, Icon, MenuItem, NavLink } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
@@ -13,6 +13,7 @@ import {
 } from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
 
+import menuStyles from "../menu-item/styles.module.css";
 import styles from "./styles.module.css";
 
 const LOGOUT_OPTION = "logout";
@@ -91,9 +92,9 @@ const Navigation: React.FC = () => {
 					(route === AppRoute.ROOT ? pathname === AppRoute.ROOT : pathname.startsWith(`${route}/`));
 
 				return getValidClassNames(
-					styles["navigation__nav-item"],
-					isOnTree && styles["navigation__nav-item--highlighted"],
-					pathname === route && styles["navigation__nav-item--active"]
+					menuStyles["menu-item"],
+					isOnTree && menuStyles["menu-item--highlighted"],
+					pathname === route && menuStyles["menu-item--active"]
 				);
 			},
 		[pathname]
@@ -145,14 +146,9 @@ const Navigation: React.FC = () => {
 					)}
 					{isAuthenticated && (
 						<li>
-							<Button
-								aria-label={t("common.navigation.logout")}
-								className={getValidClassNames(styles["navigation__nav-item"])}
-								onClick={handleLogout}
-								variant="unstyled"
-							>
+							<MenuItem ariaLabel={t("common.navigation.logout")} onClick={handleLogout}>
 								{t("common.navigation.logout")}
-							</Button>
+							</MenuItem>
 						</li>
 					)}
 				</ul>

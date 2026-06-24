@@ -1,10 +1,10 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import {
-	Button,
 	LanguageSwitcher,
 	LanguageSwitcherVariant,
 	Logo,
+	MenuItem,
 } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { useAppSelector, useCallback, useTranslation } from "~/libs/hooks/hooks";
@@ -37,19 +37,12 @@ const AdminLayout: React.FC = () => {
 					)}
 					<ul className={styles["admin-layout__menu"]}>
 						<li>
-							<Link className={styles["admin-layout__menu-item"]} to={AppRoute.ROOT}>
-								{t("admin.header.exitToApp")}
-							</Link>
+							<MenuItem to={AppRoute.ROOT}>{t("admin.header.exitToApp")}</MenuItem>
 						</li>
 						<li>
-							<Button
-								aria-label={t("common.navigation.logout")}
-								className={styles["admin-layout__menu-item"]}
-								onClick={handleLogout}
-								variant="unstyled"
-							>
+							<MenuItem ariaLabel={t("common.navigation.logout")} onClick={handleLogout}>
 								{t("common.navigation.logout")}
-							</Button>
+							</MenuItem>
 						</li>
 					</ul>
 					<LanguageSwitcher variant={LanguageSwitcherVariant.BASE} />
