@@ -109,7 +109,13 @@ const CreateItemModal: React.FC<Properties> = ({ isOpen, onClose, onSubmit, poly
 				/>
 
 				<div className={styles["form__actions"]}>
-					<Button disabled={isPending} onClick={handleClose} size="sm" type="button" variant="secondary">
+					<Button
+						disabled={isPending}
+						onClick={handleClose}
+						size="sm"
+						type="button"
+						variant="secondary"
+					>
 						{t("admin.findTheWrong.item.create.cancel")}
 					</Button>
 					<Button isLoading={isPending} size="sm" type="submit" variant="primary">

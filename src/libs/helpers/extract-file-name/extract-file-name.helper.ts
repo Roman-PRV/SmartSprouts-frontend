@@ -19,8 +19,7 @@ const extractFileName = (url: null | string): null | string => {
 	const queryIndex = url.indexOf(QUERY_SEPARATOR);
 	const path = queryIndex === NOT_FOUND_INDEX ? url : url.slice(PATH_START, queryIndex);
 	const lastSlash = path.lastIndexOf(PATH_SEPARATOR);
-	const candidate =
-		lastSlash === NOT_FOUND_INDEX ? path : path.slice(lastSlash + NAME_OFFSET);
+	const candidate = lastSlash === NOT_FOUND_INDEX ? path : path.slice(lastSlash + NAME_OFFSET);
 
 	return candidate.length > EMPTY_LENGTH ? candidate : null;
 };

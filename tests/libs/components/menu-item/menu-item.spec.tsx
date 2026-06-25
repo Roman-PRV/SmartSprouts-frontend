@@ -24,6 +24,26 @@ describe("MenuItem", () => {
 		expect(link).toHaveAttribute("href", "/admin");
 	});
 
+	it("marks the exact route active with aria-current", () => {
+		render(
+			<MemoryRouter initialEntries={["/games"]}>
+				<MenuItem to="/games">Games</MenuItem>
+			</MemoryRouter>
+		);
+
+		expect(screen.getByRole("link", { name: "Games" })).toHaveAttribute("aria-current", "page");
+	});
+
+	it("does not mark a nested route as exact-active", () => {
+		render(
+			<MemoryRouter initialEntries={["/games/123"]}>
+				<MenuItem to="/games">Games</MenuItem>
+			</MemoryRouter>
+		);
+
+		expect(screen.getByRole("link", { name: "Games" })).not.toHaveAttribute("aria-current");
+	});
+
 	it("renders a button and calls onClick when given a handler", async () => {
 		const handleClick = vi.fn();
 

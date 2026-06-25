@@ -29,7 +29,10 @@ import styles from "./styles.module.css";
 // Single source of truth for play modes: drives the radio options AND the hint.
 // Typed as Record<Mode, …> so adding an InteractionMode forces a config entry
 // (compile error) instead of silently falling back.
-const MODE_CONFIG: Record<ValueOf<typeof InteractionMode>, { hintKey: string; labelKey: string }> = {
+const MODE_CONFIG: Record<
+	ValueOf<typeof InteractionMode>,
+	{ hintKey: string; labelKey: string }
+> = {
 	[InteractionMode.CIRCLE]: {
 		hintKey: "games.findTheWrong.hint.circle",
 		labelKey: "games.findTheWrong.mode.circle",
@@ -156,11 +159,7 @@ const FindTheWrongLevelCard: React.FC<LevelCardProperties> = ({ game, levelId })
 					{renderCanvas(false)}
 
 					<div className={styles["level-card__primary"]}>
-						<Button
-							fullWidth
-							onClick={exitReview}
-							size="lg"
-						>
+						<Button fullWidth onClick={exitReview} size="lg">
 							{t("games.actions.backToResults")}
 						</Button>
 					</div>

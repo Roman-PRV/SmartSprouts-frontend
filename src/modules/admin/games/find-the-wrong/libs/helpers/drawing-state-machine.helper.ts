@@ -8,9 +8,7 @@ type DrawingAction =
 	| { type: "CLOSE_DRAWING" }
 	| { type: "START_DRAWING" };
 
-type DrawingState =
-	| { mode: "drawing"; vertices: Point[] }
-	| { mode: "idle" };
+type DrawingState = { mode: "drawing"; vertices: Point[] } | { mode: "idle" };
 
 const initialDrawingState: DrawingState = { mode: "idle" };
 

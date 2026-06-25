@@ -40,18 +40,19 @@ const getLevelsList = createAsyncThunk<FindTheWrongAdminLevelDto[], string, Asyn
 	}
 );
 
-const createLevel = createAsyncThunk<FindTheWrongAdminLevelDto, CreateLevelArgument, AsyncThunkConfig>(
-	`${sliceName}/create-level`,
-	async ({ formData, gameId }, { extra, rejectWithValue, signal }) => {
-		try {
-			const { findTheWrongAdminApi } = extra;
+const createLevel = createAsyncThunk<
+	FindTheWrongAdminLevelDto,
+	CreateLevelArgument,
+	AsyncThunkConfig
+>(`${sliceName}/create-level`, async ({ formData, gameId }, { extra, rejectWithValue, signal }) => {
+	try {
+		const { findTheWrongAdminApi } = extra;
 
-			return await findTheWrongAdminApi.createLevel(gameId, formData, signal);
-		} catch (error: unknown) {
-			return rejectWithValue(normalizeError(error));
-		}
+		return await findTheWrongAdminApi.createLevel(gameId, formData, signal);
+	} catch (error: unknown) {
+		return rejectWithValue(normalizeError(error));
 	}
-);
+});
 
 const deleteLevel = createAsyncThunk<number, DeleteLevelArgument, AsyncThunkConfig>(
 	`${sliceName}/delete-level`,
@@ -81,7 +82,11 @@ const getLevel = createAsyncThunk<FindTheWrongAdminLevelDto, GetLevelArgument, A
 	}
 );
 
-const updateLevel = createAsyncThunk<FindTheWrongAdminLevelDto, UpdateLevelArgument, AsyncThunkConfig>(
+const updateLevel = createAsyncThunk<
+	FindTheWrongAdminLevelDto,
+	UpdateLevelArgument,
+	AsyncThunkConfig
+>(
 	`${sliceName}/update-level`,
 	async ({ formData, gameId, levelId }, { extra, rejectWithValue, signal }) => {
 		try {

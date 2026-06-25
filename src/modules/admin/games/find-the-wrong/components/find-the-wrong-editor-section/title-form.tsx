@@ -81,16 +81,10 @@ const TitleForm: React.FC<Properties> = ({ isPending, level, onSubmit }) => {
 
 	const imageError = errors.image?.message;
 	const currentFileName = extractFileName(level.image_url);
-	const describedBy = [imageHintId, imageError ? imageErrorId : null]
-		.filter(Boolean)
-		.join(" ");
+	const describedBy = [imageHintId, imageError ? imageErrorId : null].filter(Boolean).join(" ");
 
 	return (
-		<form
-			className={styles["title-form"]}
-			noValidate
-			onSubmit={handleSubmit(handleFormSubmit)}
-		>
+		<form className={styles["title-form"]} noValidate onSubmit={handleSubmit(handleFormSubmit)}>
 			<LocalizedInputGroup
 				errorInterpolation={{ max: MAX_TITLE_LENGTH }}
 				errors={errors.title}
@@ -126,11 +120,7 @@ const TitleForm: React.FC<Properties> = ({ isPending, level, onSubmit }) => {
 					{t("admin.findTheWrong.editor.fields.image.hint", { maxMb: MAX_IMAGE_MEGABYTES })}
 				</span>
 				{imageError && (
-					<span
-						className={styles["title-form__field-error"]}
-						id={imageErrorId}
-						role="alert"
-					>
+					<span className={styles["title-form__field-error"]} id={imageErrorId} role="alert">
 						{t(imageError, { maxMb: MAX_IMAGE_MEGABYTES })}
 					</span>
 				)}

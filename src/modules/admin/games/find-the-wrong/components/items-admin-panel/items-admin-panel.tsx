@@ -61,9 +61,7 @@ const ItemsAdminPanel: React.FC<Properties> = ({
 	return (
 		<aside aria-label={t("admin.findTheWrong.editor.itemsHeading")} className={styles["panel"]}>
 			<header className={styles["panel__header"]}>
-				<h3 className={styles["panel__title"]}>
-					{t("admin.findTheWrong.editor.itemsHeading")}
-				</h3>
+				<h3 className={styles["panel__title"]}>{t("admin.findTheWrong.editor.itemsHeading")}</h3>
 			</header>
 			{items.length === EMPTY_ITEMS_COUNT ? (
 				<FallbackMessage message={t("admin.findTheWrong.editor.emptyItems")} />

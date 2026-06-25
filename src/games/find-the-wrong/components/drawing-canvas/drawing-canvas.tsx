@@ -156,8 +156,7 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 		interaction.handlers.onCancel();
 	}, [interaction.handlers]);
 
-	const playerFeedback =
-		properties.mode === "editor" ? undefined : properties.feedbackOverlay;
+	const playerFeedback = properties.mode === "editor" ? undefined : properties.feedbackOverlay;
 	const editorSlot = properties.mode === "editor" ? properties.editorSlot : undefined;
 	const showPolygons = playerFeedback !== undefined;
 	const hasStageDimensions =
@@ -183,11 +182,7 @@ const DrawingCanvas: React.FC<Properties> = (properties) => {
 				</Layer>
 				{showPolygons ? (
 					<Layer listening={false}>
-						<PolygonOverlay
-							coords={coords}
-							feedbackOverlay={playerFeedback}
-							polygons={polygons}
-						/>
+						<PolygonOverlay coords={coords} feedbackOverlay={playerFeedback} polygons={polygons} />
 					</Layer>
 				) : null}
 				<Layer listening={false}>

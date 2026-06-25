@@ -154,18 +154,13 @@ const { actions, name, reducer } = createSlice({
 		 * where future Undo (FE-06) will snapshot history; this reducer is the
 		 * downstream mutation, not the boundary itself.
 		 */
-		setItemPolygon: (
-			state,
-			action: PayloadAction<{ itemId: number; polygon: Point[] }>
-		) => {
+		setItemPolygon: (state, action: PayloadAction<{ itemId: number; polygon: Point[] }>) => {
 			if (!state.currentLevel?.items) {
 				return;
 			}
 
 			state.currentLevel.items = state.currentLevel.items.map((item) =>
-				item.id === action.payload.itemId
-					? { ...item, polygon: action.payload.polygon }
-					: item
+				item.id === action.payload.itemId ? { ...item, polygon: action.payload.polygon } : item
 			);
 		},
 	},
