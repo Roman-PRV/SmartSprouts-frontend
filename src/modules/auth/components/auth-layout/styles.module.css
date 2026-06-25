@@ -50,7 +50,7 @@
 
 .auth-page__link {
 	font-weight: 600;
-	color: var(--color-accent-1);
+	color: var(--color-accent-red);
 	text-decoration: none;
 	transition: color 0.2s;
 }

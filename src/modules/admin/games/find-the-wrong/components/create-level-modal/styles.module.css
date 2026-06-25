@@ -17,7 +17,7 @@
 }
 
 .form__field-required {
-	color: var(--color-accent-1);
+	color: var(--color-accent-red);
 }
 
 .form__file-input {
@@ -42,7 +42,7 @@
 
 .form__field-error {
 	font-size: var(--font-size-xs);
-	color: var(--color-accent-1);
+	color: var(--color-accent-red);
 }
 
 .form__actions {

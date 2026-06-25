@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { renderHook } from "@testing-library/react";
-import { act } from "react";
+import { act, StrictMode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DataStatus } from "~/libs/enums/enums";
@@ -57,6 +57,18 @@ const renderFetchById = (id?: string) =>
 		useFetchById<string>({
 			createFetch: createFetch as never,
 			id: current,
+			selectData: (state) => (state as unknown as TestState).data,
+			selectLoadedId: (state) => (state as unknown as TestState).loadedId,
+			selectStatus: (state) => (state as unknown as TestState).status,
+		}),
+	{ initialProps: id });
+
+const renderRevalidating = (id?: string) =>
+	renderHook((current: string | undefined) =>
+		useFetchById<string>({
+			createFetch: createFetch as never,
+			id: current,
+			revalidateOnMount: true,
 			selectData: (state) => (state as unknown as TestState).data,
 			selectLoadedId: (state) => (state as unknown as TestState).loadedId,
 			selectStatus: (state) => (state as unknown as TestState).status,
@@ -158,6 +170,78 @@ describe("useFetchById", () => {
 		const { result } = renderFetchById("2");
 
 		expect(result.current.data).toBe("game-2");
+		expect(result.current.hasError).toBe(false);
+		expect(result.current.isLoading).toBe(false);
+	});
+
+	it("revalidates on mount when the id is already cached, keeping data visible", () => {
+		setMockState({ data: "game-1", loadedId: "1", status: DataStatus.FULFILLED });
+
+		const { result } = renderRevalidating("1");
+
+		expect(createFetch).toHaveBeenCalledWith("1");
+		expect(result.current.data).toBe("game-1");
+		expect(result.current.isLoading).toBe(false);
+	});
+
+	it("re-issues the cached revalidate across a StrictMode mount-unmount-mount", () => {
+		// StrictMode aborts the first dispatch on its simulated unmount; the fetch
+		// must be re-issued on the second mount, otherwise the only request is the
+		// aborted one and the data never refreshes (the original revisit bug).
+		setMockState({ data: "game-1", loadedId: "1", status: DataStatus.FULFILLED });
+
+		renderHook(
+			() =>
+				useFetchById<string>({
+					createFetch: createFetch as never,
+					id: "1",
+					revalidateOnMount: true,
+					selectData: (state) => (state as unknown as TestState).data,
+					selectLoadedId: (state) => (state as unknown as TestState).loadedId,
+					selectStatus: (state) => (state as unknown as TestState).status,
+				}),
+			{ wrapper: StrictMode }
+		);
+
+		expect(createFetch).toHaveBeenCalledTimes(2);
+		expect(mockAbort).toHaveBeenCalled();
+	});
+
+	it("revalidates only the mount-time id, not a later id change", () => {
+		setMockState({ data: "game-1", loadedId: "1", status: DataStatus.FULFILLED });
+
+		const { rerender } = renderRevalidating("1");
+
+		expect(createFetch).toHaveBeenCalledWith("1");
+		createFetch.mockClear();
+
+		// Same mounted component, new route param (game A → game B). Only the load
+		// effect should fetch B; the mount revalidate must not fire a second time.
+		rerender("2");
+
+		expect(createFetch).toHaveBeenCalledTimes(1);
+		expect(createFetch).toHaveBeenCalledWith("2");
+	});
+
+	it("does not double-fetch on a first visit when revalidateOnMount is set", () => {
+		setMockState({ data: null, loadedId: null, status: DataStatus.IDLE });
+
+		renderRevalidating("1");
+
+		expect(createFetch).toHaveBeenCalledTimes(1);
+	});
+
+	it("keeps cached data and shows no error when a background revalidate rejects", () => {
+		setMockState({ data: "game-1", loadedId: "1", status: DataStatus.FULFILLED });
+
+		const { rerender, result } = renderRevalidating("1");
+
+		expect(createFetch).toHaveBeenCalledWith("1");
+
+		setMockState({ data: "game-1", loadedId: "1", status: DataStatus.REJECTED });
+		rerender("1");
+
+		expect(result.current.data).toBe("game-1");
 		expect(result.current.hasError).toBe(false);
 		expect(result.current.isLoading).toBe(false);
 	});

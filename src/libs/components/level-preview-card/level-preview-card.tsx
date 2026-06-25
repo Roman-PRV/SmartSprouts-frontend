@@ -10,16 +10,20 @@ import {
 
 import styles from "./styles.module.css";
 
-const PROGRESS_MODIFIER: Record<LevelProgress, string | undefined> = {
-	mastered: styles["card--mastered"],
-	not_perfect: styles["card--not-perfect"],
-	not_started: undefined,
+type ProgressPresentation = {
+	labelKey: string;
+	modifier: string | undefined;
 };
 
-const PROGRESS_LABEL_KEY: Record<LevelProgress, string | undefined> = {
-	mastered: "games.levels.progress.mastered",
-	not_perfect: "games.levels.progress.notPerfect",
-	not_started: undefined,
+// One source of truth per status: frame modifier + label key change together.
+// `null` means "no frame, no label" (never attempted).
+const PROGRESS_PRESENTATION: Record<LevelProgress, null | ProgressPresentation> = {
+	mastered: { labelKey: "games.levels.progress.mastered", modifier: styles["card--mastered"] },
+	not_perfect: {
+		labelKey: "games.levels.progress.notPerfect",
+		modifier: styles["card--not-perfect"],
+	},
+	not_started: null,
 };
 
 type Properties = {
@@ -31,12 +35,13 @@ type Properties = {
 const LevelPreviewCard: React.FC<Properties> = ({ game, level, number }) => {
 	const { t } = useTranslation();
 
-	const progressModifier = PROGRESS_MODIFIER[level.progress];
-	const progressLabelKey = PROGRESS_LABEL_KEY[level.progress];
+	const presentation = PROGRESS_PRESENTATION[level.progress];
+	const progressLabel = presentation ? t(presentation.labelKey) : undefined;
 
 	return (
 		<Link
-			className={getValidClassNames(styles["card"], progressModifier)}
+			className={getValidClassNames(styles["card"], presentation?.modifier)}
+			title={progressLabel}
 			to={`/games/${game.id}/levels/${level.id}`}
 		>
 			<FallbackImage
@@ -51,7 +56,9 @@ const LevelPreviewCard: React.FC<Properties> = ({ game, level, number }) => {
 				<p className={getValidClassNames(styles["card__number"])}>Level {number + UI_INDEX_BASE}</p>
 				<p className={getValidClassNames(styles["card__title"])}>{level.title}</p>
 			</div>
-			{progressLabelKey ? <span className="visually-hidden">{t(progressLabelKey)}</span> : null}
+			{progressLabel === undefined ? null : (
+				<span className="visually-hidden">{progressLabel}</span>
+			)}
 		</Link>
 	);
 };

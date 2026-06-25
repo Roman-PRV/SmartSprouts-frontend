@@ -74,8 +74,8 @@
 	font-size: 1.5rem;
 	cursor: pointer;
 	outline: none;
-	background: color-mix(in srgb, var(--color-accent-2) 30%, var(--color-background-4));
-	border: 2px solid var(--color-accent-3);
+	background: color-mix(in srgb, var(--color-accent-green-soft) 30%, var(--color-background-4));
+	border: 2px solid var(--color-accent-green);
 	border-radius: var(--border-radius-md);
 	transform: scale(1.05);
 	transition: all 0.2s ease;
@@ -88,8 +88,8 @@
 	font-size: 1.5rem;
 	cursor: pointer;
 	outline: none;
-	background: color-mix(in srgb, var(--color-accent-1) 20%, var(--color-background-4));
-	border: 2px solid var(--color-accent-1);
+	background: color-mix(in srgb, var(--color-accent-red) 20%, var(--color-background-4));
+	border: 2px solid var(--color-accent-red);
 	border-radius: var(--border-radius-md);
 	transform: scale(1.05);
 	transition: all 0.2s ease;
@@ -116,14 +116,14 @@
 
 /* Modifier: statement__result--correct */
 .statement__result--correct {
-	background: color-mix(in srgb, var(--color-accent-2) 40%, var(--color-background-4));
-	border-left: 4px solid var(--color-accent-3);
+	background: color-mix(in srgb, var(--color-accent-green-soft) 40%, var(--color-background-4));
+	border-left: 4px solid var(--color-accent-green);
 }
 
 /* Modifier: statement__result--incorrect */
 .statement__result--incorrect {
-	background: color-mix(in srgb, var(--color-accent-1) 15%, var(--color-background-4));
-	border-left: 4px solid var(--color-accent-1);
+	background: color-mix(in srgb, var(--color-accent-red) 15%, var(--color-background-4));
+	border-left: 4px solid var(--color-accent-red);
 }
 
 @keyframes slide-in {

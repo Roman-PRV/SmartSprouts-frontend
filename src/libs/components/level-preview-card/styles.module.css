@@ -29,12 +29,14 @@
 
 .card--mastered {
 	border-color: var(--color-accent-green);
-	box-shadow: 0 0 0 1px var(--color-accent-green);
+	border-width: 4px;
+	box-shadow: 0 0 0 2px var(--color-accent-green);
 }
 
 .card--not-perfect {
 	border-color: var(--color-accent-yellow);
-	box-shadow: 0 0 0 1px var(--color-accent-yellow);
+	border-width: 4px;
+	box-shadow: 0 0 0 2px var(--color-accent-yellow);
 }
 
 .card:nth-child(1) {
