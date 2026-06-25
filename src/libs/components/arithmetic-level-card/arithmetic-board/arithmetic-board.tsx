@@ -27,8 +27,17 @@ type Properties = {
 };
 
 const ArithmeticBoard: React.FC<Properties> = ({ board, operator }) => {
-	const { activeKey, answerCards, boardSize, equationCards, onDragEnd, onDragMove, onDragStart, pairs, positions } =
-		board;
+	const {
+		activeKey,
+		answerCards,
+		boardSize,
+		equationCards,
+		onDragEnd,
+		onDragMove,
+		onDragStart,
+		pairs,
+		positions,
+	} = board;
 	const { containerReference, size } = useContainerSize<HTMLDivElement>();
 	const draggingReference = useRef<DragState | null>(null);
 
@@ -150,7 +159,13 @@ const ArithmeticBoard: React.FC<Properties> = ({ board, operator }) => {
 				)}
 				data-card-key={cardKey}
 				key={cardKey}
-				style={{ height: CARD_HEIGHT, left: position.x, top: position.y, width: CARD_WIDTH, zIndex }}
+				style={{
+					height: CARD_HEIGHT,
+					left: position.x,
+					top: position.y,
+					width: CARD_WIDTH,
+					zIndex,
+				}}
 				type="button"
 				{...dragHandlers}
 			>

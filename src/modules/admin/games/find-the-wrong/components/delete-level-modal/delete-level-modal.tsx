@@ -14,7 +14,13 @@ type Properties = {
 	onClose: () => void;
 };
 
-const DeleteLevelModal: React.FC<Properties> = ({ gameId, isOpen, levelId, levelTitle, onClose }) => {
+const DeleteLevelModal: React.FC<Properties> = ({
+	gameId,
+	isOpen,
+	levelId,
+	levelTitle,
+	onClose,
+}) => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
 	const [isPending, setIsPending] = useState(false);
@@ -43,12 +49,7 @@ const DeleteLevelModal: React.FC<Properties> = ({ gameId, isOpen, levelId, level
 				<Button disabled={isPending} onClick={onClose} type="button" variant="secondary">
 					{t("admin.findTheWrong.delete.cancel")}
 				</Button>
-				<Button
-					isLoading={isPending}
-					onClick={handleConfirm}
-					type="button"
-					variant="danger"
-				>
+				<Button isLoading={isPending} onClick={handleConfirm} type="button" variant="danger">
 					{t("admin.findTheWrong.delete.confirmCta")}
 				</Button>
 			</div>

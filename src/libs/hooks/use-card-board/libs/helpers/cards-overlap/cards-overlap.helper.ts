@@ -7,8 +7,7 @@ import { type CardPosition } from "../../types/card.type";
 const cardsOverlap = (position: CardPosition, others: CardPosition[]): boolean =>
 	others.some(
 		(other) =>
-			Math.abs(position.x - other.x) < CARD_WIDTH &&
-			Math.abs(position.y - other.y) < CARD_HEIGHT
+			Math.abs(position.x - other.x) < CARD_WIDTH && Math.abs(position.y - other.y) < CARD_HEIGHT
 	);
 
 export { cardsOverlap };

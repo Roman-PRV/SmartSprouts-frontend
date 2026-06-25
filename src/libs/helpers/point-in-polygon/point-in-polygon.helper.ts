@@ -34,8 +34,7 @@ const pointInPolygon = (point: Point, polygon: Point[]): boolean => {
 		}
 
 		const crossesRay =
-			a[Y] > py !== b[Y] > py &&
-			px < ((b[X] - a[X]) * (py - a[Y])) / (b[Y] - a[Y]) + a[X];
+			a[Y] > py !== b[Y] > py && px < ((b[X] - a[X]) * (py - a[Y])) / (b[Y] - a[Y]) + a[X];
 
 		if (crossesRay) {
 			inside = !inside;

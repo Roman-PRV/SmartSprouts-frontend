@@ -77,11 +77,7 @@ const ItemEditForm: React.FC<Properties> = ({ item, onSubmit }) => {
 	);
 
 	return (
-		<form
-			className={styles["item-form"]}
-			noValidate
-			onSubmit={handleSubmit(handleFormSubmit)}
-		>
+		<form className={styles["item-form"]} noValidate onSubmit={handleSubmit(handleFormSubmit)}>
 			<LocalizedInputGroup
 				errorInterpolation={{ max: MAX_NAME_LENGTH }}
 				errors={errors.name}

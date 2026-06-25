@@ -1,6 +1,6 @@
 import type { DropdownOption, RenderToggleProperties } from "~/libs/components/dropdown/dropdown";
 
-import { Dropdown, Icon, MenuItem, NavLink } from "~/libs/components/components";
+import { Dropdown, Icon, MenuItem } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
@@ -13,10 +13,15 @@ import {
 } from "~/libs/hooks/hooks";
 import { useLogout } from "~/modules/auth/auth";
 
-import menuStyles from "../menu-item/styles.module.css";
 import styles from "./styles.module.css";
 
 const LOGOUT_OPTION = "logout";
+
+type NavItem = {
+	isVisible: boolean;
+	labelKey: string;
+	route: string;
+};
 
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
@@ -30,23 +35,36 @@ const Navigation: React.FC = () => {
 		void logout();
 	}, [logout]);
 
-	const navigationOptions = useMemo<DropdownOption<string>[]>(() => {
-		const options: DropdownOption<string>[] = [
-			{ label: t("common.navigation.home"), value: AppRoute.ROOT },
-			{ label: t("common.navigation.games"), value: AppRoute.GAMES },
-			{ label: t("common.navigation.profile"), value: AppRoute.PROFILE },
-		];
+	// Single source of the route entries; both the desktop list and the mobile
+	// dropdown map over this so they can never drift. Logout is appended separately
+	// because it is an action, not a route.
+	const navItems = useMemo<NavItem[]>(
+		() =>
+			[
+				{ isVisible: true, labelKey: "common.navigation.home", route: AppRoute.ROOT },
+				{ isVisible: true, labelKey: "common.navigation.games", route: AppRoute.GAMES },
+				{ isVisible: true, labelKey: "common.navigation.profile", route: AppRoute.PROFILE },
+				{
+					isVisible: isAdmin,
+					labelKey: "common.navigation.adminPanel",
+					route: AppRoute.ADMIN_ROOT,
+				},
+			].filter((item) => item.isVisible),
+		[isAdmin]
+	);
 
-		if (isAdmin) {
-			options.push({ label: t("common.navigation.adminPanel"), value: AppRoute.ADMIN_ROOT });
-		}
+	const navigationOptions = useMemo<DropdownOption<string>[]>(() => {
+		const options: DropdownOption<string>[] = navItems.map((item) => ({
+			label: t(item.labelKey),
+			value: item.route,
+		}));
 
 		if (isAuthenticated) {
 			options.push({ label: t("common.navigation.logout"), value: LOGOUT_OPTION });
 		}
 
 		return options;
-	}, [t, isAdmin, isAuthenticated]);
+	}, [t, navItems, isAuthenticated]);
 
 	const handleMobileMenuSelect = useCallback(
 		(value: string): void => {
@@ -84,22 +102,6 @@ const Navigation: React.FC = () => {
 		return matchingOption?.value ?? pathname;
 	}, [pathname, navigationOptions]);
 
-	const getDynamicNavLinkClassName = useCallback(
-		(route: string) =>
-			({ isActive }: { isActive: boolean }): string => {
-				const isOnTree =
-					isActive ||
-					(route === AppRoute.ROOT ? pathname === AppRoute.ROOT : pathname.startsWith(`${route}/`));
-
-				return getValidClassNames(
-					menuStyles["menu-item"],
-					isOnTree && menuStyles["menu-item--highlighted"],
-					pathname === route && menuStyles["menu-item--active"]
-				);
-			},
-		[pathname]
-	);
-
 	return (
 		<nav className={getValidClassNames(styles["navigation"])}>
 			<div className={getValidClassNames(styles["navigation__container"])}>
@@ -119,31 +121,11 @@ const Navigation: React.FC = () => {
 					value={currentActiveValue}
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
-					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.ROOT)} to={AppRoute.ROOT}>
-							{t("common.navigation.home")}
-						</NavLink>
-					</li>
-					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.GAMES)} end to={AppRoute.GAMES}>
-							{t("common.navigation.games")}
-						</NavLink>
-					</li>
-					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.PROFILE)} to={AppRoute.PROFILE}>
-							{t("common.navigation.profile")}
-						</NavLink>
-					</li>
-					{isAdmin && (
-						<li>
-							<NavLink
-								className={getDynamicNavLinkClassName(AppRoute.ADMIN_ROOT)}
-								to={AppRoute.ADMIN_ROOT}
-							>
-								{t("common.navigation.adminPanel")}
-							</NavLink>
+					{navItems.map((item) => (
+						<li key={item.route}>
+							<MenuItem to={item.route}>{t(item.labelKey)}</MenuItem>
 						</li>
-					)}
+					))}
 					{isAuthenticated && (
 						<li>
 							<MenuItem ariaLabel={t("common.navigation.logout")} onClick={handleLogout}>

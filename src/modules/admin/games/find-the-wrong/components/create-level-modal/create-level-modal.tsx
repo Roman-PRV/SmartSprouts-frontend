@@ -94,9 +94,7 @@ const CreateLevelModal: React.FC<Properties> = ({ game, isOpen, onClose }) => {
 	);
 
 	const imageError = errors.image?.message;
-	const describedBy = [imageHintId, imageError ? imageErrorId : null]
-		.filter(Boolean)
-		.join(" ");
+	const describedBy = [imageHintId, imageError ? imageErrorId : null].filter(Boolean).join(" ");
 
 	return (
 		<Modal isOpen={isOpen} onClose={handleClose} title={t("admin.findTheWrong.create.modalTitle")}>

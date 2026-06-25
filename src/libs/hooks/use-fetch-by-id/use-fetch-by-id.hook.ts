@@ -30,7 +30,7 @@ type RootState = AsyncThunkConfig["state"];
  * request is aborted, and `data` is exposed only when it matches the current id
  * (never stale). Used by `useGameFetch`/`useLevelsFetch`.
  */
-const useFetchById = <TData,>({
+const useFetchById = <TData>({
 	createFetch,
 	id,
 	selectData,

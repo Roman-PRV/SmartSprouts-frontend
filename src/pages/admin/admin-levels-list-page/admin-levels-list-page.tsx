@@ -25,7 +25,9 @@ const AdminLevelsListPage: React.FC = () => {
 	const Section = findAdminGameRegistration(currentGame.key)?.LevelsListSection ?? null;
 
 	if (!Section) {
-		return <AdminPageFallback message={t("admin.errors.unsupportedGame", { key: currentGame.key })} />;
+		return (
+			<AdminPageFallback message={t("admin.errors.unsupportedGame", { key: currentGame.key })} />
+		);
 	}
 
 	return (

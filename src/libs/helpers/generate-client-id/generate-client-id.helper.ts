@@ -11,9 +11,9 @@ const generateClientId = (): string => {
 
 		crypto.getRandomValues(bytes);
 
-		return Array.from(bytes, (byte) =>
-			byte.toString(BASE36_RADIX).padStart(PAD_LENGTH, "0")
-		).join("");
+		return Array.from(bytes, (byte) => byte.toString(BASE36_RADIX).padStart(PAD_LENGTH, "0")).join(
+			""
+		);
 	}
 
 	fallbackCounter += COUNTER_STEP;

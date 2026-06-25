@@ -40,7 +40,13 @@ const DeleteItemModal: React.FC<Properties> = ({ isOpen, itemName, onClose, onCo
 				<Button disabled={isPending} onClick={onClose} size="sm" type="button" variant="secondary">
 					{t("admin.findTheWrong.item.delete.cancel")}
 				</Button>
-				<Button isLoading={isPending} onClick={handleConfirm} size="sm" type="button" variant="danger">
+				<Button
+					isLoading={isPending}
+					onClick={handleConfirm}
+					size="sm"
+					type="button"
+					variant="danger"
+				>
 					{t("admin.findTheWrong.item.delete.confirmCta")}
 				</Button>
 			</div>
