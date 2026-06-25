@@ -27,6 +27,16 @@
 	}
 }
 
+.card--mastered {
+	border-color: var(--color-accent-green);
+	box-shadow: 0 0 0 1px var(--color-accent-green);
+}
+
+.card--not-perfect {
+	border-color: var(--color-accent-yellow);
+	box-shadow: 0 0 0 1px var(--color-accent-yellow);
+}
+
 .card:nth-child(1) {
 	animation-delay: 0.05s;
 }

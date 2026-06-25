@@ -4,7 +4,7 @@ export { type GameDescriptionDto } from "./game-description-dto.type";
 export { type IconName } from "./icon-name.type";
 export { type ImageDimensions } from "./image-dimensions.type";
 export { type LevelCardProperties } from "./level-card-properties.type";
-export { type LevelDescriptionDto } from "./level-description-dto.type";
+export { type LevelDescriptionDto, type LevelProgress } from "./level-description-dto.type";
 export { type Point } from "./point.type";
 export { type Polygon } from "./polygon.type";
 export { type ServerErrorDetail } from "./server-error-detail.type";
