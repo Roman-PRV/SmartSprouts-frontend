@@ -69,6 +69,7 @@ const games = {
 		progress: {
 			mastered: "Dominado",
 			notPerfect: "Jugado, pero aún no perfecto",
+			notStarted: "Aún sin jugar",
 		},
 		title: "Selecciona un nivel para el juego {{title}}",
 	},

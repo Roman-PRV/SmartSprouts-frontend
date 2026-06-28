@@ -69,6 +69,7 @@ const games = {
 		progress: {
 			mastered: "Пройдено на максимум",
 			notPerfect: "Пройдено, але не ідеально",
+			notStarted: "Ще не пройдено",
 		},
 		title: "Виберіть рівень для гри {{title}}",
 	},

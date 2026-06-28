@@ -15,15 +15,15 @@ type ProgressPresentation = {
 	modifier: string | undefined;
 };
 
-// One source of truth per status: frame modifier + label key change together.
-// `null` means "no frame, no label" (never attempted).
-const PROGRESS_PRESENTATION: Record<LevelProgress, null | ProgressPresentation> = {
+// One source of truth per status. Every status has a label (used for both the
+// mouse tooltip and the screen-reader text); only played statuses add a frame.
+const PROGRESS_PRESENTATION: Record<LevelProgress, ProgressPresentation> = {
 	mastered: { labelKey: "games.levels.progress.mastered", modifier: styles["card--mastered"] },
 	not_perfect: {
 		labelKey: "games.levels.progress.notPerfect",
 		modifier: styles["card--not-perfect"],
 	},
-	not_started: null,
+	not_started: { labelKey: "games.levels.progress.notStarted", modifier: undefined },
 };
 
 type Properties = {
@@ -35,12 +35,12 @@ type Properties = {
 const LevelPreviewCard: React.FC<Properties> = ({ game, level, number }) => {
 	const { t } = useTranslation();
 
-	const presentation = PROGRESS_PRESENTATION[level.progress];
-	const progressLabel = presentation ? t(presentation.labelKey) : undefined;
+	const { labelKey, modifier } = PROGRESS_PRESENTATION[level.progress];
+	const progressLabel = t(labelKey);
 
 	return (
 		<Link
-			className={getValidClassNames(styles["card"], presentation?.modifier)}
+			className={getValidClassNames(styles["card"], modifier)}
 			title={progressLabel}
 			to={`/games/${game.id}/levels/${level.id}`}
 		>
@@ -56,9 +56,10 @@ const LevelPreviewCard: React.FC<Properties> = ({ game, level, number }) => {
 				<p className={getValidClassNames(styles["card__number"])}>Level {number + UI_INDEX_BASE}</p>
 				<p className={getValidClassNames(styles["card__title"])}>{level.title}</p>
 			</div>
-			{progressLabel === undefined ? null : (
-				<span className="visually-hidden">{progressLabel}</span>
-			)}
+			{/* `title` is the mouse tooltip; the visually-hidden span carries the same
+			    status for assistive tech, since `title` alone is unreliable for
+			    screen readers and absent on touch/keyboard. Keep both intentionally. */}
+			<span className="visually-hidden">{progressLabel}</span>
 		</Link>
 	);
 };

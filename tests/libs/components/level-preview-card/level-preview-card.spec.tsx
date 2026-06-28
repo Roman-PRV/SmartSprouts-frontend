@@ -55,13 +55,14 @@ describe("LevelPreviewCard", () => {
 		expect(container.querySelector(".visually-hidden")).not.toBeNull();
 	});
 
-	it("renders no frame or status label for a not_started level", () => {
+	it("shows no frame but still labels a not_started level", () => {
 		const container = renderCard("not_started");
 
 		const { className } = screen.getByRole("link");
 
 		expect(className).not.toContain("card--mastered");
 		expect(className).not.toContain("card--not-perfect");
-		expect(container.querySelector(".visually-hidden")).toBeNull();
+		// Not-started has no frame but still carries a tooltip/screen-reader label.
+		expect(container.querySelector(".visually-hidden")).not.toBeNull();
 	});
 });

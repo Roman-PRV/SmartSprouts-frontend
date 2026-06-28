@@ -69,6 +69,7 @@ const games = {
 		progress: {
 			mastered: "Mastered",
 			notPerfect: "Played — not perfect yet",
+			notStarted: "Not started yet",
 		},
 		title: "Select a level for the {{title}} game",
 	},
