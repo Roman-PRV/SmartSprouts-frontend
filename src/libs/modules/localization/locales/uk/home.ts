@@ -4,17 +4,14 @@ const home = {
 		logic: {
 			description: "Головоломки, послідовності та розумові виклики.",
 			iconAriaLabel: "Пазл",
-			title: "Логіка",
 		},
 		math: {
 			description: "Числа, форми та цікава логіка.",
 			iconAriaLabel: "Абак",
-			title: "Математика",
 		},
 		reading: {
 			description: "Історії, літери та новий словниковий запас.",
 			iconAriaLabel: "Книги",
-			title: "Читання",
 		},
 		title: "Досліджуй за категоріями",
 	},

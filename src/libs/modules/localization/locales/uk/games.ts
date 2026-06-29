@@ -20,6 +20,12 @@ const games = {
 			score: "{{score}} з {{total}} правильно",
 		},
 	},
+	categories: {
+		all: "Усі",
+		logic: "Логіка",
+		math: "Математика",
+		reading: "Читання",
+	},
 	content: {
 		errorTitle: "Помилка",
 		invalidId: "Недійсний або відсутній ID гри.",
@@ -74,6 +80,8 @@ const games = {
 		title: "Виберіть рівень для гри {{title}}",
 	},
 	selection: {
+		categoriesNavLabel: "Фільтр ігор за категорією",
+		categoryTitle: "Ігри: {{category}}",
 		empty: "На даний момент немає доступних ігор.",
 		error: "Не вдалося завантажити ігри. Будь ласка, спробуйте ще раз.",
 		title: "Оберіть гру",

@@ -4,17 +4,14 @@ const home = {
 		logic: {
 			description: "Puzzles, sequences and mental challenges.",
 			iconAriaLabel: "Puzzle",
-			title: "Logic",
 		},
 		math: {
 			description: "Numbers, shapes and fun logic.",
 			iconAriaLabel: "Abacus",
-			title: "Math",
 		},
 		reading: {
 			description: "Stories, letters and new vocabulary.",
 			iconAriaLabel: "Books",
-			title: "Reading",
 		},
 		title: "Explore by Category",
 	},
