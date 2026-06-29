@@ -1,5 +1,6 @@
 import { Link } from "~/libs/components/components";
-import { AppRoute, GameCategory } from "~/libs/enums/enums";
+import { GAME_CATEGORY_META, GAME_CATEGORY_ORDER } from "~/libs/constants/constants";
+import { AppRoute, type GameCategory } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useTranslation } from "~/libs/hooks/hooks";
 import { type ValueOf } from "~/libs/types/types";
@@ -10,14 +11,6 @@ type Properties = {
 	activeCategory?: undefined | ValueOf<typeof GameCategory>;
 };
 
-const CATEGORY_ICON: Record<ValueOf<typeof GameCategory>, string> = {
-	[GameCategory.LOGIC]: "🧩",
-	[GameCategory.MATH]: "🧮",
-	[GameCategory.READING]: "📚",
-};
-
-const CATEGORY_ORDER = [GameCategory.MATH, GameCategory.READING, GameCategory.LOGIC];
-
 const CategoryFilter: React.FC<Properties> = ({ activeCategory }) => {
 	const { t } = useTranslation();
 
@@ -26,14 +19,14 @@ const CategoryFilter: React.FC<Properties> = ({ activeCategory }) => {
 			category: undefined,
 			icon: undefined,
 			key: "all",
-			label: t("games.selection.categories.all"),
+			label: t("games.categories.all"),
 			to: AppRoute.GAMES,
 		},
-		...CATEGORY_ORDER.map((category) => ({
+		...GAME_CATEGORY_ORDER.map((category) => ({
 			category,
-			icon: CATEGORY_ICON[category],
+			icon: GAME_CATEGORY_META[category].icon,
 			key: category,
-			label: t(`home.categories.${category}.title`),
+			label: t(GAME_CATEGORY_META[category].titleKey),
 			to: `${AppRoute.GAMES}?category=${category}`,
 		})),
 	];

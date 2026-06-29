@@ -1,3 +1,4 @@
+import { GAME_CATEGORY_META } from "~/libs/constants/constants";
 import { GameCategory } from "~/libs/enums/enums";
 import {
 	useAppDispatch,
@@ -38,7 +39,7 @@ const GameSelectionPage: React.FC = () => {
 	}, [fetchGames]);
 
 	const title = category
-		? t("games.selection.categoryTitle", { category: t(`home.categories.${category}.title`) })
+		? t("games.selection.categoryTitle", { category: t(GAME_CATEGORY_META[category].titleKey) })
 		: t("games.selection.title");
 
 	return (

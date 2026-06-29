@@ -20,6 +20,12 @@ const games = {
 			score: "{{score}} of {{total}} correct",
 		},
 	},
+	categories: {
+		all: "All",
+		logic: "Logic",
+		math: "Math",
+		reading: "Reading",
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
@@ -74,9 +80,6 @@ const games = {
 		title: "Select a level for the {{title}} game",
 	},
 	selection: {
-		categories: {
-			all: "All",
-		},
 		categoriesNavLabel: "Filter games by category",
 		categoryTitle: "{{category}} games",
 		empty: "No games available at the moment.",

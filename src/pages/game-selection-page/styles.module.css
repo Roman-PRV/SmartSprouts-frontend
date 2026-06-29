@@ -137,6 +137,24 @@
 	color: var(--color-text-secondary);
 }
 
+/* Category badges */
+.game-card__badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-xxs);
+}
+
+.game-card__badge {
+	display: inline-flex;
+	gap: var(--spacing-xxs);
+	align-items: center;
+	padding: var(--spacing-xxs) var(--spacing-xs);
+	font-size: var(--font-size-xs);
+	color: var(--color-text-secondary);
+	background: var(--color-background-light-gray);
+	border-radius: var(--border-radius-pill);
+}
+
 /* Buttons (controls) */
 .button {
 	padding: 8px 12px;
