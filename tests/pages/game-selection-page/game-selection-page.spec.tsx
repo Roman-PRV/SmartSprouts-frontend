@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
@@ -63,5 +63,17 @@ describe("GameSelectionPage", () => {
 		renderAt("/games");
 
 		expect(getAllGamesMock).toHaveBeenCalledWith(undefined);
+	});
+
+	it("shows a category-aware title for a valid category", () => {
+		renderAt("/games?category=math");
+
+		expect(screen.getByRole("heading", { level: 1, name: "Math games" })).toBeInTheDocument();
+	});
+
+	it("shows the generic title when no category is selected", () => {
+		renderAt("/games");
+
+		expect(screen.getByRole("heading", { level: 1, name: "Choose a game" })).toBeInTheDocument();
 	});
 });

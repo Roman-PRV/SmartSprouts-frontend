@@ -74,6 +74,11 @@ const games = {
 		title: "Виберіть рівень для гри {{title}}",
 	},
 	selection: {
+		categories: {
+			all: "Усі",
+		},
+		categoriesNavLabel: "Фільтр ігор за категорією",
+		categoryTitle: "Ігри: {{category}}",
 		empty: "На даний момент немає доступних ігор.",
 		error: "Не вдалося завантажити ігри. Будь ласка, спробуйте ще раз.",
 		title: "Оберіть гру",

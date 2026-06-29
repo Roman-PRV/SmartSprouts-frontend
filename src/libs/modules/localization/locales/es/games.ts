@@ -74,6 +74,11 @@ const games = {
 		title: "Selecciona un nivel para el juego {{title}}",
 	},
 	selection: {
+		categories: {
+			all: "Todos",
+		},
+		categoriesNavLabel: "Filtrar juegos por categoría",
+		categoryTitle: "Juegos de {{category}}",
 		empty: "No hay juegos disponibles en este momento.",
 		error: "Error al cargar los juegos. Por favor, inténtalo de nuevo.",
 		title: "Elige un juego",

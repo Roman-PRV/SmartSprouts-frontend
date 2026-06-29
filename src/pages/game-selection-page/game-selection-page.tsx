@@ -10,6 +10,7 @@ import {
 import { type ValueOf } from "~/libs/types/types";
 import { actions as gamesActions } from "~/modules/games/games";
 
+import { CategoryFilter } from "./category-filter";
 import { GameSelectionList } from "./game-selection-list";
 import styles from "./styles.module.css";
 
@@ -36,10 +37,15 @@ const GameSelectionPage: React.FC = () => {
 		fetchGames();
 	}, [fetchGames]);
 
+	const title = category
+		? t("games.selection.categoryTitle", { category: t(`home.categories.${category}.title`) })
+		: t("games.selection.title");
+
 	return (
 		<div className={styles["game-selection-page__container"]}>
 			<header className={styles["game-selection-page__header"]}>
-				<h1 className={styles["game-selection-page__title"]}>{t("games.selection.title")}</h1>
+				<h1 className={styles["game-selection-page__title"]}>{title}</h1>
+				<CategoryFilter activeCategory={category} />
 			</header>
 
 			<main aria-live="polite" className={styles["game-selection-page__grid"]}>
