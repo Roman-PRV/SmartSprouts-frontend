@@ -16,9 +16,10 @@
 	--color-text-secondary-hover: rgb(105 116 132);
 	--color-brand: rgb(255 215 0);
 	--color-brand-hover: rgb(255 228 51);
-	--color-accent-1: rgb(255 94 94);
-	--color-accent-2: rgb(170 235 152);
-	--color-accent-3: rgb(9 196 65);
+	--color-accent-red: rgb(255 94 94);
+	--color-accent-green-soft: rgb(170 235 152);
+	--color-accent-green: rgb(9 196 65);
+	--color-accent-yellow: rgb(255 193 7);
 	--color-shadow-accent: rgb(12 121 151 / 30%);
 	--color-shadow-accent-light: rgb(12 121 151 / 20%);
 	--color-shadow-accent-focus: rgb(12 121 151 / 20%);

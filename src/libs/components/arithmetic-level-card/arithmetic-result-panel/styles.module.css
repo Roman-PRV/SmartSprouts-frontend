@@ -46,11 +46,11 @@
 }
 
 .row__mark--correct {
-	color: var(--color-accent-3);
+	color: var(--color-accent-green);
 }
 
 .row__mark--incorrect {
-	color: var(--color-accent-1);
+	color: var(--color-accent-red);
 }
 
 .row__expected {

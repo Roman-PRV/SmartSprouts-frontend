@@ -66,6 +66,11 @@ const games = {
 	levels: {
 		empty: "No hay niveles disponibles en este momento.",
 		error: "Error al cargar los niveles. Por favor, inténtalo de nuevo.",
+		progress: {
+			mastered: "Dominado",
+			notPerfect: "Jugado, pero aún no perfecto",
+			notStarted: "Aún sin jugar",
+		},
 		title: "Selecciona un nivel para el juego {{title}}",
 	},
 	selection: {
