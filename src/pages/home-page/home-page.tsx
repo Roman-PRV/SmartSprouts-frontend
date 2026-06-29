@@ -1,5 +1,6 @@
 import { Button, Link, Trans } from "~/libs/components/components";
-import { AppRoute, GameCategory } from "~/libs/enums/enums";
+import { GAME_CATEGORY_META, GAME_CATEGORY_ORDER } from "~/libs/constants/constants";
+import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
 
@@ -134,48 +135,25 @@ const HomePage: React.FC = () => {
 				</div>
 
 				<div className={styles["categories-section__grid"]}>
-					<Link
-						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=${GameCategory.MATH}`}
-					>
-						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label={t("home.categories.math.iconAriaLabel")} role="img">
-								🧮
-							</span>
-						</div>
-						<h3 className={styles["category-card__title"]}>{t("home.categories.math.title")}</h3>
-						<p className={styles["category-card__description"]}>
-							{t("home.categories.math.description")}
-						</p>
-					</Link>
-					<Link
-						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=${GameCategory.READING}`}
-					>
-						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label={t("home.categories.reading.iconAriaLabel")} role="img">
-								📚
-							</span>
-						</div>
-						<h3 className={styles["category-card__title"]}>{t("home.categories.reading.title")}</h3>
-						<p className={styles["category-card__description"]}>
-							{t("home.categories.reading.description")}
-						</p>
-					</Link>
-					<Link
-						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=${GameCategory.LOGIC}`}
-					>
-						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label={t("home.categories.logic.iconAriaLabel")} role="img">
-								🧩
-							</span>
-						</div>
-						<h3 className={styles["category-card__title"]}>{t("home.categories.logic.title")}</h3>
-						<p className={styles["category-card__description"]}>
-							{t("home.categories.logic.description")}
-						</p>
-					</Link>
+					{GAME_CATEGORY_ORDER.map((category) => (
+						<Link
+							className={styles["category-card"]}
+							key={category}
+							to={`${AppRoute.GAMES}?category=${category}`}
+						>
+							<div className={styles["category-card__icon-wrapper"]}>
+								<span aria-label={t(`home.categories.${category}.iconAriaLabel`)} role="img">
+									{GAME_CATEGORY_META[category].icon}
+								</span>
+							</div>
+							<h3 className={styles["category-card__title"]}>
+								{t(GAME_CATEGORY_META[category].titleKey)}
+							</h3>
+							<p className={styles["category-card__description"]}>
+								{t(`home.categories.${category}.description`)}
+							</p>
+						</Link>
+					))}
 				</div>
 			</section>
 

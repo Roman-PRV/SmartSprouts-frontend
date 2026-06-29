@@ -1,10 +1,10 @@
-import { APIPath, ContentType } from "~/libs/enums/enums";
+import { APIPath, ContentType, type GameCategory } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Storage } from "~/libs/modules/storage/storage";
 import { type GameDescriptionDto } from "~/libs/types/game-description-dto.type";
-import { type LevelDescriptionDto } from "~/libs/types/types";
+import { type LevelDescriptionDto, type ValueOf } from "~/libs/types/types";
 
 import { GamesApiPath } from "./libs/enums/enums";
 
@@ -19,9 +19,13 @@ class GamesApi extends BaseHTTPApi {
 		super({ baseUrl, http, path: APIPath.GAMES, storage });
 	}
 
-	public async getAll(): Promise<GameDescriptionDto[]> {
+	public async getAll(category?: ValueOf<typeof GameCategory>): Promise<GameDescriptionDto[]> {
 		const url = this.getFullEndpoint(GamesApiPath.ROOT, {});
-		const response = await this.load(url, {
+		const endpoint = category
+			? `${url}?${new URLSearchParams({ category }).toString()}`
+			: url;
+
+		const response = await this.load(endpoint, {
 			contentType: ContentType.JSON,
 			hasAuth: true,
 			method: HTTPMethod.GET,
