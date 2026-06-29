@@ -27,6 +27,14 @@
 	}
 }
 
+.card--mastered {
+	outline: 4px solid var(--color-accent-green);
+}
+
+.card--not-perfect {
+	outline: 4px solid var(--color-accent-yellow);
+}
+
 .card:nth-child(1) {
 	animation-delay: 0.05s;
 }

@@ -12,6 +12,9 @@ const useLevelsFetch = (id: string | undefined): UseLevelsFetchReturn => {
 	const { data, hasError, isLoading } = useFetchById<LevelDescriptionDto[]>({
 		createFetch: getLevelsList,
 		id,
+		// Level progress changes after a player completes a level; refetch on
+		// revisit so the frames reflect the latest attempt.
+		revalidateOnMount: true,
 		selectData: (state) => state.games.currentGameLevels,
 		selectLoadedId: (state) => state.games.currentLevelsGameId,
 		selectStatus: (state) => state.games.levelsStatus,

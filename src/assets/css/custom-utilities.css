@@ -62,16 +62,16 @@
 		color: var(--color-brand-hover);
 	}
 
-	.text-accent-1 {
-		color: var(--color-accent-1);
+	.text-accent-red {
+		color: var(--color-accent-red);
 	}
 
-	.text-accent-2 {
-		color: var(--color-accent-2);
+	.text-accent-green-soft {
+		color: var(--color-accent-green-soft);
 	}
 
-	.text-accent-3 {
-		color: var(--color-accent-3);
+	.text-accent-green {
+		color: var(--color-accent-green);
 	}
 
 	.bg-brand {
@@ -82,16 +82,16 @@
 		background-color: var(--color-brand-hover);
 	}
 
-	.bg-accent-1 {
-		background-color: var(--color-accent-1);
+	.bg-accent-red {
+		background-color: var(--color-accent-red);
 	}
 
-	.bg-accent-2 {
-		background-color: var(--color-accent-2);
+	.bg-accent-green-soft {
+		background-color: var(--color-accent-green-soft);
 	}
 
-	.bg-accent-3 {
-		background-color: var(--color-accent-3);
+	.bg-accent-green {
+		background-color: var(--color-accent-green);
 	}
 
 	/* Border radius */

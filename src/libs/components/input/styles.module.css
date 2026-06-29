@@ -18,7 +18,7 @@
 
 .input-label__required {
 	font-weight: 700;
-	color: var(--color-accent-1);
+	color: var(--color-accent-red);
 }
 
 /* Element: input-container */
@@ -76,12 +76,12 @@
 
 /* Modifier: input--error */
 .input--error {
-	background: color-mix(in srgb, var(--color-accent-1) 3%, var(--color-background-4));
-	border-color: var(--color-accent-1);
+	background: color-mix(in srgb, var(--color-accent-red) 3%, var(--color-background-4));
+	border-color: var(--color-accent-red);
 }
 
 .input--error:focus {
-	border-color: var(--color-accent-1);
+	border-color: var(--color-accent-red);
 	box-shadow: 0 0 0 3px var(--color-shadow-danger-light);
 }
 
@@ -132,7 +132,7 @@
 
 /* Icon color changes on focus/error */
 .input-container:has(.input--error) .input-icon {
-	color: var(--color-accent-1);
+	color: var(--color-accent-red);
 }
 
 .input-container:has(.input:focus) .input-icon {
@@ -148,7 +148,7 @@
 	font-family: var(--font-family);
 	font-size: 0.8125rem;
 	font-weight: 500;
-	color: var(--color-accent-1);
+	color: var(--color-accent-red);
 }
 
 .input-wrapper--sm .input-error {

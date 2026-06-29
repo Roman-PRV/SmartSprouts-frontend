@@ -71,7 +71,7 @@ describe("useLevelsFetch", () => {
 		expect(result.current).toEqual({ hasError: false, isLoading: true, levels: null });
 	});
 
-	it("returns matched levels without refetching", () => {
+	it("revalidates matched levels on mount while keeping them visible", () => {
 		setMockState({
 			currentGameLevels: LEVELS,
 			currentLevelsGameId: "5",
@@ -80,7 +80,9 @@ describe("useLevelsFetch", () => {
 
 		const { result } = renderHook(() => useLevelsFetch("5"));
 
-		expect(mockGetLevelsList).not.toHaveBeenCalled();
+		// Cached levels carry mutable progress, so revisiting refetches in the
+		// background without a loading flash.
+		expect(mockGetLevelsList).toHaveBeenCalledWith("5");
 		expect(result.current).toEqual({ hasError: false, isLoading: false, levels: LEVELS });
 	});
 
