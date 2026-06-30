@@ -1,5 +1,5 @@
 import { Button, Link } from "~/libs/components/components";
-import { useCallback, useTranslation } from "~/libs/hooks/hooks";
+import { useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 import { buildAdminEditorUrl } from "~/modules/admin/libs/helpers/build-admin-editor-url.helper";
 
 import { type TrueFalseAdminLevelDto } from "../../libs/types/types";
@@ -16,21 +16,48 @@ type Properties = {
 
 const LevelRow: React.FC<Properties> = ({ gameId, level, localizedTitle, onDelete }) => {
 	const { t } = useTranslation();
+	const [hasImageError, setHasImageError] = useState(false);
 
 	const handleDelete = useCallback(() => {
 		onDelete(level);
 	}, [level, onDelete]);
 
+	const handleImageError = useCallback(() => {
+		setHasImageError(true);
+	}, []);
+
+	const showImage = Boolean(level.image_url) && !hasImageError;
+
 	return (
 		<tr>
 			<td>{level.id}</td>
 			<td>{localizedTitle}</td>
+			<td>
+				{showImage ? (
+					<img
+						alt={localizedTitle}
+						className={styles["levels-list__thumbnail"]}
+						loading="lazy"
+						onError={handleImageError}
+						src={level.image_url ?? ""}
+					/>
+				) : (
+					<span className={styles["levels-list__thumbnail-placeholder"]} />
+				)}
+			</td>
 			<td>{level.statements_count ?? EMPTY_COUNT}</td>
-			<td className={styles["levels-list__actions"]}>
-				<Link to={buildAdminEditorUrl(gameId, level.id)}>{t("admin.trueFalse.list.edit")}</Link>
-				<Button onClick={handleDelete} type="button" variant="secondary">
-					{t("admin.trueFalse.list.delete")}
-				</Button>
+			<td>
+				<div className={styles["levels-list__row-actions"]}>
+					<Link
+						className={styles["levels-list__edit-link"]}
+						to={buildAdminEditorUrl(gameId, level.id)}
+					>
+						{t("admin.trueFalse.list.edit")}
+					</Link>
+					<Button onClick={handleDelete} type="button" variant="danger">
+						{t("admin.trueFalse.list.delete")}
+					</Button>
+				</div>
 			</td>
 		</tr>
 	);

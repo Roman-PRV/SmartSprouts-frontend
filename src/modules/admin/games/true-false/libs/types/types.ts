@@ -1,4 +1,4 @@
-export { type AudioStatusMap } from "./audio-status.type";
+export { type AudioStatus, type AudioStatusMap } from "./audio-status.type";
 export { type LocalizedString } from "./localized-string.type";
 export { type RegenerateAudioPayload } from "./regenerate-audio-payload.type";
 export {

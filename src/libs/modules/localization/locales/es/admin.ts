@@ -156,7 +156,7 @@ const admin = {
 			fresh: "Actualizado",
 			generating: "Generando…",
 			regenerate: "Regenerar",
-			regenerateLabel: "Regenerar el audio de «{{field}}» ({{locale}})",
+			regenerateLabel: "Regenerar «{{field}}» ({{locale}})",
 		},
 		editor: {
 			loadError: "No se pudo cargar el nivel. Inténtalo de nuevo.",
@@ -190,8 +190,10 @@ const admin = {
 			},
 			fields: {
 				image: {
+					currentFile: "Archivo actual: {{name}}",
 					hint: "JPEG, PNG o WebP, hasta {{maxMb}} MB",
 					label: "Imagen de portada",
+					previewAlt: "Imagen de portada actual",
 				},
 				text: {
 					en: "Texto (inglés)",
@@ -209,6 +211,7 @@ const admin = {
 			columns: {
 				actions: "Acciones",
 				id: "ID",
+				image: "Imagen",
 				statementsCount: "Afirmaciones",
 				title: "Título",
 			},

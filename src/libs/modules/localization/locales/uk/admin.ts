@@ -157,7 +157,7 @@ const admin = {
 			fresh: "Актуально",
 			generating: "Генерується…",
 			regenerate: "Перегенерувати",
-			regenerateLabel: "Перегенерувати озвучення «{{field}}» ({{locale}})",
+			regenerateLabel: "Перегенерувати «{{field}}» ({{locale}})",
 		},
 		editor: {
 			loadError: "Не вдалося завантажити рівень. Спробуйте ще раз.",
@@ -190,8 +190,10 @@ const admin = {
 			},
 			fields: {
 				image: {
+					currentFile: "Поточний файл: {{name}}",
 					hint: "JPEG, PNG або WebP, до {{maxMb}} МБ",
 					label: "Обкладинка",
+					previewAlt: "Поточна обкладинка",
 				},
 				text: {
 					en: "Текст (англійською)",
@@ -209,6 +211,7 @@ const admin = {
 			columns: {
 				actions: "Дії",
 				id: "ID",
+				image: "Зображення",
 				statementsCount: "Твердження",
 				title: "Заголовок",
 			},

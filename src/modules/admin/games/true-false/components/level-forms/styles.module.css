@@ -20,6 +20,17 @@
 	color: var(--color-accent-red);
 }
 
+.form__image-preview {
+	align-self: center;
+	width: 100%;
+	max-width: 480px;
+	height: auto;
+	object-fit: contain;
+	background-color: var(--color-background-light-gray);
+	border: 1px solid var(--color-background-light-gray);
+	border-radius: var(--border-radius-sm);
+}
+
 .form__file-input {
 	padding: var(--spacing-xs);
 	font-size: var(--font-size-xs);

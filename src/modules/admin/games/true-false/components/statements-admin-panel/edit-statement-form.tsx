@@ -3,7 +3,13 @@ import { type DefaultValues, type SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "~/libs/components/components";
-import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
+import {
+	useAppDispatch,
+	useCallback,
+	useForm,
+	useId,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 import { AVAILABLE_LANGUAGES, type Language } from "~/libs/modules/localization/localization";
 
 import { updateStatement } from "../../api/true-false-admin";
@@ -14,8 +20,7 @@ import {
 	type StatementFormValues,
 	statementValidationSchema,
 } from "../../libs/validation-schemas/statement.validation-schema";
-import { AudioFieldControls } from "../audio-field-controls/audio-field-controls";
-import { StatementFields } from "./statement-fields";
+import { LocalizedAudioField } from "../audio-field-controls/localized-audio-field";
 import styles from "./styles.module.css";
 
 const EXPLANATION_FIELD = "explanation_audio_url";
@@ -45,12 +50,13 @@ const buildDefaults = (
 };
 
 /**
- * Inline edit form for a single statement: localized text + is_true plus the
- * per-locale audio regenerate controls for both the statement and explanation.
+ * Inline edit form for a single statement: localized statement + explanation,
+ * each with its per-locale audio controls, plus the is_true toggle.
  */
 const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statement }) => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
+	const isTrueId = useId();
 
 	const {
 		formState: { errors, isSubmitting },
@@ -62,6 +68,15 @@ const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statem
 	});
 
 	const statementScope = audio.statementScope(statement.id);
+
+	const getStatementLabel = useCallback(
+		(lang: Language) => t(`admin.trueFalse.statement.fields.statement.${lang}`),
+		[t]
+	);
+	const getExplanationLabel = useCallback(
+		(lang: Language) => t(`admin.trueFalse.statement.fields.explanation.${lang}`),
+		[t]
+	);
 
 	const onSubmit = useCallback<SubmitHandler<StatementFormValues>>(
 		async (values) => {
@@ -89,22 +104,34 @@ const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statem
 
 	return (
 		<form className={styles["statement-form"]} noValidate onSubmit={handleSubmit(onSubmit)}>
-			<StatementFields errors={errors} register={register} />
-
-			<AudioFieldControls
+			<LocalizedAudioField
 				audio={audio}
+				audioField={STATEMENT_FIELD}
 				audioMap={statement.statement_audio}
-				field={STATEMENT_FIELD}
-				label={t("admin.trueFalse.statement.audio.statement")}
+				errors={errors.statement}
+				fieldLabel={t("admin.trueFalse.statement.audio.statement")}
+				fieldName="statement"
+				getLabel={getStatementLabel}
+				register={register}
+				required
 				scope={statementScope}
 			/>
-			<AudioFieldControls
+			<LocalizedAudioField
 				audio={audio}
+				audioField={EXPLANATION_FIELD}
 				audioMap={statement.explanation_audio}
-				field={EXPLANATION_FIELD}
-				label={t("admin.trueFalse.statement.audio.explanation")}
+				errors={errors.explanation}
+				fieldLabel={t("admin.trueFalse.statement.audio.explanation")}
+				fieldName="explanation"
+				getLabel={getExplanationLabel}
+				register={register}
 				scope={statementScope}
 			/>
+
+			<label className={styles["statement-fields__toggle"]} htmlFor={isTrueId}>
+				<input id={isTrueId} type="checkbox" {...register("is_true")} />
+				{t("admin.trueFalse.statement.fields.isTrue")}
+			</label>
 
 			<div className={styles["statement-form__actions"]}>
 				<Button onClick={onDone} type="button" variant="secondary">

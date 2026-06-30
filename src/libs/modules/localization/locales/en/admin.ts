@@ -156,7 +156,7 @@ const admin = {
 			fresh: "Up to date",
 			generating: "Generating…",
 			regenerate: "Regenerate",
-			regenerateLabel: "Regenerate {{field}} audio ({{locale}})",
+			regenerateLabel: "Regenerate {{field}} ({{locale}})",
 		},
 		editor: {
 			loadError: "Failed to load the level. Please try again.",
@@ -189,8 +189,10 @@ const admin = {
 			},
 			fields: {
 				image: {
+					currentFile: "Current file: {{name}}",
 					hint: "JPEG, PNG or WebP, up to {{maxMb}} MB",
 					label: "Cover image",
+					previewAlt: "Current cover image",
 				},
 				text: {
 					en: "Body text (English)",
@@ -208,6 +210,7 @@ const admin = {
 			columns: {
 				actions: "Actions",
 				id: "ID",
+				image: "Image",
 				statementsCount: "Statements",
 				title: "Title",
 			},

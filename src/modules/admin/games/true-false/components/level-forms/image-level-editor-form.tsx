@@ -2,7 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type DefaultValues, type SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button, LocalizedInputGroup } from "~/libs/components/components";
+import { Button } from "~/libs/components/components";
+import { extractFileName } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { type Language } from "~/libs/modules/localization/localization";
@@ -17,7 +18,7 @@ import {
 	imageLevelEditValidationSchema,
 	MAX_IMAGE_MEGABYTES,
 } from "../../libs/validation-schemas/image-level.validation-schema";
-import { AudioFieldControls } from "../audio-field-controls/audio-field-controls";
+import { LocalizedAudioField } from "../audio-field-controls/localized-audio-field";
 import { LevelImageField } from "./level-image-field";
 import styles from "./styles.module.css";
 
@@ -30,8 +31,8 @@ type Properties = {
 };
 
 /**
- * Edit form for an image level: localized title, optional image replacement,
- * and the per-locale title-audio regenerate controls.
+ * Edit form for an image level: localized title (with per-locale audio
+ * controls), optional image replacement, and the current image name.
  */
 const ImageLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) => {
 	const { t } = useTranslation();
@@ -72,23 +73,23 @@ const ImageLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) =>
 
 	return (
 		<form className={styles["form"]} noValidate onSubmit={handleSubmit(onSubmit)}>
-			<LocalizedInputGroup
+			<LocalizedAudioField
+				audio={audio}
+				audioField={TITLE_FIELD}
+				audioMap={level.title_audio}
 				errors={errors.title}
+				fieldLabel={t("admin.trueFalse.level.audio.title")}
 				fieldName="title"
 				getLabel={getTitleLabel}
 				register={register}
 				required
-			/>
-			<AudioFieldControls
-				audio={audio}
-				audioMap={level.title_audio}
-				field={TITLE_FIELD}
-				label={t("admin.trueFalse.level.audio.title")}
 				scope={audio.levelScope}
 			/>
 			<LevelImageField
+				currentFileName={extractFileName(level.image_url) ?? undefined}
 				errorMessage={errors.image?.message}
 				maxMegabytes={MAX_IMAGE_MEGABYTES}
+				previewUrl={level.image_url}
 				register={register}
 			/>
 

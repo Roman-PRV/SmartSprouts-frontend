@@ -12,4 +12,4 @@ type AudioStatus = {
 
 type AudioStatusMap = Partial<Record<Language, AudioStatus>>;
 
-export type { AudioStatusMap };
+export type { AudioStatus, AudioStatusMap };

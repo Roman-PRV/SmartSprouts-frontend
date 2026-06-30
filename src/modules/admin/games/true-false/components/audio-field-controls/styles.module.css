@@ -4,32 +4,47 @@
 	gap: var(--spacing-xs);
 }
 
-.audio-field__label {
-	font-size: var(--font-size-sm);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-text-secondary);
-}
-
-.audio-field__locales {
+.audio-field__group {
 	display: flex;
-	flex-wrap: wrap;
-	gap: var(--spacing-sm);
-	padding: 0;
-	margin: 0;
-	list-style: none;
+	flex-direction: column;
+	gap: var(--spacing-xs);
 }
 
-.audio-field__locale {
+.audio-field__label {
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-text-1);
+}
+
+.audio-field__required {
+	color: var(--color-accent-red);
+}
+
+.audio-field__textarea {
+	padding: var(--spacing-sm);
+	font-family: inherit;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-1);
+	resize: vertical;
+	background-color: var(--color-background-light-gray);
+	border: 1px solid var(--color-text-secondary);
+	border-radius: var(--border-radius-sm);
+}
+
+.audio-field__textarea:focus-visible {
+	outline: 2px solid var(--color-background-accent);
+	outline-offset: 2px;
+}
+
+.audio-field__error {
+	font-size: var(--font-size-xs);
+	color: var(--color-accent-red);
+}
+
+.audio-buttons {
 	display: flex;
 	gap: var(--spacing-xs);
 	align-items: center;
-}
-
-.audio-field__locale-code {
-	font-size: var(--font-size-xs);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-text-secondary);
-	text-transform: uppercase;
 }
 
 .regen-button {

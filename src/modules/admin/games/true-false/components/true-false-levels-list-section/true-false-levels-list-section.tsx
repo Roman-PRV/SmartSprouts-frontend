@@ -95,6 +95,7 @@ const TrueFalseLevelsListSection: React.FC<AdminLevelsListSectionProperties> = (
 							<tr>
 								<th>{t("admin.trueFalse.list.columns.id")}</th>
 								<th>{t("admin.trueFalse.list.columns.title")}</th>
+								<th>{t("admin.trueFalse.list.columns.image")}</th>
 								<th>{t("admin.trueFalse.list.columns.statementsCount")}</th>
 								<th>{t("admin.trueFalse.list.columns.actions")}</th>
 							</tr>
