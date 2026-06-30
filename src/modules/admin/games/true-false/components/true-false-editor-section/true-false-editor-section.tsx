@@ -26,12 +26,15 @@ const TrueFalseEditorSection: React.FC<AdminLevelEditorSectionProperties> = ({ g
 		};
 	}, [dispatch, game.id, levelId]);
 
-	if (loadStatus === DataStatus.PENDING || loadStatus === DataStatus.IDLE) {
-		return <Loader variant="inline" />;
-	}
+	// Only block the whole editor on the initial load. Background re-fetches
+	// during audio polling keep `currentLevel`, so the form (and its
+	// "generating" indicators) must stay mounted instead of flashing a loader.
+	if (!currentLevel) {
+		if (loadStatus === DataStatus.REJECTED) {
+			return <FallbackMessage message={t("admin.trueFalse.editor.loadError")} />;
+		}
 
-	if (loadStatus === DataStatus.REJECTED || !currentLevel) {
-		return <FallbackMessage message={t("admin.trueFalse.editor.loadError")} />;
+		return <Loader variant="inline" />;
 	}
 
 	const isTextGame = game.key === GameKey.TRUE_FALSE_TEXT;

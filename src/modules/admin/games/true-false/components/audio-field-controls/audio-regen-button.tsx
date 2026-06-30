@@ -29,6 +29,7 @@ const AudioRegenButton: React.FC<Properties> = ({ isGenerating, isStale, label, 
 
 	return (
 		<button
+			aria-busy={isGenerating}
 			aria-label={label}
 			className={getValidClassNames(
 				styles["regen-button"],
@@ -39,6 +40,7 @@ const AudioRegenButton: React.FC<Properties> = ({ isGenerating, isStale, label, 
 			onClick={onRegenerate}
 			type="button"
 		>
+			{isGenerating && <span className={styles["regen-button__spinner"]} role="status" />}
 			{statusText}
 		</button>
 	);

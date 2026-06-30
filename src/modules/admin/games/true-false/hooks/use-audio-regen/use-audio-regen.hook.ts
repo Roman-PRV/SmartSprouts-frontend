@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "~/libs/hooks/hooks";
 
 import {
-	AUDIO_REGEN_MAX_POLL_ATTEMPTS,
-	AUDIO_REGEN_POLL_BACKOFF_MS,
+	AUDIO_REGEN_POLL_BACKOFF_FACTOR,
+	AUDIO_REGEN_POLL_INITIAL_MS,
+	AUDIO_REGEN_POLL_MAX_MS,
+	AUDIO_REGEN_TIMEOUT_MS,
 } from "../../libs/constants/audio-regen.constant";
-
-const ATTEMPT_INCREMENT = 1;
 
 type RegenerateOptions = {
 	/**
@@ -33,16 +33,21 @@ const wait = (ms: number): Promise<void> =>
 
 /**
  * Tracks per-(field, locale) regeneration so each audio button can show its own
- * "generating" state. After firing the request it polls the level a bounded
- * number of times (short backoff) until the backend flips `is_stale` to false,
- * then clears the generating flag. A manual refresh remains available because
- * the caller owns `refresh`.
+ * "generating" state. After firing the request it polls the level on an
+ * exponential backoff until the backend flips `is_stale` to false (or the
+ * timeout elapses), keeping the generating flag set for the whole wait so the
+ * UI never looks idle while a long TTS job is still running.
  */
 const useAudioRegen = (): UseAudioRegenReturn => {
 	const [generatingKeys, setGeneratingKeys] = useState<ReadonlySet<string>>(new Set());
 	const isMountedReference = useRef(true);
 
 	useEffect(() => {
+		// Set on every mount: React StrictMode mounts → unmounts → remounts in
+		// dev, and without re-arming here the ref would stay false after the
+		// throwaway unmount, silently dropping all state updates below.
+		isMountedReference.current = true;
+
 		return (): void => {
 			isMountedReference.current = false;
 		};
@@ -78,12 +83,11 @@ const useAudioRegen = (): UseAudioRegenReturn => {
 			try {
 				await run();
 
-				for (
-					let attempt = 0;
-					attempt < AUDIO_REGEN_MAX_POLL_ATTEMPTS;
-					attempt += ATTEMPT_INCREMENT
-				) {
-					await wait(AUDIO_REGEN_POLL_BACKOFF_MS);
+				let elapsed = 0;
+				let delay = AUDIO_REGEN_POLL_INITIAL_MS;
+
+				while (elapsed < AUDIO_REGEN_TIMEOUT_MS) {
+					await wait(delay);
 
 					if (!isMountedReference.current) {
 						return;
@@ -94,6 +98,9 @@ const useAudioRegen = (): UseAudioRegenReturn => {
 					if (!isStillStale()) {
 						break;
 					}
+
+					elapsed += delay;
+					delay = Math.min(delay * AUDIO_REGEN_POLL_BACKOFF_FACTOR, AUDIO_REGEN_POLL_MAX_MS);
 				}
 			} finally {
 				setGenerating(key, false);

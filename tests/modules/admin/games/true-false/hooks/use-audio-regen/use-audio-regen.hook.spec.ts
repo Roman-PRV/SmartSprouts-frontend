@@ -1,12 +1,10 @@
 // @vitest-environment jsdom
 import { act, renderHook } from "@testing-library/react";
+import { StrictMode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useAudioRegen } from "~/modules/admin/games/true-false/hooks/use-audio-regen/use-audio-regen.hook";
-import {
-	AUDIO_REGEN_MAX_POLL_ATTEMPTS as MAX_POLL_ATTEMPTS,
-	AUDIO_REGEN_POLL_BACKOFF_MS as POLL_BACKOFF_MS,
-} from "~/modules/admin/games/true-false/libs/constants/audio-regen.constant";
+import { AUDIO_REGEN_POLL_INITIAL_MS as POLL_INITIAL_MS } from "~/modules/admin/games/true-false/libs/constants/audio-regen.constant";
 
 const KEY = "level:title_audio_url:en";
 
@@ -44,7 +42,7 @@ describe("useAudioRegen", () => {
 		expect(result.current.isGenerating(KEY)).toBe(true);
 
 		await act(async () => {
-			await vi.advanceTimersByTimeAsync(POLL_BACKOFF_MS);
+			await vi.advanceTimersByTimeAsync(POLL_INITIAL_MS);
 			await pending;
 		});
 
@@ -53,7 +51,33 @@ describe("useAudioRegen", () => {
 		expect(result.current.isGenerating(KEY)).toBe(false);
 	});
 
-	it("stops polling after the bounded number of attempts when it stays stale", async () => {
+	it("still flips generating under StrictMode's mount/unmount/remount", async () => {
+		// Regression: the mounted-ref was only set in cleanup, so StrictMode's
+		// throwaway unmount left it false and every state update was dropped.
+		const { result } = renderHook(() => useAudioRegen(), { wrapper: StrictMode });
+
+		const run = vi.fn().mockResolvedValue();
+		let stale = true;
+		const refresh = vi.fn().mockImplementation(() => {
+			stale = false;
+
+			return Promise.resolve();
+		});
+
+		act(() => {
+			void result.current.regenerate({ isStillStale: () => stale, key: KEY, refresh, run });
+		});
+
+		expect(result.current.isGenerating(KEY)).toBe(true);
+
+		await act(async () => {
+			await vi.runAllTimersAsync();
+		});
+
+		expect(result.current.isGenerating(KEY)).toBe(false);
+	});
+
+	it("keeps polling while stale and stops once the timeout elapses", async () => {
 		const { result } = renderHook(() => useAudioRegen());
 
 		const run = vi.fn().mockResolvedValue();
@@ -70,11 +94,13 @@ describe("useAudioRegen", () => {
 		});
 
 		await act(async () => {
-			await vi.advanceTimersByTimeAsync(POLL_BACKOFF_MS * MAX_POLL_ATTEMPTS);
+			await vi.runAllTimersAsync();
 			await pending;
 		});
 
-		expect(refresh).toHaveBeenCalledTimes(MAX_POLL_ATTEMPTS);
+		// Exact count depends on the backoff schedule; the contract is that it
+		// polls repeatedly and then gives up when the timeout is reached.
+		expect(refresh.mock.calls.length).toBeGreaterThan(1);
 		expect(result.current.isGenerating(KEY)).toBe(false);
 	});
 

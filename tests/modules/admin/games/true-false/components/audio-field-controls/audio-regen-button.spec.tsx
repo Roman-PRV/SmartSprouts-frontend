@@ -40,11 +40,14 @@ describe("AudioRegenButton", () => {
 		expect(onRegenerate).toHaveBeenCalledTimes(1);
 	});
 
-	it("is disabled while generating", () => {
+	it("is disabled and shows a spinner while generating", () => {
 		render(
 			<AudioRegenButton isGenerating isStale label={LABEL} onRegenerate={vi.fn()} />
 		);
 
-		expect(screen.getByRole("button", { name: LABEL })).toBeDisabled();
+		const button = screen.getByRole("button", { name: LABEL });
+		expect(button).toBeDisabled();
+		expect(button).toHaveAttribute("aria-busy", "true");
+		expect(screen.getByRole("status")).toBeInTheDocument();
 	});
 });
