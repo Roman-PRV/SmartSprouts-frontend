@@ -32,7 +32,12 @@ const CreateLevelModal: React.FC<Properties> = ({ game, isOpen, onClose }) => {
 	const isTextGame = game.key === GameKey.TRUE_FALSE_TEXT;
 
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} title={t("admin.trueFalse.level.create.modalTitle")}>
+		<Modal
+			closeOnBackdropClick={false}
+			isOpen={isOpen}
+			onClose={onClose}
+			title={t("admin.trueFalse.level.create.modalTitle")}
+		>
 			{isTextGame ? (
 				<TextLevelCreateForm gameId={game.id} onCancel={onClose} onSuccess={handleSuccess} />
 			) : (

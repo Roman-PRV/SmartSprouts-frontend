@@ -6,12 +6,21 @@ import styles from "./styles.module.css";
 type Properties = {
 	children: React.ReactNode;
 	className?: string;
+	/** Close when the backdrop is clicked. Disable for data-entry modals to avoid losing input. */
+	closeOnBackdropClick?: boolean;
 	isOpen: boolean;
 	onClose: () => void;
 	title?: string;
 };
 
-const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, title }) => {
+const Modal: React.FC<Properties> = ({
+	children,
+	className,
+	closeOnBackdropClick = true,
+	isOpen,
+	onClose,
+	title,
+}) => {
 	const { t } = useTranslation();
 	const titleId = useId();
 	const dialogReference = useRef<HTMLDialogElement>(null);
@@ -35,7 +44,7 @@ const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, tit
 	useEffect(() => {
 		const dialog = dialogReference.current;
 
-		if (!dialog) {
+		if (!dialog || !closeOnBackdropClick) {
 			return;
 		}
 
@@ -50,7 +59,7 @@ const Modal: React.FC<Properties> = ({ children, className, isOpen, onClose, tit
 		return (): void => {
 			dialog.removeEventListener("click", handleBackdropClick);
 		};
-	}, []);
+	}, [closeOnBackdropClick]);
 
 	const handleCloseClick = useCallback(() => {
 		dialogReference.current?.close();

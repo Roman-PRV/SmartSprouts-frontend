@@ -72,6 +72,7 @@ const CreateStatementModal: React.FC<Properties> = ({ gameId, isOpen, levelId, o
 
 	return (
 		<Modal
+			closeOnBackdropClick={false}
 			isOpen={isOpen}
 			onClose={handleClose}
 			title={t("admin.trueFalse.statement.create.modalTitle")}

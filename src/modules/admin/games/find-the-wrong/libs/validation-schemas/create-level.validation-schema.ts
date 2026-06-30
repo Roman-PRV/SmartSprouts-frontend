@@ -5,7 +5,7 @@ import { buildImageFileSchema } from "~/libs/validation-schemas/image-file.schem
 
 const MAX_TITLE_LENGTH = 255;
 const MIN_TITLE_LENGTH = 1;
-const MAX_IMAGE_MEGABYTES = 5;
+const MAX_IMAGE_MEGABYTES = 10;
 
 const VALIDATION_MESSAGES = {
 	IMAGE_REQUIRED: "admin.findTheWrong.create.validation.imageRequired",

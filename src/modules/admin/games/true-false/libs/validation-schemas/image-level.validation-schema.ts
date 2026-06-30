@@ -7,7 +7,7 @@ import { IMAGE_FILE_MESSAGES } from "./image-file-messages";
 
 const MAX_TITLE_LENGTH = 255;
 const MIN_TITLE_LENGTH = 1;
-const MAX_IMAGE_MEGABYTES = 5;
+const MAX_IMAGE_MEGABYTES = 10;
 
 const VALIDATION_MESSAGES = {
 	IMAGE_REQUIRED: "admin.trueFalse.validation.imageRequired",
