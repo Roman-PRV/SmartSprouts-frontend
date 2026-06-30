@@ -21,9 +21,7 @@ class GamesApi extends BaseHTTPApi {
 
 	public async getAll(category?: ValueOf<typeof GameCategory>): Promise<GameDescriptionDto[]> {
 		const url = this.getFullEndpoint(GamesApiPath.ROOT, {});
-		const endpoint = category
-			? `${url}?${new URLSearchParams({ category }).toString()}`
-			: url;
+		const endpoint = category ? `${url}?${new URLSearchParams({ category }).toString()}` : url;
 
 		const response = await this.load(endpoint, {
 			contentType: ContentType.JSON,

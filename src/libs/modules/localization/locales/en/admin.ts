@@ -147,6 +147,136 @@ const admin = {
 		gameUnavailable: "This game is not available right now",
 		loadError: "Failed to load games. Please try again.",
 		retry: "Retry",
+		trueFalseImage: "True/False (image)",
+		trueFalseText: "True/False (text)",
+	},
+	trueFalse: {
+		audio: {
+			error: "Failed to start audio regeneration. Please try again.",
+			fresh: "Up to date",
+			generating: "Generating…",
+			regenerate: "Regenerate",
+			regenerateLabel: "Regenerate {{field}} audio ({{locale}})",
+		},
+		editor: {
+			loadError: "Failed to load the level. Please try again.",
+			title: "Edit level",
+		},
+		level: {
+			audio: {
+				text: "Body audio",
+				title: "Title audio",
+			},
+			create: {
+				cancel: "Cancel",
+				error: "Failed to create the level. Please try again.",
+				modalTitle: "Create level",
+				submit: "Create level",
+				success: "Level created.",
+			},
+			delete: {
+				cancel: "Cancel",
+				confirmBody: "Level “{{title}}” and all its statements will be permanently removed.",
+				confirmCta: "Delete",
+				confirmTitle: "Delete level",
+				error: "Failed to delete the level. Please try again.",
+				success: "Level deleted.",
+			},
+			edit: {
+				error: "Failed to save the level. Please try again.",
+				submit: "Save level",
+				success: "Level updated.",
+			},
+			fields: {
+				image: {
+					hint: "JPEG, PNG or WebP, up to {{maxMb}} MB",
+					label: "Cover image",
+				},
+				text: {
+					en: "Body text (English)",
+					es: "Body text (Spanish)",
+					uk: "Body text (Ukrainian)",
+				},
+				title: {
+					en: "Title (English)",
+					es: "Title (Spanish)",
+					uk: "Title (Ukrainian)",
+				},
+			},
+		},
+		list: {
+			columns: {
+				actions: "Actions",
+				id: "ID",
+				statementsCount: "Statements",
+				title: "Title",
+			},
+			create: "Create level",
+			delete: "Delete",
+			edit: "Edit",
+			empty: "No levels yet. Create the first one to get started.",
+			loadError: "Failed to load levels. Please try again.",
+			retry: "Retry",
+			title: "True/False levels",
+		},
+		statement: {
+			audio: {
+				explanation: "Explanation audio",
+				statement: "Statement audio",
+			},
+			badge: {
+				false: "False",
+				true: "True",
+			},
+			create: {
+				cancel: "Cancel",
+				cta: "Add statement",
+				error: "Failed to create the statement. Please try again.",
+				modalTitle: "Add statement",
+				submit: "Add statement",
+				success: "Statement created.",
+			},
+			delete: {
+				cancel: "Cancel",
+				confirmBody: "Statement “{{text}}” will be permanently removed.",
+				confirmCta: "Delete",
+				confirmTitle: "Delete statement",
+				error: "Failed to delete the statement. Please try again.",
+				success: "Statement deleted.",
+			},
+			edit: {
+				cancel: "Cancel",
+				error: "Failed to update the statement. Please try again.",
+				submit: "Save statement",
+				success: "Statement updated.",
+			},
+			empty: "No statements yet. Add the first one.",
+			fields: {
+				explanation: {
+					en: "Explanation (English)",
+					es: "Explanation (Spanish)",
+					uk: "Explanation (Ukrainian)",
+				},
+				isTrue: "Statement is true",
+				statement: {
+					en: "Statement (English)",
+					es: "Statement (Spanish)",
+					uk: "Statement (Ukrainian)",
+				},
+			},
+			row: {
+				delete: "Delete",
+				edit: "Edit",
+			},
+			title: "Statements",
+		},
+		validation: {
+			imageRequired: "Cover image is required.",
+			imageSize: "Image must be {{maxMb}} MB or smaller.",
+			imageType: "Image must be a JPEG, PNG or WebP file.",
+			required: "This field is required.",
+			tooLong: "This value is too long.",
+		},
 	},
 	welcome: {
 		description: "Pick a game in the sidebar to manage its levels.",

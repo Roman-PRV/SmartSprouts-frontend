@@ -70,7 +70,7 @@ describe("AdminLevelsListPage", () => {
 
 	it("falls back to unsupportedGame message when game key has no section", () => {
 		mockUseGameFetch.mockReturnValue({
-			currentGame: buildGame(GameKey.TRUE_FALSE_TEXT),
+			currentGame: buildGame(GameKey.MULTIPLICATION_TABLE),
 			isLoading: false,
 		});
 

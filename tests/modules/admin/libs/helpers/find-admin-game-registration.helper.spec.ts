@@ -14,7 +14,7 @@ describe("findAdminGameRegistration", () => {
 	});
 
 	it("returns null for a game key without admin support", () => {
-		expect(findAdminGameRegistration(GameKey.TRUE_FALSE_TEXT)).toBeNull();
+		expect(findAdminGameRegistration(GameKey.MULTIPLICATION_TABLE)).toBeNull();
 	});
 
 	it("returns null for an unknown game key", () => {

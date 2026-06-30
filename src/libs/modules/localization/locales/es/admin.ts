@@ -147,6 +147,137 @@ const admin = {
 		gameUnavailable: "Este juego no está disponible ahora",
 		loadError: "No se pudieron cargar los juegos. Inténtalo de nuevo.",
 		retry: "Reintentar",
+		trueFalseImage: "Verdadero/Falso (imagen)",
+		trueFalseText: "Verdadero/Falso (texto)",
+	},
+	trueFalse: {
+		audio: {
+			error: "No se pudo iniciar la regeneración del audio. Inténtalo de nuevo.",
+			fresh: "Actualizado",
+			generating: "Generando…",
+			regenerate: "Regenerar",
+			regenerateLabel: "Regenerar el audio de «{{field}}» ({{locale}})",
+		},
+		editor: {
+			loadError: "No se pudo cargar el nivel. Inténtalo de nuevo.",
+			title: "Editar nivel",
+		},
+		level: {
+			audio: {
+				text: "Audio del texto",
+				title: "Audio del título",
+			},
+			create: {
+				cancel: "Cancelar",
+				error: "No se pudo crear el nivel. Inténtalo de nuevo.",
+				modalTitle: "Crear nivel",
+				submit: "Crear nivel",
+				success: "Nivel creado.",
+			},
+			delete: {
+				cancel: "Cancelar",
+				confirmBody:
+					"El nivel «{{title}}» y todas sus afirmaciones se eliminarán de forma permanente.",
+				confirmCta: "Eliminar",
+				confirmTitle: "Eliminar nivel",
+				error: "No se pudo eliminar el nivel. Inténtalo de nuevo.",
+				success: "Nivel eliminado.",
+			},
+			edit: {
+				error: "No se pudo guardar el nivel. Inténtalo de nuevo.",
+				submit: "Guardar nivel",
+				success: "Nivel actualizado.",
+			},
+			fields: {
+				image: {
+					hint: "JPEG, PNG o WebP, hasta {{maxMb}} MB",
+					label: "Imagen de portada",
+				},
+				text: {
+					en: "Texto (inglés)",
+					es: "Texto (español)",
+					uk: "Texto (ucraniano)",
+				},
+				title: {
+					en: "Título (inglés)",
+					es: "Título (español)",
+					uk: "Título (ucraniano)",
+				},
+			},
+		},
+		list: {
+			columns: {
+				actions: "Acciones",
+				id: "ID",
+				statementsCount: "Afirmaciones",
+				title: "Título",
+			},
+			create: "Crear nivel",
+			delete: "Eliminar",
+			edit: "Editar",
+			empty: "Aún no hay niveles. Crea el primero para empezar.",
+			loadError: "No se pudieron cargar los niveles. Inténtalo de nuevo.",
+			retry: "Reintentar",
+			title: "Niveles Verdadero/Falso",
+		},
+		statement: {
+			audio: {
+				explanation: "Audio de la explicación",
+				statement: "Audio de la afirmación",
+			},
+			badge: {
+				false: "Falso",
+				true: "Verdadero",
+			},
+			create: {
+				cancel: "Cancelar",
+				cta: "Añadir afirmación",
+				error: "No se pudo crear la afirmación. Inténtalo de nuevo.",
+				modalTitle: "Añadir afirmación",
+				submit: "Añadir afirmación",
+				success: "Afirmación creada.",
+			},
+			delete: {
+				cancel: "Cancelar",
+				confirmBody: "La afirmación «{{text}}» se eliminará de forma permanente.",
+				confirmCta: "Eliminar",
+				confirmTitle: "Eliminar afirmación",
+				error: "No se pudo eliminar la afirmación. Inténtalo de nuevo.",
+				success: "Afirmación eliminada.",
+			},
+			edit: {
+				cancel: "Cancelar",
+				error: "No se pudo actualizar la afirmación. Inténtalo de nuevo.",
+				submit: "Guardar afirmación",
+				success: "Afirmación actualizada.",
+			},
+			empty: "Aún no hay afirmaciones. Añade la primera.",
+			fields: {
+				explanation: {
+					en: "Explicación (inglés)",
+					es: "Explicación (español)",
+					uk: "Explicación (ucraniano)",
+				},
+				isTrue: "La afirmación es verdadera",
+				statement: {
+					en: "Afirmación (inglés)",
+					es: "Afirmación (español)",
+					uk: "Afirmación (ucraniano)",
+				},
+			},
+			row: {
+				delete: "Eliminar",
+				edit: "Editar",
+			},
+			title: "Afirmaciones",
+		},
+		validation: {
+			imageRequired: "La imagen de portada es obligatoria.",
+			imageSize: "La imagen debe pesar {{maxMb}} MB o menos.",
+			imageType: "La imagen debe ser un archivo JPEG, PNG o WebP.",
+			required: "Este campo es obligatorio.",
+			tooLong: "Este valor es demasiado largo.",
+		},
 	},
 	welcome: {
 		description: "Elige un juego en la barra lateral para gestionar sus niveles.",
