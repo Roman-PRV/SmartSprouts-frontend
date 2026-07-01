@@ -157,9 +157,15 @@ const useTrueFalseAudio = (gameId: string, levelId: number): UseTrueFalseAudioRe
 				key: buildAudioKey(scope, field, locale),
 				refresh,
 				run,
-			}).catch(() => {
-				toast.error(t("admin.trueFalse.audio.error"));
-			});
+			})
+				.then((outcome) => {
+					if (outcome === "timeout") {
+						toast.warning(t("admin.trueFalse.audio.timeout"));
+					}
+				})
+				.catch(() => {
+					toast.error(t("admin.trueFalse.audio.error"));
+				});
 		},
 		[dispatch, gameId, levelId, refresh, runRegenerate, t, tracked]
 	);

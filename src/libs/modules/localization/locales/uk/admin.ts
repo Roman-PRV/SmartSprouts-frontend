@@ -158,6 +158,7 @@ const admin = {
 			generating: "Генерується…",
 			regenerate: "Перегенерувати",
 			regenerateLabel: "Перегенерувати «{{field}}» ({{locale}})",
+			timeout: "Аудіо ще генерується. Спробуйте за хвилину.",
 		},
 		editor: {
 			loadError: "Не вдалося завантажити рівень. Спробуйте ще раз.",

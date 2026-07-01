@@ -21,9 +21,16 @@ type RegenerateOptions = {
 	run: () => Promise<void>;
 };
 
+/**
+ * `completed` — backend flipped `is_stale` to false within the timeout.
+ * `timeout` — still stale after the timeout; the caller should notify the user.
+ * `aborted` — the editor unmounted mid-poll; no user-facing feedback needed.
+ */
+type RegenerateOutcome = "aborted" | "completed" | "timeout";
+
 type UseAudioRegenReturn = {
 	isGenerating: (key: string) => boolean;
-	regenerate: (options: RegenerateOptions) => Promise<void>;
+	regenerate: (options: RegenerateOptions) => Promise<RegenerateOutcome>;
 };
 
 const wait = (ms: number): Promise<void> =>
@@ -77,7 +84,7 @@ const useAudioRegen = (): UseAudioRegenReturn => {
 	);
 
 	const regenerate = useCallback(
-		async ({ isStillStale, key, refresh, run }: RegenerateOptions): Promise<void> => {
+		async ({ isStillStale, key, refresh, run }: RegenerateOptions): Promise<RegenerateOutcome> => {
 			setGenerating(key, true);
 
 			try {
@@ -90,18 +97,21 @@ const useAudioRegen = (): UseAudioRegenReturn => {
 					await wait(delay);
 
 					if (!isMountedReference.current) {
-						return;
+						return "aborted";
 					}
 
 					await refresh();
 
 					if (!isStillStale()) {
-						break;
+						return "completed";
 					}
 
 					elapsed += delay;
 					delay = Math.min(delay * AUDIO_REGEN_POLL_BACKOFF_FACTOR, AUDIO_REGEN_POLL_MAX_MS);
 				}
+
+				// Loop drained without going fresh: the TTS job is still running.
+				return "timeout";
 			} finally {
 				setGenerating(key, false);
 			}

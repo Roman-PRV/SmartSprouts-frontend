@@ -29,7 +29,7 @@ describe("useAudioRegen", () => {
 			return Promise.resolve();
 		});
 
-		let pending: Promise<void> | undefined;
+		let pending: Promise<string> | undefined;
 		act(() => {
 			pending = result.current.regenerate({
 				isStillStale: () => stale,
@@ -83,7 +83,7 @@ describe("useAudioRegen", () => {
 		const run = vi.fn(() => Promise.resolve());
 		const refresh = vi.fn(() => Promise.resolve());
 
-		let pending: Promise<void> | undefined;
+		let pending: Promise<string> | undefined;
 		act(() => {
 			pending = result.current.regenerate({
 				isStillStale: () => true,
@@ -93,14 +93,16 @@ describe("useAudioRegen", () => {
 			});
 		});
 
+		let outcome: string | undefined;
 		await act(async () => {
 			await vi.runAllTimersAsync();
-			await pending;
+			outcome = await pending;
 		});
 
 		// Exact count depends on the backoff schedule; the contract is that it
-		// polls repeatedly and then gives up when the timeout is reached.
+		// polls repeatedly and then reports a timeout when it stays stale.
 		expect(refresh.mock.calls.length).toBeGreaterThan(1);
+		expect(outcome).toBe("timeout");
 		expect(result.current.isGenerating(KEY)).toBe(false);
 	});
 

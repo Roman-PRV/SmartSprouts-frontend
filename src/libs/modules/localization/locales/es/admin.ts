@@ -157,6 +157,7 @@ const admin = {
 			generating: "Generando…",
 			regenerate: "Regenerar",
 			regenerateLabel: "Regenerar «{{field}}» ({{locale}})",
+			timeout: "El audio aún se está generando. Vuelve a intentarlo en un momento.",
 		},
 		editor: {
 			loadError: "No se pudo cargar el nivel. Inténtalo de nuevo.",
