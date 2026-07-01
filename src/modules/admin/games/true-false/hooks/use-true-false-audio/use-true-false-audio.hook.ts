@@ -111,7 +111,7 @@ const useTrueFalseAudio = (gameId: string, levelId: number): UseTrueFalseAudioRe
 	}, [dispatch, gameId, levelId, tracked]);
 
 	const statementScope = useCallback(
-		(statementId: number): string => `statement:${String(statementId)}`,
+		(statementId: number): string => `${STATEMENT_SCOPE_PREFIX}${String(statementId)}`,
 		[]
 	);
 
