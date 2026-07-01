@@ -10,6 +10,7 @@ import { AVAILABLE_LANGUAGES, type Language } from "~/libs/modules/localization/
 
 import { updateLevel } from "../../api/true-false-admin";
 import { type useTrueFalseAudio } from "../../hooks/hooks";
+import { AudioField } from "../../libs/enums/enums";
 import { buildTrueFalseLevelFormData } from "../../libs/helpers/build-true-false-level-form-data.helper";
 import { type TrueFalseAdminLevelDto } from "../../libs/types/types";
 import {
@@ -21,9 +22,6 @@ import {
 import { LocalizedAudioField } from "../audio-field-controls/localized-audio-field";
 import { LevelImageField } from "./level-image-field";
 import styles from "./styles.module.css";
-
-const TEXT_FIELD = "text_audio_url";
-const TITLE_FIELD = "title_audio_url";
 
 type Properties = {
 	audio: ReturnType<typeof useTrueFalseAudio>;
@@ -89,7 +87,7 @@ const TextLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) => 
 		<form className={styles["form"]} noValidate onSubmit={handleSubmit(onSubmit)}>
 			<LocalizedAudioField
 				audio={audio}
-				audioField={TITLE_FIELD}
+				audioField={AudioField.TITLE}
 				audioMap={level.title_audio}
 				errors={errors.title}
 				fieldLabel={t("admin.trueFalse.level.audio.title")}
@@ -101,7 +99,7 @@ const TextLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) => 
 			/>
 			<LocalizedAudioField
 				audio={audio}
-				audioField={TEXT_FIELD}
+				audioField={AudioField.TEXT}
 				audioMap={level.text_audio}
 				errors={errors.text}
 				fieldLabel={t("admin.trueFalse.level.audio.text")}

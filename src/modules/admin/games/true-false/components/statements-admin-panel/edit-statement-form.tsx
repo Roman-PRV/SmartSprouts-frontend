@@ -14,6 +14,7 @@ import { AVAILABLE_LANGUAGES, type Language } from "~/libs/modules/localization/
 
 import { updateStatement } from "../../api/true-false-admin";
 import { type useTrueFalseAudio } from "../../hooks/hooks";
+import { AudioField } from "../../libs/enums/enums";
 import { type TrueFalseAdminStatementDto } from "../../libs/types/types";
 import {
 	type StatementFormInput,
@@ -22,9 +23,6 @@ import {
 } from "../../libs/validation-schemas/statement.validation-schema";
 import { LocalizedAudioField } from "../audio-field-controls/localized-audio-field";
 import styles from "./styles.module.css";
-
-const EXPLANATION_FIELD = "explanation_audio_url";
-const STATEMENT_FIELD = "statement_audio_url";
 
 type Properties = {
 	audio: ReturnType<typeof useTrueFalseAudio>;
@@ -106,7 +104,7 @@ const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statem
 		<form className={styles["statement-form"]} noValidate onSubmit={handleSubmit(onSubmit)}>
 			<LocalizedAudioField
 				audio={audio}
-				audioField={STATEMENT_FIELD}
+				audioField={AudioField.STATEMENT}
 				audioMap={statement.statement_audio}
 				errors={errors.statement}
 				fieldLabel={t("admin.trueFalse.statement.audio.statement")}
@@ -118,7 +116,7 @@ const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statem
 			/>
 			<LocalizedAudioField
 				audio={audio}
-				audioField={EXPLANATION_FIELD}
+				audioField={AudioField.EXPLANATION}
 				audioMap={statement.explanation_audio}
 				errors={errors.explanation}
 				fieldLabel={t("admin.trueFalse.statement.audio.explanation")}

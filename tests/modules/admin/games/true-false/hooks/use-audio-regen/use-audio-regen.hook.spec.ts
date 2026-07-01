@@ -20,7 +20,7 @@ describe("useAudioRegen", () => {
 	it("marks the key generating while a request is in flight and clears it once fresh", async () => {
 		const { result } = renderHook(() => useAudioRegen());
 
-		const run = vi.fn().mockResolvedValue();
+		const run = vi.fn(() => Promise.resolve());
 		let stale = true;
 		// One refresh flips the backend to fresh, so polling should stop after it.
 		const refresh = vi.fn().mockImplementation(() => {
@@ -56,7 +56,7 @@ describe("useAudioRegen", () => {
 		// throwaway unmount left it false and every state update was dropped.
 		const { result } = renderHook(() => useAudioRegen(), { wrapper: StrictMode });
 
-		const run = vi.fn().mockResolvedValue();
+		const run = vi.fn(() => Promise.resolve());
 		let stale = true;
 		const refresh = vi.fn().mockImplementation(() => {
 			stale = false;
@@ -80,8 +80,8 @@ describe("useAudioRegen", () => {
 	it("keeps polling while stale and stops once the timeout elapses", async () => {
 		const { result } = renderHook(() => useAudioRegen());
 
-		const run = vi.fn().mockResolvedValue();
-		const refresh = vi.fn().mockResolvedValue();
+		const run = vi.fn(() => Promise.resolve());
+		const refresh = vi.fn(() => Promise.resolve());
 
 		let pending: Promise<void> | undefined;
 		act(() => {
@@ -108,7 +108,7 @@ describe("useAudioRegen", () => {
 		const { result } = renderHook(() => useAudioRegen());
 
 		const run = vi.fn().mockRejectedValue(new Error("nope"));
-		const refresh = vi.fn().mockResolvedValue();
+		const refresh = vi.fn(() => Promise.resolve());
 
 		await act(async () => {
 			await expect(

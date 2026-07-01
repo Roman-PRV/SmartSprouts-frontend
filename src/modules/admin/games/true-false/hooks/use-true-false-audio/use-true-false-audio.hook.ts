@@ -15,6 +15,7 @@ import {
 	regenerateLevelAudio,
 	regenerateStatementAudio,
 } from "../../api/true-false-admin";
+import { AudioField } from "../../libs/enums/enums";
 import { buildAudioKey } from "../../libs/helpers/build-audio-key.helper";
 import {
 	type AudioStatusMap,
@@ -42,22 +43,26 @@ const levelAudioMap = (
 	level: null | TrueFalseAdminLevelDto,
 	field: string
 ): AudioStatusMap | undefined => {
-	if (field === "title_audio_url") {
-		return level?.title_audio;
-	}
+	// Explicit lookup (not an if/else fallback): an unknown field returns
+	// undefined instead of silently yielding the wrong audio map.
+	const byField: Record<string, AudioStatusMap | undefined> = {
+		[AudioField.TEXT]: level?.text_audio,
+		[AudioField.TITLE]: level?.title_audio,
+	};
 
-	return level?.text_audio;
+	return byField[field];
 };
 
 const statementAudioMap = (
 	statement: TrueFalseAdminStatementDto | undefined,
 	field: string
 ): AudioStatusMap | undefined => {
-	if (field === "statement_audio_url") {
-		return statement?.statement_audio;
-	}
+	const byField: Record<string, AudioStatusMap | undefined> = {
+		[AudioField.EXPLANATION]: statement?.explanation_audio,
+		[AudioField.STATEMENT]: statement?.statement_audio,
+	};
 
-	return statement?.explanation_audio;
+	return byField[field];
 };
 
 /**
