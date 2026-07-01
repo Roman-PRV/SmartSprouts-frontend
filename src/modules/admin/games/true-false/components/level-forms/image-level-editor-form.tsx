@@ -6,7 +6,7 @@ import { Button } from "~/libs/components/components";
 import { extractFileName } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
-import { type Language } from "~/libs/modules/localization/localization";
+import { useLocalizedLabel } from "~/libs/modules/localization/localization";
 
 import { updateLevel } from "../../api/true-false-admin";
 import { type useTrueFalseAudio } from "../../hooks/hooks";
@@ -48,10 +48,7 @@ const ImageLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) =>
 		resolver: zodResolver(imageLevelEditValidationSchema),
 	});
 
-	const getTitleLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.level.fields.title.${lang}`),
-		[t]
-	);
+	const getTitleLabel = useLocalizedLabel("admin.trueFalse.level.fields.title");
 
 	const onSubmit = useCallback<SubmitHandler<ImageLevelEditFormValues>>(
 		async (values) => {

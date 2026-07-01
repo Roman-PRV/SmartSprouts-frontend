@@ -6,7 +6,7 @@ import { Button } from "~/libs/components/components";
 import { extractFileName } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
-import { createEmptyLocalized, type Language } from "~/libs/modules/localization/localization";
+import { createEmptyLocalized, useLocalizedLabel } from "~/libs/modules/localization/localization";
 
 import { updateLevel } from "../../api/true-false-admin";
 import { type useTrueFalseAudio } from "../../hooks/hooks";
@@ -54,14 +54,8 @@ const TextLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) => 
 		resolver: zodResolver(textLevelValidationSchema),
 	});
 
-	const getTitleLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.level.fields.title.${lang}`),
-		[t]
-	);
-	const getTextLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.level.fields.text.${lang}`),
-		[t]
-	);
+	const getTitleLabel = useLocalizedLabel("admin.trueFalse.level.fields.title");
+	const getTextLabel = useLocalizedLabel("admin.trueFalse.level.fields.text");
 
 	const onSubmit = useCallback<SubmitHandler<TextLevelFormValues>>(
 		async (values) => {

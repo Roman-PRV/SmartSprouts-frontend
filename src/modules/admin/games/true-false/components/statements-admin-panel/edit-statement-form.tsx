@@ -10,7 +10,7 @@ import {
 	useId,
 	useTranslation,
 } from "~/libs/hooks/hooks";
-import { createEmptyLocalized, type Language } from "~/libs/modules/localization/localization";
+import { createEmptyLocalized, useLocalizedLabel } from "~/libs/modules/localization/localization";
 
 import { updateStatement } from "../../api/true-false-admin";
 import { type useTrueFalseAudio } from "../../hooks/hooks";
@@ -60,14 +60,8 @@ const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statem
 
 	const statementScope = audio.statementScope(statement.id);
 
-	const getStatementLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.statement.fields.statement.${lang}`),
-		[t]
-	);
-	const getExplanationLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.statement.fields.explanation.${lang}`),
-		[t]
-	);
+	const getStatementLabel = useLocalizedLabel("admin.trueFalse.statement.fields.statement");
+	const getExplanationLabel = useLocalizedLabel("admin.trueFalse.statement.fields.explanation");
 
 	const onSubmit = useCallback<SubmitHandler<StatementFormValues>>(
 		async (values) => {
