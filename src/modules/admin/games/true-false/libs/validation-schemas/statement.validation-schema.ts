@@ -2,13 +2,10 @@ import { z } from "zod";
 
 import { buildLocalizedSchema } from "~/libs/modules/localization/localization";
 
+import { VALIDATION_MESSAGES } from "./base.validation-schema";
+
 const MIN_STATEMENT_LENGTH = 1;
 const MAX_STATEMENT_LENGTH = 500;
-
-const VALIDATION_MESSAGES = {
-	REQUIRED: "admin.trueFalse.validation.required",
-	TOO_LONG: "admin.trueFalse.validation.tooLong",
-} as const;
 
 const statementText = z
 	.string()
