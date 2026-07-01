@@ -6,7 +6,7 @@ import { Button } from "~/libs/components/components";
 import { extractFileName } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
-import { AVAILABLE_LANGUAGES, type Language } from "~/libs/modules/localization/localization";
+import { createEmptyLocalized, type Language } from "~/libs/modules/localization/localization";
 
 import { updateLevel } from "../../api/true-false-admin";
 import { type useTrueFalseAudio } from "../../hooks/hooks";
@@ -29,15 +29,12 @@ type Properties = {
 	level: TrueFalseAdminLevelDto;
 };
 
-const buildDefaults = (level: TrueFalseAdminLevelDto): DefaultValues<TextLevelFormInput> => {
-	const text: Record<string, string> = {};
-
-	for (const lang of AVAILABLE_LANGUAGES) {
-		text[lang] = level.text?.[lang] ?? "";
-	}
-
-	return { text: text as Record<Language, string>, title: level.title };
-};
+const buildDefaults = (level: TrueFalseAdminLevelDto): DefaultValues<TextLevelFormInput> => ({
+	// Start from every locale empty, then overlay the stored values, so missing
+	// locales default to "" without hand-listing them.
+	text: { ...createEmptyLocalized(), ...level.text },
+	title: level.title,
+});
 
 /**
  * Edit form for a text level: localized title + body text (each with its own

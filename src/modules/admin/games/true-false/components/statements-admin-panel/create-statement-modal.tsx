@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 import { Button, Modal } from "~/libs/components/components";
 import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
+import { createEmptyLocalized } from "~/libs/modules/localization/localization";
 
 import { createStatement } from "../../api/true-false-admin";
 import {
@@ -15,9 +16,9 @@ import { StatementFields } from "./statement-fields";
 import styles from "./styles.module.css";
 
 const DEFAULT_VALUES: DefaultValues<StatementFormInput> = {
-	explanation: { en: "", es: "", uk: "" },
+	explanation: createEmptyLocalized(),
 	is_true: false,
-	statement: { en: "", es: "", uk: "" },
+	statement: createEmptyLocalized(),
 };
 
 type Properties = {

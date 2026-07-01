@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button, LocalizedInputGroup } from "~/libs/components/components";
 import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
-import { type Language } from "~/libs/modules/localization/localization";
+import { createEmptyLocalized, type Language } from "~/libs/modules/localization/localization";
 
 import { createLevel } from "../../api/true-false-admin";
 import { buildTrueFalseLevelFormData } from "../../libs/helpers/build-true-false-level-form-data.helper";
@@ -19,7 +19,7 @@ import { LevelImageField } from "./level-image-field";
 import styles from "./styles.module.css";
 
 const DEFAULT_VALUES: DefaultValues<ImageLevelFormInput> = {
-	title: { en: "", es: "", uk: "" },
+	title: createEmptyLocalized(),
 };
 
 type Properties = {

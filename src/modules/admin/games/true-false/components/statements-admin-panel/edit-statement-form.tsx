@@ -10,7 +10,7 @@ import {
 	useId,
 	useTranslation,
 } from "~/libs/hooks/hooks";
-import { AVAILABLE_LANGUAGES, type Language } from "~/libs/modules/localization/localization";
+import { createEmptyLocalized, type Language } from "~/libs/modules/localization/localization";
 
 import { updateStatement } from "../../api/true-false-admin";
 import { type useTrueFalseAudio } from "../../hooks/hooks";
@@ -33,19 +33,12 @@ type Properties = {
 
 const buildDefaults = (
 	statement: TrueFalseAdminStatementDto
-): DefaultValues<StatementFormInput> => {
-	const explanation: Record<string, string> = {};
-
-	for (const lang of AVAILABLE_LANGUAGES) {
-		explanation[lang] = statement.explanation[lang] ?? "";
-	}
-
-	return {
-		explanation: explanation as Record<Language, string>,
-		is_true: statement.is_true,
-		statement: statement.statement,
-	};
-};
+): DefaultValues<StatementFormInput> => ({
+	// Empty every locale first, then overlay the stored explanation.
+	explanation: { ...createEmptyLocalized(), ...statement.explanation },
+	is_true: statement.is_true,
+	statement: statement.statement,
+});
 
 /**
  * Inline edit form for a single statement: localized statement + explanation,
