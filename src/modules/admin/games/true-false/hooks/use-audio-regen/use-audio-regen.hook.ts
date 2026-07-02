@@ -8,16 +8,10 @@ import {
 } from "../../libs/constants/audio-regen.constant";
 
 type RegenerateOptions = {
-	/**
-	 * Reads the latest `is_stale` for this field/locale from the store. Polling
-	 * stops as soon as it returns false (the backend finished regenerating).
-	 */
+	/** Whether this field/locale is still stale; polling stops once it is false. */
 	isStillStale: () => boolean;
-	/** Unique key for this (field, locale) pair. */
 	key: string;
-	/** Re-fetches the level so the store reflects fresh audio status. */
 	refresh: () => Promise<void>;
-	/** Fires the regeneration request (dispatches the regenerate thunk). */
 	run: () => Promise<void>;
 };
 
@@ -39,11 +33,9 @@ const wait = (ms: number): Promise<void> =>
 	});
 
 /**
- * Tracks per-(field, locale) regeneration so each audio button can show its own
- * "generating" state. After firing the request it polls the level on an
- * exponential backoff until the backend flips `is_stale` to false (or the
- * timeout elapses), keeping the generating flag set for the whole wait so the
- * UI never looks idle while a long TTS job is still running.
+ * Tracks per-(field, locale) "generating" state and polls the level on an
+ * exponential backoff until the backend clears `is_stale` (or the timeout hits),
+ * keeping the flag set for the whole wait so the UI never flashes idle mid-job.
  */
 const useAudioRegen = (): UseAudioRegenReturn => {
 	const [generatingKeys, setGeneratingKeys] = useState<ReadonlySet<string>>(new Set());
@@ -110,8 +102,15 @@ const useAudioRegen = (): UseAudioRegenReturn => {
 					delay = Math.min(delay * AUDIO_REGEN_POLL_BACKOFF_FACTOR, AUDIO_REGEN_POLL_MAX_MS);
 				}
 
-				// Loop drained without going fresh: the TTS job is still running.
 				return "timeout";
+			} catch (error) {
+				// Abort on unmount (navigation) rejects here — report it as "aborted"
+				// so the caller stays silent; a real error (still mounted) propagates.
+				if (!isMountedReference.current) {
+					return "aborted";
+				}
+
+				throw error;
 			} finally {
 				setGenerating(key, false);
 			}

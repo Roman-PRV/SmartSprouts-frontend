@@ -106,6 +106,35 @@ describe("useAudioRegen", () => {
 		expect(result.current.isGenerating(KEY)).toBe(false);
 	});
 
+	it("reports aborted (never rejects) when unmounted while a request is in flight", async () => {
+		const { result, unmount } = renderHook(() => useAudioRegen());
+
+		let rejectRun!: (reason: unknown) => void;
+
+		const run = vi.fn(
+			() =>
+				new Promise<void>((_resolve, reject) => {
+					rejectRun = reject;
+				})
+		);
+		const refresh = vi.fn(() => Promise.resolve());
+
+		let pending: Promise<string> | undefined;
+		act(() => {
+			pending = result.current.regenerate({ isStillStale: () => true, key: KEY, refresh, run });
+		});
+
+		// Navigating away unmounts the editor (mounted-ref → false), then the
+		// aborted thunk rejects the in-flight request.
+		unmount();
+		act(() => {
+			rejectRun(new Error("Aborted"));
+		});
+
+		await expect(pending).resolves.toBe("aborted");
+		expect(refresh).not.toHaveBeenCalled();
+	});
+
 	it("clears the generating flag even when the request fails", async () => {
 		const { result } = renderHook(() => useAudioRegen());
 
