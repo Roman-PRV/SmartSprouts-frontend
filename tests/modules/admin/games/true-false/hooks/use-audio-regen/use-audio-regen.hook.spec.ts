@@ -51,6 +51,29 @@ describe("useAudioRegen", () => {
 		expect(result.current.isGenerating(KEY)).toBe(false);
 	});
 
+	it("passes the freshly fetched level to isStillStale", async () => {
+		const { result } = renderHook(() => useAudioRegen());
+
+		const freshLevel = { id: 1 };
+		const run = vi.fn(() => Promise.resolve());
+		const refresh = vi.fn(() => Promise.resolve(freshLevel));
+		const isStillStale = vi.fn(() => false);
+
+		let pending: Promise<string> | undefined;
+		act(() => {
+			pending = result.current.regenerate({ isStillStale, key: KEY, refresh, run });
+		});
+
+		let outcome: string | undefined;
+		await act(async () => {
+			await vi.advanceTimersByTimeAsync(POLL_INITIAL_MS);
+			outcome = await pending;
+		});
+
+		expect(outcome).toBe("completed");
+		expect(isStillStale).toHaveBeenCalledWith(freshLevel);
+	});
+
 	it("still flips generating under StrictMode's mount/unmount/remount", async () => {
 		// Regression: the mounted-ref was only set in cleanup, so StrictMode's
 		// throwaway unmount left it false and every state update was dropped.

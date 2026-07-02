@@ -2,7 +2,6 @@ import { toast } from "sonner";
 
 import {
 	useAppDispatch,
-	useAppSelector,
 	useCallback,
 	useEffect,
 	useRef,
@@ -43,8 +42,6 @@ const levelAudioMap = (
 	level: null | TrueFalseAdminLevelDto,
 	field: string
 ): AudioStatusMap | undefined => {
-	// Explicit lookup (not an if/else fallback): an unknown field returns
-	// undefined instead of silently yielding the wrong audio map.
 	const byField: Record<string, AudioStatusMap | undefined> = {
 		[AudioField.TEXT]: level?.text_audio,
 		[AudioField.TITLE]: level?.title_audio,
@@ -73,17 +70,10 @@ const statementAudioMap = (
 const useTrueFalseAudio = (gameId: string, levelId: number): UseTrueFalseAudioReturn => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
-	const currentLevel = useAppSelector((state) => state.trueFalseAdmin.currentLevel);
 	const { isGenerating: isKeyGenerating, regenerate: runRegenerate } = useAudioRegen();
 
-	const levelReference = useRef(currentLevel);
 	const pendingReference = useRef<Set<TrackablePromise<unknown>>>(new Set());
 
-	useEffect(() => {
-		levelReference.current = currentLevel;
-	}, [currentLevel]);
-
-	// Abort any in-flight regenerate/refetch requests when the editor unmounts.
 	useEffect(() => {
 		const pending = pendingReference.current;
 
@@ -106,9 +96,11 @@ const useTrueFalseAudio = (gameId: string, levelId: number): UseTrueFalseAudioRe
 		}
 	}, []);
 
-	const refresh = useCallback(async (): Promise<void> => {
-		await tracked(dispatch(getLevel({ gameId, levelId })));
-	}, [dispatch, gameId, levelId, tracked]);
+	const refresh = useCallback(
+		async (): Promise<TrueFalseAdminLevelDto> =>
+			await tracked(dispatch(getLevel({ gameId, levelId }))),
+		[dispatch, gameId, levelId, tracked]
+	);
 
 	const statementScope = useCallback(
 		(statementId: number): string => `${STATEMENT_SCOPE_PREFIX}${String(statementId)}`,
@@ -140,14 +132,12 @@ const useTrueFalseAudio = (gameId: string, levelId: number): UseTrueFalseAudioRe
 				);
 			};
 
-			const isStillStale = (): boolean => {
+			const isStillStale = (level: TrueFalseAdminLevelDto): boolean => {
 				if (statementId === null) {
-					return Boolean(levelAudioMap(levelReference.current, field)?.[locale]?.is_stale);
+					return Boolean(levelAudioMap(level, field)?.[locale]?.is_stale);
 				}
 
-				const statement = levelReference.current?.statements?.find(
-					(item) => item.id === statementId
-				);
+				const statement = level.statements?.find((item) => item.id === statementId);
 
 				return Boolean(statementAudioMap(statement, field)?.[locale]?.is_stale);
 			};

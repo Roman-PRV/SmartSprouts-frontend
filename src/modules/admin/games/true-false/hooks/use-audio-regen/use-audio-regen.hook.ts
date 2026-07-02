@@ -7,11 +7,11 @@ import {
 	AUDIO_REGEN_TIMEOUT_MS,
 } from "../../libs/constants/audio-regen.constant";
 
-type RegenerateOptions = {
-	/** Whether this field/locale is still stale; polling stops once it is false. */
-	isStillStale: () => boolean;
+type RegenerateOptions<TLevel> = {
+	/** Whether the refreshed level is still stale; polling stops once it is false. */
+	isStillStale: (level: TLevel) => boolean;
 	key: string;
-	refresh: () => Promise<void>;
+	refresh: () => Promise<TLevel>;
 	run: () => Promise<void>;
 };
 
@@ -24,7 +24,7 @@ type RegenerateOutcome = "aborted" | "completed" | "timeout";
 
 type UseAudioRegenReturn = {
 	isGenerating: (key: string) => boolean;
-	regenerate: (options: RegenerateOptions) => Promise<RegenerateOutcome>;
+	regenerate: <TLevel>(options: RegenerateOptions<TLevel>) => Promise<RegenerateOutcome>;
 };
 
 const wait = (ms: number): Promise<void> =>
@@ -76,7 +76,12 @@ const useAudioRegen = (): UseAudioRegenReturn => {
 	);
 
 	const regenerate = useCallback(
-		async ({ isStillStale, key, refresh, run }: RegenerateOptions): Promise<RegenerateOutcome> => {
+		async <TLevel>({
+			isStillStale,
+			key,
+			refresh,
+			run,
+		}: RegenerateOptions<TLevel>): Promise<RegenerateOutcome> => {
 			setGenerating(key, true);
 
 			try {
@@ -92,9 +97,9 @@ const useAudioRegen = (): UseAudioRegenReturn => {
 						return "aborted";
 					}
 
-					await refresh();
+					const level = await refresh();
 
-					if (!isStillStale()) {
+					if (!isStillStale(level)) {
 						return "completed";
 					}
 
