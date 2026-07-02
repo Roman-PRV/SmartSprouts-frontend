@@ -92,6 +92,8 @@ const { actions, name, reducer } = createSlice({
 		builder.addCase(updateLevel.fulfilled, (state, action) => {
 			// The per-game level resource the backend returns already embeds the
 			// statements, so the whole current level can be replaced safely.
+			// levelsList is left untouched on purpose: it refetches on mount and
+			// never renders alongside the editor, so there is nothing to sync.
 			state.currentLevel = action.payload;
 		});
 
