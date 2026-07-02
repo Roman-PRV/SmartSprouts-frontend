@@ -1,13 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type DefaultValues, type SubmitHandler } from "react-hook-form";
-import { toast } from "sonner";
+import { type DefaultValues } from "react-hook-form";
 
 import { Button } from "~/libs/components/components";
-import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
+import { useForm, useTranslation } from "~/libs/hooks/hooks";
 import { createEmptyLocalized, useLocalizedLabel } from "~/libs/modules/localization/localization";
 
-import { updateStatement } from "../../api/true-false-admin";
-import { type useTrueFalseAudio } from "../../hooks/hooks";
+import { useStatementSubmit, type useTrueFalseAudio } from "../../hooks/hooks";
 import { AudioField } from "../../libs/enums/enums";
 import { type TrueFalseAdminStatementDto } from "../../libs/types/types";
 import {
@@ -41,7 +39,6 @@ const buildDefaults = (
  */
 const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statement }) => {
 	const { t } = useTranslation();
-	const dispatch = useAppDispatch();
 
 	const {
 		formState: { errors, isSubmitting },
@@ -57,29 +54,7 @@ const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statem
 	const getStatementLabel = useLocalizedLabel("admin.trueFalse.statement.fields.statement");
 	const getExplanationLabel = useLocalizedLabel("admin.trueFalse.statement.fields.explanation");
 
-	const onSubmit = useCallback<SubmitHandler<StatementFormValues>>(
-		async (values) => {
-			try {
-				await dispatch(
-					updateStatement({
-						gameId,
-						payload: {
-							explanation: values.explanation,
-							is_true: values.is_true,
-							statement: values.statement,
-						},
-						statementId: statement.id,
-					})
-				).unwrap();
-
-				toast.success(t("admin.trueFalse.statement.edit.success"));
-				onDone();
-			} catch {
-				toast.error(t("admin.trueFalse.statement.edit.error"));
-			}
-		},
-		[dispatch, gameId, onDone, statement.id, t]
-	);
+	const onSubmit = useStatementSubmit({ gameId, onSuccess: onDone, statementId: statement.id });
 
 	return (
 		<form className={styles["statement-form"]} noValidate onSubmit={handleSubmit(onSubmit)}>

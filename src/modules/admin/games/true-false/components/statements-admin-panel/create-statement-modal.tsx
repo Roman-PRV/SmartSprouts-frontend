@@ -1,12 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type DefaultValues, type SubmitHandler } from "react-hook-form";
-import { toast } from "sonner";
+import { type DefaultValues } from "react-hook-form";
 
 import { Button, Modal } from "~/libs/components/components";
-import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
+import { useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
 import { createEmptyLocalized } from "~/libs/modules/localization/localization";
 
-import { createStatement } from "../../api/true-false-admin";
+import { useStatementSubmit } from "../../hooks/hooks";
 import {
 	type StatementFormInput,
 	type StatementFormValues,
@@ -30,7 +29,6 @@ type Properties = {
 
 const CreateStatementModal: React.FC<Properties> = ({ gameId, isOpen, levelId, onClose }) => {
 	const { t } = useTranslation();
-	const dispatch = useAppDispatch();
 
 	const {
 		formState: { errors, isSubmitting },
@@ -47,29 +45,7 @@ const CreateStatementModal: React.FC<Properties> = ({ gameId, isOpen, levelId, o
 		onClose();
 	}, [onClose, reset]);
 
-	const onSubmit = useCallback<SubmitHandler<StatementFormValues>>(
-		async (values) => {
-			try {
-				await dispatch(
-					createStatement({
-						gameId,
-						levelId,
-						payload: {
-							explanation: values.explanation,
-							is_true: values.is_true,
-							statement: values.statement,
-						},
-					})
-				).unwrap();
-
-				toast.success(t("admin.trueFalse.statement.create.success"));
-				handleClose();
-			} catch {
-				toast.error(t("admin.trueFalse.statement.create.error"));
-			}
-		},
-		[dispatch, gameId, handleClose, levelId, t]
-	);
+	const onSubmit = useStatementSubmit({ gameId, levelId, onSuccess: handleClose });
 
 	return (
 		<Modal
