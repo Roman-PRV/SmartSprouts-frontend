@@ -44,4 +44,4 @@ const buildTrueFalseLevelFormData = (
 	return formData;
 };
 
-export { buildTrueFalseLevelFormData };
+export { type LevelFormInput, buildTrueFalseLevelFormData };

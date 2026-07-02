@@ -1,10 +1,10 @@
 import { type FieldErrors, type UseFormRegister } from "react-hook-form";
 
 import { LocalizedInputGroup } from "~/libs/components/components";
-import { useCallback, useId, useTranslation } from "~/libs/hooks/hooks";
-import { type Language } from "~/libs/modules/localization/localization";
+import { useLocalizedLabel } from "~/libs/modules/localization/localization";
 
 import { type StatementFormInput } from "../../libs/validation-schemas/statement.validation-schema";
+import { IsTrueToggle } from "./is-true-toggle";
 import styles from "./styles.module.css";
 
 type Properties = {
@@ -13,21 +13,14 @@ type Properties = {
 };
 
 /**
- * The localized statement + explanation inputs and the is_true toggle, shared
- * by the create-statement modal and the inline edit form.
+ * The localized statement + explanation inputs and the is_true toggle for the
+ * create-statement modal. The inline edit form does NOT use this; it composes
+ * LocalizedAudioField + IsTrueToggle directly, since each field there also needs
+ * per-locale audio controls.
  */
 const StatementFields: React.FC<Properties> = ({ errors, register }) => {
-	const { t } = useTranslation();
-	const isTrueId = useId();
-
-	const getStatementLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.statement.fields.statement.${lang}`),
-		[t]
-	);
-	const getExplanationLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.statement.fields.explanation.${lang}`),
-		[t]
-	);
+	const getStatementLabel = useLocalizedLabel("admin.trueFalse.statement.fields.statement");
+	const getExplanationLabel = useLocalizedLabel("admin.trueFalse.statement.fields.explanation");
 
 	return (
 		<div className={styles["statement-fields"]}>
@@ -46,10 +39,7 @@ const StatementFields: React.FC<Properties> = ({ errors, register }) => {
 				register={register}
 			/>
 
-			<label className={styles["statement-fields__toggle"]} htmlFor={isTrueId}>
-				<input id={isTrueId} type="checkbox" {...register("is_true")} />
-				{t("admin.trueFalse.statement.fields.isTrue")}
-			</label>
+			<IsTrueToggle register={register} />
 		</div>
 	);
 };

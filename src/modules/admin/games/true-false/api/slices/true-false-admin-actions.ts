@@ -143,8 +143,10 @@ const deleteStatement = createAsyncThunk<number, DeleteStatementArgument, AsyncT
 	}
 );
 
+// Yields no payload: the fresh audio state comes from a follow-up getLevel, so
+// the slice never reads a result from this thunk.
 const regenerateLevelAudio = createAsyncThunk<
-	RegenerateAudioPayload,
+	undefined,
 	RegenerateLevelAudioArgument,
 	AsyncThunkConfig
 >(
@@ -152,16 +154,15 @@ const regenerateLevelAudio = createAsyncThunk<
 	async ({ gameId, levelId, payload }, { extra, rejectWithValue, signal }) => {
 		try {
 			await extra.trueFalseAdminApi.regenerateLevelAudio({ gameId, levelId, payload, signal });
-
-			return payload;
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
 	}
 );
 
+// Yields no payload for the same reason as regenerateLevelAudio above.
 const regenerateStatementAudio = createAsyncThunk<
-	RegenerateAudioPayload,
+	undefined,
 	RegenerateStatementAudioArgument,
 	AsyncThunkConfig
 >(
@@ -174,8 +175,6 @@ const regenerateStatementAudio = createAsyncThunk<
 				signal,
 				statementId,
 			});
-
-			return payload;
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}

@@ -3,13 +3,7 @@ import { type DefaultValues, type SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "~/libs/components/components";
-import {
-	useAppDispatch,
-	useCallback,
-	useForm,
-	useId,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
 import { createEmptyLocalized, useLocalizedLabel } from "~/libs/modules/localization/localization";
 
 import { updateStatement } from "../../api/true-false-admin";
@@ -22,6 +16,7 @@ import {
 	statementValidationSchema,
 } from "../../libs/validation-schemas/statement.validation-schema";
 import { LocalizedAudioField } from "../audio-field-controls/localized-audio-field";
+import { IsTrueToggle } from "./is-true-toggle";
 import styles from "./styles.module.css";
 
 type Properties = {
@@ -47,7 +42,6 @@ const buildDefaults = (
 const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statement }) => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
-	const isTrueId = useId();
 
 	const {
 		formState: { errors, isSubmitting },
@@ -113,10 +107,7 @@ const EditStatementForm: React.FC<Properties> = ({ audio, gameId, onDone, statem
 				scope={statementScope}
 			/>
 
-			<label className={styles["statement-fields__toggle"]} htmlFor={isTrueId}>
-				<input id={isTrueId} type="checkbox" {...register("is_true")} />
-				{t("admin.trueFalse.statement.fields.isTrue")}
-			</label>
+			<IsTrueToggle register={register} />
 
 			<div className={styles["statement-form__actions"]}>
 				<Button onClick={onDone} type="button" variant="secondary">

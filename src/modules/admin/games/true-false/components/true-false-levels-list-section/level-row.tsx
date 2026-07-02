@@ -1,5 +1,5 @@
-import { Button, Link } from "~/libs/components/components";
-import { useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
+import { Button, FallbackImage, Link } from "~/libs/components/components";
+import { useCallback, useTranslation } from "~/libs/hooks/hooks";
 import { buildAdminEditorUrl } from "~/modules/admin/libs/helpers/build-admin-editor-url.helper";
 
 import { type TrueFalseAdminLevelDto } from "../../libs/types/types";
@@ -16,30 +16,22 @@ type Properties = {
 
 const LevelRow: React.FC<Properties> = ({ gameId, level, localizedTitle, onDelete }) => {
 	const { t } = useTranslation();
-	const [hasImageError, setHasImageError] = useState(false);
 
 	const handleDelete = useCallback(() => {
 		onDelete(level);
 	}, [level, onDelete]);
-
-	const handleImageError = useCallback(() => {
-		setHasImageError(true);
-	}, []);
-
-	const showImage = Boolean(level.image_url) && !hasImageError;
 
 	return (
 		<tr>
 			<td>{level.id}</td>
 			<td>{localizedTitle}</td>
 			<td>
-				{showImage ? (
-					<img
+				{level.image_url ? (
+					<FallbackImage
 						alt={localizedTitle}
 						className={styles["levels-list__thumbnail"]}
 						loading="lazy"
-						onError={handleImageError}
-						src={level.image_url ?? ""}
+						src={level.image_url}
 					/>
 				) : (
 					<span className={styles["levels-list__thumbnail-placeholder"]} />

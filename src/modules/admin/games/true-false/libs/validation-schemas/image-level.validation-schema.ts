@@ -41,6 +41,4 @@ export {
 	type ImageLevelFormValues,
 	imageLevelEditValidationSchema,
 	imageLevelValidationSchema,
-	
 };
-export {MAX_IMAGE_MEGABYTES} from "./base.validation-schema";

@@ -1,19 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type DefaultValues, type SubmitHandler } from "react-hook-form";
-import { toast } from "sonner";
+import { type DefaultValues } from "react-hook-form";
 
 import { Button, LocalizedInputGroup } from "~/libs/components/components";
-import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
-import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
-import { createEmptyLocalized, type Language } from "~/libs/modules/localization/localization";
+import { useForm, useTranslation } from "~/libs/hooks/hooks";
+import { createEmptyLocalized, useLocalizedLabel } from "~/libs/modules/localization/localization";
 
-import { createLevel } from "../../api/true-false-admin";
-import { buildTrueFalseLevelFormData } from "../../libs/helpers/build-true-false-level-form-data.helper";
+import { useLevelSubmit } from "../../hooks/hooks";
+import { MAX_IMAGE_MEGABYTES } from "../../libs/validation-schemas/base.validation-schema";
 import {
 	type ImageLevelFormInput,
 	type ImageLevelFormValues,
 	imageLevelValidationSchema,
-	MAX_IMAGE_MEGABYTES,
 } from "../../libs/validation-schemas/image-level.validation-schema";
 import { LevelImageField } from "./level-image-field";
 import styles from "./styles.module.css";
@@ -33,7 +30,6 @@ type Properties = {
  */
 const ImageLevelCreateForm: React.FC<Properties> = ({ gameId, onCancel, onSuccess }) => {
 	const { t } = useTranslation();
-	const dispatch = useAppDispatch();
 
 	const {
 		formState: { errors, isSubmitting },
@@ -44,28 +40,8 @@ const ImageLevelCreateForm: React.FC<Properties> = ({ gameId, onCancel, onSucces
 		resolver: zodResolver(imageLevelValidationSchema),
 	});
 
-	const getTitleLabel = useCallback(
-		(lang: Language) => t(`admin.trueFalse.level.fields.title.${lang}`),
-		[t]
-	);
-
-	const onSubmit = useCallback<SubmitHandler<ImageLevelFormValues>>(
-		async (values) => {
-			try {
-				const formData = buildTrueFalseLevelFormData(
-					{ image: values.image, title: values.title },
-					HTTPMethod.POST
-				);
-				const level = await dispatch(createLevel({ formData, gameId })).unwrap();
-
-				toast.success(t("admin.trueFalse.level.create.success"));
-				onSuccess(level.id);
-			} catch {
-				toast.error(t("admin.trueFalse.level.create.error"));
-			}
-		},
-		[dispatch, gameId, onSuccess, t]
-	);
+	const getTitleLabel = useLocalizedLabel("admin.trueFalse.level.fields.title");
+	const onSubmit = useLevelSubmit<ImageLevelFormValues>({ gameId, onSuccess });
 
 	return (
 		<form className={styles["form"]} noValidate onSubmit={handleSubmit(onSubmit)}>

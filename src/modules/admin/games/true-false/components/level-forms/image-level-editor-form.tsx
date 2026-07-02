@@ -1,23 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type DefaultValues, type SubmitHandler } from "react-hook-form";
-import { toast } from "sonner";
+import { type DefaultValues } from "react-hook-form";
 
 import { Button } from "~/libs/components/components";
 import { extractFileName } from "~/libs/helpers/helpers";
-import { useAppDispatch, useCallback, useForm, useTranslation } from "~/libs/hooks/hooks";
-import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
+import { useForm, useTranslation } from "~/libs/hooks/hooks";
 import { useLocalizedLabel } from "~/libs/modules/localization/localization";
 
-import { updateLevel } from "../../api/true-false-admin";
-import { type useTrueFalseAudio } from "../../hooks/hooks";
+import { useLevelSubmit, type useTrueFalseAudio } from "../../hooks/hooks";
 import { AudioField } from "../../libs/enums/enums";
-import { buildTrueFalseLevelFormData } from "../../libs/helpers/build-true-false-level-form-data.helper";
 import { type TrueFalseAdminLevelDto } from "../../libs/types/types";
+import { MAX_IMAGE_MEGABYTES } from "../../libs/validation-schemas/base.validation-schema";
 import {
 	type ImageLevelEditFormInput,
 	type ImageLevelEditFormValues,
 	imageLevelEditValidationSchema,
-	MAX_IMAGE_MEGABYTES,
 } from "../../libs/validation-schemas/image-level.validation-schema";
 import { LocalizedAudioField } from "../audio-field-controls/localized-audio-field";
 import { LevelImageField } from "./level-image-field";
@@ -35,7 +31,6 @@ type Properties = {
  */
 const ImageLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) => {
 	const { t } = useTranslation();
-	const dispatch = useAppDispatch();
 
 	const defaultValues: DefaultValues<ImageLevelEditFormInput> = { title: level.title };
 
@@ -49,23 +44,7 @@ const ImageLevelEditorForm: React.FC<Properties> = ({ audio, gameId, level }) =>
 	});
 
 	const getTitleLabel = useLocalizedLabel("admin.trueFalse.level.fields.title");
-
-	const onSubmit = useCallback<SubmitHandler<ImageLevelEditFormValues>>(
-		async (values) => {
-			try {
-				const formData = buildTrueFalseLevelFormData(
-					{ image: values.image, title: values.title },
-					HTTPMethod.PATCH
-				);
-				await dispatch(updateLevel({ formData, gameId, levelId: level.id })).unwrap();
-
-				toast.success(t("admin.trueFalse.level.edit.success"));
-			} catch {
-				toast.error(t("admin.trueFalse.level.edit.error"));
-			}
-		},
-		[dispatch, gameId, level.id, t]
-	);
+	const onSubmit = useLevelSubmit<ImageLevelEditFormValues>({ gameId, levelId: level.id });
 
 	return (
 		<form className={styles["form"]} noValidate onSubmit={handleSubmit(onSubmit)}>

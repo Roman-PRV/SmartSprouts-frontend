@@ -28,7 +28,5 @@ type TextLevelFormValues = z.output<typeof textLevelValidationSchema>;
 export {
 	type TextLevelFormInput,
 	type TextLevelFormValues,
-	
 	textLevelValidationSchema,
 };
-export {MAX_IMAGE_MEGABYTES} from "./base.validation-schema";
