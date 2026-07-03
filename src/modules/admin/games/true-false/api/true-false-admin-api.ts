@@ -20,10 +20,39 @@ type Constructor = {
 	storage: Storage;
 };
 
+type CreateLevelArguments = {
+	formData: FormData;
+	gameId: string;
+	signal?: AbortSignal;
+};
+
 type CreateStatementArguments = {
 	gameId: string;
 	levelId: number;
 	payload: CreateTrueFalseStatementPayload;
+	signal?: AbortSignal;
+};
+
+type DeleteLevelArguments = {
+	gameId: string;
+	levelId: number;
+	signal?: AbortSignal;
+};
+
+type DeleteStatementArguments = {
+	gameId: string;
+	signal?: AbortSignal;
+	statementId: number;
+};
+
+type GetLevelArguments = {
+	gameId: string;
+	levelId: number;
+	signal?: AbortSignal;
+};
+
+type GetLevelsListArguments = {
+	gameId: string;
 	signal?: AbortSignal;
 };
 
@@ -65,11 +94,11 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 		super({ baseUrl, http, path: APIPath.ADMIN, storage });
 	}
 
-	public async createLevel(
-		gameId: string,
-		formData: FormData,
-		signal?: AbortSignal
-	): Promise<TrueFalseAdminLevelDto> {
+	public async createLevel({
+		formData,
+		gameId,
+		signal,
+	}: CreateLevelArguments): Promise<TrueFalseAdminLevelDto> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
 		const response = await this.load(url, {
@@ -104,7 +133,7 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 		return await response.json<TrueFalseAdminStatementDto>();
 	}
 
-	public async deleteLevel(gameId: string, levelId: number, signal?: AbortSignal): Promise<void> {
+	public async deleteLevel({ gameId, levelId, signal }: DeleteLevelArguments): Promise<void> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVEL_DETAIL, {
 			gameId,
 			levelId: String(levelId),
@@ -117,11 +146,11 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 		});
 	}
 
-	public async deleteStatement(
-		gameId: string,
-		statementId: number,
-		signal?: AbortSignal
-	): Promise<void> {
+	public async deleteStatement({
+		gameId,
+		signal,
+		statementId,
+	}: DeleteStatementArguments): Promise<void> {
 		const url = this.getFullEndpoint(TrueFalseAdminApiPath.STATEMENT_DETAIL, {
 			gameId,
 			statementId: String(statementId),
@@ -134,11 +163,11 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 		});
 	}
 
-	public async getLevel(
-		gameId: string,
-		levelId: number,
-		signal?: AbortSignal
-	): Promise<TrueFalseAdminLevelDto> {
+	public async getLevel({
+		gameId,
+		levelId,
+		signal,
+	}: GetLevelArguments): Promise<TrueFalseAdminLevelDto> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVEL_DETAIL, {
 			gameId,
 			levelId: String(levelId),
@@ -153,10 +182,10 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 		return await response.json<TrueFalseAdminLevelDto>();
 	}
 
-	public async getLevelsList(
-		gameId: string,
-		signal?: AbortSignal
-	): Promise<TrueFalseAdminLevelDto[]> {
+	public async getLevelsList({
+		gameId,
+		signal,
+	}: GetLevelsListArguments): Promise<TrueFalseAdminLevelDto[]> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
 		const response = await this.load(url, {

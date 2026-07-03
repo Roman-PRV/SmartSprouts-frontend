@@ -42,7 +42,7 @@ const getLevelsList = createAsyncThunk<TrueFalseAdminLevelDto[], string, AsyncTh
 	`${sliceName}/get-levels-list`,
 	async (gameId, { extra, rejectWithValue, signal }) => {
 		try {
-			return await extra.trueFalseAdminApi.getLevelsList(gameId, signal);
+			return await extra.trueFalseAdminApi.getLevelsList({ gameId, signal });
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
@@ -53,7 +53,7 @@ const getLevel = createAsyncThunk<TrueFalseAdminLevelDto, GetLevelArgument, Asyn
 	`${sliceName}/get-level`,
 	async ({ gameId, levelId }, { extra, rejectWithValue, signal }) => {
 		try {
-			return await extra.trueFalseAdminApi.getLevel(gameId, levelId, signal);
+			return await extra.trueFalseAdminApi.getLevel({ gameId, levelId, signal });
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
@@ -64,7 +64,7 @@ const createLevel = createAsyncThunk<TrueFalseAdminLevelDto, CreateLevelArgument
 	`${sliceName}/create-level`,
 	async ({ formData, gameId }, { extra, rejectWithValue, signal }) => {
 		try {
-			return await extra.trueFalseAdminApi.createLevel(gameId, formData, signal);
+			return await extra.trueFalseAdminApi.createLevel({ formData, gameId, signal });
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
@@ -86,7 +86,7 @@ const deleteLevel = createAsyncThunk<number, DeleteLevelArgument, AsyncThunkConf
 	`${sliceName}/delete-level`,
 	async ({ gameId, levelId }, { extra, rejectWithValue, signal }) => {
 		try {
-			await extra.trueFalseAdminApi.deleteLevel(gameId, levelId, signal);
+			await extra.trueFalseAdminApi.deleteLevel({ gameId, levelId, signal });
 
 			return levelId;
 		} catch (error: unknown) {
@@ -134,7 +134,7 @@ const deleteStatement = createAsyncThunk<number, DeleteStatementArgument, AsyncT
 	`${sliceName}/delete-statement`,
 	async ({ gameId, statementId }, { extra, rejectWithValue, signal }) => {
 		try {
-			await extra.trueFalseAdminApi.deleteStatement(gameId, statementId, signal);
+			await extra.trueFalseAdminApi.deleteStatement({ gameId, signal, statementId });
 
 			return statementId;
 		} catch (error: unknown) {
