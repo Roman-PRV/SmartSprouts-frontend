@@ -12,11 +12,12 @@ import {
 	useTranslation,
 } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
-import { type Language } from "~/libs/modules/localization/localization";
+import { type Language, useLocalizedLabel } from "~/libs/modules/localization/localization";
 import { type GameDescriptionDto } from "~/libs/types/types";
 import { buildAdminEditorUrl } from "~/modules/admin/libs/helpers/build-admin-editor-url.helper";
 
 import { createLevel } from "../../api/find-the-wrong-admin";
+import { TITLE_PLACEHOLDER_EXAMPLES } from "../../libs/constants/title-placeholder-examples.constant";
 import { buildLevelFormData } from "../../libs/helpers/build-level-form-data.helper";
 import {
 	ALLOWED_IMAGE_TYPES,
@@ -83,14 +84,11 @@ const CreateLevelModal: React.FC<Properties> = ({ game, isOpen, onClose }) => {
 		[dispatch, game.id, handleClose, navigate, t]
 	);
 
-	const getTitleLabel = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.create.fields.title.${lang}.label`),
-		[t]
-	);
+	const getTitleLabel = useLocalizedLabel("admin.findTheWrong.create.fields.title");
 
 	const getTitlePlaceholder = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.create.fields.title.${lang}.placeholder`),
-		[t]
+		(lang: Language): string => TITLE_PLACEHOLDER_EXAMPLES[lang],
+		[]
 	);
 
 	const imageError = errors.image?.message;
