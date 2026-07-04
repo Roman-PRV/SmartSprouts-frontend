@@ -18,19 +18,19 @@ const samplePolygon: Point[] = [
 const fillNameFields = async (user: ReturnType<typeof userEvent.setup>): Promise<void> => {
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.item.fields.name.uk.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.item.fields.name.uk"))
 		),
 		"UA Item"
 	);
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.item.fields.name.en.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.item.fields.name.en"))
 		),
 		"EN Item"
 	);
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.item.fields.name.es.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.item.fields.name.es"))
 		),
 		"ES Item"
 	);

@@ -15,18 +15,9 @@ const admin = {
 					label: "Imagen de fondo",
 				},
 				title: {
-					en: {
-						label: "Título (inglés)",
-						placeholder: "Find the wrong object",
-					},
-					es: {
-						label: "Título (español)",
-						placeholder: "Encuentra el objeto incorrecto",
-					},
-					uk: {
-						label: "Título (ucraniano)",
-						placeholder: "Знайди хибне",
-					},
+					en: "Título (inglés)",
+					es: "Título (español)",
+					uk: "Título (ucraniano)",
 				},
 			},
 			modalTitle: "Crear nivel",
@@ -94,14 +85,14 @@ const admin = {
 			},
 			fields: {
 				explanation: {
-					en: { label: "Explicación (inglés)" },
-					es: { label: "Explicación (español)" },
-					uk: { label: "Explicación (ucraniano)" },
+					en: "Explicación (inglés)",
+					es: "Explicación (español)",
+					uk: "Explicación (ucraniano)",
 				},
 				name: {
-					en: { label: "Nombre (inglés)" },
-					es: { label: "Nombre (español)" },
-					uk: { label: "Nombre (ucraniano)" },
+					en: "Nombre (inglés)",
+					es: "Nombre (español)",
+					uk: "Nombre (ucraniano)",
 				},
 			},
 			update: {
@@ -155,6 +146,7 @@ const admin = {
 			error: "No se pudo iniciar la regeneración del audio. Inténtalo de nuevo.",
 			fresh: "Actualizado",
 			generating: "Generando…",
+			missing: "Generar",
 			regenerate: "Regenerar",
 			regenerateLabel: "Regenerar «{{field}}» ({{locale}})",
 			timeout: "El audio aún se está generando. Vuelve a intentarlo en un momento.",

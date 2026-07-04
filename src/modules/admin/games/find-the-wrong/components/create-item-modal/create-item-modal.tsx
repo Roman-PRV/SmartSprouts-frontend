@@ -3,7 +3,7 @@ import { type DefaultValues, type SubmitHandler } from "react-hook-form";
 
 import { Button, LocalizedInputGroup, Modal } from "~/libs/components/components";
 import { useCallback, useForm, useMemo, useState, useTranslation } from "~/libs/hooks/hooks";
-import { type Language } from "~/libs/modules/localization/localization";
+import { useLocalizedLabel } from "~/libs/modules/localization/localization";
 import { type Point } from "~/libs/types/types";
 
 import { sanitizeExplanation } from "../../libs/helpers/sanitize-explanation.helper";
@@ -73,15 +73,8 @@ const CreateItemModal: React.FC<Properties> = ({ isOpen, onClose, onSubmit, poly
 		[handleClose, onSubmit]
 	);
 
-	const getNameLabel = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.item.fields.name.${lang}.label`),
-		[t]
-	);
-
-	const getExplanationLabel = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.item.fields.explanation.${lang}.label`),
-		[t]
-	);
+	const getNameLabel = useLocalizedLabel("admin.findTheWrong.item.fields.name");
+	const getExplanationLabel = useLocalizedLabel("admin.findTheWrong.item.fields.explanation");
 
 	return (
 		<Modal

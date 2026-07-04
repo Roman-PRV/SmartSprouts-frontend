@@ -3,6 +3,7 @@ import { useCallback, useTranslation } from "~/libs/hooks/hooks";
 import { type Language } from "~/libs/modules/localization/localization";
 
 import { type useTrueFalseAudio } from "../../hooks/hooks";
+import { deriveAudioState } from "../../libs/helpers/derive-audio-state.helper";
 import { type AudioStatus } from "../../libs/types/types";
 import { AudioRegenButton } from "./audio-regen-button";
 import styles from "./styles.module.css";
@@ -36,15 +37,15 @@ const AudioFieldButtons: React.FC<Properties> = ({
 	}, [audio, field, locale, scope]);
 
 	const isGenerating = audio.isGenerating(scope, field, locale);
+	const state = deriveAudioState(status, isGenerating);
 
 	return (
 		<div className={styles["audio-buttons"]}>
 			<AudioPlayButton url={isGenerating ? null : status?.url ?? null} />
 			<AudioRegenButton
-				isGenerating={isGenerating}
-				isStale={status?.is_stale ?? false}
 				label={t("admin.trueFalse.audio.regenerateLabel", { field: fieldLabel, locale })}
 				onRegenerate={handleRegenerate}
+				state={state}
 			/>
 		</div>
 	);

@@ -13,24 +13,27 @@ describe("AudioRegenButton", () => {
 		cleanup();
 	});
 
-	it("is disabled when the audio is fresh (not stale)", () => {
-		render(
-			<AudioRegenButton isGenerating={false} isStale={false} label={LABEL} onRegenerate={vi.fn()} />
-		);
+	it("is disabled when the audio is fresh", () => {
+		render(<AudioRegenButton label={LABEL} onRegenerate={vi.fn()} state="fresh" />);
 
 		expect(screen.getByRole("button", { name: LABEL })).toBeDisabled();
 	});
 
 	it("is enabled and fires onRegenerate when stale", async () => {
 		const onRegenerate = vi.fn();
-		render(
-			<AudioRegenButton
-				isGenerating={false}
-				isStale
-				label={LABEL}
-				onRegenerate={onRegenerate}
-			/>
-		);
+		render(<AudioRegenButton label={LABEL} onRegenerate={onRegenerate} state="stale" />);
+
+		const button = screen.getByRole("button", { name: LABEL });
+		expect(button).toBeEnabled();
+
+		await userEvent.click(button);
+
+		expect(onRegenerate).toHaveBeenCalledTimes(1);
+	});
+
+	it("is enabled and fires onRegenerate when the audio is missing", async () => {
+		const onRegenerate = vi.fn();
+		render(<AudioRegenButton label={LABEL} onRegenerate={onRegenerate} state="missing" />);
 
 		const button = screen.getByRole("button", { name: LABEL });
 		expect(button).toBeEnabled();
@@ -41,9 +44,7 @@ describe("AudioRegenButton", () => {
 	});
 
 	it("is disabled and shows a spinner while generating", () => {
-		render(
-			<AudioRegenButton isGenerating isStale label={LABEL} onRegenerate={vi.fn()} />
-		);
+		render(<AudioRegenButton label={LABEL} onRegenerate={vi.fn()} state="generating" />);
 
 		const button = screen.getByRole("button", { name: LABEL });
 		expect(button).toBeDisabled();

@@ -3,7 +3,7 @@ import { type DefaultValues, type SubmitHandler } from "react-hook-form";
 
 import { Button, LocalizedInputGroup } from "~/libs/components/components";
 import { useCallback, useForm, useState, useTranslation } from "~/libs/hooks/hooks";
-import { type Language } from "~/libs/modules/localization/localization";
+import { useLocalizedLabel } from "~/libs/modules/localization/localization";
 
 import { sanitizeExplanation } from "../../libs/helpers/sanitize-explanation.helper";
 import {
@@ -66,15 +66,8 @@ const ItemEditForm: React.FC<Properties> = ({ item, onSubmit }) => {
 		[onSubmit]
 	);
 
-	const getNameLabel = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.item.fields.name.${lang}.label`),
-		[t]
-	);
-
-	const getExplanationLabel = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.item.fields.explanation.${lang}.label`),
-		[t]
-	);
+	const getNameLabel = useLocalizedLabel("admin.findTheWrong.item.fields.name");
+	const getExplanationLabel = useLocalizedLabel("admin.findTheWrong.item.fields.explanation");
 
 	return (
 		<form className={styles["item-form"]} noValidate onSubmit={handleSubmit(handleFormSubmit)}>
