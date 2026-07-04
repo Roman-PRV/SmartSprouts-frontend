@@ -32,10 +32,7 @@ const CategoryFilter: React.FC<Properties> = ({ activeCategory }) => {
 	];
 
 	return (
-		<nav
-			aria-label={t("games.selection.categoriesNavLabel")}
-			className={styles["category-filter"]}
-		>
+		<nav aria-label={t("games.selection.categoriesNavLabel")} className={styles["category-filter"]}>
 			{chips.map((chip) => {
 				const isActive = chip.category === activeCategory;
 

@@ -71,19 +71,19 @@ const setup = (createdLevel?: FindTheWrongAdminLevelDto): Setup => {
 const fillTitles = async (user: ReturnType<typeof userEvent.setup>): Promise<void> => {
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.uk.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.uk"))
 		),
 		"UA Title"
 	);
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.en.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.en"))
 		),
 		"EN Title"
 	);
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.es.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.es"))
 		),
 		"ES Title"
 	);

@@ -25,6 +25,10 @@ import {
 	findTheWrongAdminApi,
 	reducer as findTheWrongAdminReducer,
 } from "~/modules/admin/games/find-the-wrong/find-the-wrong-admin";
+import {
+	trueFalseAdminApi,
+	reducer as trueFalseAdminReducer,
+} from "~/modules/admin/games/true-false/true-false-admin";
 import { authApi, reducer as authReducer, logout } from "~/modules/auth/auth";
 import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 import { profileApi, reducer as profileReducer } from "~/modules/profile/profile";
@@ -37,6 +41,7 @@ type ExtraArguments = {
 	gamesApi: typeof gamesApi;
 	profileApi: typeof profileApi;
 	storage: typeof storage;
+	trueFalseAdminApi: typeof trueFalseAdminApi;
 	trueFalseGameApi: typeof trueFalseGameApi;
 };
 
@@ -47,6 +52,7 @@ type RootReducer = {
 	findTheWrongLevels: ReturnType<typeof findTheWrongGameReducer>;
 	games: ReturnType<typeof gamesReducer>;
 	profile: ReturnType<typeof profileReducer>;
+	trueFalseAdmin: ReturnType<typeof trueFalseAdminReducer>;
 	trueFalseLevels: ReturnType<typeof trueFalseGameReducer>;
 };
 
@@ -57,6 +63,7 @@ const rootReducer = combineReducers({
 	findTheWrongLevels: findTheWrongGameReducer,
 	games: gamesReducer,
 	profile: profileReducer,
+	trueFalseAdmin: trueFalseAdminReducer,
 	trueFalseLevels: trueFalseGameReducer,
 });
 
@@ -89,6 +96,7 @@ class Store {
 			gamesApi,
 			profileApi,
 			storage,
+			trueFalseAdminApi,
 			trueFalseGameApi,
 		};
 	}

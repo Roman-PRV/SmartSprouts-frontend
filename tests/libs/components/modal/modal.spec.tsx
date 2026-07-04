@@ -54,6 +54,16 @@ describe("Modal", () => {
 		expect(onClose).toHaveBeenCalledTimes(1);
 	});
 
+	it("does not close on backdrop click when closeOnBackdropClick is false", async () => {
+		const user = userEvent.setup();
+		const { onClose } = renderModal({ closeOnBackdropClick: false });
+
+		const dialog = screen.getByRole("dialog");
+		await user.click(dialog);
+
+		expect(onClose).not.toHaveBeenCalled();
+	});
+
 	it("does not call onClose when content inside dialog is clicked", async () => {
 		const user = userEvent.setup();
 		const { onClose } = renderModal();

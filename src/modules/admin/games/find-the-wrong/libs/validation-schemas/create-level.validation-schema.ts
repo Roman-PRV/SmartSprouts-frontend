@@ -1,17 +1,21 @@
 import { z } from "zod";
 
 import { buildLocalizedSchema } from "~/libs/modules/localization/localization";
-
-import { buildImageFileSchema } from "./image-file.schema";
+import { buildImageFileSchema } from "~/libs/validation-schemas/image-file.schema";
 
 const MAX_TITLE_LENGTH = 255;
 const MIN_TITLE_LENGTH = 1;
-const MAX_IMAGE_MEGABYTES = 5;
+const MAX_IMAGE_MEGABYTES = 10;
 
 const VALIDATION_MESSAGES = {
 	IMAGE_REQUIRED: "admin.findTheWrong.create.validation.imageRequired",
 	REQUIRED: "admin.findTheWrong.create.validation.required",
 	TOO_LONG: "admin.findTheWrong.create.validation.tooLong",
+} as const;
+
+const IMAGE_FILE_MESSAGES = {
+	size: "admin.findTheWrong.create.validation.imageSize",
+	type: "admin.findTheWrong.create.validation.imageType",
 } as const;
 
 const titleString = z
@@ -22,15 +26,17 @@ const titleString = z
 
 const localizedString = buildLocalizedSchema(titleString);
 
-const imageFile = buildImageFileSchema(MAX_IMAGE_MEGABYTES).transform((file, context) => {
-	if (file === undefined) {
-		context.addIssue({ code: "custom", message: VALIDATION_MESSAGES.IMAGE_REQUIRED });
+const imageFile = buildImageFileSchema(MAX_IMAGE_MEGABYTES, IMAGE_FILE_MESSAGES).transform(
+	(file, context) => {
+		if (file === undefined) {
+			context.addIssue({ code: "custom", message: VALIDATION_MESSAGES.IMAGE_REQUIRED });
 
-		return z.NEVER;
+			return z.NEVER;
+		}
+
+		return file;
 	}
-
-	return file;
-});
+);
 
 const createLevelValidationSchema = z.object({
 	image: imageFile,
@@ -40,7 +46,7 @@ const createLevelValidationSchema = z.object({
 type CreateLevelFormInput = z.input<typeof createLevelValidationSchema>;
 type CreateLevelFormValues = z.output<typeof createLevelValidationSchema>;
 
-export { ALLOWED_IMAGE_TYPES } from "./image-file.schema";
+export { ALLOWED_IMAGE_TYPES } from "~/libs/validation-schemas/image-file.schema";
 export {
 	type CreateLevelFormInput,
 	type CreateLevelFormValues,

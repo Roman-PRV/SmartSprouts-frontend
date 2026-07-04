@@ -7,10 +7,10 @@ const EMPTY = 0;
 
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
 
-const VALIDATION_MESSAGES = {
-	IMAGE_SIZE: "admin.findTheWrong.create.validation.imageSize",
-	IMAGE_TYPE: "admin.findTheWrong.create.validation.imageType",
-} as const;
+type ImageFileMessages = {
+	size: string;
+	type: string;
+};
 
 const isFileList = (value: unknown): value is FileList =>
 	typeof FileList !== "undefined" && value instanceof FileList;
@@ -19,12 +19,16 @@ const isFileList = (value: unknown): value is FileList =>
  * Builds a zod schema that accepts an optional uploaded image:
  * - missing / empty FileList → undefined
  * - first file with allowed type and within size limit → File
- * - invalid type / oversize → zod issue
+ * - invalid type / oversize → zod issue (i18n key supplied by the caller)
  *
- * Callers that need an enforced upload (create-level) wrap the result
- * with `.refine(Boolean, IMAGE_REQUIRED_KEY)`.
+ * Shared across admin game modules; the validation message keys are passed in
+ * so each module keeps its own i18n namespace. Callers that need an enforced
+ * upload wrap the result with a `required` transform.
  */
-const buildImageFileSchema = (maxMegabytes: number): z.ZodType<File | undefined> => {
+const buildImageFileSchema = (
+	maxMegabytes: number,
+	messages: ImageFileMessages
+): z.ZodType<File | undefined> => {
 	const maxBytes = maxMegabytes * KILOBYTES_IN_MEGABYTE * BYTES_IN_KILOBYTE;
 
 	return z.unknown().transform((value, context) => {
@@ -39,13 +43,13 @@ const buildImageFileSchema = (maxMegabytes: number): z.ZodType<File | undefined>
 		}
 
 		if (!(ALLOWED_IMAGE_TYPES as readonly string[]).includes(file.type)) {
-			context.addIssue({ code: "custom", message: VALIDATION_MESSAGES.IMAGE_TYPE });
+			context.addIssue({ code: "custom", message: messages.type });
 
 			return z.NEVER;
 		}
 
 		if (file.size > maxBytes) {
-			context.addIssue({ code: "custom", message: VALIDATION_MESSAGES.IMAGE_SIZE });
+			context.addIssue({ code: "custom", message: messages.size });
 
 			return z.NEVER;
 		}

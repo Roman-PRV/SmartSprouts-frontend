@@ -5,8 +5,9 @@ import { Button, LocalizedInputGroup } from "~/libs/components/components";
 import { extractFileName } from "~/libs/helpers/helpers";
 import { useCallback, useForm, useId, useTranslation } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
-import { type Language } from "~/libs/modules/localization/localization";
+import { type Language, useLocalizedLabel } from "~/libs/modules/localization/localization";
 
+import { TITLE_PLACEHOLDER_EXAMPLES } from "../../libs/constants/title-placeholder-examples.constant";
 import { buildLevelFormData } from "../../libs/helpers/build-level-form-data.helper";
 import { type FindTheWrongAdminLevelDto } from "../../libs/types/types";
 import {
@@ -69,14 +70,11 @@ const TitleForm: React.FC<Properties> = ({ isPending, level, onSubmit }) => {
 		[onSubmit]
 	);
 
-	const getTitleLabel = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.create.fields.title.${lang}.label`),
-		[t]
-	);
+	const getTitleLabel = useLocalizedLabel("admin.findTheWrong.create.fields.title");
 
 	const getTitlePlaceholder = useCallback(
-		(lang: Language) => t(`admin.findTheWrong.create.fields.title.${lang}.placeholder`),
-		[t]
+		(lang: Language): string => TITLE_PLACEHOLDER_EXAMPLES[lang],
+		[]
 	);
 
 	const imageError = errors.image?.message;
