@@ -1,15 +1,13 @@
 import { type FieldPath, type FieldValues, type UseFormRegister } from "react-hook-form";
 
-import { Input } from "~/libs/components/input/input";
-import { useId, useTranslation } from "~/libs/hooks/hooks";
+import { Input, Textarea } from "~/libs/components/components";
+import { useTranslation } from "~/libs/hooks/hooks";
 import { AVAILABLE_LANGUAGES, type Language } from "~/libs/modules/localization/localization";
 
 import { type useTrueFalseAudio } from "../../hooks/hooks";
 import { type AudioStatusMap } from "../../libs/types/types";
 import { AudioFieldButtons } from "./audio-field-buttons";
 import styles from "./styles.module.css";
-
-const TEXTAREA_ROWS = 4;
 
 type Properties<TFieldValues extends FieldValues> = Readonly<{
 	audio: ReturnType<typeof useTrueFalseAudio>;
@@ -45,41 +43,26 @@ function LocalizedAudioField<TFieldValues extends FieldValues>({
 	scope,
 }: Properties<TFieldValues>): React.ReactElement {
 	const { t } = useTranslation();
-	const baseId = useId();
 
 	return (
 		<>
 			{AVAILABLE_LANGUAGES.map((lang) => {
-				const id = `${baseId}-${lang}`;
-				const errorId = `${id}-error`;
 				const message = errors?.[lang]?.message;
 				const path = `${fieldName}.${lang}` as FieldPath<TFieldValues>;
+				const error = message ? t(message) : undefined;
 
 				return (
 					<div className={styles["audio-field"]} key={lang}>
 						{multiline ? (
-							<div className={styles["audio-field__group"]}>
-								<label className={styles["audio-field__label"]} htmlFor={id}>
-									{getLabel(lang)}
-									{required && <span className={styles["audio-field__required"]}> *</span>}
-								</label>
-								<textarea
-									aria-invalid={Boolean(message)}
-									className={styles["audio-field__textarea"]}
-									id={id}
-									rows={TEXTAREA_ROWS}
-									{...(message && { "aria-describedby": errorId })}
-									{...register(path)}
-								/>
-								{message && (
-									<span className={styles["audio-field__error"]} id={errorId} role="alert">
-										{t(message)}
-									</span>
-								)}
-							</div>
+							<Textarea
+								error={error}
+								label={getLabel(lang)}
+								required={required}
+								{...register(path)}
+							/>
 						) : (
 							<Input
-								error={message ? t(message) : undefined}
+								error={error}
 								label={getLabel(lang)}
 								required={required}
 								size="sm"
