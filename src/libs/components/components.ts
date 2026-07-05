@@ -19,6 +19,7 @@ export { MainLayout } from "./main-layout/main-layout";
 export { MenuItem } from "./menu-item/menu-item";
 export { Modal } from "./modal/modal";
 export { Navigation } from "./navigation/navigation";
+export { Textarea } from "./textarea/textarea";
 export { TrueFalseLevelCard } from "./true-false-level-card/true-false-level-card";
 export { Trans } from "react-i18next";
 export { Link, NavLink } from "react-router-dom";
