@@ -44,7 +44,9 @@ const useLevelSubmit = <TValues extends LevelFormInput>({
 						: await dispatch(updateLevel({ formData, gameId, levelId })).unwrap();
 
 				toast.success(
-					t(isCreate ? "admin.trueFalse.level.create.success" : "admin.trueFalse.level.edit.success")
+					t(
+						isCreate ? "admin.trueFalse.level.create.success" : "admin.trueFalse.level.edit.success"
+					)
 				);
 				onSuccess?.(level.id);
 			} catch {

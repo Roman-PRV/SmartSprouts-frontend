@@ -1,8 +1,4 @@
-import {
-	type FieldPath,
-	type FieldValues,
-	type UseFormRegister,
-} from "react-hook-form";
+import { type FieldPath, type FieldValues, type UseFormRegister } from "react-hook-form";
 
 import { useCallback, useId, useState, useTranslation } from "~/libs/hooks/hooks";
 import { ALLOWED_IMAGE_TYPES } from "~/libs/validation-schemas/image-file.schema";

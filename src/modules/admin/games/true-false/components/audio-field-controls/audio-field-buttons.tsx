@@ -41,7 +41,7 @@ const AudioFieldButtons: React.FC<Properties> = ({
 
 	return (
 		<div className={styles["audio-buttons"]}>
-			<AudioPlayButton url={isGenerating ? null : status?.url ?? null} />
+			<AudioPlayButton url={isGenerating ? null : (status?.url ?? null)} />
 			<AudioRegenButton
 				label={t("admin.trueFalse.audio.regenerateLabel", { field: fieldLabel, locale })}
 				onRegenerate={handleRegenerate}

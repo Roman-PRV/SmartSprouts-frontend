@@ -1,4 +1,4 @@
-import { APIPath, ContentType, type GameCategory } from "~/libs/enums/enums";
+import { APIPath, type GameCategory } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
@@ -23,25 +23,13 @@ class GamesApi extends BaseHTTPApi {
 		const url = this.getFullEndpoint(GamesApiPath.ROOT, {});
 		const endpoint = category ? `${url}?${new URLSearchParams({ category }).toString()}` : url;
 
-		const response = await this.load(endpoint, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.GET,
-		});
-
-		return await response.json<GameDescriptionDto[]>();
+		return await this.requestJson<GameDescriptionDto[]>(endpoint, { method: HTTPMethod.GET });
 	}
 
 	public async getById(id: string): Promise<GameDescriptionDto> {
 		const url = this.getFullEndpoint(GamesApiPath.$ID, { id });
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.GET,
-		});
-
-		return await response.json<GameDescriptionDto>();
+		return await this.requestJson<GameDescriptionDto>(url, { method: HTTPMethod.GET });
 	}
 
 	public async getLevelsList(id: string): Promise<LevelDescriptionDto[]> {
@@ -49,13 +37,7 @@ class GamesApi extends BaseHTTPApi {
 			id,
 		});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.GET,
-		});
-
-		return await response.json<LevelDescriptionDto[]>();
+		return await this.requestJson<LevelDescriptionDto[]>(url, { method: HTTPMethod.GET });
 	}
 }
 

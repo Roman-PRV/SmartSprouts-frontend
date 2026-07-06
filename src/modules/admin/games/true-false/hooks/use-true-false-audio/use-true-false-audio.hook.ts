@@ -1,12 +1,6 @@
 import { toast } from "sonner";
 
-import {
-	useAppDispatch,
-	useCallback,
-	useEffect,
-	useRef,
-	useTranslation,
-} from "~/libs/hooks/hooks";
+import { useAppDispatch, useCallback, useEffect, useRef, useTranslation } from "~/libs/hooks/hooks";
 import { type Language } from "~/libs/modules/localization/localization";
 
 import {
