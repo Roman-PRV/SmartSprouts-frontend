@@ -1,6 +1,7 @@
-import { createSlice, type SerializedError } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums";
+import { toThunkError } from "~/libs/helpers/helpers";
 import { type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 import { type TrueFalseAdminLevelDto } from "../../libs/types/types";
@@ -14,16 +15,6 @@ import {
 	updateLevel,
 	updateStatement,
 } from "./true-false-admin-actions";
-
-/**
- * Normalizes a rejected-thunk action into the store's error shape: prefer the
- * server-provided payload, else the serialized message, else null.
- */
-const resolveThunkError = (action: {
-	error: SerializedError;
-	payload: null | ThunkErrorPayload | undefined;
-}): null | ThunkErrorPayload =>
-	action.payload ?? (action.error.message ? { message: action.error.message } : null);
 
 type State = {
 	currentLevel: null | TrueFalseAdminLevelDto;
@@ -60,7 +51,7 @@ const { actions, name, reducer } = createSlice({
 			}
 
 			state.listStatus = DataStatus.REJECTED;
-			state.listError = resolveThunkError(action);
+			state.listError = toThunkError(action);
 		});
 
 		builder.addCase(createLevel.fulfilled, (state, action) => {
@@ -86,7 +77,7 @@ const { actions, name, reducer } = createSlice({
 			}
 
 			state.loadStatus = DataStatus.REJECTED;
-			state.levelError = resolveThunkError(action);
+			state.levelError = toThunkError(action);
 		});
 
 		builder.addCase(updateLevel.fulfilled, (state, action) => {

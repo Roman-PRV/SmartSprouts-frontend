@@ -9,4 +9,5 @@ export { isThunkErrorPayload } from "./is-thunk-error-payload/is-thunk-error-pay
 export { normalizeError } from "./normalize-error/normalize-error.helper";
 export { pointInPolygon } from "./point-in-polygon/point-in-polygon.helper";
 export { polygonIoU } from "./polygon-iou/polygon-iou.helper";
+export { toThunkError } from "./to-thunk-error/to-thunk-error.helper";
 export { validateFormData } from "./validation/validation.helper";

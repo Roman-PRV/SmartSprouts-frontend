@@ -8,6 +8,7 @@
 	font-family: var(--font-family);
 	font-weight: 600;
 	white-space: nowrap;
+	text-decoration: none;
 	cursor: pointer;
 	outline: none;
 	border: none;
