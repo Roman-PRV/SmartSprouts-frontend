@@ -1,4 +1,4 @@
-import { APIPath, ContentType } from "~/libs/enums/enums";
+import { APIPath } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
@@ -25,13 +25,7 @@ class ProfileApi extends BaseHTTPApi {
 	public async getProfile(): Promise<UserProfileDto> {
 		const url = this.getFullEndpoint(ProfileApiPath.ROOT, {});
 
-		const response = await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.GET,
-			payload: null,
-		});
-
-		return await response.json<UserProfileDto>();
+		return await this.requestJson<UserProfileDto>(url, { method: HTTPMethod.GET });
 	}
 
 	public async updatePassword(
@@ -39,14 +33,10 @@ class ProfileApi extends BaseHTTPApi {
 	): Promise<UpdatePasswordResponseDto> {
 		const url = this.getFullEndpoint(ProfileApiPath.PASSWORD, {});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
+		return await this.requestJson<UpdatePasswordResponseDto>(url, {
 			method: HTTPMethod.PUT,
-			payload: JSON.stringify(payload),
+			payload,
 		});
-
-		return await response.json<UpdatePasswordResponseDto>();
 	}
 }
 
