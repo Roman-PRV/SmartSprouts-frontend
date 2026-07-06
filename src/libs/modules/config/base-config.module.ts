@@ -1,17 +1,19 @@
+import { z } from "zod";
+
 import { type Config, type EnvironmentSchema } from "./libs/types/types";
 import { environmentValidationSchema } from "./libs/validation-schemas/environment.validation-schema";
 
 class BaseConfig implements Config {
 	public ENV: EnvironmentSchema;
 
-	private get rawEnvironment(): EnvironmentSchema {
+	private get rawEnvironment(): unknown {
 		return {
 			API: {
-				ORIGIN_URL: import.meta.env["VITE_APP_API_ORIGIN_URL"] as string,
-				PROXY_SERVER_URL: import.meta.env["VITE_APP_PROXY_SERVER_URL"] as string,
+				ORIGIN_URL: import.meta.env.VITE_APP_API_ORIGIN_URL,
+				PROXY_SERVER_URL: import.meta.env.VITE_APP_PROXY_SERVER_URL,
 			},
 			APP: {
-				ENVIRONMENT: import.meta.env["VITE_APP_NODE_ENV"] as EnvironmentSchema["APP"]["ENVIRONMENT"],
+				ENVIRONMENT: import.meta.env.VITE_APP_NODE_ENV,
 			},
 		};
 	}
@@ -20,7 +22,7 @@ class BaseConfig implements Config {
 		const result = environmentValidationSchema.safeParse(this.rawEnvironment);
 
 		if (!result.success) {
-			throw new Error(`Invalid environment configuration:\n${result.error.message}`);
+			throw new Error(`Invalid environment configuration:\n${z.prettifyError(result.error)}`);
 		}
 
 		this.ENV = result.data;

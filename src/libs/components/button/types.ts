@@ -63,4 +63,4 @@ type ButtonSize = "lg" | "md" | "sm";
  */
 type ButtonVariant = "danger" | "ghost" | "primary" | "secondary" | "unstyled";
 
-export { type ButtonProperties };
+export { type ButtonProperties, type ButtonSize, type ButtonVariant };

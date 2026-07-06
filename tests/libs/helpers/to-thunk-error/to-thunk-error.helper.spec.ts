@@ -20,6 +20,5 @@ describe("toThunkError", () => {
 
 	it("returns null when neither a payload nor an error message exists", () => {
 		expect(toThunkError({ error: {}, payload: undefined })).toBeNull();
-		expect(toThunkError({ error: {}, payload: null })).toBeNull();
 	});
 });

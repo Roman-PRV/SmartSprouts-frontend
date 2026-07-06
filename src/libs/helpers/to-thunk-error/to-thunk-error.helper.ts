@@ -8,7 +8,7 @@ import { type ThunkErrorPayload } from "~/libs/types/types";
  */
 const toThunkError = (action: {
 	error: SerializedError;
-	payload: null | ThunkErrorPayload | undefined;
+	payload: ThunkErrorPayload | undefined;
 }): null | ThunkErrorPayload =>
 	action.payload ?? (action.error.message ? { message: action.error.message } : null);
 

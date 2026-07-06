@@ -39,7 +39,7 @@ type RenderToggleProperties = {
 	"aria-disabled": boolean;
 	"aria-expanded": boolean;
 	"aria-haspopup": "dialog" | "grid" | "listbox" | "menu" | "tree" | boolean;
-	"aria-label": string;
+	"aria-label": string | undefined;
 	disabled: boolean;
 	id: string;
 	isOpen: boolean;
@@ -276,10 +276,10 @@ const Dropdown = <T extends number | string>({
 
 	const currentSelection = selectedOption?.label ?? placeholder;
 	const toggleAriaLabelText =
-		currentSelection === undefined
-			? (toggleAriaLabel ?? "")
+		toggleAriaLabel === undefined || currentSelection === undefined
+			? (toggleAriaLabel ?? currentSelection)
 			: t("common.dropdown.toggleWithSelection", {
-				label: toggleAriaLabel ?? "",
+				label: toggleAriaLabel,
 				selection: currentSelection,
 			});
 
