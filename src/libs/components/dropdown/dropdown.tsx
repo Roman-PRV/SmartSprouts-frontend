@@ -1,6 +1,14 @@
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { getValidClassNames } from "~/libs/helpers/helpers";
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "~/libs/hooks/hooks";
+import {
+	useCallback,
+	useEffect,
+	useId,
+	useMemo,
+	useRef,
+	useState,
+	useTranslation,
+} from "~/libs/hooks/hooks";
 
 import { DropdownItem } from "./libs/components/dropdown-item/dropdown-item";
 import { type DropdownOption } from "./libs/components/dropdown-item/dropdown-option.type";
@@ -60,13 +68,14 @@ const Dropdown = <T extends number | string>({
 	menuRole = "listbox",
 	onSelect,
 	options,
-	placeholder = "Select option",
+	placeholder,
 	renderToggle,
-	toggleAriaLabel = "Select option",
+	toggleAriaLabel,
 	toggleId: toggleIdProperty,
 	toggleRole = "combobox",
 	value,
 }: Properties<T>): React.ReactElement => {
+	const { t } = useTranslation();
 	const [isOpen, setIsOpen] = useState(false);
 	const [focusedIndex, setFocusedIndex] = useState<number>(INITIAL_FOCUSED_INDEX);
 	const dropdownReference = useRef<HTMLDivElement>(null);
@@ -265,6 +274,15 @@ const Dropdown = <T extends number | string>({
 
 	const ariaHasPopup = ROLE_TO_HAS_POPUP[menuRole as string] ?? true;
 
+	const currentSelection = selectedOption?.label ?? placeholder;
+	const toggleAriaLabelText =
+		currentSelection === undefined
+			? (toggleAriaLabel ?? "")
+			: t("common.dropdown.toggleWithSelection", {
+				label: toggleAriaLabel ?? "",
+				selection: currentSelection,
+			});
+
 	return (
 		<div
 			className={getValidClassNames(
@@ -281,7 +299,7 @@ const Dropdown = <T extends number | string>({
 					"aria-disabled": disabled,
 					"aria-expanded": isOpen,
 					"aria-haspopup": ariaHasPopup,
-					"aria-label": `${toggleAriaLabel}, current: ${selectedOption?.label ?? placeholder}`,
+					"aria-label": toggleAriaLabelText,
 					disabled: disabled,
 					id: toggleId,
 					isOpen: isOpen,
@@ -298,7 +316,7 @@ const Dropdown = <T extends number | string>({
 					aria-disabled={disabled}
 					aria-expanded={isOpen}
 					aria-haspopup={ariaHasPopup}
-					aria-label={`${toggleAriaLabel}, current: ${selectedOption?.label ?? placeholder}`}
+					aria-label={toggleAriaLabelText}
 					className={styles["dropdown__toggle"]}
 					disabled={disabled}
 					id={toggleId}
