@@ -1,18 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ContentType } from "~/libs/enums/enums";
-import { BaseHTTPApi } from "~/libs/modules/api/base-http-api";
+import { BaseHTTPApi, type RequestOptions } from "~/libs/modules/api/base-http-api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { HTTPHeader } from "~/libs/modules/http/libs/enums/http-header.enum";
 import { type Storage } from "~/libs/modules/storage/storage";
-import { type ValueOf } from "~/libs/types/types";
-
-type HelperOptions = {
-	method: ValueOf<typeof HTTPMethod>;
-	payload?: unknown;
-	signal?: AbortSignal;
-};
 
 type LoadOptions = {
 	headers: Headers;
@@ -27,11 +20,11 @@ type MockResponse = {
 };
 
 class TestApi extends BaseHTTPApi {
-	public runJson<T>(path: string, options: HelperOptions): Promise<T> {
+	public runJson<T>(path: string, options: RequestOptions): Promise<T> {
 		return this.requestJson<T>(path, options);
 	}
 
-	public runVoid(path: string, options: HelperOptions): Promise<void> {
+	public runVoid(path: string, options: RequestOptions): Promise<void> {
 		return this.requestVoid(path, options);
 	}
 }
@@ -50,6 +43,14 @@ vi.mock("~/libs/modules/localization/helpers/get-current-locale.helper", () => (
 	getCurrentLocale: vi.fn(() => "mock-lang"),
 }));
 
+const createApi = (): TestApi =>
+	new TestApi({
+		baseUrl: "http://test.com",
+		http: mockHttp as unknown as HTTP,
+		path: "/test",
+		storage: mockStorage as unknown as Storage,
+	});
+
 const getLoadOptions = (): LoadOptions => {
 	const call = mockHttp.load.mock.calls[0];
 
@@ -61,15 +62,10 @@ const getLoadOptions = (): LoadOptions => {
 };
 
 describe("BaseHTTPApi", () => {
-	let api: BaseHTTPApi;
+	let api: TestApi;
 
 	beforeEach(() => {
-		api = new BaseHTTPApi({
-			baseUrl: "http://test.com",
-			http: mockHttp as unknown as HTTP,
-			path: "/test",
-			storage: mockStorage as unknown as Storage,
-		});
+		api = createApi();
 		vi.clearAllMocks();
 	});
 
@@ -84,12 +80,7 @@ describe("BaseHTTPApi request helpers", () => {
 	let api: TestApi;
 
 	beforeEach(() => {
-		api = new TestApi({
-			baseUrl: "http://test.com",
-			http: mockHttp as unknown as HTTP,
-			path: "/test",
-			storage: mockStorage as unknown as Storage,
-		});
+		api = createApi();
 		vi.clearAllMocks();
 	});
 
@@ -113,6 +104,14 @@ describe("BaseHTTPApi request helpers", () => {
 		expect(options.method).toBe(HTTPMethod.GET);
 		expect(options.payload).toBeNull();
 		expect(options.headers.get(HTTPHeader.CONTENT_TYPE)).toBeNull();
+	});
+
+	it("sends the authorization header with the stored token", async () => {
+		mockStorage.get.mockResolvedValueOnce("mock-token");
+
+		await api.runJson("path", { method: HTTPMethod.GET });
+
+		expect(getLoadOptions().headers.get(HTTPHeader.AUTHORIZATION)).toBe("Bearer mock-token");
 	});
 
 	it("requestVoid issues the request without reading a response body", async () => {

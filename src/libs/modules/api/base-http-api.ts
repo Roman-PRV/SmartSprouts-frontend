@@ -174,4 +174,4 @@ class BaseHTTPApi implements HTTPApi {
 	}
 }
 
-export { BaseHTTPApi };
+export { type RequestOptions, BaseHTTPApi };
