@@ -140,7 +140,9 @@ describe("CreateLevelModal", () => {
 			expect(createLevel).toHaveBeenCalledTimes(1);
 		});
 
-		const [, submittedFormData] = createLevel.mock.calls[0] as [string, FormData];
+		const [{ formData: submittedFormData }] = createLevel.mock.calls[0] as [
+			{ formData: FormData; gameId: string; signal?: AbortSignal },
+		];
 		expect(submittedFormData.get("title[uk]")).toBe("UA Title");
 		expect(submittedFormData.get("title[en]")).toBe("EN Title");
 		expect(submittedFormData.get("title[es]")).toBe("ES Title");

@@ -33,7 +33,7 @@ const getLevelsList = createAsyncThunk<FindTheWrongAdminLevelDto[], string, Asyn
 		try {
 			const { findTheWrongAdminApi } = extra;
 
-			return await findTheWrongAdminApi.getLevelsList(gameId, signal);
+			return await findTheWrongAdminApi.getLevelsList({ gameId, signal });
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
@@ -48,7 +48,7 @@ const createLevel = createAsyncThunk<
 	try {
 		const { findTheWrongAdminApi } = extra;
 
-		return await findTheWrongAdminApi.createLevel(gameId, formData, signal);
+		return await findTheWrongAdminApi.createLevel({ formData, gameId, signal });
 	} catch (error: unknown) {
 		return rejectWithValue(normalizeError(error));
 	}
@@ -60,7 +60,7 @@ const deleteLevel = createAsyncThunk<number, DeleteLevelArgument, AsyncThunkConf
 		try {
 			const { findTheWrongAdminApi } = extra;
 
-			await findTheWrongAdminApi.deleteLevel(gameId, levelId, signal);
+			await findTheWrongAdminApi.deleteLevel({ gameId, levelId, signal });
 
 			return levelId;
 		} catch (error: unknown) {
@@ -75,7 +75,7 @@ const getLevel = createAsyncThunk<FindTheWrongAdminLevelDto, GetLevelArgument, A
 		try {
 			const { findTheWrongAdminApi } = extra;
 
-			return await findTheWrongAdminApi.getLevel(gameId, levelId, signal);
+			return await findTheWrongAdminApi.getLevel({ gameId, levelId, signal });
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
@@ -131,7 +131,7 @@ const deleteItem = createAsyncThunk<number, DeleteItemArgument, AsyncThunkConfig
 		try {
 			const { findTheWrongAdminApi } = extra;
 
-			await findTheWrongAdminApi.deleteItem(gameId, itemId, signal);
+			await findTheWrongAdminApi.deleteItem({ gameId, itemId, signal });
 
 			return itemId;
 		} catch (error: unknown) {
