@@ -14,6 +14,12 @@ type Constructor = {
 	storage: Storage;
 };
 
+type RequestOptions = {
+	method: HTTPApiOptions["method"];
+	payload?: unknown;
+	signal?: AbortSignal | undefined;
+};
+
 class BaseHTTPApi implements HTTPApi {
 	private baseUrl: string;
 
@@ -56,6 +62,30 @@ class BaseHTTPApi implements HTTPApi {
 		const options = copiedParameters.pop() as T;
 
 		return configureString(this.baseUrl, this.path, ...(copiedParameters as string[]), options);
+	}
+
+	/** Authenticated JSON request that parses and returns the response body as `T`. */
+	protected async requestJson<T>(path: string, options: RequestOptions): Promise<T> {
+		const response = await this.load(path, this.buildJsonLoadOptions(options));
+
+		return await response.json<T>();
+	}
+
+	/** Authenticated JSON request with no response body to read (e.g. DELETE, fire-and-forget POST). */
+	protected async requestVoid(path: string, options: RequestOptions): Promise<void> {
+		await this.load(path, this.buildJsonLoadOptions(options));
+	}
+
+	private buildJsonLoadOptions({ method, payload, signal }: RequestOptions): HTTPApiOptions {
+		return {
+			hasAuth: true,
+			method,
+			...(payload !== undefined && {
+				contentType: ContentType.JSON,
+				payload: JSON.stringify(payload),
+			}),
+			...(signal && { signal }),
+		};
 	}
 
 	private async checkResponse(response: Response): Promise<Response> {

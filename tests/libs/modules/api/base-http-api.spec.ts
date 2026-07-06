@@ -1,13 +1,45 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { ContentType } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/base-http-api";
+import { type HTTP } from "~/libs/modules/http/http";
+import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { HTTPHeader } from "~/libs/modules/http/libs/enums/http-header.enum";
+import { type Storage } from "~/libs/modules/storage/storage";
+import { type ValueOf } from "~/libs/types/types";
+
+type HelperOptions = {
+	method: ValueOf<typeof HTTPMethod>;
+	payload?: unknown;
+	signal?: AbortSignal;
+};
+
+type LoadOptions = {
+	headers: Headers;
+	method: string;
+	payload: unknown;
+	signal?: AbortSignal;
+};
+
+type MockResponse = {
+	json: () => Promise<unknown>;
+	ok: boolean;
+};
+
+class TestApi extends BaseHTTPApi {
+	public runJson<T>(path: string, options: HelperOptions): Promise<T> {
+		return this.requestJson<T>(path, options);
+	}
+
+	public runVoid(path: string, options: HelperOptions): Promise<void> {
+		return this.requestVoid(path, options);
+	}
+}
 
 const mockHttp = {
-	load: vi.fn().mockResolvedValue({
-		json: async () => ({}),
-		ok: true,
-	}),
+	load: vi.fn<(path: string, options: LoadOptions) => Promise<MockResponse>>(() =>
+		Promise.resolve({ json: () => Promise.resolve({}), ok: true })
+	),
 };
 
 const mockStorage = {
@@ -18,38 +50,90 @@ vi.mock("~/libs/modules/localization/helpers/get-current-locale.helper", () => (
 	getCurrentLocale: vi.fn(() => "mock-lang"),
 }));
 
+const getLoadOptions = (): LoadOptions => {
+	const call = mockHttp.load.mock.calls[0];
+
+	if (!call) {
+		throw new Error("Expected http.load to be called");
+	}
+
+	return call[1];
+};
+
 describe("BaseHTTPApi", () => {
 	let api: BaseHTTPApi;
 
 	beforeEach(() => {
 		api = new BaseHTTPApi({
 			baseUrl: "http://test.com",
-			http: mockHttp as any,
+			http: mockHttp as unknown as HTTP,
 			path: "/test",
-			storage: mockStorage as any,
+			storage: mockStorage as unknown as Storage,
 		});
 		vi.clearAllMocks();
 	});
 
-	it("should include accept-language header in requests", async () => {
-		await api.load("path", { hasAuth: false, method: "GET" });
+	it("includes the accept-language header in requests", async () => {
+		await api.load("path", { hasAuth: false, method: HTTPMethod.GET });
 
-		expect(mockHttp.load).toHaveBeenCalledWith(
-			expect.anything(),
-			expect.objectContaining({
-				headers: expect.any(Headers),
-			})
-		);
+		expect(getLoadOptions().headers.get(HTTPHeader.ACCEPT_LANGUAGE)).toBe("mock-lang");
+	});
+});
 
-		const callArgs = mockHttp.load.mock.calls[0];
+describe("BaseHTTPApi request helpers", () => {
+	let api: TestApi;
 
-		if (!callArgs) {
-			throw new Error("Expected http.load to be called");
-		}
+	beforeEach(() => {
+		api = new TestApi({
+			baseUrl: "http://test.com",
+			http: mockHttp as unknown as HTTP,
+			path: "/test",
+			storage: mockStorage as unknown as Storage,
+		});
+		vi.clearAllMocks();
+	});
 
-		const options = callArgs[1];
-		const headers = options.headers as Headers;
+	it("requestJson sends a JSON content-type + stringified payload and returns the parsed body", async () => {
+		mockHttp.load.mockResolvedValueOnce({ json: () => Promise.resolve({ id: 1 }), ok: true });
 
-		expect(headers.get(HTTPHeader.ACCEPT_LANGUAGE)).toBe("mock-lang");
+		const result = await api.runJson("path", { method: HTTPMethod.POST, payload: { text: "hi" } });
+
+		expect(result).toEqual({ id: 1 });
+
+		const options = getLoadOptions();
+		expect(options.method).toBe(HTTPMethod.POST);
+		expect(options.payload).toBe(JSON.stringify({ text: "hi" }));
+		expect(options.headers.get(HTTPHeader.CONTENT_TYPE)).toBe(ContentType.JSON);
+	});
+
+	it("requestJson without a payload sends no content-type and no body (GET)", async () => {
+		await api.runJson("path", { method: HTTPMethod.GET });
+
+		const options = getLoadOptions();
+		expect(options.method).toBe(HTTPMethod.GET);
+		expect(options.payload).toBeNull();
+		expect(options.headers.get(HTTPHeader.CONTENT_TYPE)).toBeNull();
+	});
+
+	it("requestVoid issues the request without reading a response body", async () => {
+		const jsonReader = vi.fn(() => Promise.resolve({}));
+		mockHttp.load.mockResolvedValueOnce({ json: jsonReader, ok: true });
+
+		await api.runVoid("path", { method: HTTPMethod.DELETE });
+
+		expect(getLoadOptions().method).toBe(HTTPMethod.DELETE);
+		expect(jsonReader).not.toHaveBeenCalled();
+	});
+
+	it("forwards the abort signal only when one is provided", async () => {
+		const signal = new AbortController().signal;
+
+		await api.runVoid("path", { method: HTTPMethod.DELETE, signal });
+		expect(getLoadOptions().signal).toBe(signal);
+
+		vi.clearAllMocks();
+
+		await api.runVoid("path", { method: HTTPMethod.DELETE });
+		expect(getLoadOptions()).not.toHaveProperty("signal");
 	});
 });

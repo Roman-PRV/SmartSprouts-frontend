@@ -1,4 +1,4 @@
-import { APIPath, ContentType } from "~/libs/enums/enums";
+import { APIPath } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
@@ -122,15 +122,11 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
+		return await this.requestJson<TrueFalseAdminStatementDto>(url, {
 			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
-			...(signal && { signal }),
+			payload,
+			signal,
 		});
-
-		return await response.json<TrueFalseAdminStatementDto>();
 	}
 
 	public async deleteLevel({ gameId, levelId, signal }: DeleteLevelArguments): Promise<void> {
@@ -139,11 +135,7 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.DELETE,
-			...(signal && { signal }),
-		});
+		await this.requestVoid(url, { method: HTTPMethod.DELETE, signal });
 	}
 
 	public async deleteStatement({
@@ -156,11 +148,7 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			statementId: String(statementId),
 		});
 
-		await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.DELETE,
-			...(signal && { signal }),
-		});
+		await this.requestVoid(url, { method: HTTPMethod.DELETE, signal });
 	}
 
 	public async getLevel({
@@ -173,13 +161,7 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		const response = await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.GET,
-			...(signal && { signal }),
-		});
-
-		return await response.json<TrueFalseAdminLevelDto>();
+		return await this.requestJson<TrueFalseAdminLevelDto>(url, { method: HTTPMethod.GET, signal });
 	}
 
 	public async getLevelsList({
@@ -188,13 +170,7 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 	}: GetLevelsListArguments): Promise<TrueFalseAdminLevelDto[]> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
-		const response = await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.GET,
-			...(signal && { signal }),
-		});
-
-		return await response.json<TrueFalseAdminLevelDto[]>();
+		return await this.requestJson<TrueFalseAdminLevelDto[]>(url, { method: HTTPMethod.GET, signal });
 	}
 
 	public async regenerateLevelAudio({
@@ -208,13 +184,7 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
-			...(signal && { signal }),
-		});
+		await this.requestVoid(url, { method: HTTPMethod.POST, payload, signal });
 	}
 
 	public async regenerateStatementAudio({
@@ -228,13 +198,7 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			statementId: String(statementId),
 		});
 
-		await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
-			...(signal && { signal }),
-		});
+		await this.requestVoid(url, { method: HTTPMethod.POST, payload, signal });
 	}
 
 	public async updateLevel({
@@ -269,15 +233,11 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			statementId: String(statementId),
 		});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
+		return await this.requestJson<TrueFalseAdminStatementDto>(url, {
 			method: HTTPMethod.PATCH,
-			payload: JSON.stringify(payload),
-			...(signal && { signal }),
+			payload,
+			signal,
 		});
-
-		return await response.json<TrueFalseAdminStatementDto>();
 	}
 }
 
