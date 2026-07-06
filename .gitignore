@@ -19,6 +19,9 @@ CLAUDE.md
 .claude
 *.local
 
+# Python virtualenv (tooling; must never be committed to this JS repo)
+.venv
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

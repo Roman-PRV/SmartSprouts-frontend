@@ -489,12 +489,12 @@ describe("Navigation", () => {
 			expect(gamesOption).toBeInTheDocument();
 		});
 
-		it("displays default placeholder in mobile menu for unknown routes", () => {
+		it("omits the current-selection suffix in the mobile menu for unknown routes", () => {
 			const unknownPath = "/unknown";
 			renderWithProvider({}, [unknownPath]);
 
 			const burgerButton = screen.getByRole("button", {
-				name: new RegExp("current: Select option"),
+				name: i18n.t("common.navigation.toggleMenu"),
 			});
 
 			expect(burgerButton).toBeInTheDocument();
@@ -504,10 +504,10 @@ describe("Navigation", () => {
 			const partialMatchPath = "/gamesabc";
 			renderWithProvider({}, [partialMatchPath]);
 
-			// Since /gamesabc doesn't match /games or any other route exactly or as a sub-path, 
-			// it should fall back to the placeholder
+			// /gamesabc matches no route exactly or as a sub-path, so no option is active and
+			// the toggle announces just its label with no "current: …" suffix.
 			const burgerButton = screen.getByRole("button", {
-				name: new RegExp("current: Select option"),
+				name: i18n.t("common.navigation.toggleMenu"),
 			});
 
 			expect(burgerButton).toBeInTheDocument();

@@ -7,6 +7,9 @@ const common = {
 		playNow: "Грати зараз",
 		register: "Зареєструватися безкоштовно",
 	},
+	dropdown: {
+		toggleWithSelection: "{{label}}, поточний: {{selection}}",
+	},
 	footer: {
 		// Add footer translations here
 	},

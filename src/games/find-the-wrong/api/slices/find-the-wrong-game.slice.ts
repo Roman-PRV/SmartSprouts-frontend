@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums";
+import { toThunkError } from "~/libs/helpers/helpers";
 import { type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 import { type FindTheWrongLevelDto } from "../../libs/types/find-the-wrong-level-dto.type";
@@ -31,8 +32,7 @@ const { actions, name, reducer } = createSlice({
 		});
 		builder.addCase(getLevelById.rejected, (state, action) => {
 			state.currentStatus = DataStatus.REJECTED;
-			state.error =
-				action.payload ?? (action.error.message ? { message: action.error.message } : null);
+			state.error = toThunkError(action);
 		});
 	},
 	initialState,

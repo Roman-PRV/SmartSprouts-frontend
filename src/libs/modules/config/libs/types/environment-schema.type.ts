@@ -1,14 +1,7 @@
-import { type AppEnvironment } from "~/libs/enums/enums";
-import { type ValueOf } from "~/libs/types/types";
+import { type z } from "zod";
 
-type EnvironmentSchema = {
-	API: {
-		ORIGIN_URL: string;
-		PROXY_SERVER_URL: string;
-	};
-	APP: {
-		ENVIRONMENT: ValueOf<typeof AppEnvironment>;
-	};
-};
+import { type environmentValidationSchema } from "../validation-schemas/environment.validation-schema";
+
+type EnvironmentSchema = z.infer<typeof environmentValidationSchema>;
 
 export { type EnvironmentSchema };

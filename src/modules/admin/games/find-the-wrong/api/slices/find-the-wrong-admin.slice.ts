@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums";
+import { toThunkError } from "~/libs/helpers/helpers";
 import { type Point, type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 import { type FindTheWrongAdminLevelDto } from "../../libs/types/types";
@@ -52,8 +53,7 @@ const { actions, name, reducer } = createSlice({
 			}
 
 			state.listStatus = DataStatus.REJECTED;
-			state.listError =
-				action.payload ?? (action.error.message ? { message: action.error.message } : null);
+			state.listError = toThunkError(action);
 		});
 
 		builder.addCase(createLevel.fulfilled, (state, action) => {
@@ -79,8 +79,7 @@ const { actions, name, reducer } = createSlice({
 			}
 
 			state.loadStatus = DataStatus.REJECTED;
-			state.levelError =
-				action.payload ?? (action.error.message ? { message: action.error.message } : null);
+			state.levelError = toThunkError(action);
 		});
 
 		builder.addCase(updateLevel.fulfilled, (state, action) => {
