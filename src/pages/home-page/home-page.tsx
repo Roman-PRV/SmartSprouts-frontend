@@ -1,4 +1,4 @@
-import { Button, Link, Trans } from "~/libs/components/components";
+import { ButtonLink, Link, Trans } from "~/libs/components/components";
 import { GAME_CATEGORY_META, GAME_CATEGORY_ORDER } from "~/libs/constants/constants";
 import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
@@ -32,19 +32,25 @@ const HomePage: React.FC = () => {
 					<h1 className={styles["hero-section__title"]}>{t("home.hero.title")}</h1>
 					<p className={styles["hero-section__description"]}>{t("home.hero.description")}</p>
 					<div className={styles["hero-section__actions"]}>
-						<Link to={AppRoute.GAMES}>
-							<Button iconLeft="arrowRight" size="lg">
-								{t("common.button.playNow")}
-							</Button>
-						</Link>
+						<ButtonLink iconLeft="arrowRight" size="lg" to={AppRoute.GAMES}>
+							{t("common.button.playNow")}
+						</ButtonLink>
 
 						{!isAuthenticated && (
 							<p className={styles["hero-section__auth-prompt"]}>
 								<Trans
 									components={[
 										<br key="0" />,
-										<Link className={styles["hero-section__auth-link"]} key="1" to="/login" />,
-										<Link className={styles["hero-section__auth-link"]} key="2" to="/register" />,
+										<Link
+											className={styles["hero-section__auth-link"]}
+											key="1"
+											to={AppRoute.LOGIN}
+										/>,
+										<Link
+											className={styles["hero-section__auth-link"]}
+											key="2"
+											to={AppRoute.REGISTER}
+										/>,
 									]}
 									i18nKey="home.hero.actions.authPrompt"
 								>
@@ -163,9 +169,9 @@ const HomePage: React.FC = () => {
 					<h2 className={styles["cta-section__title"]}>{t("home.cta.title")}</h2>
 					<p className={styles["cta-section__description"]}>{t("home.cta.description")}</p>
 					{!isAuthenticated && (
-						<Link to={AppRoute.REGISTER}>
-							<Button size="lg">{t("common.button.register")}</Button>
-						</Link>
+						<ButtonLink size="lg" to={AppRoute.REGISTER}>
+							{t("common.button.register")}
+						</ButtonLink>
 					)}
 				</div>
 			</section>

@@ -1,5 +1,6 @@
 export { ArithmeticLevelCard } from "./arithmetic-level-card/arithmetic-level-card";
 export { AudioPlayButton } from "./audio-play-button/audio-play-button";
+export { ButtonLink } from "./button-link/button-link";
 export { Button } from "./button/button";
 export { Dropdown } from "./dropdown/dropdown";
 export { FallbackImage } from "./fallback-image/fallback-image";
