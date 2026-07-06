@@ -101,14 +101,11 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 	}: CreateLevelArguments): Promise<TrueFalseAdminLevelDto> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestFormData<TrueFalseAdminLevelDto>(url, {
+			formData,
 			method: HTTPMethod.POST,
-			payload: formData,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<TrueFalseAdminLevelDto>();
 	}
 
 	public async createStatement({
@@ -212,14 +209,11 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestFormData<TrueFalseAdminLevelDto>(url, {
+			formData,
 			method: HTTPMethod.POST,
-			payload: formData,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<TrueFalseAdminLevelDto>();
 	}
 
 	public async updateStatement({

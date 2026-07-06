@@ -99,14 +99,11 @@ class FindTheWrongAdminApi extends BaseHTTPApi {
 	}: CreateLevelArguments): Promise<FindTheWrongAdminLevelDto> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestFormData<FindTheWrongAdminLevelDto>(url, {
+			formData,
 			method: HTTPMethod.POST,
-			payload: formData,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminLevelDto>();
 	}
 
 	public async deleteItem({ gameId, itemId, signal }: DeleteItemArguments): Promise<void> {
@@ -184,14 +181,11 @@ class FindTheWrongAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestFormData<FindTheWrongAdminLevelDto>(url, {
+			formData,
 			method: HTTPMethod.POST,
-			payload: formData,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminLevelDto>();
 	}
 }
 

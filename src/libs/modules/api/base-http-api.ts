@@ -14,6 +14,12 @@ type Constructor = {
 	storage: Storage;
 };
 
+type FormDataRequestOptions = {
+	formData: FormData;
+	method: HTTPApiOptions["method"];
+	signal?: AbortSignal | undefined;
+};
+
 type RequestOptions = {
 	method: HTTPApiOptions["method"];
 	payload?: unknown;
@@ -62,6 +68,21 @@ class BaseHTTPApi implements HTTPApi {
 		const options = copiedParameters.pop() as T;
 
 		return configureString(this.baseUrl, this.path, ...(copiedParameters as string[]), options);
+	}
+
+	/** Authenticated multipart (FormData) request that parses and returns the response body as `T`. */
+	protected async requestFormData<T>(
+		path: string,
+		{ formData, method, signal }: FormDataRequestOptions
+	): Promise<T> {
+		const response = await this.load(path, {
+			hasAuth: true,
+			method,
+			payload: formData,
+			...(signal && { signal }),
+		});
+
+		return await response.json<T>();
 	}
 
 	/** Authenticated JSON request that parses and returns the response body as `T`. */
