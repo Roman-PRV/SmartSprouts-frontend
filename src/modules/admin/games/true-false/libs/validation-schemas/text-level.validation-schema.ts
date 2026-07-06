@@ -25,8 +25,4 @@ const textLevelValidationSchema = z.object({
 type TextLevelFormInput = z.input<typeof textLevelValidationSchema>;
 type TextLevelFormValues = z.output<typeof textLevelValidationSchema>;
 
-export {
-	type TextLevelFormInput,
-	type TextLevelFormValues,
-	textLevelValidationSchema,
-};
+export { type TextLevelFormInput, type TextLevelFormValues, textLevelValidationSchema };

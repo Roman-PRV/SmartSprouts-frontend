@@ -1,4 +1,4 @@
-import { APIPath, ContentType } from "~/libs/enums/enums";
+import { APIPath } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
@@ -34,13 +34,7 @@ class TrueFalseGameApi extends BaseHTTPApi {
 			{ gameId, levelId }
 		);
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.GET,
-		});
-
-		return await response.json<TrueFalseGameLevelDto>();
+		return await this.requestJson<TrueFalseGameLevelDto>(url, { method: HTTPMethod.GET });
 	}
 
 	/**
@@ -59,14 +53,10 @@ class TrueFalseGameApi extends BaseHTTPApi {
 			{ gameId, levelId }
 		);
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
+		return await this.requestJson<TrueFalseGameAttemptResponseDto>(url, {
 			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
+			payload,
 		});
-
-		return await response.json<TrueFalseGameAttemptResponseDto>();
 	}
 }
 

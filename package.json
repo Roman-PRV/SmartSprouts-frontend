@@ -10,7 +10,7 @@
 		"lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
 		"lint:ci": "eslint \"src/**/*.{ts,tsx}\"",
 		"stylelint:ci": "stylelint \"src/**/*.css\"",
-		"format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
+		"format": "prettier --write \"src/**/*.{css,md}\"",
 		"typecheck": "tsc --noEmit",
 		"check-config": "npm run lint && npm run typecheck",
 		"test": "vitest",
