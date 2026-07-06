@@ -8,6 +8,7 @@ import { HTTPHeader } from "~/libs/modules/http/libs/enums/http-header.enum";
 import { type Storage } from "~/libs/modules/storage/storage";
 
 type LoadOptions = {
+	credentials?: string;
 	headers: Headers;
 	method: string;
 	payload: unknown;
@@ -112,6 +113,20 @@ describe("BaseHTTPApi request helpers", () => {
 		await api.runJson("path", { method: HTTPMethod.GET });
 
 		expect(getLoadOptions().headers.get(HTTPHeader.AUTHORIZATION)).toBe("Bearer mock-token");
+	});
+
+	it("omits the authorization header when hasAuth is false", async () => {
+		mockStorage.get.mockResolvedValueOnce("mock-token");
+
+		await api.runJson("path", { hasAuth: false, method: HTTPMethod.GET });
+
+		expect(getLoadOptions().headers.get(HTTPHeader.AUTHORIZATION)).toBeNull();
+	});
+
+	it("forwards credentials when provided", async () => {
+		await api.runJson("path", { credentials: "include", method: HTTPMethod.GET });
+
+		expect(getLoadOptions().credentials).toBe("include");
 	});
 
 	it("requestVoid issues the request without reading a response body", async () => {

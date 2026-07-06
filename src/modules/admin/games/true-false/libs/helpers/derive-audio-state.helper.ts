@@ -12,10 +12,7 @@ type AudioState = "fresh" | "generating" | "missing" | "stale";
  * null url means the audio was never produced (e.g. a failed TTS job) and must
  * stay regeneratable — treating `undefined` as fresh would strand the admin.
  */
-const deriveAudioState = (
-	status: AudioStatus | undefined,
-	isGenerating: boolean
-): AudioState => {
+const deriveAudioState = (status: AudioStatus | undefined, isGenerating: boolean): AudioState => {
 	if (isGenerating) {
 		return "generating";
 	}

@@ -167,7 +167,10 @@ class TrueFalseAdminApi extends BaseHTTPApi {
 	}: GetLevelsListArguments): Promise<TrueFalseAdminLevelDto[]> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
-		return await this.requestJson<TrueFalseAdminLevelDto[]>(url, { method: HTTPMethod.GET, signal });
+		return await this.requestJson<TrueFalseAdminLevelDto[]>(url, {
+			method: HTTPMethod.GET,
+			signal,
+		});
 	}
 
 	public async regenerateLevelAudio({

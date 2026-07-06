@@ -21,6 +21,8 @@ type FormDataRequestOptions = {
 };
 
 type RequestOptions = {
+	credentials?: HTTPApiOptions["credentials"];
+	hasAuth?: boolean;
 	method: HTTPApiOptions["method"];
 	payload?: unknown;
 	signal?: AbortSignal | undefined;
@@ -97,10 +99,17 @@ class BaseHTTPApi implements HTTPApi {
 		await this.load(path, this.buildJsonLoadOptions(options));
 	}
 
-	private buildJsonLoadOptions({ method, payload, signal }: RequestOptions): HTTPApiOptions {
+	private buildJsonLoadOptions({
+		credentials,
+		hasAuth = true,
+		method,
+		payload,
+		signal,
+	}: RequestOptions): HTTPApiOptions {
 		return {
-			hasAuth: true,
+			hasAuth,
 			method,
+			...(credentials && { credentials }),
 			...(payload !== undefined && {
 				contentType: ContentType.JSON,
 				payload: JSON.stringify(payload),
