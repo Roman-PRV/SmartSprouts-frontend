@@ -46,7 +46,6 @@ const config = ({ mode }: ConfigEnv) => {
 			env: {
 				VITE_APP_API_ORIGIN_URL: "http://localhost:3000/api",
 				VITE_APP_NODE_ENV: "local",
-				VITE_APP_PROXY_SERVER_URL: "http://localhost:3002",
 			},
 		},
 	});

@@ -10,7 +10,6 @@ class BaseConfig implements Config {
 		return {
 			API: {
 				ORIGIN_URL: import.meta.env.VITE_APP_API_ORIGIN_URL,
-				PROXY_SERVER_URL: import.meta.env.VITE_APP_PROXY_SERVER_URL,
 			},
 			APP: {
 				ENVIRONMENT: import.meta.env.VITE_APP_NODE_ENV,
