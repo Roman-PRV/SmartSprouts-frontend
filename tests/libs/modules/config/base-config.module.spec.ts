@@ -6,7 +6,6 @@ const stubEnvironment = (overrides: Record<string, string>): void => {
 	const defaults = {
 		VITE_APP_API_ORIGIN_URL: "https://api.example.com",
 		VITE_APP_NODE_ENV: "production",
-		VITE_APP_PROXY_SERVER_URL: "https://proxy.example.com",
 		...overrides,
 	};
 
@@ -26,8 +25,14 @@ describe("BaseConfig", () => {
 		const config = new BaseConfig();
 
 		expect(config.ENV.API.ORIGIN_URL).toBe("https://api.example.com");
-		expect(config.ENV.API.PROXY_SERVER_URL).toBe("https://proxy.example.com");
 		expect(config.ENV.APP.ENVIRONMENT).toBe("production");
+	});
+
+	it("does not require the dev-only proxy variable (absent in production builds)", () => {
+		stubEnvironment({});
+		vi.stubEnv("VITE_APP_PROXY_SERVER_URL", "");
+
+		expect(() => new BaseConfig()).not.toThrow();
 	});
 
 	it("throws when a required variable is empty", () => {
