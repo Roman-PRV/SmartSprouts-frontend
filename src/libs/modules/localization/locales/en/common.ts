@@ -7,6 +7,9 @@ const common = {
 		playNow: "Play Now",
 		register: "Register Free",
 	},
+	dropdown: {
+		toggleWithSelection: "{{label}}, current: {{selection}}",
+	},
 	footer: {
 		// Add footer translations here
 	},
@@ -19,6 +22,7 @@ const common = {
 		},
 	},
 	navigation: {
+		adminPanel: "Admin panel",
 		games: "Games",
 		home: "Home",
 		logout: "Logout",

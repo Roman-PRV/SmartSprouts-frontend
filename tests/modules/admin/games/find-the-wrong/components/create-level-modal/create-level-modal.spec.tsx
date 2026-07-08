@@ -71,19 +71,19 @@ const setup = (createdLevel?: FindTheWrongAdminLevelDto): Setup => {
 const fillTitles = async (user: ReturnType<typeof userEvent.setup>): Promise<void> => {
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.uk.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.uk"))
 		),
 		"UA Title"
 	);
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.en.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.en"))
 		),
 		"EN Title"
 	);
 	await user.type(
 		screen.getByLabelText(
-			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.es.label"))
+			getLabelWithAsterisk(i18n.t("admin.findTheWrong.create.fields.title.es"))
 		),
 		"ES Title"
 	);
@@ -140,7 +140,9 @@ describe("CreateLevelModal", () => {
 			expect(createLevel).toHaveBeenCalledTimes(1);
 		});
 
-		const [, submittedFormData] = createLevel.mock.calls[0] as [string, FormData];
+		const [{ formData: submittedFormData }] = createLevel.mock.calls[0] as [
+			{ formData: FormData; gameId: string; signal?: AbortSignal },
+		];
 		expect(submittedFormData.get("title[uk]")).toBe("UA Title");
 		expect(submittedFormData.get("title[en]")).toBe("EN Title");
 		expect(submittedFormData.get("title[es]")).toBe("ES Title");

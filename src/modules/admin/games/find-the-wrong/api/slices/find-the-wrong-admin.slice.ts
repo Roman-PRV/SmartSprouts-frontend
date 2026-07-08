@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { DataStatus } from "~/libs/enums/enums";
+import { toThunkError } from "~/libs/helpers/helpers";
 import { type Point, type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 import { type FindTheWrongAdminLevelDto } from "../../libs/types/types";
@@ -52,8 +53,7 @@ const { actions, name, reducer } = createSlice({
 			}
 
 			state.listStatus = DataStatus.REJECTED;
-			state.listError =
-				action.payload ?? (action.error.message ? { message: action.error.message } : null);
+			state.listError = toThunkError(action);
 		});
 
 		builder.addCase(createLevel.fulfilled, (state, action) => {
@@ -79,8 +79,7 @@ const { actions, name, reducer } = createSlice({
 			}
 
 			state.loadStatus = DataStatus.REJECTED;
-			state.levelError =
-				action.payload ?? (action.error.message ? { message: action.error.message } : null);
+			state.levelError = toThunkError(action);
 		});
 
 		builder.addCase(updateLevel.fulfilled, (state, action) => {
@@ -154,18 +153,13 @@ const { actions, name, reducer } = createSlice({
 		 * where future Undo (FE-06) will snapshot history; this reducer is the
 		 * downstream mutation, not the boundary itself.
 		 */
-		setItemPolygon: (
-			state,
-			action: PayloadAction<{ itemId: number; polygon: Point[] }>
-		) => {
+		setItemPolygon: (state, action: PayloadAction<{ itemId: number; polygon: Point[] }>) => {
 			if (!state.currentLevel?.items) {
 				return;
 			}
 
 			state.currentLevel.items = state.currentLevel.items.map((item) =>
-				item.id === action.payload.itemId
-					? { ...item, polygon: action.payload.polygon }
-					: item
+				item.id === action.payload.itemId ? { ...item, polygon: action.payload.polygon } : item
 			);
 		},
 	},

@@ -65,7 +65,7 @@ const useTrueFalseGame = ({
 			}));
 
 			const result = await dispatch(
-				trueFalseGameActions.checkAnswers({
+				trueFalseGameActions.submitAttempt({
 					gameId: game.id,
 					levelId: String(levelId),
 					payload: {

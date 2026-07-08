@@ -70,6 +70,40 @@ describe("GamesApi.getAll", () => {
 		expect(result).toEqual(games);
 	});
 
+	it("appends ?category= when a category is provided", async () => {
+		http.load.mockResolvedValueOnce(makeResponse([makeGame("1")]));
+
+		const api = new GamesApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		await api.getAll("math");
+
+		expect(http.load).toHaveBeenCalledWith(
+			`${baseUrl}/games/?category=math`,
+			expect.objectContaining({ method: "GET" })
+		);
+	});
+
+	it("omits the query string when no category is provided", async () => {
+		http.load.mockResolvedValueOnce(makeResponse([]));
+
+		const api = new GamesApi({
+			baseUrl,
+			http: http as unknown as HTTP,
+			storage: storage as unknown as Storage,
+		});
+
+		await api.getAll();
+
+		expect(http.load).toHaveBeenCalledWith(
+			`${baseUrl}/games/`,
+			expect.objectContaining({ method: "GET" })
+		);
+	});
+
 	it("propagates network/http errors from http.load", async () => {
 		const error = new Error("network failed");
 

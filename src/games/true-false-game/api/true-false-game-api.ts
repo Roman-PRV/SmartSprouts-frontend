@@ -1,4 +1,4 @@
-import { APIPath, ContentType } from "~/libs/enums/enums";
+import { APIPath } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
@@ -6,7 +6,7 @@ import { type Storage } from "~/libs/modules/storage/storage";
 
 import type {
 	TrueFalseGameAnswerRequestDto,
-	TrueFalseGameCheckResponseDto,
+	TrueFalseGameAttemptResponseDto,
 	TrueFalseGameLevelDto,
 } from "../libs/types/types";
 
@@ -24,34 +24,6 @@ class TrueFalseGameApi extends BaseHTTPApi {
 	}
 
 	/**
-	 * POST /games/{gameId}/levels/{levelId}/check
-	 */
-	public async checkAnswers(
-		gameId: string,
-		levelId: string,
-		payload: TrueFalseGameAnswerRequestDto
-	): Promise<TrueFalseGameCheckResponseDto> {
-		const url = this.getFullEndpoint(
-			TrueFalseGameApiPath.$GAME_ID,
-			TrueFalseGameApiPath.LEVELS,
-			TrueFalseGameApiPath.$LEVEL_ID,
-			TrueFalseGameApiPath.CHECK,
-			{ gameId, levelId }
-		);
-
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
-		});
-
-		const data = await response.json<TrueFalseGameCheckResponseDto>();
-
-		return data;
-	}
-
-	/**
 	 * GET /games/{gameId}/levels/{levelId}
 	 */
 	public async getLevelById(gameId: string, levelId: string): Promise<TrueFalseGameLevelDto> {
@@ -62,13 +34,29 @@ class TrueFalseGameApi extends BaseHTTPApi {
 			{ gameId, levelId }
 		);
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
-			method: HTTPMethod.GET,
-		});
+		return await this.requestJson<TrueFalseGameLevelDto>(url, { method: HTTPMethod.GET });
+	}
 
-		return await response.json<TrueFalseGameLevelDto>();
+	/**
+	 * POST /games/{gameId}/levels/{levelId}/attempts
+	 */
+	public async submitAttempt(
+		gameId: string,
+		levelId: string,
+		payload: TrueFalseGameAnswerRequestDto
+	): Promise<TrueFalseGameAttemptResponseDto> {
+		const url = this.getFullEndpoint(
+			TrueFalseGameApiPath.$GAME_ID,
+			TrueFalseGameApiPath.LEVELS,
+			TrueFalseGameApiPath.$LEVEL_ID,
+			TrueFalseGameApiPath.ATTEMPTS,
+			{ gameId, levelId }
+		);
+
+		return await this.requestJson<TrueFalseGameAttemptResponseDto>(url, {
+			method: HTTPMethod.POST,
+			payload,
+		});
 	}
 }
 

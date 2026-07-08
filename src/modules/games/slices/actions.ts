@@ -1,26 +1,29 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+import { type GameCategory } from "~/libs/enums/enums";
 import { normalizeError } from "~/libs/helpers/helpers";
 import {
 	type AsyncThunkConfig,
 	type GameDescriptionDto,
 	type LevelDescriptionDto,
+	type ValueOf,
 } from "~/libs/types/types";
 
 import { name as sliceName } from "./games.slice";
 
-const getAllGames = createAsyncThunk<GameDescriptionDto[], undefined, AsyncThunkConfig>(
-	`${sliceName}/get-all-games`,
-	async (_, { extra, rejectWithValue }) => {
-		try {
-			const { gamesApi } = extra;
+const getAllGames = createAsyncThunk<
+	GameDescriptionDto[],
+	undefined | ValueOf<typeof GameCategory>,
+	AsyncThunkConfig
+>(`${sliceName}/get-all-games`, async (category, { extra, rejectWithValue }) => {
+	try {
+		const { gamesApi } = extra;
 
-			return await gamesApi.getAll();
-		} catch (error: unknown) {
-			return rejectWithValue(normalizeError(error));
-		}
+		return await gamesApi.getAll(category);
+	} catch (error: unknown) {
+		return rejectWithValue(normalizeError(error));
 	}
-);
+});
 
 const getById = createAsyncThunk<GameDescriptionDto, string, AsyncThunkConfig>(
 	`${sliceName}/get-game-by-id`,

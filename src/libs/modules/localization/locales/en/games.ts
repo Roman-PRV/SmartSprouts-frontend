@@ -6,6 +6,26 @@ const games = {
 		review: "Review marks",
 		submit: "Check answers",
 	},
+	arithmetic: {
+		actions: {
+			playAgain: "Play again",
+		},
+		error: {
+			load: "Failed to load the level. Please try again.",
+			notFound: "Level not found.",
+			submit: "Failed to submit your answers. Please try again.",
+		},
+		result: {
+			expected: "Should be {{value}}",
+			score: "{{score}} of {{total}} correct",
+		},
+	},
+	categories: {
+		all: "All",
+		logic: "Logic",
+		math: "Math",
+		reading: "Reading",
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "Invalid or missing game ID.",
@@ -52,9 +72,16 @@ const games = {
 	levels: {
 		empty: "No levels available at the moment.",
 		error: "Failed to load levels. Please try again.",
+		progress: {
+			mastered: "Mastered",
+			notPerfect: "Played — not perfect yet",
+			notStarted: "Not started yet",
+		},
 		title: "Select a level for the {{title}} game",
 	},
 	selection: {
+		categoriesNavLabel: "Filter games by category",
+		categoryTitle: "{{category}} games",
 		empty: "No games available at the moment.",
 		error: "Failed to load games. Please try again.",
 		title: "Choose a game",

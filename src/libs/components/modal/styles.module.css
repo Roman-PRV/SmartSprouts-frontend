@@ -1,13 +1,24 @@
 .modal {
 	width: 100%;
 	max-width: 32rem;
-	max-height: calc(100vh - var(--spacing-lg));
+	max-height: calc(100vh - var(--spacing-xl));
 	padding: 0;
 	overflow: hidden;
 	background-color: var(--color-background-4);
 	border: none;
 	border-radius: var(--border-radius-lg);
 	box-shadow: var(--shadow-medium);
+}
+
+/*
+ * Scope the flex layout to the open state. Setting `display` on the base
+ * `.modal` would override the UA `dialog:not([open])` rule and keep a closed
+ * dialog visible — so the column layout (fixed header + scrollable body) only
+ * applies while the dialog is actually open.
+ */
+.modal[open] {
+	display: flex;
+	flex-direction: column;
 }
 
 .modal::backdrop {
@@ -53,6 +64,8 @@
 }
 
 .modal__body {
+	flex: 1 1 auto;
+	min-height: 0;
 	padding: var(--spacing-md);
 	overflow-y: auto;
 }

@@ -1,7 +1,7 @@
 const TrueFalseGameApiPath = {
 	$GAME_ID: "/:gameId",
 	$LEVEL_ID: "/:levelId",
-	CHECK: "/check",
+	ATTEMPTS: "/attempts",
 	LEVELS: "/levels",
 } as const;
 

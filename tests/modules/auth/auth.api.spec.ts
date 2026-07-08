@@ -164,6 +164,7 @@ describe("AuthApi.login", () => {
 
 		const [, options] = http.load.mock.calls[0] as HttpCallArguments;
 		expect(options.headers.get("content-type")).toBe(ContentType.JSON);
+		expect(options.headers.get("authorization")).toBeNull();
 
 		expect(result).toEqual(responseData);
 	});

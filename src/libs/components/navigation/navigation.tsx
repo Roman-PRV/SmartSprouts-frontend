@@ -1,6 +1,6 @@
 import type { DropdownOption, RenderToggleProperties } from "~/libs/components/dropdown/dropdown";
 
-import { Button, Dropdown, Icon, NavLink } from "~/libs/components/components";
+import { Dropdown, Icon, MenuItem } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
@@ -17,9 +17,16 @@ import styles from "./styles.module.css";
 
 const LOGOUT_OPTION = "logout";
 
+type NavItem = {
+	isVisible: boolean;
+	labelKey: string;
+	route: string;
+};
+
 const Navigation: React.FC = () => {
 	const { t } = useTranslation();
 	const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+	const isAdmin = useAppSelector((state) => Boolean(state.auth.user?.is_admin));
 	const { logout } = useLogout();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
@@ -28,19 +35,36 @@ const Navigation: React.FC = () => {
 		void logout();
 	}, [logout]);
 
+	// Single source of the route entries; both the desktop list and the mobile
+	// dropdown map over this so they can never drift. Logout is appended separately
+	// because it is an action, not a route.
+	const navItems = useMemo<NavItem[]>(
+		() =>
+			[
+				{ isVisible: true, labelKey: "common.navigation.home", route: AppRoute.ROOT },
+				{ isVisible: true, labelKey: "common.navigation.games", route: AppRoute.GAMES },
+				{ isVisible: true, labelKey: "common.navigation.profile", route: AppRoute.PROFILE },
+				{
+					isVisible: isAdmin,
+					labelKey: "common.navigation.adminPanel",
+					route: AppRoute.ADMIN_ROOT,
+				},
+			].filter((item) => item.isVisible),
+		[isAdmin]
+	);
+
 	const navigationOptions = useMemo<DropdownOption<string>[]>(() => {
-		const options: DropdownOption<string>[] = [
-			{ label: t("common.navigation.home"), value: AppRoute.ROOT },
-			{ label: t("common.navigation.games"), value: AppRoute.GAMES },
-			{ label: t("common.navigation.profile"), value: AppRoute.PROFILE },
-		];
+		const options: DropdownOption<string>[] = navItems.map((item) => ({
+			label: t(item.labelKey),
+			value: item.route,
+		}));
 
 		if (isAuthenticated) {
 			options.push({ label: t("common.navigation.logout"), value: LOGOUT_OPTION });
 		}
 
 		return options;
-	}, [t, isAuthenticated]);
+	}, [t, navItems, isAuthenticated]);
 
 	const handleMobileMenuSelect = useCallback(
 		(value: string): void => {
@@ -78,22 +102,6 @@ const Navigation: React.FC = () => {
 		return matchingOption?.value ?? pathname;
 	}, [pathname, navigationOptions]);
 
-	const getDynamicNavLinkClassName = useCallback(
-		(route: string) =>
-			({ isActive }: { isActive: boolean }): string => {
-				const isOnTree =
-					isActive ||
-					(route === AppRoute.ROOT ? pathname === AppRoute.ROOT : pathname.startsWith(`${route}/`));
-
-				return getValidClassNames(
-					styles["navigation__nav-item"],
-					isOnTree && styles["navigation__nav-item--highlighted"],
-					pathname === route && styles["navigation__nav-item--active"]
-				);
-			},
-		[pathname]
-	);
-
 	return (
 		<nav className={getValidClassNames(styles["navigation"])}>
 			<div className={getValidClassNames(styles["navigation__container"])}>
@@ -113,31 +121,16 @@ const Navigation: React.FC = () => {
 					value={currentActiveValue}
 				/>
 				<ul className={getValidClassNames(styles["navigation__nav"])}>
-					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.ROOT)} to={AppRoute.ROOT}>
-							{t("common.navigation.home")}
-						</NavLink>
-					</li>
-					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.GAMES)} end to={AppRoute.GAMES}>
-							{t("common.navigation.games")}
-						</NavLink>
-					</li>
-					<li>
-						<NavLink className={getDynamicNavLinkClassName(AppRoute.PROFILE)} to={AppRoute.PROFILE}>
-							{t("common.navigation.profile")}
-						</NavLink>
-					</li>
+					{navItems.map((item) => (
+						<li key={item.route}>
+							<MenuItem to={item.route}>{t(item.labelKey)}</MenuItem>
+						</li>
+					))}
 					{isAuthenticated && (
 						<li>
-							<Button
-								aria-label={t("common.navigation.logout")}
-								className={getValidClassNames(styles["navigation__nav-item"])}
-								onClick={handleLogout}
-								variant="unstyled"
-							>
+							<MenuItem ariaLabel={t("common.navigation.logout")} onClick={handleLogout}>
 								{t("common.navigation.logout")}
-							</Button>
+							</MenuItem>
 						</li>
 					)}
 				</ul>

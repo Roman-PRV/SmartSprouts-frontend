@@ -162,6 +162,100 @@ describe("Navigation", () => {
 		});
 	});
 
+	describe("Admin Panel Entry Visibility", () => {
+		const adminUser = {
+			email: "admin@a.com",
+			id: 1,
+			is_admin: true,
+			name: "Admin",
+		};
+		const regularUser = {
+			email: "user@a.com",
+			id: 2,
+			is_admin: false,
+			name: "User",
+		};
+
+		it("shows the admin panel link in desktop menu for an admin", () => {
+			renderWithProvider({ isAuthenticated: true, user: adminUser });
+
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
+			const adminLink = within(desktopNav).getByRole("link", {
+				name: i18n.t("common.navigation.adminPanel"),
+			});
+
+			expect(adminLink).toBeInTheDocument();
+			expect(adminLink).toHaveAttribute("href", AppRoute.ADMIN_ROOT);
+		});
+
+		it("does not show the admin panel link for an authenticated non-admin", () => {
+			renderWithProvider({ isAuthenticated: true, user: regularUser });
+
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
+			const adminLink = within(desktopNav).queryByRole("link", {
+				name: i18n.t("common.navigation.adminPanel"),
+			});
+
+			expect(adminLink).not.toBeInTheDocument();
+		});
+
+		it("shows the admin panel option in mobile menu for an admin", async () => {
+			const user = userEvent.setup();
+			renderWithProvider({ isAuthenticated: true, user: adminUser });
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			const adminOption = within(mobileMenu).getByRole("menuitem", {
+				name: i18n.t("common.navigation.adminPanel"),
+			});
+
+			expect(adminOption).toBeInTheDocument();
+		});
+	});
+
+	describe("Desktop/Mobile parity", () => {
+		it("renders the same visible entries in the desktop list and the mobile menu", async () => {
+			const user = userEvent.setup();
+			renderWithProvider({
+				isAuthenticated: true,
+				user: { email: "admin@a.com", id: 1, is_admin: true, name: "Admin" },
+			});
+
+			const expectedLabels = [
+				i18n.t("common.navigation.home"),
+				i18n.t("common.navigation.games"),
+				i18n.t("common.navigation.profile"),
+				i18n.t("common.navigation.adminPanel"),
+				i18n.t("common.navigation.logout"),
+			];
+
+			const desktopNav = screen.getAllByRole("list")[DESKTOP_NAV_INDEX] as HTMLElement;
+
+			for (const label of expectedLabels) {
+				expect(within(desktopNav).getByText(label)).toBeInTheDocument();
+			}
+
+			const burgerButton = screen.getByRole("button", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+			await user.click(burgerButton);
+
+			const mobileMenu = screen.getByRole("menu", {
+				name: `${i18n.t("common.navigation.toggleMenu")}, current: ${i18n.t("common.navigation.home")}`,
+			});
+
+			for (const label of expectedLabels) {
+				expect(within(mobileMenu).getByText(label)).toBeInTheDocument();
+			}
+		});
+	});
+
 	describe("Logout Handler", () => {
 		it("triggers logout handler when desktop logout button is clicked", async () => {
 			const user = userEvent.setup();
@@ -395,12 +489,12 @@ describe("Navigation", () => {
 			expect(gamesOption).toBeInTheDocument();
 		});
 
-		it("displays default placeholder in mobile menu for unknown routes", () => {
+		it("omits the current-selection suffix in the mobile menu for unknown routes", () => {
 			const unknownPath = "/unknown";
 			renderWithProvider({}, [unknownPath]);
 
 			const burgerButton = screen.getByRole("button", {
-				name: new RegExp("current: Select option"),
+				name: i18n.t("common.navigation.toggleMenu"),
 			});
 
 			expect(burgerButton).toBeInTheDocument();
@@ -410,10 +504,10 @@ describe("Navigation", () => {
 			const partialMatchPath = "/gamesabc";
 			renderWithProvider({}, [partialMatchPath]);
 
-			// Since /gamesabc doesn't match /games or any other route exactly or as a sub-path, 
-			// it should fall back to the placeholder
+			// /gamesabc matches no route exactly or as a sub-path, so no option is active and
+			// the toggle announces just its label with no "current: …" suffix.
 			const burgerButton = screen.getByRole("button", {
-				name: new RegExp("current: Select option"),
+				name: i18n.t("common.navigation.toggleMenu"),
 			});
 
 			expect(burgerButton).toBeInTheDocument();

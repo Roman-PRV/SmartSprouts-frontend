@@ -6,6 +6,26 @@ const games = {
 		review: "Ver marcas",
 		submit: "Comprobar",
 	},
+	arithmetic: {
+		actions: {
+			playAgain: "Jugar de nuevo",
+		},
+		error: {
+			load: "No se pudo cargar el nivel. Inténtalo de nuevo.",
+			notFound: "Nivel no encontrado.",
+			submit: "No se pudieron enviar las respuestas. Inténtalo de nuevo.",
+		},
+		result: {
+			expected: "Debería ser {{value}}",
+			score: "{{score}} de {{total}} correctas",
+		},
+	},
+	categories: {
+		all: "Todos",
+		logic: "Lógica",
+		math: "Matemáticas",
+		reading: "Lectura",
+	},
 	content: {
 		errorTitle: "Error",
 		invalidId: "ID de juego no válido o ausente.",
@@ -52,9 +72,16 @@ const games = {
 	levels: {
 		empty: "No hay niveles disponibles en este momento.",
 		error: "Error al cargar los niveles. Por favor, inténtalo de nuevo.",
+		progress: {
+			mastered: "Dominado",
+			notPerfect: "Jugado, pero aún no perfecto",
+			notStarted: "Aún sin jugar",
+		},
 		title: "Selecciona un nivel para el juego {{title}}",
 	},
 	selection: {
+		categoriesNavLabel: "Filtrar juegos por categoría",
+		categoryTitle: "Juegos de {{category}}",
 		empty: "No hay juegos disponibles en este momento.",
 		error: "Error al cargar los juegos. Por favor, inténtalo de nuevo.",
 		title: "Elige un juego",

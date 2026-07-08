@@ -40,7 +40,10 @@ const RevealRow: React.FC<RevealRowProperties> = ({ item, muted = false }) => {
 				<span className={styles["row__name"]}>{item.name}</span>
 				<AudioPlayButton url={item.name_audio_url} />
 				{stars >= FIRST_STAR && (
-					<span aria-label={`${String(stars)}/${String(MAX_STARS)}`} className={styles["row__stars"]}>
+					<span
+						aria-label={`${String(stars)}/${String(MAX_STARS)}`}
+						className={styles["row__stars"]}
+					>
 						{renderStars(stars)}
 					</span>
 				)}

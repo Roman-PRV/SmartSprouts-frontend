@@ -5,20 +5,20 @@ import { type AsyncThunkConfig } from "~/libs/types/types";
 
 import {
 	type TrueFalseGameAnswerRequestDto,
-	type TrueFalseGameCheckResponseDto,
+	type TrueFalseGameAttemptResponseDto,
 	type TrueFalseGameLevelDto,
 } from "../../libs/types/types";
 import { name as sliceName } from "./true-false-game.slice";
 
-type CheckAnswersPayload = {
-	gameId: string;
-	levelId: string;
-	payload: TrueFalseGameAnswerRequestDto;
-};
-
 type GetLevelByIdPayload = {
 	gameId: string;
 	levelId: string;
+};
+
+type SubmitAttemptThunkPayload = {
+	gameId: string;
+	levelId: string;
+	payload: TrueFalseGameAnswerRequestDto;
 };
 
 const getLevelById = createAsyncThunk<TrueFalseGameLevelDto, GetLevelByIdPayload, AsyncThunkConfig>(
@@ -34,21 +34,21 @@ const getLevelById = createAsyncThunk<TrueFalseGameLevelDto, GetLevelByIdPayload
 	}
 );
 
-const checkAnswers = createAsyncThunk<
-	TrueFalseGameCheckResponseDto,
-	CheckAnswersPayload,
+const submitAttempt = createAsyncThunk<
+	TrueFalseGameAttemptResponseDto,
+	SubmitAttemptThunkPayload,
 	AsyncThunkConfig
 >(
-	`${sliceName}/check-answers`,
+	`${sliceName}/submit-attempt`,
 	async ({ gameId, levelId, payload }, { extra, rejectWithValue }) => {
 		try {
 			const { trueFalseGameApi } = extra;
 
-			return await trueFalseGameApi.checkAnswers(gameId, levelId, payload);
+			return await trueFalseGameApi.submitAttempt(gameId, levelId, payload);
 		} catch (error: unknown) {
 			return rejectWithValue(normalizeError(error));
 		}
 	}
 );
 
-export { checkAnswers, getLevelById };
+export { getLevelById, submitAttempt };

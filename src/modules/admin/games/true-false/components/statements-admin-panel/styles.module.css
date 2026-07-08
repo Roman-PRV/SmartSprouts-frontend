@@ -1,0 +1,116 @@
+.statements-panel {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+}
+
+.statements-panel__header {
+	display: flex;
+	gap: var(--spacing-sm);
+	align-items: center;
+	justify-content: space-between;
+}
+
+.statements-panel__title {
+	margin: 0;
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-dark);
+}
+
+.statements-panel__empty {
+	margin: 0;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-secondary);
+}
+
+.statements-panel__list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.statement-row {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-sm);
+	background-color: var(--color-background-light-gray);
+	border-radius: var(--border-radius-md);
+}
+
+.statement-row__header {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-sm);
+	align-items: center;
+}
+
+.statement-row__text {
+	flex: 1 1 auto;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-dark);
+}
+
+.statement-row__badge {
+	padding: var(--spacing-xxs) var(--spacing-sm);
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-light);
+	border-radius: var(--border-radius-pill);
+}
+
+.statement-row__badge[data-truth="true"] {
+	background-color: var(--color-background-accent);
+}
+
+.statement-row__badge[data-truth="false"] {
+	background-color: var(--color-text-secondary);
+}
+
+.statement-row__actions {
+	display: flex;
+	gap: var(--spacing-xs);
+}
+
+.statement-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+}
+
+.statement-form__actions {
+	display: flex;
+	gap: var(--spacing-sm);
+	justify-content: flex-end;
+	margin-top: var(--spacing-sm);
+}
+
+.statement-fields {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+}
+
+.statement-fields__toggle {
+	display: flex;
+	gap: var(--spacing-xs);
+	align-items: center;
+	font-size: var(--font-size-sm);
+	color: var(--color-text-dark);
+}
+
+.delete-statement__body {
+	margin: 0 0 var(--spacing-md);
+	font-size: var(--font-size-sm);
+	color: var(--color-text-dark);
+}
+
+.delete-statement__actions {
+	display: flex;
+	gap: var(--spacing-sm);
+	justify-content: flex-end;
+}

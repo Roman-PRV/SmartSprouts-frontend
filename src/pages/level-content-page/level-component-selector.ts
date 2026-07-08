@@ -1,9 +1,15 @@
-import { FindTheWrongLevelCard, TrueFalseLevelCard } from "~/libs/components/components";
+import {
+	ArithmeticLevelCard,
+	FindTheWrongLevelCard,
+	TrueFalseLevelCard,
+} from "~/libs/components/components";
 import { GameKey, type GameKeyType } from "~/libs/enums/enums";
 import { type LevelCardComponent } from "~/libs/types/level-card-component.type";
 
-const LevelCardComponentMap: Record<GameKeyType, LevelCardComponent> = {
+const LevelCardComponentMap: Partial<Record<GameKeyType, LevelCardComponent>> = {
+	[GameKey.ADDITION_TABLE]: ArithmeticLevelCard,
 	[GameKey.FIND_THE_WRONG]: FindTheWrongLevelCard,
+	[GameKey.MULTIPLICATION_TABLE]: ArithmeticLevelCard,
 	[GameKey.TRUE_FALSE_IMAGE]: TrueFalseLevelCard,
 	[GameKey.TRUE_FALSE_TEXT]: TrueFalseLevelCard,
 };
@@ -19,7 +25,7 @@ const getLevelComponent: (key: string) => LevelCardComponent | null = (
 		return null;
 	}
 
-	return LevelCardComponentMap[key];
+	return LevelCardComponentMap[key] ?? null;
 };
 
 export { getLevelComponent };

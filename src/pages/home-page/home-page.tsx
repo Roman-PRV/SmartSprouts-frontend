@@ -1,5 +1,6 @@
-import { Button, Link, Trans } from "~/libs/components/components";
-import { AppRoute, GameCategory } from "~/libs/enums/enums";
+import { ButtonLink, Link, Trans } from "~/libs/components/components";
+import { GAME_CATEGORY_META, GAME_CATEGORY_ORDER } from "~/libs/constants/constants";
+import { AppRoute } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useTranslation } from "~/libs/hooks/hooks";
 
@@ -31,19 +32,25 @@ const HomePage: React.FC = () => {
 					<h1 className={styles["hero-section__title"]}>{t("home.hero.title")}</h1>
 					<p className={styles["hero-section__description"]}>{t("home.hero.description")}</p>
 					<div className={styles["hero-section__actions"]}>
-						<Link to={AppRoute.GAMES}>
-							<Button iconLeft="arrowRight" size="lg">
-								{t("common.button.playNow")}
-							</Button>
-						</Link>
+						<ButtonLink iconLeft="arrowRight" size="lg" to={AppRoute.GAMES}>
+							{t("common.button.playNow")}
+						</ButtonLink>
 
 						{!isAuthenticated && (
 							<p className={styles["hero-section__auth-prompt"]}>
 								<Trans
 									components={[
 										<br key="0" />,
-										<Link className={styles["hero-section__auth-link"]} key="1" to="/login" />,
-										<Link className={styles["hero-section__auth-link"]} key="2" to="/register" />,
+										<Link
+											className={styles["hero-section__auth-link"]}
+											key="1"
+											to={AppRoute.LOGIN}
+										/>,
+										<Link
+											className={styles["hero-section__auth-link"]}
+											key="2"
+											to={AppRoute.REGISTER}
+										/>,
 									]}
 									i18nKey="home.hero.actions.authPrompt"
 								>
@@ -134,48 +141,25 @@ const HomePage: React.FC = () => {
 				</div>
 
 				<div className={styles["categories-section__grid"]}>
-					<Link
-						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=${GameCategory.MATH}`}
-					>
-						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label={t("home.categories.math.iconAriaLabel")} role="img">
-								🧮
-							</span>
-						</div>
-						<h3 className={styles["category-card__title"]}>{t("home.categories.math.title")}</h3>
-						<p className={styles["category-card__description"]}>
-							{t("home.categories.math.description")}
-						</p>
-					</Link>
-					<Link
-						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=${GameCategory.READING}`}
-					>
-						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label={t("home.categories.reading.iconAriaLabel")} role="img">
-								📚
-							</span>
-						</div>
-						<h3 className={styles["category-card__title"]}>{t("home.categories.reading.title")}</h3>
-						<p className={styles["category-card__description"]}>
-							{t("home.categories.reading.description")}
-						</p>
-					</Link>
-					<Link
-						className={styles["category-card"]}
-						to={`${AppRoute.GAMES}?category=${GameCategory.LOGIC}`}
-					>
-						<div className={styles["category-card__icon-wrapper"]}>
-							<span aria-label={t("home.categories.logic.iconAriaLabel")} role="img">
-								🧩
-							</span>
-						</div>
-						<h3 className={styles["category-card__title"]}>{t("home.categories.logic.title")}</h3>
-						<p className={styles["category-card__description"]}>
-							{t("home.categories.logic.description")}
-						</p>
-					</Link>
+					{GAME_CATEGORY_ORDER.map((category) => (
+						<Link
+							className={styles["category-card"]}
+							key={category}
+							to={`${AppRoute.GAMES}?category=${category}`}
+						>
+							<div className={styles["category-card__icon-wrapper"]}>
+								<span aria-label={t(`home.categories.${category}.iconAriaLabel`)} role="img">
+									{GAME_CATEGORY_META[category].icon}
+								</span>
+							</div>
+							<h3 className={styles["category-card__title"]}>
+								{t(GAME_CATEGORY_META[category].titleKey)}
+							</h3>
+							<p className={styles["category-card__description"]}>
+								{t(`home.categories.${category}.description`)}
+							</p>
+						</Link>
+					))}
 				</div>
 			</section>
 
@@ -185,9 +169,9 @@ const HomePage: React.FC = () => {
 					<h2 className={styles["cta-section__title"]}>{t("home.cta.title")}</h2>
 					<p className={styles["cta-section__description"]}>{t("home.cta.description")}</p>
 					{!isAuthenticated && (
-						<Link to={AppRoute.REGISTER}>
-							<Button size="lg">{t("common.button.register")}</Button>
-						</Link>
+						<ButtonLink size="lg" to={AppRoute.REGISTER}>
+							{t("common.button.register")}
+						</ButtonLink>
 					)}
 				</div>
 			</section>

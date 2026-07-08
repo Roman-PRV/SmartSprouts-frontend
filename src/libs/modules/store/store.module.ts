@@ -7,6 +7,10 @@ import {
 import { configureStore } from "@reduxjs/toolkit";
 
 import {
+	arithmeticGameApi,
+	reducer as arithmeticGameReducer,
+} from "~/games/arithmetic/api/arithmetic-game";
+import {
 	findTheWrongGameApi,
 	reducer as findTheWrongGameReducer,
 } from "~/games/find-the-wrong/api/find-the-wrong-game";
@@ -21,35 +25,45 @@ import {
 	findTheWrongAdminApi,
 	reducer as findTheWrongAdminReducer,
 } from "~/modules/admin/games/find-the-wrong/find-the-wrong-admin";
+import {
+	trueFalseAdminApi,
+	reducer as trueFalseAdminReducer,
+} from "~/modules/admin/games/true-false/true-false-admin";
 import { authApi, reducer as authReducer, logout } from "~/modules/auth/auth";
 import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 import { profileApi, reducer as profileReducer } from "~/modules/profile/profile";
 
 type ExtraArguments = {
+	arithmeticGameApi: typeof arithmeticGameApi;
 	authApi: typeof authApi;
 	findTheWrongAdminApi: typeof findTheWrongAdminApi;
 	findTheWrongGameApi: typeof findTheWrongGameApi;
 	gamesApi: typeof gamesApi;
 	profileApi: typeof profileApi;
 	storage: typeof storage;
+	trueFalseAdminApi: typeof trueFalseAdminApi;
 	trueFalseGameApi: typeof trueFalseGameApi;
 };
 
 type RootReducer = {
+	arithmeticLevels: ReturnType<typeof arithmeticGameReducer>;
 	auth: ReturnType<typeof authReducer>;
 	findTheWrongAdmin: ReturnType<typeof findTheWrongAdminReducer>;
 	findTheWrongLevels: ReturnType<typeof findTheWrongGameReducer>;
 	games: ReturnType<typeof gamesReducer>;
 	profile: ReturnType<typeof profileReducer>;
+	trueFalseAdmin: ReturnType<typeof trueFalseAdminReducer>;
 	trueFalseLevels: ReturnType<typeof trueFalseGameReducer>;
 };
 
 const rootReducer = combineReducers({
+	arithmeticLevels: arithmeticGameReducer,
 	auth: authReducer,
 	findTheWrongAdmin: findTheWrongAdminReducer,
 	findTheWrongLevels: findTheWrongGameReducer,
 	games: gamesReducer,
 	profile: profileReducer,
+	trueFalseAdmin: trueFalseAdminReducer,
 	trueFalseLevels: trueFalseGameReducer,
 });
 
@@ -75,12 +89,14 @@ class Store {
 
 	public get extraArguments(): ExtraArguments {
 		return {
+			arithmeticGameApi,
 			authApi,
 			findTheWrongAdminApi,
 			findTheWrongGameApi,
 			gamesApi,
 			profileApi,
 			storage,
+			trueFalseAdminApi,
 			trueFalseGameApi,
 		};
 	}

@@ -1,4 +1,4 @@
-import { APIPath, ContentType } from "~/libs/enums/enums";
+import { APIPath } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
@@ -23,6 +23,35 @@ type CreateItemArguments = {
 	gameId: string;
 	levelId: number;
 	payload: CreateFindTheWrongAdminItemPayload;
+	signal?: AbortSignal;
+};
+
+type CreateLevelArguments = {
+	formData: FormData;
+	gameId: string;
+	signal?: AbortSignal;
+};
+
+type DeleteItemArguments = {
+	gameId: string;
+	itemId: number;
+	signal?: AbortSignal;
+};
+
+type DeleteLevelArguments = {
+	gameId: string;
+	levelId: number;
+	signal?: AbortSignal;
+};
+
+type GetLevelArguments = {
+	gameId: string;
+	levelId: number;
+	signal?: AbortSignal;
+};
+
+type GetLevelsListArguments = {
+	gameId: string;
 	signal?: AbortSignal;
 };
 
@@ -56,96 +85,71 @@ class FindTheWrongAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
+		return await this.requestJson<FindTheWrongAdminItemDto>(url, {
 			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
-			...(signal && { signal }),
+			payload,
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminItemDto>();
 	}
 
-	public async createLevel(
-		gameId: string,
-		formData: FormData,
-		signal?: AbortSignal
-	): Promise<FindTheWrongAdminLevelDto> {
+	public async createLevel({
+		formData,
+		gameId,
+		signal,
+	}: CreateLevelArguments): Promise<FindTheWrongAdminLevelDto> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestFormData<FindTheWrongAdminLevelDto>(url, {
+			formData,
 			method: HTTPMethod.POST,
-			payload: formData,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminLevelDto>();
 	}
 
-	public async deleteItem(gameId: string, itemId: number, signal?: AbortSignal): Promise<void> {
+	public async deleteItem({ gameId, itemId, signal }: DeleteItemArguments): Promise<void> {
 		const url = this.getFullEndpoint(FindTheWrongAdminApiPath.ITEM_DETAIL, {
 			gameId,
 			itemId: String(itemId),
 		});
 
-		await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.DELETE,
-			...(signal && { signal }),
-		});
+		await this.requestVoid(url, { method: HTTPMethod.DELETE, signal });
 	}
 
-	public async deleteLevel(
-		gameId: string,
-		levelId: number,
-		signal?: AbortSignal
-	): Promise<void> {
+	public async deleteLevel({ gameId, levelId, signal }: DeleteLevelArguments): Promise<void> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVEL_DETAIL, {
 			gameId,
 			levelId: String(levelId),
 		});
 
-		await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.DELETE,
-			...(signal && { signal }),
-		});
+		await this.requestVoid(url, { method: HTTPMethod.DELETE, signal });
 	}
 
-	public async getLevel(
-		gameId: string,
-		levelId: number,
-		signal?: AbortSignal
-	): Promise<FindTheWrongAdminLevelDto> {
+	public async getLevel({
+		gameId,
+		levelId,
+		signal,
+	}: GetLevelArguments): Promise<FindTheWrongAdminLevelDto> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVEL_DETAIL, {
 			gameId,
 			levelId: String(levelId),
 		});
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestJson<FindTheWrongAdminLevelDto>(url, {
 			method: HTTPMethod.GET,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminLevelDto>();
 	}
 
-	public async getLevelsList(
-		gameId: string,
-		signal?: AbortSignal
-	): Promise<FindTheWrongAdminLevelDto[]> {
+	public async getLevelsList({
+		gameId,
+		signal,
+	}: GetLevelsListArguments): Promise<FindTheWrongAdminLevelDto[]> {
 		const url = this.getFullEndpoint(AdminGameApiPath.LEVELS, { gameId });
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestJson<FindTheWrongAdminLevelDto[]>(url, {
 			method: HTTPMethod.GET,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminLevelDto[]>();
 	}
 
 	public async updateItem({
@@ -159,15 +163,11 @@ class FindTheWrongAdminApi extends BaseHTTPApi {
 			itemId: String(itemId),
 		});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
-			hasAuth: true,
+		return await this.requestJson<FindTheWrongAdminItemDto>(url, {
 			method: HTTPMethod.PATCH,
-			payload: JSON.stringify(payload),
-			...(signal && { signal }),
+			payload,
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminItemDto>();
 	}
 
 	public async updateLevel({
@@ -181,14 +181,11 @@ class FindTheWrongAdminApi extends BaseHTTPApi {
 			levelId: String(levelId),
 		});
 
-		const response = await this.load(url, {
-			hasAuth: true,
+		return await this.requestFormData<FindTheWrongAdminLevelDto>(url, {
+			formData,
 			method: HTTPMethod.POST,
-			payload: formData,
-			...(signal && { signal }),
+			signal,
 		});
-
-		return await response.json<FindTheWrongAdminLevelDto>();
 	}
 }
 

@@ -1,0 +1,27 @@
+.menu-item {
+	color: var(--color-brand);
+	cursor: pointer;
+	background: none;
+	border: none;
+	transition: color 0.2s ease-in-out;
+}
+
+.menu-item:hover {
+	color: var(--color-brand-hover);
+}
+
+.menu-item:focus-visible {
+	outline: 2px solid var(--color-background-accent);
+	outline-offset: 4px;
+	border-radius: var(--border-radius-sm);
+}
+
+.menu-item--highlighted {
+	font-weight: 700;
+	color: var(--color-brand-hover);
+}
+
+.menu-item--active {
+	pointer-events: none;
+	cursor: default;
+}

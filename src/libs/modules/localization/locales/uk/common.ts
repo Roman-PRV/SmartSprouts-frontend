@@ -7,6 +7,9 @@ const common = {
 		playNow: "Грати зараз",
 		register: "Зареєструватися безкоштовно",
 	},
+	dropdown: {
+		toggleWithSelection: "{{label}}, поточний: {{selection}}",
+	},
 	footer: {
 		// Add footer translations here
 	},
@@ -19,6 +22,7 @@ const common = {
 		},
 	},
 	navigation: {
+		adminPanel: "Адмінпанель",
 		games: "Ігри",
 		home: "Головна",
 		logout: "Вийти",

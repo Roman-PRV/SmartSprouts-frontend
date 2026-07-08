@@ -31,7 +31,9 @@ const AdminLevelEditorPage: React.FC = () => {
 	const Section = findAdminGameRegistration(currentGame.key)?.EditorSection ?? null;
 
 	if (!Section) {
-		return <AdminPageFallback message={t("admin.errors.unsupportedGame", { key: currentGame.key })} />;
+		return (
+			<AdminPageFallback message={t("admin.errors.unsupportedGame", { key: currentGame.key })} />
+		);
 	}
 
 	return (

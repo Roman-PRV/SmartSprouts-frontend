@@ -1,4 +1,4 @@
-import { APIPath, ContentType } from "~/libs/enums/enums";
+import { APIPath } from "~/libs/enums/enums";
 import { BaseHTTPApi } from "~/libs/modules/api/api";
 import { type HTTP } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
@@ -27,13 +27,7 @@ class AuthApi extends BaseHTTPApi {
 	public async getAuthenticatedUser(): Promise<User> {
 		const url = this.getFullEndpoint(AuthApiPath.AUTHENTICATED_USER, {});
 
-		const response = await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.GET,
-			payload: null,
-		});
-
-		const data = await response.json<{ user: User }>();
+		const data = await this.requestJson<{ user: User }>(url, { method: HTTPMethod.GET });
 
 		return data.user;
 	}
@@ -41,50 +35,37 @@ class AuthApi extends BaseHTTPApi {
 	public async getGoogleRedirectUrl(): Promise<{ url: string }> {
 		const url = this.getFullEndpoint(AuthApiPath.GOOGLE_REDIRECT, {});
 
-		const response = await this.load(url, {
+		return await this.requestJson<{ url: string }>(url, {
 			credentials: "include",
 			hasAuth: false,
 			method: HTTPMethod.GET,
-			payload: null,
 		});
-
-		return await response.json<{ url: string }>();
 	}
 
 	public async login(payload: LoginRequestDto): Promise<LoginResponseDto> {
 		const url = this.getFullEndpoint(AuthApiPath.LOGIN, {});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
+		return await this.requestJson<LoginResponseDto>(url, {
 			hasAuth: false,
 			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
+			payload,
 		});
-
-		return await response.json<LoginResponseDto>();
 	}
 
 	public async logout(): Promise<void> {
 		const url = this.getFullEndpoint(AuthApiPath.LOGOUT, {});
 
-		await this.load(url, {
-			hasAuth: true,
-			method: HTTPMethod.POST,
-			payload: null,
-		});
+		await this.requestVoid(url, { method: HTTPMethod.POST });
 	}
 
 	public async register(payload: RegisterRequestDto): Promise<RegisterResponseDto> {
 		const url = this.getFullEndpoint(AuthApiPath.REGISTER, {});
 
-		const response = await this.load(url, {
-			contentType: ContentType.JSON,
+		return await this.requestJson<RegisterResponseDto>(url, {
 			hasAuth: false,
 			method: HTTPMethod.POST,
-			payload: JSON.stringify(payload),
+			payload,
 		});
-
-		return await response.json<RegisterResponseDto>();
 	}
 }
 

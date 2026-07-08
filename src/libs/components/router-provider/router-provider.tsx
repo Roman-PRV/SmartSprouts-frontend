@@ -67,17 +67,17 @@ const router = createBrowserRouter([
 				],
 				element: <ProtectedRoute />,
 			},
+			{
+				children: [
+					{ element: <AuthGoogleCallbackPage />, path: AppRoute.AUTH_GOOGLE_CALLBACK },
+					{ element: <LoginPage />, path: AppRoute.LOGIN },
+					{ element: <RegisterPage />, path: AppRoute.REGISTER },
+				],
+				element: <GuestRoute />,
+			},
 		],
 		element: <App />,
 		path: AppRoute.ROOT,
-	},
-	{
-		children: [
-			{ element: <AuthGoogleCallbackPage />, path: AppRoute.AUTH_GOOGLE_CALLBACK },
-			{ element: <LoginPage />, path: AppRoute.LOGIN },
-			{ element: <RegisterPage />, path: AppRoute.REGISTER },
-		],
-		element: <GuestRoute />,
 	},
 ]);
 

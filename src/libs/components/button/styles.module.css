@@ -8,6 +8,7 @@
 	font-family: var(--font-family);
 	font-weight: 600;
 	white-space: nowrap;
+	text-decoration: none;
 	cursor: pointer;
 	outline: none;
 	border: none;
@@ -84,13 +85,13 @@
 /* Variant: danger */
 .button--danger {
 	color: var(--color-text-light);
-	background: var(--color-accent-1);
-	border: 2px solid var(--color-accent-1);
+	background: var(--color-accent-red);
+	border: 2px solid var(--color-accent-red);
 }
 
 .button--danger:hover:not(.button--disabled, .button--loading) {
-	background: color-mix(in srgb, var(--color-accent-1) 85%, black);
-	border-color: color-mix(in srgb, var(--color-accent-1) 85%, black);
+	background: color-mix(in srgb, var(--color-accent-red) 85%, black);
+	border-color: color-mix(in srgb, var(--color-accent-red) 85%, black);
 	box-shadow: 0 4px 12px var(--color-shadow-danger);
 	transform: translateY(-2px);
 }

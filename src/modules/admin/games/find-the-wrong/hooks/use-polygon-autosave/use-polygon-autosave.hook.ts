@@ -11,10 +11,7 @@ type UsePolygonAutosaveReturn = {
 	schedule: ScheduleFunction;
 };
 
-const dispatchPending = (
-	pending: Map<number, Point[]>,
-	save: SaveFunction
-): void => {
+const dispatchPending = (pending: Map<number, Point[]>, save: SaveFunction): void => {
 	for (const [itemId, points] of pending.entries()) {
 		const maybePromise = save(itemId, points);
 

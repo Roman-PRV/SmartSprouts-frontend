@@ -1,8 +1,5 @@
-import { NavLink } from "react-router-dom";
-
-import { Button, FallbackMessage } from "~/libs/components/components";
+import { Button, FallbackMessage, MenuItem } from "~/libs/components/components";
 import { DataStatus } from "~/libs/enums/enums";
-import { getValidClassNames } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -16,18 +13,6 @@ import { actions as gamesActions } from "~/modules/games/games";
 import { ADMIN_GAMES_REGISTRY } from "../../libs/constants/admin-games-registry.constants";
 import { buildAdminLevelsListUrl } from "../../libs/helpers/build-admin-levels-list-url.helper";
 import styles from "./styles.module.css";
-
-type ItemClassNameOptions = {
-	isActive: boolean;
-	isDisabled?: boolean;
-};
-
-const getItemClassName = ({ isActive, isDisabled = false }: ItemClassNameOptions): string =>
-	getValidClassNames(
-		styles["sidebar-nav__item"],
-		isActive && styles["sidebar-nav__item--active"],
-		isDisabled && styles["sidebar-nav__item--disabled"]
-	);
 
 const SidebarNav: React.FC = () => {
 	const { t } = useTranslation();
@@ -54,14 +39,7 @@ const SidebarNav: React.FC = () => {
 		return (
 			<nav className={styles["sidebar-nav"]}>
 				{ADMIN_GAMES_REGISTRY.map(({ gameKey }) => (
-					<span
-						aria-busy="true"
-						className={getValidClassNames(
-							styles["sidebar-nav__item"],
-							styles["sidebar-nav__item--skeleton"]
-						)}
-						key={gameKey}
-					/>
+					<span aria-busy="true" className={styles["sidebar-nav__skeleton"]} key={gameKey} />
 				))}
 			</nav>
 		);
@@ -89,7 +67,7 @@ const SidebarNav: React.FC = () => {
 					return (
 						<span
 							aria-disabled="true"
-							className={getItemClassName({ isActive: false, isDisabled: true })}
+							className={styles["sidebar-nav__disabled"]}
 							key={gameKey}
 							title={t("admin.nav.gameUnavailable")}
 						>
@@ -99,9 +77,9 @@ const SidebarNav: React.FC = () => {
 				}
 
 				return (
-					<NavLink className={getItemClassName} key={gameKey} to={buildAdminLevelsListUrl(game.id)}>
+					<MenuItem key={gameKey} to={buildAdminLevelsListUrl(game.id)}>
 						{game.title}
-					</NavLink>
+					</MenuItem>
 				);
 			})}
 		</nav>

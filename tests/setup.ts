@@ -1,5 +1,15 @@
 import { vi } from "vitest";
 
+if (!("ResizeObserver" in globalThis)) {
+	globalThis.ResizeObserver = class ResizeObserver {
+		public disconnect(): void {}
+
+		public observe(): void {}
+
+		public unobserve(): void {}
+	};
+}
+
 if (typeof navigator !== "undefined") {
 	Object.defineProperty(navigator, "onLine", { configurable: true, value: true });
 }

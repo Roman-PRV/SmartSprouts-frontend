@@ -47,6 +47,17 @@
 	color: var(--color-text-light);
 }
 
+/* Lays out shared MenuItem entries (exit / logout) like the player menu row. */
+.admin-layout__menu {
+	display: flex;
+	gap: var(--spacing-md);
+	align-items: center;
+	padding: 0;
+	margin: 0;
+	font-size: var(--font-size-base);
+	list-style: none;
+}
+
 .admin-layout__body {
 	display: flex;
 	flex: 1 1 auto;

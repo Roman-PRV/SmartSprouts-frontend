@@ -11,6 +11,13 @@ type FetchByIdConfig<TData> = {
 	/** Must be a stable reference (module-level thunk creator), else the effect loops. */
 	createFetch: (id: string) => AsyncThunkAction<TData, string, AsyncThunkConfig>;
 	id: string | undefined;
+	/**
+	 * Refetch once on mount even when the id is already cached, keeping the cached
+	 * data visible meanwhile (stale-while-revalidate). For resources that carry
+	 * mutable per-user state (e.g. level progress) so revisiting the list reflects
+	 * changes made elsewhere without a loading flash.
+	 */
+	revalidateOnMount?: boolean;
 	selectData: (state: RootState) => null | TData;
 	selectLoadedId: (state: RootState) => null | string;
 	selectStatus: (state: RootState) => ValueOf<typeof DataStatus>;
@@ -30,9 +37,10 @@ type RootState = AsyncThunkConfig["state"];
  * request is aborted, and `data` is exposed only when it matches the current id
  * (never stale). Used by `useGameFetch`/`useLevelsFetch`.
  */
-const useFetchById = <TData,>({
+const useFetchById = <TData>({
 	createFetch,
 	id,
+	revalidateOnMount = false,
 	selectData,
 	selectLoadedId,
 	selectStatus,
@@ -44,6 +52,16 @@ const useFetchById = <TData,>({
 
 	const abortReference = useRef<(() => void) | null>(null);
 	const attemptedIdReference = useRef<string | undefined>(undefined);
+
+	// Captured at first render: revalidate on mount only when the id was already
+	// cached (a true revisit). A fresh id is handled by the load effect below, so
+	// this never double-fetches the first visit. Held as a constant ref (not
+	// consumed) so it survives StrictMode's mount→unmount→mount: the unmount
+	// cleanup aborts the first dispatch, and the second mount re-issues it.
+	const wasCachedAtMountReference = useRef(
+		revalidateOnMount && id !== undefined && loadedId === id
+	);
+	const mountIdReference = useRef(id);
 
 	const fetchById = useCallback(() => {
 		if (!id) {
@@ -72,6 +90,18 @@ const useFetchById = <TData,>({
 	}, [id, loadedId, fetchById]);
 
 	useEffect(() => {
+		// Only the id cached at mount is revalidated. Without the id guard, a later
+		// id change (same mounted component, new route param) would re-run this via
+		// the changed `fetchById` and fire a second, redundant fetch on top of the
+		// load effect's.
+		if (!wasCachedAtMountReference.current || id !== mountIdReference.current) {
+			return;
+		}
+
+		fetchById();
+	}, [fetchById, id]);
+
+	useEffect(() => {
 		return (): void => {
 			abortReference.current?.();
 		};
@@ -86,8 +116,10 @@ const useFetchById = <TData,>({
 	const isLoading = id !== undefined && !isMatched && !isErrorForCurrentId;
 
 	return {
+		// A failed background revalidate (matched id) must not blank the page: keep
+		// the cached data and suppress the error while we still have a match.
 		data: isMatched ? data : null,
-		hasError: isErrorForCurrentId,
+		hasError: isErrorForCurrentId && !isMatched,
 		isLoading,
 	};
 };
