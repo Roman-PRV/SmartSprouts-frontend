@@ -12,6 +12,7 @@ export { Icon } from "./icon/icon";
 export { Input } from "./input/input";
 export { LanguageSwitcher } from "./language-switcher/language-switcher";
 export { LanguageSwitcherVariant } from "./language-switcher/language-switcher-variant.enum";
+export { LegalDocument } from "./legal-document/legal-document";
 export { LevelPreviewCard } from "./level-preview-card/level-preview-card";
 export { Loader } from "./loader/loader";
 export { LocalizedInputGroup } from "./localized-input-group/localized-input-group";

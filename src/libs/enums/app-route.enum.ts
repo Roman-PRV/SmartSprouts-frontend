@@ -7,9 +7,11 @@ const AppRoute = {
 	GAMES: "/games",
 	LEVEL_CONTENT: "/games/:id/levels/:levelId",
 	LOGIN: "/login",
+	PRIVACY: "/privacy",
 	PROFILE: "/profile",
 	REGISTER: "/register",
 	ROOT: "/",
+	TERMS: "/terms",
 } as const;
 
 export { AppRoute };
