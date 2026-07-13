@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { Toaster } from "sonner";
 
 import { Loader } from "~/libs/components/components";
@@ -29,6 +29,7 @@ const App: React.FC = () => {
 	return (
 		<>
 			<Outlet />
+			<ScrollRestoration />
 			<Toaster position="top-right" richColors />
 		</>
 	);
