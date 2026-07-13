@@ -264,6 +264,7 @@ describe("auth slice", () => {
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const payload = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: TEST_USER_CREDENTIALS.secret,
@@ -285,6 +286,7 @@ describe("auth slice", () => {
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const payload = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: TEST_USER_CREDENTIALS.secret,

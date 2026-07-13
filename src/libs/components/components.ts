@@ -2,6 +2,7 @@ export { ArithmeticLevelCard } from "./arithmetic-level-card/arithmetic-level-ca
 export { AudioPlayButton } from "./audio-play-button/audio-play-button";
 export { ButtonLink } from "./button-link/button-link";
 export { Button } from "./button/button";
+export { Checkbox } from "./checkbox/checkbox";
 export { Dropdown } from "./dropdown/dropdown";
 export { FallbackImage } from "./fallback-image/fallback-image";
 export { FallbackMessage } from "./fallback-message/fallback-message";
