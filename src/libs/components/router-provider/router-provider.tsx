@@ -14,8 +14,10 @@ import {
 	GameSelectionPage,
 	HomePage,
 	LoginPage,
+	PrivacyPolicyPage,
 	ProfilePage,
 	RegisterPage,
+	TermsPage,
 } from "~/pages/pages";
 
 import { GuestRoute } from "../guest-route/guest-route";
@@ -27,6 +29,8 @@ const router = createBrowserRouter([
 			{
 				children: [
 					{ element: <HomePage />, index: true },
+					{ element: <PrivacyPolicyPage />, path: AppRoute.PRIVACY },
+					{ element: <TermsPage />, path: AppRoute.TERMS },
 					{
 						children: [
 							{ element: <GameSelectionPage />, path: AppRoute.GAMES },

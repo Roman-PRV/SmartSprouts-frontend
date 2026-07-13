@@ -11,7 +11,7 @@ const common = {
 		toggleWithSelection: "{{label}}, поточний: {{selection}}",
 	},
 	footer: {
-		// Add footer translations here
+		copyright: "© {{year}} SmartSprouts. Усі права захищені.",
 	},
 	localization: {
 		selectLanguage: "Оберіть мову",
