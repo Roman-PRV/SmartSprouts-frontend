@@ -1,4 +1,5 @@
 type RegisterRequestDto = {
+	accepted_terms: boolean;
 	email: string;
 	name: string;
 	password: string;

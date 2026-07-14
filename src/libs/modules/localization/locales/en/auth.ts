@@ -31,6 +31,10 @@ const auth = {
 	},
 	register: {
 		button: "Register",
+		consent: {
+			label:
+				"I confirm that I am 18 or older and the child's parent or legal guardian, I accept the <0>Terms of Service</0> and have read the <1>Privacy Policy</1>",
+		},
 		fields: {
 			confirmPassword: {
 				label: "Confirm Password",

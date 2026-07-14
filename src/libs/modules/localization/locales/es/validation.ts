@@ -1,4 +1,7 @@
 const validation = {
+	acceptedTerms: {
+		required: "Debes confirmarlo para crear una cuenta",
+	},
 	email: {
 		invalid: "Por favor, introduce un email válido",
 		required: "El email es obligatorio",

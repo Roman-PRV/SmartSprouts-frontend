@@ -4,12 +4,14 @@ import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { getLabelWithAsterisk } from "@tests/libs/helpers/dom.helpers";
 import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom/vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { VALIDATION_MESSAGES, VALIDATION_RULES } from "~/libs/constants/constants";
 import { DataStatus } from "~/libs/enums/enums";
 import { i18n } from "~/libs/modules/localization/localization";
+import { type AsyncThunkConfig } from "~/libs/types/types";
 import { RegisterForm } from "~/modules/auth/components/components";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
@@ -20,7 +22,9 @@ type AuthState = {
 	user: null | { email: string; id: number; is_admin: boolean; name: string };
 };
 
-const REQUIRED_FIELD_COUNT = 4;
+type ThunkExtra = AsyncThunkConfig["extra"];
+
+const REQUIRED_FIELD_COUNT = 5;
 const FIRST_MATCH_INDEX = 0;
 
 const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<typeof configureStore> => {
@@ -47,9 +51,70 @@ const renderWithProvider = (
 	const store = createMockStore(initialAuthState);
 
 	return {
-		...render(<Provider store={store}>{ui}</Provider>),
+		...render(
+			<Provider store={store}>
+				<MemoryRouter>{ui}</MemoryRouter>
+			</Provider>
+		),
 		store,
 	};
+};
+
+// The real register thunk runs against a stubbed thunk extra, so the payload
+// assertion happens at the api boundary without mocking the auth barrel
+// (mocking it breaks on the barrel <-> components circular import).
+const renderWithApiStub = (): {
+	authApiMock: { register: ReturnType<typeof vi.fn> };
+} => {
+	const authApiMock = {
+		register: vi.fn(() =>
+			Promise.resolve({
+				access_token: "test-token",
+				user: { email: "test@example.com", id: 1, is_admin: false, name: "John Doe" },
+			})
+		),
+	};
+	const storageMock = { set: vi.fn(() => Promise.resolve()) };
+	const store = configureStore({
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware({
+				thunk: {
+					extraArgument: { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra,
+				},
+			}),
+		reducer: { auth: authReducer },
+	});
+
+	render(
+		<Provider store={store}>
+			<MemoryRouter>
+				<RegisterForm />
+			</MemoryRouter>
+		</Provider>
+	);
+
+	return { authApiMock };
+};
+
+const fillValidFields = async (user: ReturnType<typeof userEvent.setup>): Promise<void> => {
+	await user.type(
+		screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.name.label"))),
+		"John Doe"
+	);
+	await user.type(
+		screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.email.label"))),
+		"test@example.com"
+	);
+	await user.type(
+		screen.getByLabelText(getLabelWithAsterisk(i18n.t("auth.register.fields.password.label"))),
+		"Password123"
+	);
+	await user.type(
+		screen.getByLabelText(
+			getLabelWithAsterisk(i18n.t("auth.register.fields.confirmPassword.label"))
+		),
+		"Password123"
+	);
 };
 
 describe("RegisterForm", () => {
@@ -286,6 +351,40 @@ describe("RegisterForm", () => {
 						i18n.t(VALIDATION_MESSAGES.MIN_PW_LENGTH, { min: VALIDATION_RULES.MIN_PASSWORD_LENGTH })
 					)[FIRST_MATCH_INDEX]
 				).toBeInTheDocument();
+			});
+		});
+
+		it("blocks submit and shows an error while the consent checkbox is unchecked", async () => {
+			const user = userEvent.setup();
+			const { authApiMock } = renderWithApiStub();
+
+			await fillValidFields(user);
+			await user.click(screen.getByRole("button", { name: i18n.t("auth.register.button") }));
+
+			await waitFor(() => {
+				expect(
+					screen.getByText(i18n.t(VALIDATION_MESSAGES.TERMS_MUST_BE_ACCEPTED))
+				).toBeInTheDocument();
+			});
+			expect(authApiMock.register).not.toHaveBeenCalled();
+		});
+
+		it("submits a payload that includes the consent flag once checked", async () => {
+			const user = userEvent.setup();
+			const { authApiMock } = renderWithApiStub();
+
+			await fillValidFields(user);
+			await user.click(screen.getByRole("checkbox"));
+			await user.click(screen.getByRole("button", { name: i18n.t("auth.register.button") }));
+
+			await waitFor(() => {
+				expect(authApiMock.register).toHaveBeenCalledWith(
+					expect.objectContaining({
+						accepted_terms: true,
+						email: "test@example.com",
+						name: "John Doe",
+					})
+				);
 			});
 		});
 
