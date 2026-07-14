@@ -53,6 +53,7 @@ describe("AuthApi.register", () => {
 
 	it("sends correct request and returns data on success", async () => {
 		const payload: RegisterRequestDto = {
+			accepted_terms: true,
 			email: "test@example.com",
 			name: "Test User",
 			password: VALID_CREDENTIAL_VALUE,
@@ -97,6 +98,7 @@ describe("AuthApi.register", () => {
 
 	it("propagates error when request fails", async () => {
 		const payload: RegisterRequestDto = {
+			accepted_terms: true,
 			email: "test@example.com",
 			name: "Test User",
 			password: VALID_CREDENTIAL_VALUE,

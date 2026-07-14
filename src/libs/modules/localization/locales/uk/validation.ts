@@ -1,4 +1,7 @@
 const validation = {
+	acceptedTerms: {
+		required: "Потрібно підтвердити це, щоб створити акаунт",
+	},
 	email: {
 		invalid: "Будь ласка, введіть дійсний email",
 		required: "Email обов'язковий",

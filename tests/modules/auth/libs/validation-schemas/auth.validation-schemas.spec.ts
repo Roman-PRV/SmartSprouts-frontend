@@ -27,7 +27,7 @@ describe("Auth Validation Schemas", () => {
 			expect(result.success).toBe(false);
 
 			if (!result.success) {
-				const issue = result.error.issues.find((i) => i.path[FIRST_INDEX] === "email");
+				const issue = result.error.issues.find((item) => item.path[FIRST_INDEX] === "email");
 				expect(issue?.message).toBe(VALIDATION_MESSAGES.INVALID_EMAIL_FORMAT);
 			}
 		});
@@ -50,7 +50,7 @@ describe("Auth Validation Schemas", () => {
 			expect(result.success).toBe(false);
 
 			if (!result.success) {
-				const issue = result.error.issues.find((i) => i.path[FIRST_INDEX] === "password");
+				const issue = result.error.issues.find((item) => item.path[FIRST_INDEX] === "password");
 				expect(issue?.message).toBe(VALIDATION_MESSAGES.PW_REQUIRED);
 			}
 		});
@@ -59,6 +59,7 @@ describe("Auth Validation Schemas", () => {
 	describe("registerSchema", () => {
 		it("should validate correct registration data", () => {
 			const data = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: "Password123",
@@ -68,8 +69,27 @@ describe("Auth Validation Schemas", () => {
 			expect(result.success).toBe(true);
 		});
 
+		it("should fail when the consent checkbox is not accepted", () => {
+			const data = {
+				accepted_terms: false,
+				email: "test@example.com",
+				name: "Test User",
+				password: "Password123",
+				password_confirmation: "Password123",
+			};
+			const result = registerSchema.safeParse(data);
+
+			expect(result.success).toBe(false);
+
+			if (!result.success) {
+				const issue = result.error.issues.find((item) => item.path[FIRST_INDEX] === "accepted_terms");
+				expect(issue?.message).toBe(VALIDATION_MESSAGES.TERMS_MUST_BE_ACCEPTED);
+			}
+		});
+
 		it("should fail if passwords do not match", () => {
 			const data = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: "Password123",
@@ -81,7 +101,7 @@ describe("Auth Validation Schemas", () => {
 
 			if (!result.success) {
 				const issue = result.error.issues.find(
-					(i) => i.path[FIRST_INDEX] === "password_confirmation"
+					(item) => item.path[FIRST_INDEX] === "password_confirmation"
 				);
 				expect(issue?.message).toBe(VALIDATION_MESSAGES.PW_DO_NOT_MATCH);
 			}
@@ -89,6 +109,7 @@ describe("Auth Validation Schemas", () => {
 
 		it("should fail validation for individual fields", () => {
 			const data = {
+				accepted_terms: false,
 				email: "invalid",
 				name: "",
 				password: "short",
@@ -100,6 +121,7 @@ describe("Auth Validation Schemas", () => {
 
 		it("should fail if password does not contain a lowercase letter", () => {
 			const data = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: "PASSWORD123",
@@ -111,7 +133,7 @@ describe("Auth Validation Schemas", () => {
 
 			if (!result.success) {
 				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_LOWERCASE
+					(item) => item.path.includes("password") && item.message === VALIDATION_MESSAGES.PW_CONTAINS_LOWERCASE
 				);
 				expect(issue).toBeDefined();
 			}
@@ -119,6 +141,7 @@ describe("Auth Validation Schemas", () => {
 
 		it("should fail if password does not contain an uppercase letter", () => {
 			const data = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: "password123",
@@ -130,7 +153,7 @@ describe("Auth Validation Schemas", () => {
 
 			if (!result.success) {
 				const issue = result.error.issues.find(
-					(i) => i.path.includes("password") && i.message === VALIDATION_MESSAGES.PW_CONTAINS_UPPERCASE
+					(item) => item.path.includes("password") && item.message === VALIDATION_MESSAGES.PW_CONTAINS_UPPERCASE
 				);
 				expect(issue).toBeDefined();
 			}
