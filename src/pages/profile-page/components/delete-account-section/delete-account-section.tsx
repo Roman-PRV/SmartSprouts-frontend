@@ -21,7 +21,7 @@ const DeleteAccountSection: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const hasPassword = useAppSelector((state) => state.auth.user?.has_password ?? true);
+	const user = useAppSelector((state) => state.auth.user);
 
 	const handleOpenModal = useCallback((): void => {
 		setIsModalOpen(true);
@@ -43,6 +43,10 @@ const DeleteAccountSection: React.FC = () => {
 		void finishSession();
 	}, [dispatch, navigate, t]);
 
+	if (!user) {
+		return null;
+	}
+
 	return (
 		<div className={styles["card"]}>
 			<h2 className={styles["card__title"]}>{t("profile.deleteAccount.title")}</h2>
@@ -58,7 +62,7 @@ const DeleteAccountSection: React.FC = () => {
 				onClose={handleCloseModal}
 				title={t("profile.deleteAccount.modalTitle")}
 			>
-				{hasPassword ? (
+				{user.has_password ? (
 					<PasswordConfirmForm onCancel={handleCloseModal} onDeleted={handleDeleted} />
 				) : (
 					<CodeConfirmForm onCancel={handleCloseModal} onDeleted={handleDeleted} />

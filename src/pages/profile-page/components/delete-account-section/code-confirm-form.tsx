@@ -66,7 +66,7 @@ const CodeConfirmForm: React.FC<Properties> = ({ onCancel, onDeleted }) => {
 	});
 
 	return (
-		<div className={styles["form"]}>
+		<form className={styles["form"]} noValidate onSubmit={handleSubmit(handleFormSubmit)}>
 			<p className={styles["hint"]}>{t("profile.deleteAccount.codeHint")}</p>
 
 			<Button
@@ -80,35 +80,27 @@ const CodeConfirmForm: React.FC<Properties> = ({ onCancel, onDeleted }) => {
 			</Button>
 
 			{isCodeSent && (
-				<form className={styles["form"]} noValidate onSubmit={handleSubmit(handleFormSubmit)}>
-					<Input
-						error={errors.code?.message && t(errors.code.message)}
-						label={t("profile.deleteAccount.codeField.label")}
-						placeholder={t("profile.deleteAccount.codeField.placeholder")}
-						required
-						type="text"
-						{...register("code")}
-					/>
-
-					<div className={styles["form__actions"]}>
-						<Button onClick={onCancel} size="md" type="button" variant="secondary">
-							{t("profile.deleteAccount.cancel")}
-						</Button>
-						<Button isLoading={isSubmitting} size="md" type="submit" variant="danger">
-							{t("profile.deleteAccount.confirm")}
-						</Button>
-					</div>
-				</form>
+				<Input
+					error={errors.code?.message && t(errors.code.message)}
+					label={t("profile.deleteAccount.codeField.label")}
+					placeholder={t("profile.deleteAccount.codeField.placeholder")}
+					required
+					type="text"
+					{...register("code")}
+				/>
 			)}
 
-			{!isCodeSent && (
-				<div className={styles["form__actions"]}>
-					<Button onClick={onCancel} size="md" type="button" variant="secondary">
-						{t("profile.deleteAccount.cancel")}
+			<div className={styles["form__actions"]}>
+				<Button onClick={onCancel} size="md" type="button" variant="secondary">
+					{t("profile.deleteAccount.cancel")}
+				</Button>
+				{isCodeSent && (
+					<Button isLoading={isSubmitting} size="md" type="submit" variant="danger">
+						{t("profile.deleteAccount.confirm")}
 					</Button>
-				</div>
-			)}
-		</div>
+				)}
+			</div>
+		</form>
 	);
 };
 
