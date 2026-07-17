@@ -17,10 +17,10 @@ type AuthState = {
 	user: MockUser | null;
 };
 
-type MockUser = { email: string; id: number; is_admin: boolean; name: string };
+type MockUser = { email: string; has_password: boolean; id: number; is_admin: boolean; name: string };
 
-const ADMIN_USER: MockUser = { email: "a@a.com", id: 1, is_admin: true, name: "Admin" };
-const REGULAR_USER: MockUser = { email: "u@u.com", id: 2, is_admin: false, name: "User" };
+const ADMIN_USER: MockUser = { email: "a@a.com", has_password: true, id: 1, is_admin: true, name: "Admin" };
+const REGULAR_USER: MockUser = { email: "u@u.com", has_password: true, id: 2, is_admin: false, name: "User" };
 
 const createMockStore = (
 	initialAuthState?: Partial<AuthState>

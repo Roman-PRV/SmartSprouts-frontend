@@ -1,7 +1,12 @@
 import { FallbackMessage, Loader } from "~/libs/components/components";
 import { useProfileFetch, useTranslation } from "~/libs/hooks/hooks";
 
-import { ChangePasswordForm, UserAnalytics, UserProfileCard } from "./components/components";
+import {
+	ChangePasswordForm,
+	DeleteAccountSection,
+	UserAnalytics,
+	UserProfileCard,
+} from "./components/components";
 import { getAnalyticsItems } from "./libs/helpers/helpers";
 import styles from "./styles.module.css";
 
@@ -25,6 +30,7 @@ const ProfilePage: React.FC = () => {
 					<UserProfileCard user={profile} />
 					<UserAnalytics items={analyticsItems} />
 					<ChangePasswordForm />
+					<DeleteAccountSection />
 				</>
 			)}
 		</div>
