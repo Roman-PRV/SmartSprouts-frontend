@@ -1,9 +1,9 @@
 import { type TFunction } from "i18next";
 import { describe, expect, it } from "vitest";
 
+import { type UserProfileDto } from "~/modules/profile/profile";
 import { ACCURACY_FALLBACK } from "~/pages/profile-page/libs/constants/constants";
 import { getAnalyticsItems } from "~/pages/profile-page/libs/helpers/helpers";
-import { type UserProfileDto } from "~/modules/profile/profile";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────────────────────
 
@@ -38,21 +38,21 @@ describe("getAnalyticsItems", () => {
 
 	it("should return totalScore item", () => {
 		const result = getAnalyticsItems({ stats: makeStats({ totalScore: 999 }), t });
-		const item = result.find((i) => i.label === "profile.totalScore");
+		const item = result.find((entry) => entry.label === "profile.totalScore");
 
 		expect(item).toEqual({ label: "profile.totalScore", value: 999 });
 	});
 
 	it("should return totalLevels item", () => {
 		const result = getAnalyticsItems({ stats: makeStats({ totalLevels: 42 }), t });
-		const item = result.find((i) => i.label === "profile.totalLevels");
+		const item = result.find((entry) => entry.label === "profile.totalLevels");
 
 		expect(item).toEqual({ label: "profile.totalLevels", value: 42 });
 	});
 
 	it("should return completedLevels item", () => {
 		const result = getAnalyticsItems({ stats: makeStats({ completedLevels: 7 }), t });
-		const item = result.find((i) => i.label === "profile.completedLevels");
+		const item = result.find((entry) => entry.label === "profile.completedLevels");
 
 		expect(item).toEqual({ label: "profile.completedLevels", value: 7 });
 	});
@@ -60,35 +60,35 @@ describe("getAnalyticsItems", () => {
 	describe("accuracy", () => {
 		it("should format correctAnswersPercentage to 2 decimal places with % sign", () => {
 			const result = getAnalyticsItems({ stats: makeStats({ correctAnswersPercentage: 75.555 }), t });
-			const item = result.find((i) => i.label === "profile.accuracy");
+			const item = result.find((entry) => entry.label === "profile.accuracy");
 
 			expect(item).toEqual({ label: "profile.accuracy", value: "75.56%" });
 		});
 
 		it("should return fallback when correctAnswersPercentage is NaN", () => {
-			const result = getAnalyticsItems({ stats: makeStats({ correctAnswersPercentage: NaN }), t });
-			const item = result.find((i) => i.label === "profile.accuracy");
+			const result = getAnalyticsItems({ stats: makeStats({ correctAnswersPercentage: Number.NaN }), t });
+			const item = result.find((entry) => entry.label === "profile.accuracy");
 
 			expect(item).toEqual({ label: "profile.accuracy", value: ACCURACY_FALLBACK });
 		});
 
 		it("should format 0% correctly", () => {
 			const result = getAnalyticsItems({ stats: makeStats({ correctAnswersPercentage: 0 }), t });
-			const item = result.find((i) => i.label === "profile.accuracy");
+			const item = result.find((entry) => entry.label === "profile.accuracy");
 
 			expect(item).toEqual({ label: "profile.accuracy", value: "0.00%" });
 		});
 
 		it("should format 100% correctly", () => {
 			const result = getAnalyticsItems({ stats: makeStats({ correctAnswersPercentage: 100 }), t });
-			const item = result.find((i) => i.label === "profile.accuracy");
+			const item = result.find((entry) => entry.label === "profile.accuracy");
 
 			expect(item).toEqual({ label: "profile.accuracy", value: "100.00%" });
 		});
 
 		it("should render Infinity% when correctAnswersPercentage is Infinity", () => {
 			const result = getAnalyticsItems({ stats: makeStats({ correctAnswersPercentage: Infinity }), t });
-			const item = result.find((i) => i.label === "profile.accuracy");
+			const item = result.find((entry) => entry.label === "profile.accuracy");
 
 			expect(item).toEqual({ label: "profile.accuracy", value: "Infinity%" });
 		});

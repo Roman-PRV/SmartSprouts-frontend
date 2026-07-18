@@ -1,13 +1,19 @@
 import { FallbackMessage, Loader } from "~/libs/components/components";
-import { useProfileFetch, useTranslation } from "~/libs/hooks/hooks";
+import { useAppSelector, useProfileFetch, useTranslation } from "~/libs/hooks/hooks";
 
-import { ChangePasswordForm, UserAnalytics, UserProfileCard } from "./components/components";
+import {
+	ChangePasswordForm,
+	DeleteAccountSection,
+	UserAnalytics,
+	UserProfileCard,
+} from "./components/components";
 import { getAnalyticsItems } from "./libs/helpers/helpers";
 import styles from "./styles.module.css";
 
 const ProfilePage: React.FC = () => {
 	const { t } = useTranslation();
 	const { data: profile, error, isError, isLoading } = useProfileFetch();
+	const hasPassword = useAppSelector((state) => Boolean(state.auth.user?.has_password));
 
 	if (isLoading) {
 		return <Loader variant="page" />;
@@ -24,7 +30,8 @@ const ProfilePage: React.FC = () => {
 					<h1 className={styles["page-title"]}>{t("profile.title")}</h1>
 					<UserProfileCard user={profile} />
 					<UserAnalytics items={analyticsItems} />
-					<ChangePasswordForm />
+					{hasPassword && <ChangePasswordForm />}
+					<DeleteAccountSection />
 				</>
 			)}
 		</div>

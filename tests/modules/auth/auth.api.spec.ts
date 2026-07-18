@@ -64,6 +64,7 @@ describe("AuthApi.register", () => {
 			access_token: "fake-token",
 			user: {
 				email: "test@example.com",
+				has_password: true,
 				id: 1,
 				is_admin: false,
 				name: "Test User",
@@ -138,6 +139,7 @@ describe("AuthApi.login", () => {
 			access_token: "fake-token",
 			user: {
 				email: "test@example.com",
+				has_password: true,
 				id: 1,
 				is_admin: false,
 				name: "Test User",
@@ -203,6 +205,7 @@ describe("AuthApi.getAuthenticatedUser", () => {
 	it("sends correct request and returns user on success", async () => {
 		const expectedUser: User = {
 			email: "test@example.com",
+			has_password: true,
 			id: 1,
 			is_admin: false,
 			name: "Test User",

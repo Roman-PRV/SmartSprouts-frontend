@@ -19,7 +19,7 @@ type AuthState = {
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
 	error: null | { message: string };
 	isAuthenticated: boolean;
-	user: null | { email: string; id: number; is_admin: boolean; name: string };
+	user: null | { email: string; has_password: boolean; id: number; is_admin: boolean; name: string };
 };
 
 type ThunkExtra = AsyncThunkConfig["extra"];
@@ -70,7 +70,7 @@ const renderWithApiStub = (): {
 		register: vi.fn(() =>
 			Promise.resolve({
 				access_token: "test-token",
-				user: { email: "test@example.com", id: 1, is_admin: false, name: "John Doe" },
+				user: { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "John Doe" },
 			})
 		),
 	};

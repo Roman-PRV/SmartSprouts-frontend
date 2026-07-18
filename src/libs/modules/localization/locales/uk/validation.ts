@@ -2,6 +2,9 @@ const validation = {
 	acceptedTerms: {
 		required: "Потрібно підтвердити це, щоб створити акаунт",
 	},
+	deletionCode: {
+		format: "Код — це 6 цифр із листа, який ми вам надіслали",
+	},
 	email: {
 		invalid: "Будь ласка, введіть дійсний email",
 		required: "Email обов'язковий",

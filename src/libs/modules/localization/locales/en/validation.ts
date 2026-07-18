@@ -2,6 +2,9 @@ const validation = {
 	acceptedTerms: {
 		required: "You must confirm this to create an account",
 	},
+	deletionCode: {
+		format: "The code is 6 digits from the email we sent you",
+	},
 	email: {
 		invalid: "Please enter a valid email",
 		required: "Email is required",

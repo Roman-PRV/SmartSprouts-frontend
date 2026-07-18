@@ -5,10 +5,59 @@ import { StorageKey } from "~/libs/modules/storage/storage";
 import { type AsyncThunkConfig } from "~/libs/types/types";
 
 import {
+	type DeleteAccountWithCodeRequestDto,
+	type DeleteAccountWithPasswordRequestDto,
 	type UpdatePasswordRequestDto,
 	type UpdatePasswordResponseDto,
 	type UserProfileDto,
 } from "../libs/types/types";
+
+const deleteAccountWithCode = createAsyncThunk<
+	null,
+	DeleteAccountWithCodeRequestDto,
+	AsyncThunkConfig
+>("profile/deleteAccountWithCode", async (payload, { extra, rejectWithValue }) => {
+	const { profileApi } = extra;
+
+	try {
+		await profileApi.deleteAccount(payload);
+
+		return null;
+	} catch (error) {
+		return rejectWithValue(normalizeError(error));
+	}
+});
+
+const deleteAccountWithPassword = createAsyncThunk<
+	null,
+	DeleteAccountWithPasswordRequestDto,
+	AsyncThunkConfig
+>("profile/deleteAccountWithPassword", async (payload, { extra, rejectWithValue }) => {
+	const { profileApi } = extra;
+
+	try {
+		await profileApi.deleteAccount(payload);
+
+		return null;
+	} catch (error) {
+		return rejectWithValue(normalizeError(error));
+	}
+});
+
+const requestDeletionCode = createAsyncThunk<null, undefined, AsyncThunkConfig>(
+	"profile/requestDeletionCode",
+	async (_payload, { extra, rejectWithValue }) => {
+		const { profileApi } = extra;
+
+		try {
+			await profileApi.requestDeletionCode();
+
+			return null;
+		} catch (error) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
 
 const fetchProfile = createAsyncThunk<UserProfileDto, undefined, AsyncThunkConfig>(
 	"profile/fetchProfile",
@@ -40,4 +89,10 @@ const updatePassword = createAsyncThunk<
 	}
 });
 
-export { fetchProfile, updatePassword };
+export {
+	deleteAccountWithCode,
+	deleteAccountWithPassword,
+	fetchProfile,
+	requestDeletionCode,
+	updatePassword,
+};
