@@ -34,6 +34,7 @@ const CodeConfirmForm: React.FC<Properties> = ({ onCancel, onDeleted }) => {
 		formState: { errors, isSubmitting },
 		handleSubmit,
 		register,
+		reset,
 		setError,
 	} = useForm<DeleteAccountWithCodeRequestDto>({
 		defaultValues: { code: "" },
@@ -45,6 +46,7 @@ const CodeConfirmForm: React.FC<Properties> = ({ onCancel, onDeleted }) => {
 
 		try {
 			await dispatch(requestDeletionCode()).unwrap();
+			reset({ code: "" });
 			setIsCodeSent(true);
 			toast.success(t("profile.deleteAccount.codeSent"));
 		} catch {
@@ -52,7 +54,7 @@ const CodeConfirmForm: React.FC<Properties> = ({ onCancel, onDeleted }) => {
 		} finally {
 			setIsSendingCode(false);
 		}
-	}, [dispatch, t]);
+	}, [dispatch, reset, t]);
 
 	const handleSendCodeClick = useCallback((): void => {
 		void handleSendCode();

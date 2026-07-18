@@ -1,6 +1,6 @@
 type User = {
 	email: string;
-	/** Picks the deletion confirmation UI: password prompt vs emailed one-time code. */
+	/** False for Google-only accounts that never set a local password. */
 	has_password: boolean;
 	id: number;
 	is_admin: boolean;
