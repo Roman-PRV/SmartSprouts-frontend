@@ -6,6 +6,7 @@ import { type Storage } from "~/libs/modules/storage/storage";
 
 import { ProfileApiPath } from "./libs/enums/enums";
 import {
+	type DeleteAccountRequestDto,
 	type UpdatePasswordRequestDto,
 	type UpdatePasswordResponseDto,
 	type UserProfileDto,
@@ -22,10 +23,22 @@ class ProfileApi extends BaseHTTPApi {
 		super({ baseUrl, http, path: APIPath.PROFILE, storage });
 	}
 
+	public async deleteAccount(payload: DeleteAccountRequestDto): Promise<void> {
+		const url = this.getFullEndpoint(ProfileApiPath.ROOT, {});
+
+		await this.requestVoid(url, { method: HTTPMethod.DELETE, payload });
+	}
+
 	public async getProfile(): Promise<UserProfileDto> {
 		const url = this.getFullEndpoint(ProfileApiPath.ROOT, {});
 
 		return await this.requestJson<UserProfileDto>(url, { method: HTTPMethod.GET });
+	}
+
+	public async requestDeletionCode(): Promise<void> {
+		const url = this.getFullEndpoint(ProfileApiPath.DELETION_CODE, {});
+
+		await this.requestVoid(url, { method: HTTPMethod.POST });
 	}
 
 	public async updatePassword(
