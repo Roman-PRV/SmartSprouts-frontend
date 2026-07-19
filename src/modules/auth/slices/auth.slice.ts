@@ -7,6 +7,8 @@ import { type User } from "../libs/types/types";
 import { getAuthenticatedUser, login, loginWithGoogle, logout, register } from "./actions";
 
 type State = {
+	/** Whether the user has accepted the current legal-document versions. */
+	consentCurrent: boolean;
 	dataStatus: ValueOf<typeof DataStatus>;
 	error: null | ThunkErrorPayload;
 	isAuthenticated: boolean;
@@ -14,6 +16,7 @@ type State = {
 };
 
 const initialState: State = {
+	consentCurrent: true,
 	dataStatus: DataStatus.IDLE,
 	error: null,
 	isAuthenticated: false,
@@ -33,13 +36,15 @@ const { actions, reducer } = createSlice({
 		builder.addCase(getAuthenticatedUser.fulfilled, (state, action) => {
 			state.dataStatus = DataStatus.FULFILLED;
 			state.isAuthenticated = true;
-			state.user = action.payload;
+			state.user = action.payload.user;
+			state.consentCurrent = action.payload.consent_current;
 			state.error = null;
 		});
 		builder.addCase(getAuthenticatedUser.rejected, (state) => {
 			state.dataStatus = DataStatus.REJECTED;
 			state.isAuthenticated = false;
 			state.user = null;
+			state.consentCurrent = true;
 			state.error = null;
 		});
 
@@ -47,6 +52,7 @@ const { actions, reducer } = createSlice({
 			state.dataStatus = DataStatus.FULFILLED;
 			state.isAuthenticated = true;
 			state.user = action.payload.user;
+			state.consentCurrent = action.payload.consent_current;
 			state.error = null;
 			// Token is stored in async thunk via storage.set()
 		});
@@ -67,12 +73,14 @@ const { actions, reducer } = createSlice({
 			state.dataStatus = DataStatus.FULFILLED;
 			state.isAuthenticated = false;
 			state.user = null;
+			state.consentCurrent = true;
 			state.error = null;
 		});
 		builder.addCase(logout.rejected, (state) => {
 			state.dataStatus = DataStatus.REJECTED;
 			state.isAuthenticated = false;
 			state.user = null;
+			state.consentCurrent = true;
 			state.error = null;
 		});
 
@@ -83,7 +91,8 @@ const { actions, reducer } = createSlice({
 		builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
 			state.dataStatus = DataStatus.FULFILLED;
 			state.isAuthenticated = true;
-			state.user = action.payload;
+			state.user = action.payload.user;
+			state.consentCurrent = action.payload.consent_current;
 			state.error = null;
 		});
 		builder.addCase(loginWithGoogle.rejected, (state, action) => {
@@ -103,6 +112,7 @@ const { actions, reducer } = createSlice({
 			state.dataStatus = DataStatus.FULFILLED;
 			state.isAuthenticated = true;
 			state.user = action.payload.user;
+			state.consentCurrent = action.payload.consent_current;
 			state.error = null;
 			// Token is stored in async thunk via storage.set()
 		});
@@ -120,6 +130,12 @@ const { actions, reducer } = createSlice({
 	reducers: {
 		clearError: (state) => {
 			state.error = null;
+		},
+		// Local flip instead of a me-refetch: the acceptance of the current
+		// versions was just recorded server-side, and a failed refetch here
+		// would falsely log the user out.
+		consentAccepted: (state) => {
+			state.consentCurrent = true;
 		},
 	},
 });

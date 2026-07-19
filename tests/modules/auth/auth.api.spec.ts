@@ -62,6 +62,7 @@ describe("AuthApi.register", () => {
 
 		const responseData: RegisterResponseDto = {
 			access_token: "fake-token",
+			consent_current: true,
 			user: {
 				email: "test@example.com",
 				has_password: true,
@@ -137,6 +138,7 @@ describe("AuthApi.login", () => {
 
 		const responseData: LoginResponseDto = {
 			access_token: "fake-token",
+			consent_current: true,
 			user: {
 				email: "test@example.com",
 				has_password: true,
@@ -210,7 +212,7 @@ describe("AuthApi.getAuthenticatedUser", () => {
 			is_admin: false,
 			name: "Test User",
 		};
-		const responseData = { user: expectedUser };
+		const responseData = { consent_current: true, user: expectedUser };
 		const token = "some-token";
 
 		http.load.mockResolvedValueOnce(makeResponse(responseData));
@@ -237,7 +239,7 @@ describe("AuthApi.getAuthenticatedUser", () => {
 		const [, options] = http.load.mock.calls[0] as HttpCallArguments;
 		expect(options.headers.get("authorization")).toBe(`Bearer ${token}`);
 
-		expect(result).toEqual(expectedUser);
+		expect(result).toEqual(responseData);
 	});
 
 	it("propagates error when request fails", async () => {

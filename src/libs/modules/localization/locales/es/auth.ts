@@ -1,4 +1,11 @@
 const auth = {
+	consentGate: {
+		button: "Continuar",
+		description:
+			"Necesitamos tu confirmación antes de continuar: según nuestros registros, aún no has aceptado la versión vigente de nuestros documentos legales.",
+		error: "No se pudo guardar tu confirmación. Por favor, inténtalo de nuevo.",
+		title: "Un Paso Más",
+	},
 	googleCallback: {
 		errors: {
 			authFailed: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",

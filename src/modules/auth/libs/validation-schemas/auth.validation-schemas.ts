@@ -31,11 +31,13 @@ const loginSchema = z.object({
  * Additional checks:
  * - Ensures password and password_confirmation match.
  */
+const acceptedTermsSchema = z.boolean().refine((value) => value, {
+	message: VALIDATION_MESSAGES.TERMS_MUST_BE_ACCEPTED,
+});
+
 const registerSchema = z
 	.object({
-		accepted_terms: z.boolean().refine((value) => value, {
-			message: VALIDATION_MESSAGES.TERMS_MUST_BE_ACCEPTED,
-		}),
+		accepted_terms: acceptedTermsSchema,
 		email: emailSchema,
 		name: nameSchema,
 		password: passwordSchema,
@@ -46,4 +48,14 @@ const registerSchema = z
 		path: ["password_confirmation"],
 	});
 
-export { loginSchema, registerSchema };
+/**
+ * Schema for the blocking consent gate (re-consent / repair of accounts
+ * created without consent).
+ */
+const consentGateSchema = z.object({
+	accepted_terms: acceptedTermsSchema,
+});
+
+type ConsentGateFormValues = z.infer<typeof consentGateSchema>;
+
+export { type ConsentGateFormValues, consentGateSchema, loginSchema, registerSchema };

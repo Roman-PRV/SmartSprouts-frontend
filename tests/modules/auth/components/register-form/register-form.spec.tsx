@@ -16,6 +16,7 @@ import { RegisterForm } from "~/modules/auth/components/components";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
 type AuthState = {
+	consentCurrent: boolean;
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
 	error: null | { message: string };
 	isAuthenticated: boolean;
@@ -31,6 +32,7 @@ const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<type
 	return configureStore({
 		preloadedState: {
 			auth: {
+				consentCurrent: true,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: false,
@@ -70,6 +72,7 @@ const renderWithApiStub = (): {
 		register: vi.fn(() =>
 			Promise.resolve({
 				access_token: "test-token",
+				consent_current: true,
 				user: { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "John Doe" },
 			})
 		),

@@ -30,6 +30,7 @@ const renderAdminLayout = (): ReturnType<typeof render> => {
 	const store = configureStore({
 		preloadedState: {
 			auth: {
+				consentCurrent: true,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: true,

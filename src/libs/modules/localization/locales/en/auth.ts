@@ -1,4 +1,11 @@
 const auth = {
+	consentGate: {
+		button: "Continue",
+		description:
+			"We need your confirmation before you can continue: our records show you haven't accepted the current version of our legal documents yet.",
+		error: "Failed to save your confirmation. Please try again.",
+		title: "One More Step",
+	},
 	googleCallback: {
 		errors: {
 			authFailed: "Failed to sign in with Google. Please try again.",

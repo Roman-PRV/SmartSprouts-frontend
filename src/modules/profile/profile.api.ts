@@ -23,6 +23,15 @@ class ProfileApi extends BaseHTTPApi {
 		super({ baseUrl, http, path: APIPath.PROFILE, storage });
 	}
 
+	public async acceptConsents(): Promise<void> {
+		const url = this.getFullEndpoint(ProfileApiPath.CONSENTS, {});
+
+		await this.requestVoid(url, {
+			method: HTTPMethod.POST,
+			payload: { accepted_terms: true },
+		});
+	}
+
 	public async deleteAccount(payload: DeleteAccountRequestDto): Promise<void> {
 		const url = this.getFullEndpoint(ProfileApiPath.ROOT, {});
 

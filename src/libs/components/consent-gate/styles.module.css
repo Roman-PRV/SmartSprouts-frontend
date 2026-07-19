@@ -1,0 +1,50 @@
+.gate {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: var(--spacing-md);
+	background: var(--color-background-2);
+}
+
+.gate__card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	width: 100%;
+	max-width: 480px;
+	padding: var(--spacing-lg);
+	background: var(--color-background-4);
+	border-radius: var(--border-radius-md);
+	box-shadow: var(--shadow-sm);
+}
+
+.gate__title {
+	margin: 0;
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-dark);
+}
+
+.gate__description {
+	margin: 0;
+	font-size: var(--font-size-xs);
+	color: var(--color-text-dark);
+}
+
+.gate__form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	margin-top: var(--spacing-xs);
+}
+
+.gate__link {
+	color: var(--color-background-accent);
+	text-decoration: underline;
+	transition: color var(--transition-default);
+}
+
+.gate__link:hover {
+	color: var(--color-text-dark);
+}
