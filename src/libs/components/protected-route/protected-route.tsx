@@ -2,8 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import { AppRoute } from "~/libs/enums/enums";
 import { useAppSelector } from "~/libs/hooks/hooks";
-
-import { ConsentGate } from "../consent-gate/consent-gate";
+import { ConsentGate } from "~/modules/auth/auth";
 
 const ProtectedRoute: React.FC = () => {
 	const isAuthenticated = useAppSelector(({ auth }) => auth.isAuthenticated);

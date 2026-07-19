@@ -35,10 +35,10 @@ const GATE_USER = {
 	name: "Parent",
 };
 
-/** Renders the gate flow with mocked APIs: consent not current, acceptance succeeds. */
-const renderConsentGateFlow = (): GateFlowMocks => {
-	const acceptConsents = vi.fn(() => Promise.resolve());
-
+/** Renders the gate flow with a mocked API; consent starts not current. */
+const renderConsentGateFlow = (
+	acceptConsents = vi.fn(() => Promise.resolve())
+): GateFlowMocks => {
 	const store = configureStore({
 		middleware: (getDefaultMiddleware) =>
 			getDefaultMiddleware({
@@ -172,6 +172,23 @@ describe("ProtectedRoute", () => {
 				expect(screen.getByText("Protected Content")).toBeInTheDocument();
 			});
 			expect(acceptConsents).toHaveBeenCalledTimes(1);
+		});
+
+		it("keeps the gate when the acceptance request fails", async () => {
+			const acceptConsents = vi.fn(() => Promise.reject(new Error("network")));
+			renderConsentGateFlow(acceptConsents);
+			const interaction = userEvent.setup();
+
+			await interaction.click(screen.getByRole("checkbox"));
+			await interaction.click(
+				screen.getByRole("button", { name: i18n.t("auth.consentGate.button") })
+			);
+
+			await waitFor(() => {
+				expect(acceptConsents).toHaveBeenCalledTimes(1);
+			});
+			expect(screen.getByText(i18n.t("auth.consentGate.title"))).toBeInTheDocument();
+			expect(screen.queryByText("Protected Content")).not.toBeInTheDocument();
 		});
 	});
 });

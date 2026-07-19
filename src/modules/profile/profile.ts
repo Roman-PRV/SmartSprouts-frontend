@@ -23,7 +23,6 @@ export {
 	updatePasswordValidationSchema,
 } from "./libs/validation-schemas/validation-schemas";
 export {
-	acceptConsents,
 	deleteAccountWithCode,
 	deleteAccountWithPassword,
 	fetchProfile,

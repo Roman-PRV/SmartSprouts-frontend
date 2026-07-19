@@ -2,7 +2,10 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 100vh;
+
+	/* Under MainLayout the header (--header-height-md) sits above the gate;
+	   dvh keeps mobile browsers from jumping with the address bar. */
+	min-height: calc(100dvh - var(--header-height-md));
 	padding: var(--spacing-md);
 	background: var(--color-background-2);
 }

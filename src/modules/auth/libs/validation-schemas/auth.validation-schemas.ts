@@ -19,6 +19,11 @@ const loginSchema = z.object({
 	password: basicPasswordSchema,
 });
 
+/** Must be `true`: the 18+/guardian affirmation plus acceptance of the legal documents. */
+const acceptedTermsSchema = z.boolean().refine((value) => value, {
+	message: VALIDATION_MESSAGES.TERMS_MUST_BE_ACCEPTED,
+});
+
 /**
  * Schema for registration form validation.
  * Includes:
@@ -31,10 +36,6 @@ const loginSchema = z.object({
  * Additional checks:
  * - Ensures password and password_confirmation match.
  */
-const acceptedTermsSchema = z.boolean().refine((value) => value, {
-	message: VALIDATION_MESSAGES.TERMS_MUST_BE_ACCEPTED,
-});
-
 const registerSchema = z
 	.object({
 		accepted_terms: acceptedTermsSchema,

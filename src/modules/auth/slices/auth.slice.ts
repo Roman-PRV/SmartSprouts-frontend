@@ -4,7 +4,14 @@ import { DataStatus } from "~/libs/enums/enums";
 import { type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 
 import { type User } from "../libs/types/types";
-import { getAuthenticatedUser, login, loginWithGoogle, logout, register } from "./actions";
+import {
+	acceptConsents,
+	getAuthenticatedUser,
+	login,
+	loginWithGoogle,
+	logout,
+	register,
+} from "./actions";
 
 type State = {
 	/** Whether the user has accepted the current legal-document versions. */
@@ -25,6 +32,13 @@ const initialState: State = {
 
 const { actions, reducer } = createSlice({
 	extraReducers: (builder) => {
+		// Local flip instead of a me-refetch: the acceptance of the current
+		// versions was just recorded server-side, and a failed refetch here
+		// would falsely log the user out.
+		builder.addCase(acceptConsents.fulfilled, (state) => {
+			state.consentCurrent = true;
+		});
+
 		builder.addCase(login.pending, (state) => {
 			state.dataStatus = DataStatus.PENDING;
 			state.error = null;
@@ -130,12 +144,6 @@ const { actions, reducer } = createSlice({
 	reducers: {
 		clearError: (state) => {
 			state.error = null;
-		},
-		// Local flip instead of a me-refetch: the acceptance of the current
-		// versions was just recorded server-side, and a failed refetch here
-		// would falsely log the user out.
-		consentAccepted: (state) => {
-			state.consentCurrent = true;
 		},
 	},
 });

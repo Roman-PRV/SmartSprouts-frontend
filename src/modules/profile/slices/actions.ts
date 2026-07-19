@@ -12,21 +12,6 @@ import {
 	type UserProfileDto,
 } from "../libs/types/types";
 
-const acceptConsents = createAsyncThunk<null, undefined, AsyncThunkConfig>(
-	"profile/acceptConsents",
-	async (_payload, { extra, rejectWithValue }) => {
-		const { profileApi } = extra;
-
-		try {
-			await profileApi.acceptConsents();
-
-			return null;
-		} catch (error) {
-			return rejectWithValue(normalizeError(error));
-		}
-	}
-);
-
 const deleteAccountWithCode = createAsyncThunk<
 	null,
 	DeleteAccountWithCodeRequestDto,
@@ -105,7 +90,6 @@ const updatePassword = createAsyncThunk<
 });
 
 export {
-	acceptConsents,
 	deleteAccountWithCode,
 	deleteAccountWithPassword,
 	fetchProfile,

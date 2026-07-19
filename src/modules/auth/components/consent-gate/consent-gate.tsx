@@ -1,15 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Trans } from "react-i18next";
-import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
+import { Button, Checkbox, Link, Trans } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
 import { useAppDispatch, useForm, useTranslation } from "~/libs/hooks/hooks";
-import { actions, type ConsentGateFormValues, consentGateSchema } from "~/modules/auth/auth";
-import { acceptConsents } from "~/modules/profile/profile";
+import {
+	acceptConsents,
+	type ConsentGateFormValues,
+	consentGateSchema,
+} from "~/modules/auth/auth";
 
-import { Button } from "../button/button";
-import { Checkbox } from "../checkbox/checkbox";
 import styles from "./styles.module.css";
 
 /**
@@ -33,7 +33,6 @@ const ConsentGate: React.FC = () => {
 	const handleFormSubmit = async (): Promise<void> => {
 		try {
 			await dispatch(acceptConsents()).unwrap();
-			dispatch(actions.consentAccepted());
 		} catch {
 			toast.error(t("auth.consentGate.error"));
 		}

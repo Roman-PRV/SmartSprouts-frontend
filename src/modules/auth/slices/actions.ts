@@ -14,6 +14,27 @@ import {
 } from "../libs/types/types";
 
 /**
+ * Records acceptance of the current legal-document versions.
+ *
+ * Lives in the auth module (it repairs the consent state the auth slice
+ * owns) but calls the profile API — the endpoint is /profile/consents.
+ */
+const acceptConsents = createAsyncThunk<null, undefined, AsyncThunkConfig>(
+	"auth/acceptConsents",
+	async (_payload, { extra, rejectWithValue }) => {
+		const { profileApi } = extra;
+
+		try {
+			await profileApi.acceptConsents();
+
+			return null;
+		} catch (error) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+/**
  * Fetches the currently authenticated user.
  *
  * This thunk checks for the existence of an authentication token in storage before attempting the request.
@@ -131,4 +152,12 @@ const loginWithGoogle = createAsyncThunk<AuthenticatedUserResponseDto, string, A
 	}
 );
 
-export { fetchGoogleRedirectUrl, getAuthenticatedUser, login, loginWithGoogle, logout, register };
+export {
+	acceptConsents,
+	fetchGoogleRedirectUrl,
+	getAuthenticatedUser,
+	login,
+	loginWithGoogle,
+	logout,
+	register,
+};
