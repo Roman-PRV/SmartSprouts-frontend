@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 import { Button, Checkbox, Link, Trans } from "~/libs/components/components";
 import { AppRoute } from "~/libs/enums/enums";
-import { useAppDispatch, useForm, useTranslation } from "~/libs/hooks/hooks";
+import { useAppDispatch, useEffect, useForm, useRef, useTranslation } from "~/libs/hooks/hooks";
 import {
 	acceptConsents,
 	type ConsentGateFormValues,
@@ -13,13 +13,21 @@ import {
 import styles from "./styles.module.css";
 
 /**
- * Full-screen blocker shown to an authenticated user whose consent is not
+ * Blocks the protected app area for an authenticated user whose consent is not
  * current: Google signups (no consent captured at creation), legacy accounts,
- * and re-consent after a legal-document version bump.
+ * and re-consent after a legal-document version bump. Rendered in place of the
+ * protected route content — the public landing and the legal pages stay
+ * reachable, since the affirmation links open Terms/Privacy in a new tab.
  */
 const ConsentGate: React.FC = () => {
 	const { t } = useTranslation();
 	const dispatch = useAppDispatch();
+	const headingReference = useRef<HTMLHeadingElement>(null);
+
+	// Focus the blocker's heading when it replaces the content behind it (a11y).
+	useEffect(() => {
+		headingReference.current?.focus();
+	}, []);
 
 	const {
 		formState: { errors, isSubmitting },
@@ -41,7 +49,9 @@ const ConsentGate: React.FC = () => {
 	return (
 		<div className={styles["gate"]}>
 			<div className={styles["gate__card"]}>
-				<h1 className={styles["gate__title"]}>{t("auth.consentGate.title")}</h1>
+				<h1 className={styles["gate__title"]} ref={headingReference} tabIndex={-1}>
+					{t("auth.consentGate.title")}
+				</h1>
 				<p className={styles["gate__description"]}>{t("auth.consentGate.description")}</p>
 
 				<form
