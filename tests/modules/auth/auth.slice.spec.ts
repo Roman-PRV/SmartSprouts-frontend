@@ -19,6 +19,7 @@ const TEST_USER_CREDENTIALS = { secret: "Str0ng-test-value" }; // NOSONAR
 
 describe("auth slice", () => {
 	const initialState = {
+		consentCurrent: true,
 		dataStatus: DataStatus.IDLE,
 		error: null,
 		isAuthenticated: false,
@@ -86,7 +87,7 @@ describe("auth slice", () => {
 		it("handles getAuthenticatedUser.fulfilled action", () => {
 			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
 			const action = {
-				payload: mockUser,
+				payload: { consent_current: false, user: mockUser },
 				type: getAuthenticatedUser.fulfilled.type,
 			};
 			const state = reducer(initialState, action);
@@ -94,6 +95,7 @@ describe("auth slice", () => {
 			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
 			expect(state.isAuthenticated).toBe(true);
 			expect(state.user).toEqual(mockUser);
+			expect(state.consentCurrent).toBe(false);
 			expect(state.error).toBeNull();
 		});
 
@@ -167,12 +169,16 @@ describe("auth slice", () => {
 
 		it("handles loginWithGoogle.fulfilled action", () => {
 			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
-			const action = { payload: mockUser, type: loginWithGoogle.fulfilled.type };
+			const action = {
+				payload: { consent_current: false, user: mockUser },
+				type: loginWithGoogle.fulfilled.type,
+			};
 			const state = reducer(initialState, action);
 
 			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
 			expect(state.isAuthenticated).toBe(true);
 			expect(state.user).toEqual(mockUser);
+			expect(state.consentCurrent).toBe(false);
 			expect(state.error).toBeNull();
 		});
 
@@ -214,6 +220,7 @@ describe("auth slice", () => {
 
 		it("handles logout.fulfilled action", () => {
 			const authenticatedState = {
+				consentCurrent: true,
 				dataStatus: DataStatus.FULFILLED,
 				error: { message: "Some error" },
 				isAuthenticated: true,
@@ -238,6 +245,7 @@ describe("auth slice", () => {
 
 		it("handles logout.rejected action", () => {
 			const authenticatedState = {
+				consentCurrent: true,
 				dataStatus: DataStatus.FULFILLED,
 				error: { message: "Some error" },
 				isAuthenticated: true,

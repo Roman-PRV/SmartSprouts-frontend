@@ -6,11 +6,11 @@ import { type Storage } from "~/libs/modules/storage/storage";
 
 import { AuthApiPath } from "./libs/enums/enums";
 import {
+	type AuthenticatedUserResponseDto,
 	type LoginRequestDto,
 	type LoginResponseDto,
 	type RegisterRequestDto,
 	type RegisterResponseDto,
-	type User,
 } from "./libs/types/types";
 
 type Constructor = {
@@ -24,12 +24,12 @@ class AuthApi extends BaseHTTPApi {
 		super({ baseUrl, http, path: APIPath.AUTH, storage });
 	}
 
-	public async getAuthenticatedUser(): Promise<User> {
+	public async getAuthenticatedUser(): Promise<AuthenticatedUserResponseDto> {
 		const url = this.getFullEndpoint(AuthApiPath.AUTHENTICATED_USER, {});
 
-		const data = await this.requestJson<{ user: User }>(url, { method: HTTPMethod.GET });
-
-		return data.user;
+		return await this.requestJson<AuthenticatedUserResponseDto>(url, {
+			method: HTTPMethod.GET,
+		});
 	}
 
 	public async getGoogleRedirectUrl(): Promise<{ url: string }> {

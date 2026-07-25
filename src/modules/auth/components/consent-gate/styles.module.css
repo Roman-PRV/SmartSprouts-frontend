@@ -1,0 +1,44 @@
+.gate {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	/* No header/footer arithmetic: the gate renders in two different parents
+	   (inside MainLayout's main, and bare under the admin route), so it can't
+	   assume a header sits above it. dvh avoids the mobile address-bar jump. */
+	min-height: 100dvh;
+	padding: var(--spacing-md);
+	background: var(--color-background-2);
+}
+
+.gate__card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	width: 100%;
+	max-width: 480px;
+	padding: var(--spacing-lg);
+	background: var(--color-background-4);
+	border-radius: var(--border-radius-md);
+	box-shadow: var(--shadow-sm);
+}
+
+.gate__title {
+	margin: 0;
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-dark);
+}
+
+.gate__description {
+	margin: 0;
+	font-size: var(--font-size-xs);
+	color: var(--color-text-dark);
+}
+
+.gate__form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	margin-top: var(--spacing-xs);
+}

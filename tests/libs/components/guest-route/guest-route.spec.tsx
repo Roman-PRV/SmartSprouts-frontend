@@ -11,6 +11,7 @@ import { DataStatus } from "~/libs/enums/enums";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
 type AuthState = {
+	consentCurrent: boolean;
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
 	error: null | { message: string };
 	isAuthenticated: boolean;
@@ -21,6 +22,7 @@ const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<type
 	return configureStore({
 		preloadedState: {
 			auth: {
+				consentCurrent: true,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: false,

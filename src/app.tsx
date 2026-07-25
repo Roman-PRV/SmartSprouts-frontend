@@ -9,7 +9,8 @@ import { getAuthenticatedUser } from "~/modules/auth/auth";
 
 const App: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { dataStatus, user } = useAppSelector(({ auth }) => auth);
+	const dataStatus = useAppSelector(({ auth }) => auth.dataStatus);
+	const user = useAppSelector(({ auth }) => auth.user);
 
 	useEffect(() => {
 		if (user) {
