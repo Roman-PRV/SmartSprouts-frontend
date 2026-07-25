@@ -1,8 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import { Button, Checkbox, Link, Trans } from "~/libs/components/components";
-import { AppRoute } from "~/libs/enums/enums";
+import { Button } from "~/libs/components/components";
 import { useAppDispatch, useEffect, useForm, useRef, useTranslation } from "~/libs/hooks/hooks";
 import {
 	acceptConsents,
@@ -10,6 +9,7 @@ import {
 	consentGateSchema,
 } from "~/modules/auth/auth";
 
+import { ConsentCheckbox } from "../consent-checkbox/consent-checkbox";
 import styles from "./styles.module.css";
 
 /**
@@ -59,31 +59,9 @@ const ConsentGate: React.FC = () => {
 					noValidate
 					onSubmit={handleSubmit(handleFormSubmit)}
 				>
-					<Checkbox
+					<ConsentCheckbox
 						error={errors.accepted_terms?.message && t(errors.accepted_terms.message)}
-						label={
-							<Trans
-								components={[
-									<Link
-										className={styles["gate__link"]}
-										key="0"
-										rel="noopener noreferrer"
-										target="_blank"
-										to={AppRoute.TERMS}
-									/>,
-									<Link
-										className={styles["gate__link"]}
-										key="1"
-										rel="noopener noreferrer"
-										target="_blank"
-										to={AppRoute.PRIVACY}
-									/>,
-								]}
-								i18nKey="auth.register.consent.label"
-							/>
-						}
-						required
-						{...register("accepted_terms")}
+						registration={register("accepted_terms")}
 					/>
 
 					<Button fullWidth isLoading={isSubmitting} size="lg" type="submit" variant="primary">

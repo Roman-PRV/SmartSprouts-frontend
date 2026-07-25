@@ -42,13 +42,3 @@
 	gap: var(--spacing-sm);
 	margin-top: var(--spacing-xs);
 }
-
-.gate__link {
-	color: var(--color-background-accent);
-	text-decoration: underline;
-	transition: color var(--transition-default);
-}
-
-.gate__link:hover {
-	color: var(--color-text-dark);
-}

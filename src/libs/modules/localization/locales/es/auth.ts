@@ -1,4 +1,8 @@
 const auth = {
+	consent: {
+		label:
+			"Confirmo que tengo 18 años o más y que soy el padre, la madre o el tutor legal del niño; acepto los <0>Términos de Servicio</0> y he leído la <1>Política de Privacidad</1>",
+	},
 	consentGate: {
 		button: "Continuar",
 		description:
@@ -38,10 +42,6 @@ const auth = {
 	},
 	register: {
 		button: "Registrarse",
-		consent: {
-			label:
-				"Confirmo que tengo 18 años o más y que soy el padre, la madre o el tutor legal del niño; acepto los <0>Términos de Servicio</0> y he leído la <1>Política de Privacidad</1>",
-		},
 		fields: {
 			confirmPassword: {
 				label: "Confirmar contraseña",
