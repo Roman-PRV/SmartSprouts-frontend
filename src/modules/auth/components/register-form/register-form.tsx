@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button, Checkbox, Input, Link, Trans } from "~/libs/components/components";
+import { Button, Input } from "~/libs/components/components";
 import { VALIDATION_RULES } from "~/libs/constants/constants";
-import { AppRoute, DataStatus } from "~/libs/enums/enums";
+import { DataStatus } from "~/libs/enums/enums";
 import { getValidClassNames } from "~/libs/helpers/helpers";
 import { useAppSelector, useForm, useTranslation } from "~/libs/hooks/hooks";
 import {
@@ -12,6 +12,8 @@ import {
 	useAuthFormSubmit,
 } from "~/modules/auth/auth";
 import styles from "~/modules/auth/styles/auth-form.module.css";
+
+import { ConsentCheckbox } from "../consent-checkbox/consent-checkbox";
 
 type Properties = {
 	onSuccess?: () => void;
@@ -100,31 +102,9 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 				{...register("password_confirmation")}
 			/>
 
-			<Checkbox
+			<ConsentCheckbox
 				error={errors.accepted_terms?.message && t(errors.accepted_terms.message)}
-				label={
-					<Trans
-						components={[
-							<Link
-								className={getValidClassNames(styles["auth-form__consent-link"])}
-								key="0"
-								rel="noopener noreferrer"
-								target="_blank"
-								to={AppRoute.TERMS}
-							/>,
-							<Link
-								className={getValidClassNames(styles["auth-form__consent-link"])}
-								key="1"
-								rel="noopener noreferrer"
-								target="_blank"
-								to={AppRoute.PRIVACY}
-							/>,
-						]}
-						i18nKey="auth.register.consent.label"
-					/>
-				}
-				required
-				{...register("accepted_terms")}
+				registration={register("accepted_terms")}
 			/>
 
 			<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">

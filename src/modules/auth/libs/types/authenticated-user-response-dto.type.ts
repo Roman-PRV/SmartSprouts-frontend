@@ -1,9 +1,8 @@
 import { type User } from "./user.type";
 
-type LoginResponseDto = {
-	access_token: string;
+type AuthenticatedUserResponseDto = {
 	consent_current: boolean;
 	user: User;
 };
 
-export { type LoginResponseDto };
+export { type AuthenticatedUserResponseDto };
