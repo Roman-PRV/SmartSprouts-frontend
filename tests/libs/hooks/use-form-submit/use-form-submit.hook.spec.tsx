@@ -8,29 +8,30 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useFormSubmit } from "~/libs/hooks/use-form-submit/use-form-submit.hook";
 
+const createMockStore = () => {
+	return configureStore({
+		reducer: {
+			_: (state: null = null): null => state,
+		},
+	});
+};
+
+const wrapper = ({ children }: { children: React.ReactNode }) => {
+	const store = createMockStore();
+
+	return <Provider store={store}>{children}</Provider>;
+};
+
 describe("useFormSubmit", () => {
-	const createMockStore = () => {
-		return configureStore({
-			reducer: {
-				_: (state = null) => state,
-			},
-		});
-	};
-
-	const wrapper = ({ children }: { children: React.ReactNode }) => {
-		const store = createMockStore();
-		return <Provider store={store}>{children}</Provider>;
-	};
-
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
 	it("calls onSuccess after a fulfilled action", async () => {
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: {},
 			meta: { requestStatus: "fulfilled" },
+			payload: {},
+			type: "test/action",
 		});
 		const onSuccess = vi.fn();
 		const setError = vi.fn();
@@ -52,9 +53,9 @@ describe("useFormSubmit", () => {
 
 	it("does not call onError after a fulfilled action", async () => {
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: {},
 			meta: { requestStatus: "fulfilled" },
+			payload: {},
+			type: "test/action",
 		});
 		const onError = vi.fn();
 		const setError = vi.fn();
@@ -76,9 +77,9 @@ describe("useFormSubmit", () => {
 
 	it("does not call onSuccess when action is rejected", async () => {
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: null,
 			meta: { requestStatus: "rejected" },
+			payload: null,
+			type: "test/action",
 		});
 		const onSuccess = vi.fn();
 		const setError = vi.fn();
@@ -100,9 +101,9 @@ describe("useFormSubmit", () => {
 
 	it("calls onError when action is rejected without field errors", async () => {
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: null,
 			meta: { requestStatus: "rejected" },
+			payload: null,
+			type: "test/action",
 		});
 		const onError = vi.fn();
 		const setError = vi.fn();
@@ -122,15 +123,40 @@ describe("useFormSubmit", () => {
 		expect(onError).toHaveBeenCalled();
 	});
 
+	it("does not call onError on a session-expired rejection", async () => {
+		const mockAction = vi.fn().mockReturnValue({
+			meta: { requestStatus: "rejected" },
+			payload: { message: "Unauthenticated.", sessionExpired: true },
+			type: "test/action",
+		});
+		const onError = vi.fn();
+		const setError = vi.fn();
+
+		const { result } = renderHook(
+			() =>
+				useFormSubmit({
+					action: mockAction,
+					onError,
+					setError,
+				}),
+			{ wrapper },
+		);
+
+		await result.current({});
+
+		expect(onError).not.toHaveBeenCalled();
+		expect(setError).not.toHaveBeenCalled();
+	});
+
 	it("maps backend errors to matching form fields", async () => {
 		const backendErrors = {
 			email: ["Email already exists"],
 			password: ["Password too short"],
 		};
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: { errors: backendErrors },
 			meta: { requestStatus: "rejected" },
+			payload: { errors: backendErrors, message: "Validation failed" },
+			type: "test/action",
 		});
 		const onError = vi.fn();
 		const setError = vi.fn();
@@ -161,9 +187,9 @@ describe("useFormSubmit", () => {
 			email: ["Email already exists"],
 		};
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: { errors: backendErrors },
 			meta: { requestStatus: "rejected" },
+			payload: { errors: backendErrors, message: "Validation failed" },
+			type: "test/action",
 		});
 		const onError = vi.fn();
 		const setError = vi.fn();
@@ -189,9 +215,9 @@ describe("useFormSubmit", () => {
 			unknownField: ["Some error"],
 		};
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: { errors: backendErrors },
 			meta: { requestStatus: "rejected" },
+			payload: { errors: backendErrors, message: "Validation failed" },
+			type: "test/action",
 		});
 		const setError = vi.fn();
 		const payload = { email: "" };
@@ -215,9 +241,9 @@ describe("useFormSubmit", () => {
 			unknownField: ["Some error"],
 		};
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: { errors: backendErrors },
 			meta: { requestStatus: "rejected" },
+			payload: { errors: backendErrors, message: "Validation failed" },
+			type: "test/action",
 		});
 		const onError = vi.fn();
 		const setError = vi.fn();
@@ -243,9 +269,9 @@ describe("useFormSubmit", () => {
 			email: ["First error", "Second error"],
 		};
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: { errors: backendErrors },
 			meta: { requestStatus: "rejected" },
+			payload: { errors: backendErrors, message: "Validation failed" },
+			type: "test/action",
 		});
 		const setError = vi.fn();
 		const payload = { email: "" };
@@ -269,9 +295,9 @@ describe("useFormSubmit", () => {
 			email: [],
 		};
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: { errors: backendErrors },
 			meta: { requestStatus: "rejected" },
+			payload: { errors: backendErrors, message: "Validation failed" },
+			type: "test/action",
 		});
 		const setError = vi.fn();
 		const payload = { email: "" };
@@ -293,11 +319,11 @@ describe("useFormSubmit", () => {
 	});
 
 	it("dispatches the action with the provided payload", async () => {
-		const payload = { username: "testuser", password: "pass123" };
+		const payload = { password: "pass123", username: "testuser" };
 		const mockAction = vi.fn().mockReturnValue({
-			type: "test/action",
-			payload: {},
 			meta: { requestStatus: "fulfilled" },
+			payload: {},
+			type: "test/action",
 		});
 		const setError = vi.fn();
 

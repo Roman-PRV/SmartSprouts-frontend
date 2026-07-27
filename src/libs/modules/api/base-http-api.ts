@@ -121,14 +121,17 @@ class BaseHTTPApi implements HTTPApi {
 
 	private async checkResponse(response: Response, hasAuth: boolean): Promise<Response> {
 		if (!response.ok) {
-			// A 401 on an authenticated request means the session expired; let the
-			// app deauth globally. Unauthenticated 401s (bad login credentials) are
-			// left to the caller.
-			if (hasAuth && response.status === HTTPCode.UNAUTHORIZED) {
+			// The one place that knows hasAuth decides whether a 401 is an expired
+			// session (vs. bad login credentials on a public request). It both
+			// deauths globally and stamps the error, so consumers read the intent
+			// instead of re-deriving it from a raw 401.
+			const sessionExpired = hasAuth && response.status === HTTPCode.UNAUTHORIZED;
+
+			if (sessionExpired) {
 				notifyUnauthorized();
 			}
 
-			await this.handleError(response);
+			await this.handleError(response, sessionExpired);
 		}
 
 		return response;
@@ -167,7 +170,7 @@ class BaseHTTPApi implements HTTPApi {
 		return headers;
 	}
 
-	private async handleError(response: Response): Promise<never> {
+	private async handleError(response: Response, sessionExpired: boolean): Promise<never> {
 		let parsedException: ServerErrorResponse;
 
 		try {
@@ -186,6 +189,7 @@ class BaseHTTPApi implements HTTPApi {
 			errors: "errors" in parsedException ? parsedException.errors : undefined,
 			errorType: isCustomException ? parsedException.errorType : ServerErrorType.COMMON,
 			message: parsedException.message,
+			sessionExpired,
 			status: response.status as ValueOf<typeof HTTPCode>,
 		});
 	}

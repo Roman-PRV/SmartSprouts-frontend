@@ -15,4 +15,9 @@ const notifyUnauthorized = (): void => {
 	handler?.();
 };
 
-export { notifyUnauthorized, setUnauthorizedHandler };
+/** Test-only: clears the registered handler so cases don't leak state between them. */
+const resetUnauthorizedHandler = (): void => {
+	handler = null;
+};
+
+export { notifyUnauthorized, resetUnauthorizedHandler, setUnauthorizedHandler };

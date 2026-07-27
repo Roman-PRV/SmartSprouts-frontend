@@ -5,7 +5,6 @@ import { type FieldValues, type Path, type UseFormSetError } from "react-hook-fo
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { isThunkErrorPayload } from "~/libs/helpers/helpers";
 import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
-import { HTTPCode } from "~/libs/modules/http/http";
 import { type AsyncThunkConfig } from "~/libs/types/types";
 
 type Properties<T extends FieldValues, R> = {
@@ -57,9 +56,9 @@ const useFormSubmit = <T extends FieldValues, R>({
 				return;
 			}
 
-			// A 401 expired the session; the global handler resets auth and
-			// redirects to login, so skip the misleading per-form error.
-			if (result.payload.status === HTTPCode.UNAUTHORIZED) {
+			// The session expired (authenticated 401); the global handler resets
+			// auth and redirects to login, so skip the misleading per-form error.
+			if (result.payload.sessionExpired) {
 				return;
 			}
 

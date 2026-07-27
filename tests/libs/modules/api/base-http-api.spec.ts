@@ -1,8 +1,11 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ContentType } from "~/libs/enums/enums";
 import { BaseHTTPApi, type RequestOptions } from "~/libs/modules/api/base-http-api";
-import { setUnauthorizedHandler } from "~/libs/modules/api/unauthorized-handler";
+import {
+	resetUnauthorizedHandler,
+	setUnauthorizedHandler,
+} from "~/libs/modules/api/unauthorized-handler";
 import { type HTTP, HTTPCode } from "~/libs/modules/http/http";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 import { HTTPHeader } from "~/libs/modules/http/libs/enums/http-header.enum";
@@ -162,6 +165,10 @@ describe("BaseHTTPApi 401 handling", () => {
 		vi.clearAllMocks();
 	});
 
+	afterEach(() => {
+		resetUnauthorizedHandler();
+	});
+
 	it("notifies the unauthorized handler on a 401 for an authenticated request", async () => {
 		const onUnauthorized = vi.fn();
 		setUnauthorizedHandler(onUnauthorized);
@@ -202,5 +209,29 @@ describe("BaseHTTPApi 401 handling", () => {
 		await expect(api.load("path", { hasAuth: true, method: HTTPMethod.GET })).rejects.toThrow();
 
 		expect(onUnauthorized).not.toHaveBeenCalled();
+	});
+
+	it("stamps the thrown error as sessionExpired for an authenticated 401", async () => {
+		mockHttp.load.mockResolvedValueOnce({
+			json: () => Promise.resolve({ message: "Unauthorized" }),
+			ok: false,
+			status: HTTPCode.UNAUTHORIZED,
+		});
+
+		await expect(
+			api.load("path", { hasAuth: true, method: HTTPMethod.GET })
+		).rejects.toMatchObject({ sessionExpired: true });
+	});
+
+	it("does not stamp sessionExpired for an unauthenticated 401", async () => {
+		mockHttp.load.mockResolvedValueOnce({
+			json: () => Promise.resolve({ message: "Invalid credentials" }),
+			ok: false,
+			status: HTTPCode.UNAUTHORIZED,
+		});
+
+		await expect(
+			api.load("path", { hasAuth: false, method: HTTPMethod.POST })
+		).rejects.toMatchObject({ sessionExpired: false });
 	});
 });
