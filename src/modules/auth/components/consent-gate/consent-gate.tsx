@@ -2,7 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { Button } from "~/libs/components/components";
+import { isThunkErrorPayload } from "~/libs/helpers/helpers";
 import { useAppDispatch, useEffect, useForm, useRef, useTranslation } from "~/libs/hooks/hooks";
+import { HTTPCode } from "~/libs/modules/http/http";
 import {
 	acceptConsents,
 	type ConsentGateFormValues,
@@ -41,7 +43,13 @@ const ConsentGate: React.FC = () => {
 	const handleFormSubmit = async (): Promise<void> => {
 		try {
 			await dispatch(acceptConsents()).unwrap();
-		} catch {
+		} catch (error) {
+			// A 401 expired the session; the global handler redirects to login,
+			// so skip the misleading "try again" toast.
+			if (isThunkErrorPayload(error) && error.status === HTTPCode.UNAUTHORIZED) {
+				return;
+			}
+
 			toast.error(t("auth.consentGate.error"));
 		}
 	};

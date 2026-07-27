@@ -5,6 +5,7 @@ import { type FieldValues, type Path, type UseFormSetError } from "react-hook-fo
 import { FIRST_INDEX } from "~/libs/constants/constants";
 import { isThunkErrorPayload } from "~/libs/helpers/helpers";
 import { useAppDispatch } from "~/libs/hooks/use-app-dispatch/use-app-dispatch.hook";
+import { HTTPCode } from "~/libs/modules/http/http";
 import { type AsyncThunkConfig } from "~/libs/types/types";
 
 type Properties<T extends FieldValues, R> = {
@@ -12,6 +13,24 @@ type Properties<T extends FieldValues, R> = {
 	onError?: (() => void) | undefined;
 	onSuccess?: (() => void) | undefined;
 	setError: UseFormSetError<T>;
+};
+
+/** Maps server field errors onto the form; returns whether any field was set. */
+const applyFieldErrors = <T extends FieldValues>(
+	errors: Record<string, string[]>,
+	values: T,
+	setError: UseFormSetError<T>
+): boolean => {
+	let applied = false;
+
+	for (const [field, messages] of Object.entries(errors)) {
+		if (Object.hasOwn(values, field)) {
+			setError(field as Path<T>, { message: messages[FIRST_INDEX] ?? "validation.error" });
+			applied = true;
+		}
+	}
+
+	return applied;
 };
 
 const useFormSubmit = <T extends FieldValues, R>({
@@ -26,28 +45,31 @@ const useFormSubmit = <T extends FieldValues, R>({
 		async (payload: T): Promise<void> => {
 			const result = await dispatch(action(payload));
 
-			if (result.meta.requestStatus === "rejected") {
-				let hasFieldErrors = false;
-
-				if (isThunkErrorPayload(result.payload) && result.payload.errors) {
-					for (const [field, messages] of Object.entries(result.payload.errors)) {
-						if (Object.hasOwn(payload, field)) {
-							setError(field as Path<T>, {
-								message: messages[FIRST_INDEX] ?? "validation.error",
-							});
-							hasFieldErrors = true;
-						}
-					}
-				}
-
-				if (!hasFieldErrors) {
-					onError?.();
-				}
+			if (result.meta.requestStatus !== "rejected") {
+				onSuccess?.();
 
 				return;
 			}
 
-			onSuccess?.();
+			if (!isThunkErrorPayload(result.payload)) {
+				onError?.();
+
+				return;
+			}
+
+			// A 401 expired the session; the global handler resets auth and
+			// redirects to login, so skip the misleading per-form error.
+			if (result.payload.status === HTTPCode.UNAUTHORIZED) {
+				return;
+			}
+
+			const hasFieldErrors = result.payload.errors
+				? applyFieldErrors(result.payload.errors, payload, setError)
+				: false;
+
+			if (!hasFieldErrors) {
+				onError?.();
+			}
 		},
 		[action, dispatch, onError, onSuccess, setError]
 	);

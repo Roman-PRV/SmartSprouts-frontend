@@ -6,6 +6,7 @@ import { type ServerErrorResponse, type ValueOf } from "~/libs/types/types";
 import { type HTTP, HTTPCode, HTTPError, HTTPHeader } from "../http/http";
 import { getCurrentLocale } from "../localization/helpers/get-current-locale.helper";
 import { type HTTPApi, type HTTPApiOptions, type HTTPApiResponse } from "./libs/types/types";
+import { notifyUnauthorized } from "./unauthorized-handler";
 
 type Constructor = {
 	baseUrl: string;
@@ -59,7 +60,7 @@ class BaseHTTPApi implements HTTPApi {
 			...(signal && { signal }),
 		});
 
-		return (await this.checkResponse(response)) as HTTPApiResponse;
+		return (await this.checkResponse(response, hasAuth)) as HTTPApiResponse;
 	}
 
 	protected getFullEndpoint<T extends Record<string, string>>(
@@ -118,8 +119,15 @@ class BaseHTTPApi implements HTTPApi {
 		};
 	}
 
-	private async checkResponse(response: Response): Promise<Response> {
+	private async checkResponse(response: Response, hasAuth: boolean): Promise<Response> {
 		if (!response.ok) {
+			// A 401 on an authenticated request means the session expired; let the
+			// app deauth globally. Unauthenticated 401s (bad login credentials) are
+			// left to the caller.
+			if (hasAuth && response.status === HTTPCode.UNAUTHORIZED) {
+				notifyUnauthorized();
+			}
+
 			await this.handleError(response);
 		}
 
