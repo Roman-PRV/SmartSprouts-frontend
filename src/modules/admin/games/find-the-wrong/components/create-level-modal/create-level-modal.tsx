@@ -3,6 +3,7 @@ import { type DefaultValues, type SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button, LocalizedInputGroup, Modal } from "~/libs/components/components";
+import { toastError } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useCallback,
@@ -77,8 +78,8 @@ const CreateLevelModal: React.FC<Properties> = ({ game, isOpen, onClose }) => {
 				toast.success(t("admin.findTheWrong.create.success"));
 				handleClose();
 				void navigate(buildAdminEditorUrl(game.id, level.id));
-			} catch {
-				toast.error(t("admin.findTheWrong.create.error"));
+			} catch (error) {
+				toastError(error, t("admin.findTheWrong.create.error"));
 			}
 		},
 		[dispatch, game.id, handleClose, navigate, t]

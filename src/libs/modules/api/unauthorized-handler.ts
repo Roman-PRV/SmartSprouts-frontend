@@ -11,6 +11,11 @@ const setUnauthorizedHandler = (unauthorizedHandler: UnauthorizedHandler): void 
 	handler = unauthorizedHandler;
 };
 
+/**
+ * Fires the registered handler. Null-safe by design: the Store registers the
+ * handler synchronously at construction, before any authenticated request can
+ * run, so a 401 is never silently swallowed for lack of a handler.
+ */
 const notifyUnauthorized = (): void => {
 	handler?.();
 };
