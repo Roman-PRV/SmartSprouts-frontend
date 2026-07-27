@@ -5,6 +5,7 @@ import {
 	type UnknownAction,
 } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 
 import {
 	arithmeticGameApi,
@@ -21,6 +22,7 @@ import {
 import { AppEnvironment } from "~/libs/enums/enums";
 import { setUnauthorizedHandler } from "~/libs/modules/api/api";
 import { type Config } from "~/libs/modules/config/config";
+import { i18n } from "~/libs/modules/localization/localization";
 import { storage, StorageKey } from "~/libs/modules/storage/storage";
 import {
 	findTheWrongAdminApi,
@@ -118,8 +120,16 @@ class Store {
 		// A 401 on any authenticated request expires the session: clear the token
 		// and reset the store so ProtectedRoute redirects to login.
 		setUnauthorizedHandler(() => {
+			// Notify only when a live session actually expired. A stale token at
+			// bootstrap (never authenticated this load) is cleared silently.
+			const wasAuthenticated = this.instance.getState().auth.isAuthenticated;
+
 			void storage.drop(StorageKey.TOKEN);
 			this.instance.dispatch(sessionExpired());
+
+			if (wasAuthenticated) {
+				toast.info(i18n.t("auth.sessionExpired"));
+			}
 		});
 	}
 }
