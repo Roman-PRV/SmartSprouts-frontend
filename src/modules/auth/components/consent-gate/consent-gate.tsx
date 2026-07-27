@@ -1,8 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 
 import { Button } from "~/libs/components/components";
-import { isThunkErrorPayload } from "~/libs/helpers/helpers";
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useEffect, useForm, useRef, useTranslation } from "~/libs/hooks/hooks";
 import {
 	acceptConsents,
@@ -43,13 +42,7 @@ const ConsentGate: React.FC = () => {
 		try {
 			await dispatch(acceptConsents()).unwrap();
 		} catch (error) {
-			// The session expired; the global handler redirects to login, so skip
-			// the misleading "try again" toast.
-			if (isThunkErrorPayload(error) && error.sessionExpired) {
-				return;
-			}
-
-			toast.error(t("auth.consentGate.error"));
+			toastError(error, t("auth.consentGate.error"));
 		}
 	};
 
