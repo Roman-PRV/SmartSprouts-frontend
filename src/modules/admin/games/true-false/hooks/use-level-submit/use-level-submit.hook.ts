@@ -51,7 +51,8 @@ const useLevelSubmit = <TValues extends LevelFormInput>({
 				);
 				onSuccess?.(level.id);
 			} catch (error) {
-				toastError(error, 
+				toastError(
+					error,
 					t(isCreate ? "admin.trueFalse.level.create.error" : "admin.trueFalse.level.edit.error")
 				);
 			}

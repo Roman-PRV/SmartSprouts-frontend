@@ -32,6 +32,12 @@ const applyFieldErrors = <T extends FieldValues>(
 	return applied;
 };
 
+/**
+ * Dispatches `action` and maps the result onto a form: field errors via
+ * `setError`, otherwise `onError`. `onError` is NOT called on session expiry
+ * (a 401) — that is handled globally — so a raw `toast.error` in `onError` is
+ * safe and won't double up with the global notice.
+ */
 const useFormSubmit = <T extends FieldValues, R>({
 	action,
 	onError,

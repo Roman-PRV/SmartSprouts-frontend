@@ -49,7 +49,7 @@ const useStatementSubmit = (
 				);
 				onSuccess?.();
 			} catch (error) {
-				toastError(error, 
+				toastError(error,
 					t(
 						isCreate
 							? "admin.trueFalse.statement.create.error"
