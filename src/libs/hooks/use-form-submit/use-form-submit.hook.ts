@@ -63,7 +63,8 @@ const useFormSubmit = <T extends FieldValues, R>({
 			}
 
 			// The session expired (authenticated 401); the global handler resets
-			// auth and redirects to login, so skip the misleading per-form error.
+			// auth and ProtectedRoute then navigates to login, so skip the
+			// misleading per-form error.
 			if (result.payload.sessionExpired) {
 				return;
 			}

@@ -234,4 +234,20 @@ describe("BaseHTTPApi 401 handling", () => {
 			api.load("path", { hasAuth: false, method: HTTPMethod.POST })
 		).rejects.toMatchObject({ sessionExpired: false });
 	});
+
+	it("does not notify or stamp a 401 when the request opts out (e.g. logout)", async () => {
+		const onUnauthorized = vi.fn();
+		setUnauthorizedHandler(onUnauthorized);
+		mockHttp.load.mockResolvedValueOnce({
+			json: () => Promise.resolve({ message: "Unauthorized" }),
+			ok: false,
+			status: HTTPCode.UNAUTHORIZED,
+		});
+
+		await expect(
+			api.load("path", { hasAuth: true, method: HTTPMethod.POST, skipUnauthorizedHandler: true })
+		).rejects.toMatchObject({ sessionExpired: false });
+
+		expect(onUnauthorized).not.toHaveBeenCalled();
+	});
 });

@@ -27,6 +27,7 @@ type RequestOptions = {
 	method: HTTPApiOptions["method"];
 	payload?: unknown;
 	signal?: AbortSignal | undefined;
+	skipUnauthorizedHandler?: boolean;
 };
 
 class BaseHTTPApi implements HTTPApi {
@@ -46,7 +47,8 @@ class BaseHTTPApi implements HTTPApi {
 	}
 
 	public async load(path: string, options: HTTPApiOptions): Promise<HTTPApiResponse> {
-		const { contentType, credentials, hasAuth, method, payload = null, signal } = options;
+		const { contentType, credentials, hasAuth, method, payload = null, signal, skipUnauthorizedHandler } =
+			options;
 
 		this.ensureUserIsOnline();
 
@@ -60,7 +62,9 @@ class BaseHTTPApi implements HTTPApi {
 			...(signal && { signal }),
 		});
 
-		return (await this.checkResponse(response, hasAuth)) as HTTPApiResponse;
+		const handlesUnauthorized = hasAuth && !skipUnauthorizedHandler;
+
+		return (await this.checkResponse(response, handlesUnauthorized)) as HTTPApiResponse;
 	}
 
 	protected getFullEndpoint<T extends Record<string, string>>(
@@ -106,6 +110,7 @@ class BaseHTTPApi implements HTTPApi {
 		method,
 		payload,
 		signal,
+		skipUnauthorizedHandler,
 	}: RequestOptions): HTTPApiOptions {
 		return {
 			hasAuth,
@@ -116,16 +121,17 @@ class BaseHTTPApi implements HTTPApi {
 				payload: JSON.stringify(payload),
 			}),
 			...(signal && { signal }),
+			...(skipUnauthorizedHandler && { skipUnauthorizedHandler }),
 		};
 	}
 
-	private async checkResponse(response: Response, hasAuth: boolean): Promise<Response> {
+	private async checkResponse(response: Response, handlesUnauthorized: boolean): Promise<Response> {
 		if (!response.ok) {
-			// The one place that knows hasAuth decides whether a 401 is an expired
-			// session (vs. bad login credentials on a public request). It both
-			// deauths globally and stamps the error, so consumers read the intent
-			// instead of re-deriving it from a raw 401.
-			const sessionExpired = hasAuth && response.status === HTTPCode.UNAUTHORIZED;
+			// A 401 on a request that handles it is an expired session: deauth
+			// globally and stamp the error so consumers read the intent instead of
+			// re-deriving it. Unauthenticated (bad login) and opted-out (logout)
+			// requests are left to the caller.
+			const sessionExpired = handlesUnauthorized && response.status === HTTPCode.UNAUTHORIZED;
 
 			if (sessionExpired) {
 				notifyUnauthorized();
