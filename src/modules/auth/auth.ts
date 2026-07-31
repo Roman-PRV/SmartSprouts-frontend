@@ -27,5 +27,6 @@ export {
 	loginWithGoogle,
 	logout,
 	register,
+	sessionExpired,
 } from "./slices/actions";
 export { actions, reducer } from "./slices/auth.slice";

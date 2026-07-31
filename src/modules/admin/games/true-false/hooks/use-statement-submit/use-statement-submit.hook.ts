@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useTranslation } from "~/libs/hooks/hooks";
 
 import { createStatement, updateStatement } from "../../api/true-false-admin";
@@ -47,8 +48,9 @@ const useStatementSubmit = (
 					)
 				);
 				onSuccess?.();
-			} catch {
-				toast.error(
+			} catch (error) {
+				toastError(
+					error,
 					t(
 						isCreate
 							? "admin.trueFalse.statement.create.error"

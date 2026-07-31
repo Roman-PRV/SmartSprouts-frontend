@@ -10,4 +10,5 @@ export { normalizeError } from "./normalize-error/normalize-error.helper";
 export { pointInPolygon } from "./point-in-polygon/point-in-polygon.helper";
 export { polygonIoU } from "./polygon-iou/polygon-iou.helper";
 export { toThunkError } from "./to-thunk-error/to-thunk-error.helper";
+export { toastError } from "./toast-error/toast-error.helper";
 export { validateFormData } from "./validation/validation.helper";

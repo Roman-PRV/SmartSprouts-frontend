@@ -338,7 +338,7 @@ describe("auth slice", () => {
 			expect((result.payload as ThunkErrorPayload).message).toBe(errorMessage);
 		});
 
-		it("removes token from storage on 401 error", async () => {
+		it("rejects with the 401 payload without dropping the token (the API layer handles that)", async () => {
 			const error = new HTTPError({
 				details: [],
 				errorType: ServerErrorType.COMMON,
@@ -350,9 +350,11 @@ describe("auth slice", () => {
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const thunk = getAuthenticatedUser();
-			await thunk(mockDispatch, mockGetState, extra);
+			const result = await thunk(mockDispatch, mockGetState, extra);
 
-			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as ThunkErrorPayload).status).toBe(HTTPCode.UNAUTHORIZED);
+			expect(storageMock.drop).not.toHaveBeenCalled();
 		});
 
 		it("returns rejected value if no token in storage", async () => {

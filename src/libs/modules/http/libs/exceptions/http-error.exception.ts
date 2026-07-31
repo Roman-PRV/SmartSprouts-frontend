@@ -10,6 +10,8 @@ type Constructor = {
 	errors?: Record<string, string[]> | undefined;
 	errorType: ValueOf<typeof ServerErrorType>;
 	message: string;
+	/** True only for an authenticated request rejected with 401 (session expired). */
+	sessionExpired?: boolean | undefined;
 	status: ValueOf<typeof HTTPCode>;
 };
 
@@ -18,9 +20,19 @@ class HTTPError extends ApplicationError {
 	public errors?: Record<string, string[]> | undefined;
 	public errorType: ValueOf<typeof ServerErrorType>;
 
+	public sessionExpired?: boolean | undefined;
+
 	public status: ValueOf<typeof HTTPCode>;
 
-	public constructor({ cause, details, errors, errorType, message, status }: Constructor) {
+	public constructor({
+		cause,
+		details,
+		errors,
+		errorType,
+		message,
+		sessionExpired,
+		status,
+	}: Constructor) {
 		super({
 			cause,
 			message,
@@ -29,6 +41,7 @@ class HTTPError extends ApplicationError {
 		this.errorType = errorType;
 		this.details = details;
 		this.errors = errors;
+		this.sessionExpired = sessionExpired;
 	}
 }
 

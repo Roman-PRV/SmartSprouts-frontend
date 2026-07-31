@@ -14,6 +14,30 @@ type Properties<T extends FieldValues, R> = {
 	setError: UseFormSetError<T>;
 };
 
+/** Maps server field errors onto the form; returns whether any field was set. */
+const applyFieldErrors = <T extends FieldValues>(
+	errors: Record<string, string[]>,
+	values: T,
+	setError: UseFormSetError<T>
+): boolean => {
+	let applied = false;
+
+	for (const [field, messages] of Object.entries(errors)) {
+		if (Object.hasOwn(values, field)) {
+			setError(field as Path<T>, { message: messages[FIRST_INDEX] ?? "validation.error" });
+			applied = true;
+		}
+	}
+
+	return applied;
+};
+
+/**
+ * Dispatches `action` and maps the result onto a form: field errors via
+ * `setError`, otherwise `onError`. `onError` is NOT called on session expiry
+ * (a 401) — that is handled globally — so a raw `toast.error` in `onError` is
+ * safe and won't double up with the global notice.
+ */
 const useFormSubmit = <T extends FieldValues, R>({
 	action,
 	onError,
@@ -26,28 +50,32 @@ const useFormSubmit = <T extends FieldValues, R>({
 		async (payload: T): Promise<void> => {
 			const result = await dispatch(action(payload));
 
-			if (result.meta.requestStatus === "rejected") {
-				let hasFieldErrors = false;
-
-				if (isThunkErrorPayload(result.payload) && result.payload.errors) {
-					for (const [field, messages] of Object.entries(result.payload.errors)) {
-						if (Object.hasOwn(payload, field)) {
-							setError(field as Path<T>, {
-								message: messages[FIRST_INDEX] ?? "validation.error",
-							});
-							hasFieldErrors = true;
-						}
-					}
-				}
-
-				if (!hasFieldErrors) {
-					onError?.();
-				}
+			if (result.meta.requestStatus !== "rejected") {
+				onSuccess?.();
 
 				return;
 			}
 
-			onSuccess?.();
+			if (!isThunkErrorPayload(result.payload)) {
+				onError?.();
+
+				return;
+			}
+
+			// The session expired (authenticated 401); the global handler resets
+			// auth and ProtectedRoute then navigates to login, so skip the
+			// misleading per-form error.
+			if (result.payload.sessionExpired) {
+				return;
+			}
+
+			const hasFieldErrors = result.payload.errors
+				? applyFieldErrors(result.payload.errors, payload, setError)
+				: false;
+
+			if (!hasFieldErrors) {
+				onError?.();
+			}
 		},
 		[action, dispatch, onError, onSuccess, setError]
 	);

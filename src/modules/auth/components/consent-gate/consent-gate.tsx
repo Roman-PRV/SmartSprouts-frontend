@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
 
 import { Button } from "~/libs/components/components";
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useEffect, useForm, useRef, useTranslation } from "~/libs/hooks/hooks";
 import {
 	acceptConsents,
@@ -41,8 +41,8 @@ const ConsentGate: React.FC = () => {
 	const handleFormSubmit = async (): Promise<void> => {
 		try {
 			await dispatch(acceptConsents()).unwrap();
-		} catch {
-			toast.error(t("auth.consentGate.error"));
+		} catch (error) {
+			toastError(error, t("auth.consentGate.error"));
 		}
 	};
 

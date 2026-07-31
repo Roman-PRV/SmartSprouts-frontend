@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useTranslation } from "~/libs/hooks/hooks";
 import { HTTPMethod } from "~/libs/modules/http/libs/enums/enums";
 
@@ -49,8 +50,9 @@ const useLevelSubmit = <TValues extends LevelFormInput>({
 					)
 				);
 				onSuccess?.(level.id);
-			} catch {
-				toast.error(
+			} catch (error) {
+				toastError(
+					error,
 					t(isCreate ? "admin.trueFalse.level.create.error" : "admin.trueFalse.level.edit.error")
 				);
 			}

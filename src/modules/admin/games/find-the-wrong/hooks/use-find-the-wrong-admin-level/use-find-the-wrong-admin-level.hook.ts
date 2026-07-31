@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 
 import { type DataStatus } from "~/libs/enums/enums";
+import { toastError } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useAppSelector,
@@ -70,7 +71,7 @@ const useFindTheWrongAdminLevel = ({
 				await dispatch(updateLevel({ formData, gameId, levelId })).unwrap();
 				toast.success(t("admin.findTheWrong.editor.updateSuccess"));
 			} catch (error) {
-				toast.error(t("admin.findTheWrong.editor.updateError"));
+				toastError(error, t("admin.findTheWrong.editor.updateError"));
 
 				throw error;
 			}
@@ -84,7 +85,7 @@ const useFindTheWrongAdminLevel = ({
 				await dispatch(createItem({ gameId, levelId, payload })).unwrap();
 				toast.success(t("admin.findTheWrong.item.create.success"));
 			} catch (error) {
-				toast.error(t("admin.findTheWrong.item.create.error"));
+				toastError(error, t("admin.findTheWrong.item.create.error"));
 
 				throw error;
 			}
@@ -98,7 +99,7 @@ const useFindTheWrongAdminLevel = ({
 				await dispatch(updateItem({ gameId, itemId, payload })).unwrap();
 				toast.success(t("admin.findTheWrong.item.update.success"));
 			} catch (error) {
-				toast.error(t("admin.findTheWrong.item.update.error"));
+				toastError(error, t("admin.findTheWrong.item.update.error"));
 
 				throw error;
 			}
@@ -110,8 +111,8 @@ const useFindTheWrongAdminLevel = ({
 		async (itemId: number, payload: UpdateFindTheWrongAdminItemPayload): Promise<void> => {
 			try {
 				await dispatch(updateItem({ gameId, itemId, payload })).unwrap();
-			} catch {
-				toast.error(t("admin.findTheWrong.item.update.error"));
+			} catch (error) {
+				toastError(error, t("admin.findTheWrong.item.update.error"));
 			}
 		},
 		[dispatch, gameId, t]
@@ -123,7 +124,7 @@ const useFindTheWrongAdminLevel = ({
 				await dispatch(deleteItem({ gameId, itemId })).unwrap();
 				toast.success(t("admin.findTheWrong.item.delete.success"));
 			} catch (error) {
-				toast.error(t("admin.findTheWrong.item.delete.error"));
+				toastError(error, t("admin.findTheWrong.item.delete.error"));
 
 				throw error;
 			}
