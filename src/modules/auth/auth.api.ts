@@ -55,7 +55,10 @@ class AuthApi extends BaseHTTPApi {
 	public async logout(): Promise<void> {
 		const url = this.getFullEndpoint(AuthApiPath.LOGOUT, {});
 
-		await this.requestVoid(url, { method: HTTPMethod.POST });
+		// Send the token (the server revokes it), but a 401 here means the session
+		// was already gone — a benign logout, not an expiry — so skip the global
+		// session-expiry handler and its misleading "session expired" toast.
+		await this.requestVoid(url, { method: HTTPMethod.POST, skipUnauthorizedHandler: true });
 	}
 
 	public async register(payload: RegisterRequestDto): Promise<RegisterResponseDto> {

@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 
 import { Button, Modal } from "~/libs/components/components";
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 
 import { deleteLevel } from "../../api/find-the-wrong-admin";
@@ -33,8 +34,8 @@ const DeleteLevelModal: React.FC<Properties> = ({
 
 			toast.success(t("admin.findTheWrong.delete.success"));
 			onClose();
-		} catch {
-			toast.error(t("admin.findTheWrong.delete.error"));
+		} catch (error) {
+			toastError(error, t("admin.findTheWrong.delete.error"));
 		} finally {
 			setIsPending(false);
 		}

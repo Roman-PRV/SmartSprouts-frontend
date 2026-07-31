@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 
 import { Button, Modal } from "~/libs/components/components";
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 
 import { deleteLevel } from "../../api/true-false-admin";
@@ -26,8 +27,8 @@ const DeleteLevelModal: React.FC<Properties> = ({ gameId, levelId, levelTitle, o
 
 			toast.success(t("admin.trueFalse.level.delete.success"));
 			onClose();
-		} catch {
-			toast.error(t("admin.trueFalse.level.delete.error"));
+		} catch (error) {
+			toastError(error, t("admin.trueFalse.level.delete.error"));
 		} finally {
 			setIsPending(false);
 		}

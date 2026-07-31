@@ -6,6 +6,7 @@ import { type ServerErrorResponse, type ValueOf } from "~/libs/types/types";
 import { type HTTP, HTTPCode, HTTPError, HTTPHeader } from "../http/http";
 import { getCurrentLocale } from "../localization/helpers/get-current-locale.helper";
 import { type HTTPApi, type HTTPApiOptions, type HTTPApiResponse } from "./libs/types/types";
+import { notifyUnauthorized } from "./unauthorized-handler";
 
 type Constructor = {
 	baseUrl: string;
@@ -26,6 +27,7 @@ type RequestOptions = {
 	method: HTTPApiOptions["method"];
 	payload?: unknown;
 	signal?: AbortSignal | undefined;
+	skipUnauthorizedHandler?: boolean;
 };
 
 class BaseHTTPApi implements HTTPApi {
@@ -45,7 +47,15 @@ class BaseHTTPApi implements HTTPApi {
 	}
 
 	public async load(path: string, options: HTTPApiOptions): Promise<HTTPApiResponse> {
-		const { contentType, credentials, hasAuth, method, payload = null, signal } = options;
+		const {
+			contentType,
+			credentials,
+			hasAuth,
+			method,
+			payload = null,
+			signal,
+			skipUnauthorizedHandler,
+		} = options;
 
 		this.ensureUserIsOnline();
 
@@ -59,7 +69,9 @@ class BaseHTTPApi implements HTTPApi {
 			...(signal && { signal }),
 		});
 
-		return (await this.checkResponse(response)) as HTTPApiResponse;
+		const handlesUnauthorized = hasAuth && !skipUnauthorizedHandler;
+
+		return (await this.checkResponse(response, handlesUnauthorized)) as HTTPApiResponse;
 	}
 
 	protected getFullEndpoint<T extends Record<string, string>>(
@@ -105,6 +117,7 @@ class BaseHTTPApi implements HTTPApi {
 		method,
 		payload,
 		signal,
+		skipUnauthorizedHandler,
 	}: RequestOptions): HTTPApiOptions {
 		return {
 			hasAuth,
@@ -115,12 +128,23 @@ class BaseHTTPApi implements HTTPApi {
 				payload: JSON.stringify(payload),
 			}),
 			...(signal && { signal }),
+			...(skipUnauthorizedHandler && { skipUnauthorizedHandler }),
 		};
 	}
 
-	private async checkResponse(response: Response): Promise<Response> {
+	private async checkResponse(response: Response, handlesUnauthorized: boolean): Promise<Response> {
 		if (!response.ok) {
-			await this.handleError(response);
+			// A 401 on a request that handles it is an expired session: deauth
+			// globally and stamp the error so consumers read the intent instead of
+			// re-deriving it. Unauthenticated (bad login) and opted-out (logout)
+			// requests are left to the caller.
+			const sessionExpired = handlesUnauthorized && response.status === HTTPCode.UNAUTHORIZED;
+
+			if (sessionExpired) {
+				notifyUnauthorized();
+			}
+
+			await this.handleError(response, sessionExpired);
 		}
 
 		return response;
@@ -159,7 +183,7 @@ class BaseHTTPApi implements HTTPApi {
 		return headers;
 	}
 
-	private async handleError(response: Response): Promise<never> {
+	private async handleError(response: Response, sessionExpired: boolean): Promise<never> {
 		let parsedException: ServerErrorResponse;
 
 		try {
@@ -178,6 +202,7 @@ class BaseHTTPApi implements HTTPApi {
 			errors: "errors" in parsedException ? parsedException.errors : undefined,
 			errorType: isCustomException ? parsedException.errorType : ServerErrorType.COMMON,
 			message: parsedException.message,
+			sessionExpired,
 			status: response.status as ValueOf<typeof HTTPCode>,
 		});
 	}

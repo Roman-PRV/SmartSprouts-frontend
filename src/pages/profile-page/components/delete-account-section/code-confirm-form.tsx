@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { Button, Input } from "~/libs/components/components";
+import { toastError } from "~/libs/helpers/helpers";
 import {
 	useAppDispatch,
 	useCallback,
@@ -49,8 +50,8 @@ const CodeConfirmForm: React.FC<Properties> = ({ onCancel, onDeleted }) => {
 			reset({ code: "" });
 			setIsCodeSent(true);
 			toast.success(t("profile.deleteAccount.codeSent"));
-		} catch {
-			toast.error(t("profile.deleteAccount.codeSendError"));
+		} catch (error) {
+			toastError(error, t("profile.deleteAccount.codeSendError"));
 		} finally {
 			setIsSendingCode(false);
 		}

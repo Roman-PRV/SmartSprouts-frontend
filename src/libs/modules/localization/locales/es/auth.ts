@@ -65,6 +65,7 @@ const auth = {
 		subtitle: "Regístrate para comenzar",
 		title: "Crear cuenta",
 	},
+	sessionExpired: "Tu sesión ha expirado. Por favor, inicia sesión de nuevo.",
 };
 
 export { auth };

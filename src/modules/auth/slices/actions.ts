@@ -1,7 +1,6 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { normalizeError } from "~/libs/helpers/helpers";
-import { HTTPCode, HTTPError } from "~/libs/modules/http/http";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type AsyncThunkConfig } from "~/libs/types/types";
 
@@ -12,6 +11,12 @@ import {
 	type RegisterRequestDto,
 	type RegisterResponseDto,
 } from "../libs/types/types";
+
+/**
+ * Dispatched when any authenticated request is rejected with 401. The store
+ * treats it like logout (full state reset), so the client redirects to login.
+ */
+const sessionExpired = createAction("auth/sessionExpired");
 
 /**
  * Records acceptance of the current legal-document versions.
@@ -37,8 +42,9 @@ const acceptConsents = createAsyncThunk<null, undefined, AsyncThunkConfig>(
 /**
  * Fetches the currently authenticated user.
  *
- * This thunk checks for the existence of an authentication token in storage before attempting the request.
- * If the request fails with a 401 Unauthorized error, the token is automatically removed from storage.
+ * Skips the request when no token is stored. A 401 (stale token) is handled
+ * centrally by the API layer's unauthorized handler, which clears the token
+ * and expires the session.
  */
 const getAuthenticatedUser = createAsyncThunk<
 	AuthenticatedUserResponseDto,
@@ -58,10 +64,6 @@ const getAuthenticatedUser = createAsyncThunk<
 		try {
 			return await authApi.getAuthenticatedUser();
 		} catch (error) {
-			if (error instanceof HTTPError && error.status === HTTPCode.UNAUTHORIZED) {
-				await storage.drop(StorageKey.TOKEN);
-			}
-
 			return rejectWithValue(normalizeError(error));
 		}
 	}
@@ -160,4 +162,5 @@ export {
 	loginWithGoogle,
 	logout,
 	register,
+	sessionExpired,
 };

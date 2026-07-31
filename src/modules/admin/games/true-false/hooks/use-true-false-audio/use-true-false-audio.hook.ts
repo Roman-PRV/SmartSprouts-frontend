@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useEffect, useRef, useTranslation } from "~/libs/hooks/hooks";
 import { type Language } from "~/libs/modules/localization/localization";
 
@@ -147,8 +148,8 @@ const useTrueFalseAudio = (gameId: string, levelId: number): UseTrueFalseAudioRe
 						toast.warning(t("admin.trueFalse.audio.timeout"));
 					}
 				})
-				.catch(() => {
-					toast.error(t("admin.trueFalse.audio.error"));
+				.catch((error: unknown) => {
+					toastError(error, t("admin.trueFalse.audio.error"));
 				});
 		},
 		[dispatch, gameId, levelId, refresh, runRegenerate, t, tracked]
