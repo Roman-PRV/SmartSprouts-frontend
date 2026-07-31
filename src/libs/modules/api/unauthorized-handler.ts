@@ -4,16 +4,16 @@ let handler: null | UnauthorizedHandler = null;
 
 /**
  * Registers what happens when an authenticated request is rejected with 401.
- * Set once at store construction; keeps the API layer store-agnostic (the
- * handler is injected, not imported).
+ * Set once at the store composition root (module init); keeps the API layer
+ * store-agnostic (the handler is injected, not imported).
  */
 const setUnauthorizedHandler = (unauthorizedHandler: UnauthorizedHandler): void => {
 	handler = unauthorizedHandler;
 };
 
 /**
- * Fires the registered handler. Null-safe by design: the Store registers the
- * handler synchronously at construction, before any authenticated request can
+ * Fires the registered handler. Null-safe by design: the composition root
+ * registers the handler at module init, before any authenticated request can
  * run, so a 401 is never silently swallowed for lack of a handler.
  */
 const notifyUnauthorized = (): void => {

@@ -60,6 +60,10 @@ const normalizeError = (error: unknown): ThunkErrorPayload => {
 		payload.errors = r["errors"];
 	}
 
+	if (r["sessionExpired"] === true) {
+		payload.sessionExpired = true;
+	}
+
 	return payload;
 };
 

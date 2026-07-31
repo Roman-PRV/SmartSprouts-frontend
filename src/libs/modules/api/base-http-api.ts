@@ -47,8 +47,15 @@ class BaseHTTPApi implements HTTPApi {
 	}
 
 	public async load(path: string, options: HTTPApiOptions): Promise<HTTPApiResponse> {
-		const { contentType, credentials, hasAuth, method, payload = null, signal, skipUnauthorizedHandler } =
-			options;
+		const {
+			contentType,
+			credentials,
+			hasAuth,
+			method,
+			payload = null,
+			signal,
+			skipUnauthorizedHandler,
+		} = options;
 
 		this.ensureUserIsOnline();
 
