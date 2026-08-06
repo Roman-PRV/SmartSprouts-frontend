@@ -1,93 +1,133 @@
-# SmartSprouts Frontend
+# SmartSprouts — Frontend
 
-SmartSprouts Frontend is a web application component developed for the SmartSprouts educational platform. Built on React, TypeScript, and Vite, it provides a comfortable working environment for developers and lightning-fast performance.
+[![Live demo](https://img.shields.io/badge/demo-smartsprouts.pp.ua-2ea44f)](https://smartsprouts.pp.ua)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-732-brightgreen)
 
-## 1. Domain
+Frontend of **SmartSprouts** — a trilingual (EN/UK/ES) educational gaming platform that helps children build cognitive skills. A React 19 single-page app built as a portfolio project to demonstrate production-grade fullstack engineering: a canvas game engine, centralized session handling, and a strict, fully-tested modular architecture.
 
-This app helps children improve their cognitive skills.
-
----
-
-## 2. Tech Stack
-
-- React 19
-- TypeScript
-- Vite
-- TailwindCSS
-- Vitest
-- ESLint + Prettier
-- Husky + lint-staged
+- 🌐 **Live demo:** https://smartsprouts.pp.ua
+- ⚙️ **Backend (Laravel API):** https://github.com/Roman-PRV/SmartSprouts-backend
 
 ---
 
-## 3. Installation
+## Tech Stack
 
-Clone the repository and install dependencies:
+| Layer            | Technology                                                                | Why                                                                    |
+| ---------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Core**         | React 19 · TypeScript 5.8 · Vite 7                                        | Modern SPA, strict typing end-to-end, instant HMR                      |
+| **State**        | Redux Toolkit 2.9 · React Redux 9                                         | Predictable state; the whole store resets on logout / session expiry   |
+| **Routing**      | React Router 7.9                                                          | Guest / protected / admin route guards                                 |
+| **Forms**        | React Hook Form 7 · Zod 4                                                 | Schema-first validation; field names mirror the API wire format        |
+| **Canvas games** | Konva · react-konva · polygon-clipping                                    | Client-side polygon editor **and** area-IoU matching engine            |
+| **i18n**         | i18next 25 (en/uk/es)                                                     | Trilingual UI with browser language detection                          |
+| **Styling / UX** | TailwindCSS 4 · sonner · clsx                                             | Utility-first styling, unobtrusive toasts                              |
+| **Testing**      | Vitest 3.2 · Testing Library                                              | 732 tests across 102 suites (jsdom)                                    |
+| **Quality**      | ESLint 9 · Stylelint · Knip · Prettier · Husky · lint-staged · commitlint | Local pre-commit gate: lint, dead-code detection, Conventional Commits |
+
+---
+
+## Engineering Highlights
+
+- **Canvas polygon-matching engine** — the _Find-the-Wrong_ game lets players draw closed polygons over an image; answers are scored client-side with a closed-loop check + area-IoU (not naive hit-tests) via `polygon-clipping`.
+- **Centralized session handling** — a single 401 interceptor deauthenticates _any_ authenticated request through one seam, resetting the whole store and letting the router redirect to login — without the HTTP layer importing the store.
+- **Strict modular architecture** — feature modules with barrel exports enforced by Knip (no dead exports leak out of a module).
+- **Schema-first forms** — Zod schemas drive both validation and types; form field names equal the API wire names, so there is zero request/response mapping.
+- **Trilingual from the ground up** — every user-facing string exists in EN/UK/ES, with structural-parity tests that fail if a translation drifts.
+
+---
+
+## Architecture / Folder Structure
 
 ```
-Frontend component:
+src/
+├─ app.tsx              # root layout: session bootstrap, route guards, providers
+├─ main.tsx             # entry point
+├─ assets/              # CSS design tokens, images
+├─ games/               # game engines and registries
+├─ libs/                # shared, cross-feature layer
+│  ├─ components/       # reusable UI
+│  ├─ hooks/            # hooks barrel (React + custom)
+│  ├─ helpers/          # pure utilities
+│  ├─ modules/          # api, store, http, storage, localization, config
+│  └─ enums · types · constants · validation-schemas
+├─ modules/             # feature modules: auth, admin, games, profile
+└─ pages/               # route-level pages
+```
+
+The frontend has no database of its own — see the [backend repository](https://github.com/Roman-PRV/SmartSprouts-backend) for the data model and API.
+
+---
+
+## Getting Started
+
+Requires **Node 22** (see `.nvmrc`).
+
+```bash
 git clone git@github.com:Roman-PRV/SmartSprouts-frontend.git
+cd SmartSprouts-frontend
 npm install
 npm run dev
-
-Backend component:
-git clone git@github.com:Roman-PRV/SmartSprouts-backend.git
-See the instructions in the corresponding repository.
 ```
 
-## 4. Scripts
+The dev server runs on port **3001** and proxies the API to `localhost:3000`. For the backend, see the [companion repository](https://github.com/Roman-PRV/SmartSprouts-backend).
 
-- `dev` Starts the Vite development server for local development.
-- `build` Runs a full TypeScript type check across the entire project and then compiles the app with Vite for production.
-- `preview` Serves the production build locally using Vite’s preview server.
-- `lint` Runs ESLint on all .ts and .tsx files in src/, automatically fixing issues.
-- `format` Formats all .ts, .tsx, .css, and .md files in src/ using Prettier.
-- `typecheck` Performs a full TypeScript type check without emitting output files.
-- `check-config` Runs both linting and type checking to validate code quality before commits or builds.
+### Environment variables
 
-## 5. Database Schema
+```
+VITE_APP_NODE_ENV
+VITE_APP_DEVELOPMENT_PORT=3001
+VITE_APP_API_ORIGIN_URL=http://localhost:3000/api
+VITE_APP_PROXY_SERVER_URL=http://localhost:3002
+```
 
-## 6. Folder Structure
+---
 
-## 7. Development Flow
+## Scripts
 
-### 7.1 Pull Request Flow
+- `dev` — start the Vite dev server.
+- `build` — full TypeScript type check, then a production Vite build.
+- `preview` — serve the production build locally.
+- `lint` / `lint:ci` — ESLint over `src` (with / without `--fix`).
+- `stylelint:ci` — Stylelint over CSS.
+- `format` — Prettier over `.css` / `.md`.
+- `typecheck` — `tsc --noEmit`.
+- `test` / `test:ci` / `test:watch` / `test:coverage` — Vitest.
+
+---
+
+## Development Flow
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0).
+
+**Pull request title**
 
 ```
 <type>: <ticket-title> <project-prefix>-<issue-number>
 ```
 
-For the full list of types check [Conventional Commits](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
+Example: `feat: add dashboard screen ss-123`
 
-Examples:
-
-- `feat: add dashboard screen ss-123`
-
-### 7.2 Branch Flow
+**Branch**
 
 ```
 <issue-number>-<type>-<short-desc>
 ```
 
-Examples:
+Examples: `123-feat-add-dashboard`, `34-fix-user-flow`
 
-- `123-feat-add-dashboard`
-- `12-feat-add-user-flow`
-- `34-fix-user-flow`
-
-### 7.3 Commit Flow
-
-We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0) to handle commit messages
+**Commit**
 
 ```
 <type>: <description> <project-prefix>-<issue-number>
 ```
 
-Examples:
+Examples: `feat: add dashboard component ss-45`, `fix: update dashboard card size ss-212`
 
-- `feat: add dashboard component ss-45`
-- `fix: update dashboard card size ss-212`
+---
 
-## Contributors:
+## Contributors
 
-- **Prokopenko Roman** github: _roman-prv_, discord: _@roman_27794_
+- **Prokopenko Roman** — GitHub: [roman-prv](https://github.com/Roman-PRV), Discord: _@roman_27794_
