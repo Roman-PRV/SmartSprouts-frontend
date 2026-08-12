@@ -4,7 +4,7 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-732-brightgreen)
+![Tests](https://img.shields.io/badge/tests-700%2B-brightgreen)
 
 Frontend of **SmartSprouts** — a trilingual (EN/UK/ES) educational gaming platform that helps children build cognitive skills. A React 19 single-page app built as a portfolio project to demonstrate production-grade fullstack engineering: a canvas game engine, centralized session handling, and a strict, fully-tested modular architecture.
 
@@ -24,7 +24,7 @@ Frontend of **SmartSprouts** — a trilingual (EN/UK/ES) educational gaming plat
 | **Canvas games** | Konva · react-konva · polygon-clipping                                    | Client-side polygon editor **and** area-IoU matching engine            |
 | **i18n**         | i18next 25 (en/uk/es)                                                     | Trilingual UI with browser language detection                          |
 | **Styling / UX** | TailwindCSS 4 · sonner · clsx                                             | Utility-first styling, unobtrusive toasts                              |
-| **Testing**      | Vitest 3.2 · Testing Library                                              | 732 tests across 102 suites (jsdom)                                    |
+| **Testing**      | Vitest 3.2 · Testing Library                                              | 700+ tests (jsdom)                                                     |
 | **Quality**      | ESLint 9 · Stylelint · Knip · Prettier · Husky · lint-staged · commitlint | Local pre-commit gate: lint, dead-code detection, Conventional Commits |
 
 ---
@@ -72,7 +72,7 @@ npm install
 npm run dev
 ```
 
-The dev server runs on port **3001** and proxies the API to `localhost:3000`. For the backend, see the [companion repository](https://github.com/Roman-PRV/SmartSprouts-backend).
+The dev server runs on port **3001**; requests to the API origin (`VITE_APP_API_ORIGIN_URL`) are proxied to `VITE_APP_PROXY_SERVER_URL`. For the backend, see the [companion repository](https://github.com/Roman-PRV/SmartSprouts-backend).
 
 ### Environment variables
 
@@ -94,6 +94,7 @@ VITE_APP_PROXY_SERVER_URL=http://localhost:3002
 - `stylelint:ci` — Stylelint over CSS.
 - `format` — Prettier over `.css` / `.md`.
 - `typecheck` — `tsc --noEmit`.
+- `check-config` — run `lint` + `typecheck` together (pre-commit / pre-build gate).
 - `test` / `test:ci` / `test:watch` / `test:coverage` — Vitest.
 
 ---
