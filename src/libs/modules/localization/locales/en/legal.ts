@@ -3,7 +3,6 @@ const legal = {
 	languageNote:
 		"This document is written in English, Ukrainian, and Spanish. The English version prevails legally; translations are provided for convenience.",
 	links: {
-		navLabel: "Legal documents",
 		privacy: "Privacy Policy",
 		terms: "Terms of Service",
 	},

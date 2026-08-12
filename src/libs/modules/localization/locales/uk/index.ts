@@ -1,3 +1,4 @@
+import { about } from "./about";
 import { admin } from "./admin";
 import { auth } from "./auth";
 import { common } from "./common";
@@ -8,6 +9,7 @@ import { profile } from "./profile";
 import { validation } from "./validation";
 
 export const uk = {
+	about,
 	admin,
 	auth,
 	common,

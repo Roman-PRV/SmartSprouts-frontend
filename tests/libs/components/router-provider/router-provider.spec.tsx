@@ -44,12 +44,14 @@ describe("router", () => {
 		expect(paths).toContain(AppRoute.AUTH_GOOGLE_CALLBACK);
 	});
 
-	it("keeps the legal pages outside both route guards so guests and authenticated users can read them", () => {
+	it("keeps the public pages outside both route guards so guests and authenticated users can read them", () => {
 		const paths = collectPaths(router.routes);
 		const guardedPaths = collectGuardedPaths(router.routes as RouteNode[]);
 
+		expect(paths).toContain(AppRoute.ABOUT);
 		expect(paths).toContain(AppRoute.PRIVACY);
 		expect(paths).toContain(AppRoute.TERMS);
+		expect(guardedPaths).not.toContain(AppRoute.ABOUT);
 		expect(guardedPaths).not.toContain(AppRoute.PRIVACY);
 		expect(guardedPaths).not.toContain(AppRoute.TERMS);
 	});

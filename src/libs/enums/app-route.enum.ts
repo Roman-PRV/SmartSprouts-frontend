@@ -1,4 +1,5 @@
 const AppRoute = {
+	ABOUT: "/about",
 	ADMIN_GAME_LEVEL_EDITOR: "/admin/games/:gameId/levels/:levelId",
 	ADMIN_GAME_LEVELS: "/admin/games/:gameId/levels",
 	ADMIN_ROOT: "/admin",
