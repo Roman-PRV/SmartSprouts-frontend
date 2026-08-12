@@ -13,6 +13,7 @@ const common = {
 	footer: {
 		about: "Про проект",
 		copyright: "© {{year}} SmartSprouts. Усі права захищені.",
+		navLabel: "Навігація у підвалі",
 	},
 	localization: {
 		selectLanguage: "Оберіть мову",

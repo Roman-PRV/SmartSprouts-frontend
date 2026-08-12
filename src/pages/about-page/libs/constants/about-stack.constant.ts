@@ -1,7 +1,7 @@
 // Tech names are shared, non-localized data — only the heading/labels are translated.
 const ABOUT_STACK = [
 	{
-		items: ["React 19", "TypeScript", "Redux Toolkit", "React Router", "Konva (canvas)", "i18next"],
+		items: ["React 19", "TypeScript", "Redux Toolkit", "React Router", "Konva", "i18next"],
 		key: "frontend",
 	},
 	{

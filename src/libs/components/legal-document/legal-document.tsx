@@ -1,7 +1,8 @@
 import { LEGAL_DOCUMENTS_VERSION } from "~/libs/constants/constants";
 import { useTranslation } from "~/libs/hooks/hooks";
 
-import { type LegalSection } from "./libs/types/legal-section.type";
+import { ContentSection } from "../content-section/content-section";
+import { type ContentSectionData } from "../content-section/libs/types/content-section-data.type";
 import styles from "./styles.module.css";
 
 type Properties = {
@@ -12,7 +13,7 @@ const LegalDocument: React.FC<Properties> = ({ documentKey }) => {
 	const { t } = useTranslation();
 	const sections = t(`legal.${documentKey}.sections`, {
 		returnObjects: true,
-	}) as LegalSection[];
+	}) as ContentSectionData[];
 
 	return (
 		<article className={styles["legal-document"]}>
@@ -26,28 +27,13 @@ const LegalDocument: React.FC<Properties> = ({ documentKey }) => {
 			</p>
 
 			{sections.map((section) => (
-				<section className={styles["legal-document__section"]} key={section.heading}>
-					<h2 className={styles["legal-document__heading"]}>{section.heading}</h2>
-					{section.paragraphs?.map((paragraph) => (
-						<p className={styles["legal-document__paragraph"]} key={paragraph}>
-							{paragraph}
-						</p>
-					))}
-					{section.items && (
-						<ul className={styles["legal-document__list"]}>
-							{section.items.map((item) => (
-								<li className={styles["legal-document__list-item"]} key={item}>
-									{item}
-								</li>
-							))}
-						</ul>
-					)}
-					{section.closing?.map((paragraph) => (
-						<p className={styles["legal-document__paragraph"]} key={paragraph}>
-							{paragraph}
-						</p>
-					))}
-				</section>
+				<ContentSection
+					closing={section.closing}
+					heading={section.heading}
+					items={section.items}
+					key={section.heading}
+					paragraphs={section.paragraphs}
+				/>
 			))}
 
 			<p className={styles["legal-document__language-note"]}>{t("legal.languageNote")}</p>

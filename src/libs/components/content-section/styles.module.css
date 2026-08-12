@@ -1,0 +1,28 @@
+.content-section {
+	margin-bottom: var(--spacing-md);
+}
+
+.content-section__heading {
+	margin-bottom: var(--spacing-xs);
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-text-dark);
+}
+
+.content-section__paragraph {
+	margin-bottom: var(--spacing-xs);
+	font-size: var(--font-size-sm);
+	line-height: 1.6;
+}
+
+.content-section__list {
+	padding-left: var(--spacing-md);
+	margin-bottom: var(--spacing-xs);
+	list-style: disc;
+}
+
+.content-section__list-item {
+	margin-bottom: var(--spacing-xxs);
+	font-size: var(--font-size-sm);
+	line-height: 1.6;
+}

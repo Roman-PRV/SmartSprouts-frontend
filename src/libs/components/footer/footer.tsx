@@ -14,10 +14,10 @@ const Footer: React.FC = () => {
 			<p className={styles["footer__copyright"]}>
 				{t("common.footer.copyright", { year: new Date().getFullYear() })}
 			</p>
-			<Link className={styles["footer__link"]} to={AppRoute.ABOUT}>
-				{t("common.footer.about")}
-			</Link>
-			<nav aria-label={t("legal.links.navLabel")} className={styles["footer__legal"]}>
+			<nav aria-label={t("common.footer.navLabel")} className={styles["footer__nav"]}>
+				<Link className={styles["footer__link"]} to={AppRoute.ABOUT}>
+					{t("common.footer.about")}
+				</Link>
 				<Link className={styles["footer__link"]} to={AppRoute.PRIVACY}>
 					{t("legal.links.privacy")}
 				</Link>

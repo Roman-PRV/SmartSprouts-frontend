@@ -1,12 +1,13 @@
+import { ContentSection } from "~/libs/components/components";
+import { type ContentSectionData } from "~/libs/components/content-section/libs/types/content-section-data.type";
 import { useTranslation } from "~/libs/hooks/hooks";
 
 import { ABOUT_STACK } from "./libs/constants/about-stack.constant";
-import { type AboutSection } from "./libs/types/about-section.type";
 import styles from "./styles.module.css";
 
 const AboutPage: React.FC = () => {
 	const { t } = useTranslation();
-	const sections = t("about.sections", { returnObjects: true }) as AboutSection[];
+	const sections = t("about.sections", { returnObjects: true }) as ContentSectionData[];
 
 	return (
 		<article className={styles["about"]}>
@@ -14,23 +15,12 @@ const AboutPage: React.FC = () => {
 			<p className={styles["about__intro"]}>{t("about.hero.intro")}</p>
 
 			{sections.map((section) => (
-				<section className={styles["about__section"]} key={section.heading}>
-					<h2 className={styles["about__heading"]}>{section.heading}</h2>
-					{section.paragraphs?.map((paragraph) => (
-						<p className={styles["about__paragraph"]} key={paragraph}>
-							{paragraph}
-						</p>
-					))}
-					{section.items && (
-						<ul className={styles["about__list"]}>
-							{section.items.map((item) => (
-								<li className={styles["about__list-item"]} key={item}>
-									{item}
-								</li>
-							))}
-						</ul>
-					)}
-				</section>
+				<ContentSection
+					heading={section.heading}
+					items={section.items}
+					key={section.heading}
+					paragraphs={section.paragraphs}
+				/>
 			))}
 
 			<section className={styles["about__section"]}>

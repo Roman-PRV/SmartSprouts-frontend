@@ -30,35 +30,6 @@
 	color: var(--color-text-secondary);
 }
 
-.legal-document__section {
-	margin-bottom: var(--spacing-md);
-}
-
-.legal-document__heading {
-	margin-bottom: var(--spacing-xs);
-	font-size: var(--font-size-md);
-	font-weight: var(--font-weight-semibold);
-	color: var(--color-text-dark);
-}
-
-.legal-document__paragraph {
-	margin-bottom: var(--spacing-xs);
-	font-size: var(--font-size-sm);
-	line-height: 1.6;
-}
-
-.legal-document__list {
-	padding-left: var(--spacing-md);
-	margin-bottom: var(--spacing-xs);
-	list-style: disc;
-}
-
-.legal-document__list-item {
-	margin-bottom: var(--spacing-xxs);
-	font-size: var(--font-size-sm);
-	line-height: 1.6;
-}
-
 .legal-document__language-note {
 	margin-top: var(--spacing-lg);
 	font-size: var(--font-size-xs);

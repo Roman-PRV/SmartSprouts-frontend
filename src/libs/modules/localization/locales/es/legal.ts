@@ -3,7 +3,6 @@ const legal = {
 	languageNote:
 		"Este documento está redactado en inglés, ucraniano y español. La versión en inglés prevalece legalmente; las traducciones se ofrecen por conveniencia.",
 	links: {
-		navLabel: "Documentos legales",
 		privacy: "Política de Privacidad",
 		terms: "Términos de Servicio",
 	},

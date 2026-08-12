@@ -31,24 +31,6 @@
 	color: var(--color-text-dark);
 }
 
-.about__paragraph {
-	margin-bottom: var(--spacing-xs);
-	font-size: var(--font-size-sm);
-	line-height: 1.6;
-}
-
-.about__list {
-	padding-left: var(--spacing-md);
-	margin-bottom: var(--spacing-xs);
-	list-style: disc;
-}
-
-.about__list-item {
-	margin-bottom: var(--spacing-xxs);
-	font-size: var(--font-size-sm);
-	line-height: 1.6;
-}
-
 .about__stack {
 	display: flex;
 	flex-direction: column;

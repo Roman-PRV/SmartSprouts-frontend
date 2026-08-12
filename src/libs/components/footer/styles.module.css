@@ -19,7 +19,7 @@
 	font-size: var(--font-size-xs);
 }
 
-.footer__legal {
+.footer__nav {
 	display: flex;
 	gap: var(--spacing-sm);
 }

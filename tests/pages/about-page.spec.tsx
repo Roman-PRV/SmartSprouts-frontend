@@ -4,10 +4,10 @@ import { cleanup, render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
 
+import { type ContentSectionData } from "~/libs/components/content-section/libs/types/content-section-data.type";
 import { i18n } from "~/libs/modules/localization/localization";
 import { AboutPage } from "~/pages/about-page/about-page";
 import { ABOUT_STACK } from "~/pages/about-page/libs/constants/about-stack.constant";
-import { type AboutSection } from "~/pages/about-page/libs/types/about-section.type";
 
 const renderPage = (): ReturnType<typeof render> =>
 	render(
@@ -38,7 +38,7 @@ describe("AboutPage", () => {
 
 		const sections = i18n.t("about.sections", {
 			returnObjects: true,
-		}) as AboutSection[];
+		}) as ContentSectionData[];
 		const headings = getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent);
 
 		expect(headings).toEqual([

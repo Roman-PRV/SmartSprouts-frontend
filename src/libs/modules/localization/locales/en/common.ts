@@ -13,6 +13,7 @@ const common = {
 	footer: {
 		about: "About",
 		copyright: "© {{year}} SmartSprouts. All rights reserved.",
+		navLabel: "Footer navigation",
 	},
 	localization: {
 		selectLanguage: "Select language",
