@@ -6,7 +6,7 @@
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-700%2B-brightgreen)
 
-Frontend of **SmartSprouts** — a trilingual (EN/UK/ES) educational gaming platform that helps children build cognitive skills. A React 19 single-page app built as a portfolio project to demonstrate production-grade fullstack engineering: a canvas game engine, centralized session handling, and a strict, fully-tested modular architecture.
+Frontend of **SmartSprouts** — a trilingual (EN/UK/ES) educational gaming platform that helps children build cognitive skills. This React 19 single-page app is the frontend of an early-stage startup MVP, built with production-grade fullstack engineering: a canvas game engine, centralized session handling, and a strict, fully-tested modular architecture.
 
 - 🌐 **Live demo:** https://smartsprouts.pp.ua
 - ⚙️ **Backend (Laravel API):** https://github.com/Roman-PRV/SmartSprouts-backend
