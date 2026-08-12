@@ -6,6 +6,7 @@ import { AppRoute } from "~/libs/enums/enums";
 import { AdminLayout, RequireAdmin } from "~/modules/admin/admin";
 import { LevelContentPage } from "~/pages/level-content-page/level-content-page";
 import {
+	AboutPage,
 	AdminLevelEditorPage,
 	AdminLevelsListPage,
 	AdminWelcomePage,
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
 			{
 				children: [
 					{ element: <HomePage />, index: true },
+					{ element: <AboutPage />, path: AppRoute.ABOUT },
 					{ element: <PrivacyPolicyPage />, path: AppRoute.PRIVACY },
 					{ element: <TermsPage />, path: AppRoute.TERMS },
 					{
