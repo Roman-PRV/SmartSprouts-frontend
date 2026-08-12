@@ -24,13 +24,13 @@
 	gap: var(--spacing-sm);
 }
 
-.footer__legal-link {
+.footer__link {
 	font-size: var(--font-size-xs);
 	color: var(--color-text-light);
 	text-decoration: underline;
 	transition: color var(--transition-default);
 }
 
-.footer__legal-link:hover {
+.footer__link:hover {
 	color: var(--color-brand);
 }

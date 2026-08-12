@@ -28,6 +28,15 @@ describe("Footer", () => {
 		).toBeInTheDocument();
 	});
 
+	it("links to the about page", () => {
+		const { getByRole } = renderFooter();
+
+		expect(getByRole("link", { name: i18n.t("common.footer.about") })).toHaveAttribute(
+			"href",
+			AppRoute.ABOUT
+		);
+	});
+
 	it("links to the privacy policy page", () => {
 		const { getByRole } = renderFooter();
 

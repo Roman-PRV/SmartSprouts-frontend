@@ -11,6 +11,7 @@ const common = {
 		toggleWithSelection: "{{label}}, actual: {{selection}}",
 	},
 	footer: {
+		about: "Acerca de",
 		copyright: "© {{year}} SmartSprouts. Todos los derechos reservados.",
 	},
 	localization: {
