@@ -1,4 +1,10 @@
 const validation = {
+	acceptedTerms: {
+		required: "Debes confirmarlo para crear una cuenta",
+	},
+	deletionCode: {
+		format: "El código son los 6 dígitos del correo que te enviamos",
+	},
 	email: {
 		invalid: "Por favor, introduce un email válido",
 		required: "El email es obligatorio",

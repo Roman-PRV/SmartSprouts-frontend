@@ -23,6 +23,7 @@ const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<type
 	return configureStore({
 		preloadedState: {
 			auth: {
+				consentCurrent: true,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: false,
@@ -222,7 +223,7 @@ describe("LoginForm", () => {
 					getDefaultMiddleware({
 						thunk: { extraArgument: { authApi: mockAuthApi, storage: mockStorage } },
 					}),
-				preloadedState: { auth: { dataStatus: DataStatus.IDLE, error: null, isAuthenticated: false, user: null } },
+				preloadedState: { auth: { consentCurrent: true, dataStatus: DataStatus.IDLE, error: null, isAuthenticated: false, user: null } },
 				reducer: { auth: authReducer },
 			});
 

@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 
 import { Button, Modal } from "~/libs/components/components";
+import { toastError } from "~/libs/helpers/helpers";
 import { useAppDispatch, useCallback, useState, useTranslation } from "~/libs/hooks/hooks";
 
 import { deleteStatement } from "../../api/true-false-admin";
@@ -31,8 +32,8 @@ const DeleteStatementModal: React.FC<Properties> = ({
 
 			toast.success(t("admin.trueFalse.statement.delete.success"));
 			onClose();
-		} catch {
-			toast.error(t("admin.trueFalse.statement.delete.error"));
+		} catch (error) {
+			toastError(error, t("admin.trueFalse.statement.delete.error"));
 		} finally {
 			setIsPending(false);
 		}

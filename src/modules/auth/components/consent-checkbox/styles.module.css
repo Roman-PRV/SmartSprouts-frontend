@@ -1,0 +1,9 @@
+.consent-checkbox__link {
+	color: var(--color-background-accent);
+	text-decoration: underline;
+	transition: color var(--transition-default);
+}
+
+.consent-checkbox__link:hover {
+	color: var(--color-text-dark);
+}

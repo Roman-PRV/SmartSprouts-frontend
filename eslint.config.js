@@ -188,6 +188,10 @@ const config = [
 		rules: {
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/no-magic-numbers": "off",
+			// Flags password-named identifiers regardless of value, so it can't
+			// tell test fixtures from real secrets; sonarjs/no-hardcoded-secrets
+			// (still on) covers the actual leaked-token risk.
+			"sonarjs/no-hardcoded-passwords": "off",
 		},
 	},
 ];

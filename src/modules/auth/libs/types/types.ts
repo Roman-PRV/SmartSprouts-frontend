@@ -1,3 +1,4 @@
+export { type AuthenticatedUserResponseDto } from "./authenticated-user-response-dto.type";
 export { type LoginRequestDto } from "./login-request-dto.type";
 export { type LoginResponseDto } from "./login-response-dto.type";
 export { type RegisterRequestDto } from "./register-request-dto.type";

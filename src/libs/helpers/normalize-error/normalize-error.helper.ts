@@ -27,6 +27,10 @@ const normalizeError = (error: unknown): ThunkErrorPayload => {
 			payload.errors = error.errors;
 		}
 
+		if (error.sessionExpired) {
+			payload.sessionExpired = true;
+		}
+
 		return payload;
 	}
 
@@ -54,6 +58,10 @@ const normalizeError = (error: unknown): ThunkErrorPayload => {
 
 	if (isErrorRecord(r["errors"])) {
 		payload.errors = r["errors"];
+	}
+
+	if (r["sessionExpired"] === true) {
+		payload.sessionExpired = true;
 	}
 
 	return payload;

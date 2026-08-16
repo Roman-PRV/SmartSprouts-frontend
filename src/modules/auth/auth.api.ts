@@ -6,11 +6,11 @@ import { type Storage } from "~/libs/modules/storage/storage";
 
 import { AuthApiPath } from "./libs/enums/enums";
 import {
+	type AuthenticatedUserResponseDto,
 	type LoginRequestDto,
 	type LoginResponseDto,
 	type RegisterRequestDto,
 	type RegisterResponseDto,
-	type User,
 } from "./libs/types/types";
 
 type Constructor = {
@@ -24,12 +24,12 @@ class AuthApi extends BaseHTTPApi {
 		super({ baseUrl, http, path: APIPath.AUTH, storage });
 	}
 
-	public async getAuthenticatedUser(): Promise<User> {
+	public async getAuthenticatedUser(): Promise<AuthenticatedUserResponseDto> {
 		const url = this.getFullEndpoint(AuthApiPath.AUTHENTICATED_USER, {});
 
-		const data = await this.requestJson<{ user: User }>(url, { method: HTTPMethod.GET });
-
-		return data.user;
+		return await this.requestJson<AuthenticatedUserResponseDto>(url, {
+			method: HTTPMethod.GET,
+		});
 	}
 
 	public async getGoogleRedirectUrl(): Promise<{ url: string }> {
@@ -55,7 +55,10 @@ class AuthApi extends BaseHTTPApi {
 	public async logout(): Promise<void> {
 		const url = this.getFullEndpoint(AuthApiPath.LOGOUT, {});
 
-		await this.requestVoid(url, { method: HTTPMethod.POST });
+		// Send the token (the server revokes it), but a 401 here means the session
+		// was already gone — a benign logout, not an expiry — so skip the global
+		// session-expiry handler and its misleading "session expired" toast.
+		await this.requestVoid(url, { method: HTTPMethod.POST, skipUnauthorizedHandler: true });
 	}
 
 	public async register(payload: RegisterRequestDto): Promise<RegisterResponseDto> {

@@ -30,10 +30,11 @@ const renderAdminLayout = (): ReturnType<typeof render> => {
 	const store = configureStore({
 		preloadedState: {
 			auth: {
+				consentCurrent: true,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: true,
-				user: { email: "a@a.com", id: 1, is_admin: true, name: "Admin" },
+				user: { email: "a@a.com", has_password: true, id: 1, is_admin: true, name: "Admin" },
 			},
 			games: {
 				currentGame: null,

@@ -2,6 +2,8 @@ export { ArithmeticLevelCard } from "./arithmetic-level-card/arithmetic-level-ca
 export { AudioPlayButton } from "./audio-play-button/audio-play-button";
 export { ButtonLink } from "./button-link/button-link";
 export { Button } from "./button/button";
+export { Checkbox } from "./checkbox/checkbox";
+export { ContentSection } from "./content-section/content-section";
 export { Dropdown } from "./dropdown/dropdown";
 export { FallbackImage } from "./fallback-image/fallback-image";
 export { FallbackMessage } from "./fallback-message/fallback-message";
@@ -12,6 +14,7 @@ export { Icon } from "./icon/icon";
 export { Input } from "./input/input";
 export { LanguageSwitcher } from "./language-switcher/language-switcher";
 export { LanguageSwitcherVariant } from "./language-switcher/language-switcher-variant.enum";
+export { LegalDocument } from "./legal-document/legal-document";
 export { LevelPreviewCard } from "./level-preview-card/level-preview-card";
 export { Loader } from "./loader/loader";
 export { LocalizedInputGroup } from "./localized-input-group/localized-input-group";

@@ -19,6 +19,7 @@ const TEST_USER_CREDENTIALS = { secret: "Str0ng-test-value" }; // NOSONAR
 
 describe("auth slice", () => {
 	const initialState = {
+		consentCurrent: true,
 		dataStatus: DataStatus.IDLE,
 		error: null,
 		isAuthenticated: false,
@@ -39,7 +40,7 @@ describe("auth slice", () => {
 		});
 
 		it("handles login.fulfilled action", () => {
-			const mockUser = { email: "test@example.com", id: 1, is_admin: false, name: "Test User" };
+			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
 			const action = {
 				payload: { access_token: "fake-token", user: mockUser },
 				type: login.fulfilled.type,
@@ -84,9 +85,9 @@ describe("auth slice", () => {
 		});
 
 		it("handles getAuthenticatedUser.fulfilled action", () => {
-			const mockUser = { email: "test@example.com", id: 1, is_admin: false, name: "Test User" };
+			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
 			const action = {
-				payload: mockUser,
+				payload: { consent_current: false, user: mockUser },
 				type: getAuthenticatedUser.fulfilled.type,
 			};
 			const state = reducer(initialState, action);
@@ -94,6 +95,7 @@ describe("auth slice", () => {
 			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
 			expect(state.isAuthenticated).toBe(true);
 			expect(state.user).toEqual(mockUser);
+			expect(state.consentCurrent).toBe(false);
 			expect(state.error).toBeNull();
 		});
 
@@ -101,7 +103,7 @@ describe("auth slice", () => {
 			const stateWithUser = {
 				...initialState,
 				isAuthenticated: true,
-				user: { email: "test@example.com", id: 1, is_admin: false, name: "Test User" },
+				user: { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" },
 			};
 			const action = { type: getAuthenticatedUser.rejected.type };
 			const state = reducer(stateWithUser, action);
@@ -121,7 +123,7 @@ describe("auth slice", () => {
 		});
 
 		it("handles register.fulfilled action", () => {
-			const mockUser = { email: "test@example.com", id: 1, is_admin: false, name: "Test User" };
+			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
 			const action = {
 				payload: { access_token: "fake-token", user: mockUser },
 				type: register.fulfilled.type,
@@ -166,13 +168,17 @@ describe("auth slice", () => {
 		});
 
 		it("handles loginWithGoogle.fulfilled action", () => {
-			const mockUser = { email: "test@example.com", id: 1, is_admin: false, name: "Test User" };
-			const action = { payload: mockUser, type: loginWithGoogle.fulfilled.type };
+			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
+			const action = {
+				payload: { consent_current: false, user: mockUser },
+				type: loginWithGoogle.fulfilled.type,
+			};
 			const state = reducer(initialState, action);
 
 			expect(state.dataStatus).toBe(DataStatus.FULFILLED);
 			expect(state.isAuthenticated).toBe(true);
 			expect(state.user).toEqual(mockUser);
+			expect(state.consentCurrent).toBe(false);
 			expect(state.error).toBeNull();
 		});
 
@@ -214,10 +220,11 @@ describe("auth slice", () => {
 
 		it("handles logout.fulfilled action", () => {
 			const authenticatedState = {
+				consentCurrent: true,
 				dataStatus: DataStatus.FULFILLED,
 				error: { message: "Some error" },
 				isAuthenticated: true,
-				user: { email: "test@example.com", id: 1, is_admin: false, name: "Test User" },
+				user: { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" },
 			};
 			const action = { type: logout.fulfilled.type };
 			const state = reducer(authenticatedState, action);
@@ -238,10 +245,11 @@ describe("auth slice", () => {
 
 		it("handles logout.rejected action", () => {
 			const authenticatedState = {
+				consentCurrent: true,
 				dataStatus: DataStatus.FULFILLED,
 				error: { message: "Some error" },
 				isAuthenticated: true,
-				user: { email: "test@example.com", id: 1, is_admin: false, name: "Test User" },
+				user: { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" },
 			};
 			const action = { type: logout.rejected.type };
 			const state = reducer(authenticatedState, action);
@@ -257,13 +265,14 @@ describe("auth slice", () => {
 		it("calls authApi.register and stores token in storage on success", async () => {
 			const mockResponse = {
 				access_token: "fake-token",
-				user: { email: "test@example.com", id: 1, is_admin: false, name: "Test User" },
+				user: { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" },
 			};
 			const authApiMock = { register: vi.fn().mockResolvedValue(mockResponse) };
 			const storageMock = { set: vi.fn<() => Promise<void>>().mockResolvedValue() };
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const payload = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: TEST_USER_CREDENTIALS.secret,
@@ -285,6 +294,7 @@ describe("auth slice", () => {
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const payload = {
+				accepted_terms: true,
 				email: "test@example.com",
 				name: "Test User",
 				password: TEST_USER_CREDENTIALS.secret,
@@ -301,7 +311,7 @@ describe("auth slice", () => {
 
 	describe("getAuthenticatedUser thunk", () => {
 		it("calls authApi.getAuthenticatedUser on success", async () => {
-			const mockUser = { email: "test@example.com", id: 1, is_admin: false, name: "Test User" };
+			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
 			const authApiMock = { getAuthenticatedUser: vi.fn().mockResolvedValue(mockUser) };
 			const storageMock = { drop: vi.fn(), has: vi.fn().mockResolvedValue(true), set: vi.fn() };
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
@@ -328,7 +338,7 @@ describe("auth slice", () => {
 			expect((result.payload as ThunkErrorPayload).message).toBe(errorMessage);
 		});
 
-		it("removes token from storage on 401 error", async () => {
+		it("rejects with the 401 payload without dropping the token (the API layer handles that)", async () => {
 			const error = new HTTPError({
 				details: [],
 				errorType: ServerErrorType.COMMON,
@@ -340,9 +350,11 @@ describe("auth slice", () => {
 			const extra = { authApi: authApiMock, storage: storageMock } as unknown as ThunkExtra;
 
 			const thunk = getAuthenticatedUser();
-			await thunk(mockDispatch, mockGetState, extra);
+			const result = await thunk(mockDispatch, mockGetState, extra);
 
-			expect(storageMock.drop).toHaveBeenCalledWith(StorageKey.TOKEN);
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as ThunkErrorPayload).status).toBe(HTTPCode.UNAUTHORIZED);
+			expect(storageMock.drop).not.toHaveBeenCalled();
 		});
 
 		it("returns rejected value if no token in storage", async () => {
@@ -388,7 +400,7 @@ describe("auth slice", () => {
 
 	describe("loginWithGoogle thunk", () => {
 		it("stores token and returns authenticated user on success", async () => {
-			const mockUser = { email: "test@example.com", id: 1, is_admin: false, name: "Test User" };
+			const mockUser = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
 			const token = "google-access-token";
 			const authApiMock = { getAuthenticatedUser: vi.fn().mockResolvedValue(mockUser) };
 			const storageMock = {
@@ -477,7 +489,7 @@ describe("auth slice", () => {
 		it("calls authApi.login and stores token in storage on success", async () => {
 			const mockResponse = {
 				access_token: "fake-token",
-				user: { email: "test@example.com", id: 1, is_admin: false, name: "Test User" },
+				user: { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" },
 			};
 			const authApiMock = { login: vi.fn().mockResolvedValue(mockResponse) };
 			const storageMock = { set: vi.fn<() => Promise<void>>().mockResolvedValue() };

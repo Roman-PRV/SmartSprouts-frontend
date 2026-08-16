@@ -1,3 +1,4 @@
+export { AboutPage } from "./about-page/about-page";
 export { AdminLevelEditorPage } from "./admin/admin-level-editor-page/admin-level-editor-page";
 export { AdminLevelsListPage } from "./admin/admin-levels-list-page/admin-levels-list-page";
 export { AdminWelcomePage } from "./admin/admin-welcome-page/admin-welcome-page";
@@ -6,5 +7,7 @@ export { GameContentPage } from "./game-content-page/game-content-page";
 export { GameSelectionPage } from "./game-selection-page/game-selection-page";
 export { HomePage } from "./home-page/home-page";
 export { LoginPage } from "./login-page/login-page";
+export { PrivacyPolicyPage } from "./privacy-policy-page/privacy-policy-page";
 export { ProfilePage } from "./profile-page/profile-page";
 export { RegisterPage } from "./register-page/register-page";
+export { TermsPage } from "./terms-page/terms-page";

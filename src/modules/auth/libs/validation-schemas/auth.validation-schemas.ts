@@ -19,9 +19,15 @@ const loginSchema = z.object({
 	password: basicPasswordSchema,
 });
 
+/** Must be `true`: the 18+/guardian affirmation plus acceptance of the legal documents. */
+const acceptedTermsSchema = z.boolean().refine((value) => value, {
+	message: VALIDATION_MESSAGES.TERMS_MUST_BE_ACCEPTED,
+});
+
 /**
  * Schema for registration form validation.
  * Includes:
+ * - accepted_terms: must be true (18+/guardian affirmation + legal documents)
  * - email: {@link emailSchema}
  * - name: {@link nameSchema}
  * - password: {@link passwordSchema}
@@ -32,6 +38,7 @@ const loginSchema = z.object({
  */
 const registerSchema = z
 	.object({
+		accepted_terms: acceptedTermsSchema,
 		email: emailSchema,
 		name: nameSchema,
 		password: passwordSchema,
@@ -42,4 +49,14 @@ const registerSchema = z
 		path: ["password_confirmation"],
 	});
 
-export { loginSchema, registerSchema };
+/**
+ * Schema for the blocking consent gate (re-consent / repair of accounts
+ * created without consent).
+ */
+const consentGateSchema = z.object({
+	accepted_terms: acceptedTermsSchema,
+});
+
+type ConsentGateFormValues = z.infer<typeof consentGateSchema>;
+
+export { type ConsentGateFormValues, consentGateSchema, loginSchema, registerSchema };

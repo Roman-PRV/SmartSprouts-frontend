@@ -11,16 +11,18 @@ import { DataStatus } from "~/libs/enums/enums";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
 type AuthState = {
+	consentCurrent: boolean;
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
 	error: null | { message: string };
 	isAuthenticated: boolean;
-	user: null | { email: string; id: number; is_admin: boolean; name: string };
+	user: null | { email: string; has_password: boolean; id: number; is_admin: boolean; name: string };
 };
 
 const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<typeof configureStore> => {
 	return configureStore({
 		preloadedState: {
 			auth: {
+				consentCurrent: true,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: false,

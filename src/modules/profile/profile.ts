@@ -11,7 +11,22 @@ const profileApi = new ProfileApi({
 });
 
 export { profileApi };
-export { type UpdatePasswordRequestDto, type UserProfileDto } from "./libs/types/types";
-export { updatePasswordValidationSchema } from "./libs/validation-schemas/validation-schemas";
-export { fetchProfile, updatePassword } from "./slices/actions";
+export {
+	type DeleteAccountWithCodeRequestDto,
+	type DeleteAccountWithPasswordRequestDto,
+	type UpdatePasswordRequestDto,
+	type UserProfileDto,
+} from "./libs/types/types";
+export {
+	deleteAccountWithCodeValidationSchema,
+	deleteAccountWithPasswordValidationSchema,
+	updatePasswordValidationSchema,
+} from "./libs/validation-schemas/validation-schemas";
+export {
+	deleteAccountWithCode,
+	deleteAccountWithPassword,
+	fetchProfile,
+	requestDeletionCode,
+	updatePassword,
+} from "./slices/actions";
 export { reducer } from "./slices/profile.slice";

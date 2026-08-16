@@ -29,7 +29,7 @@ import {
 	trueFalseAdminApi,
 	reducer as trueFalseAdminReducer,
 } from "~/modules/admin/games/true-false/true-false-admin";
-import { authApi, reducer as authReducer, logout } from "~/modules/auth/auth";
+import { authApi, reducer as authReducer, logout, sessionExpired } from "~/modules/auth/auth";
 import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 import { profileApi, reducer as profileReducer } from "~/modules/profile/profile";
 
@@ -71,7 +71,7 @@ const resettableRootReducer = (
 	state: RootReducer | undefined,
 	action: UnknownAction
 ): RootReducer => {
-	if (action.type === logout.fulfilled.type) {
+	if (action.type === logout.fulfilled.type || action.type === sessionExpired.type) {
 		return rootReducer(undefined, action);
 	}
 

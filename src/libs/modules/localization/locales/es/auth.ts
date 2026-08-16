@@ -1,4 +1,15 @@
 const auth = {
+	consent: {
+		label:
+			"Confirmo que tengo 18 años o más y que soy el padre, la madre o el tutor legal del niño; acepto los <0>Términos de Servicio</0> y he leído la <1>Política de Privacidad</1>",
+	},
+	consentGate: {
+		button: "Continuar",
+		description:
+			"Necesitamos tu confirmación antes de continuar: según nuestros registros, aún no has aceptado la versión vigente de nuestros documentos legales.",
+		error: "No se pudo guardar tu confirmación. Por favor, inténtalo de nuevo.",
+		title: "Un Paso Más",
+	},
 	googleCallback: {
 		errors: {
 			authFailed: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
@@ -54,6 +65,7 @@ const auth = {
 		subtitle: "Regístrate para comenzar",
 		title: "Crear cuenta",
 	},
+	sessionExpired: "Tu sesión ha expirado. Por favor, inicia sesión de nuevo.",
 };
 
 export { auth };

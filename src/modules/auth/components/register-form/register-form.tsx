@@ -13,6 +13,8 @@ import {
 } from "~/modules/auth/auth";
 import styles from "~/modules/auth/styles/auth-form.module.css";
 
+import { ConsentCheckbox } from "../consent-checkbox/consent-checkbox";
+
 type Properties = {
 	onSuccess?: () => void;
 };
@@ -28,6 +30,7 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 		setError,
 	} = useForm<RegisterRequestDto>({
 		defaultValues: {
+			accepted_terms: false,
 			email: "",
 			name: "",
 			password: "",
@@ -97,6 +100,11 @@ const RegisterForm: React.FC<Properties> = ({ onSuccess }) => {
 				required
 				type="password"
 				{...register("password_confirmation")}
+			/>
+
+			<ConsentCheckbox
+				error={errors.accepted_terms?.message && t(errors.accepted_terms.message)}
+				registration={register("accepted_terms")}
 			/>
 
 			<Button fullWidth isLoading={isLoading} size="lg" type="submit" variant="primary">

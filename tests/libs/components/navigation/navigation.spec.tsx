@@ -13,10 +13,11 @@ import { i18n } from "~/libs/modules/localization/localization";
 import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
 type AuthState = {
+	consentCurrent: boolean;
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
 	error: null | { message: string };
 	isAuthenticated: boolean;
-	user: null | { email: string; id: number; is_admin: boolean; name: string };
+	user: null | { email: string; has_password: boolean; id: number; is_admin: boolean; name: string };
 };
 
 const mockLogout = vi.fn();
@@ -40,6 +41,7 @@ const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<type
 	return configureStore({
 		preloadedState: {
 			auth: {
+				consentCurrent: true,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: false,
@@ -165,12 +167,14 @@ describe("Navigation", () => {
 	describe("Admin Panel Entry Visibility", () => {
 		const adminUser = {
 			email: "admin@a.com",
+			has_password: true,
 			id: 1,
 			is_admin: true,
 			name: "Admin",
 		};
 		const regularUser = {
 			email: "user@a.com",
+			has_password: true,
 			id: 2,
 			is_admin: false,
 			name: "User",
@@ -224,7 +228,7 @@ describe("Navigation", () => {
 			const user = userEvent.setup();
 			renderWithProvider({
 				isAuthenticated: true,
-				user: { email: "admin@a.com", id: 1, is_admin: true, name: "Admin" },
+				user: { email: "admin@a.com", has_password: true, id: 1, is_admin: true, name: "Admin" },
 			});
 
 			const expectedLabels = [
