@@ -35,6 +35,7 @@ const setup = (hasPassword: boolean): void => {
 		preloadedState: {
 			auth: {
 				consentCurrent: true,
+				consentDeclined: false,
 				dataStatus: DataStatus.FULFILLED,
 				error: null,
 				isAuthenticated: true,

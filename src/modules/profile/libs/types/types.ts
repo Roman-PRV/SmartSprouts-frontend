@@ -1,3 +1,4 @@
+export { type ConsentStateResponseDto } from "./consent-state-response-dto.type";
 export { type DeleteAccountRequestDto } from "./delete-account-request-dto.type";
 export { type DeleteAccountWithCodeRequestDto } from "./delete-account-with-code-request-dto.type";
 export { type DeleteAccountWithPasswordRequestDto } from "./delete-account-with-password-request-dto.type";

@@ -15,6 +15,7 @@ import { reducer as authReducer } from "~/modules/auth/slices/auth.slice";
 
 type AuthState = {
 	consentCurrent: boolean;
+	consentDeclined: boolean;
 	dataStatus: (typeof DataStatus)[keyof typeof DataStatus];
 	error: null | { message: string };
 	isAuthenticated: boolean;
@@ -51,6 +52,7 @@ const renderConsentGateFlow = (
 		preloadedState: {
 			auth: {
 				consentCurrent: false,
+				consentDeclined: false,
 				dataStatus: DataStatus.FULFILLED,
 				error: null,
 				isAuthenticated: true,
@@ -80,6 +82,7 @@ const createMockStore = (initialAuthState?: Partial<AuthState>): ReturnType<type
 		preloadedState: {
 			auth: {
 				consentCurrent: true,
+				consentDeclined: false,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: false,
@@ -140,6 +143,7 @@ describe("ProtectedRoute", () => {
 		it("never shows the gate when consent is current", () => {
 			renderWithProvider(<ProtectedRoute />, {
 				consentCurrent: true,
+				consentDeclined: false,
 				isAuthenticated: true,
 				user: GATE_USER,
 			});
@@ -151,6 +155,7 @@ describe("ProtectedRoute", () => {
 		it("blocks the content behind the gate when consent is not current", () => {
 			renderWithProvider(<ProtectedRoute />, {
 				consentCurrent: false,
+				consentDeclined: false,
 				isAuthenticated: true,
 				user: GATE_USER,
 			});

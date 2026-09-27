@@ -31,6 +31,7 @@ const renderAdminLayout = (): ReturnType<typeof render> => {
 		preloadedState: {
 			auth: {
 				consentCurrent: true,
+				consentDeclined: false,
 				dataStatus: DataStatus.IDLE,
 				error: null,
 				isAuthenticated: true,

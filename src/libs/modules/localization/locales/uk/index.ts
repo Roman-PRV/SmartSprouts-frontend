@@ -1,6 +1,7 @@
 import { about } from "./about";
 import { admin } from "./admin";
 import { auth } from "./auth";
+import { billing } from "./billing";
 import { common } from "./common";
 import { games } from "./games";
 import { home } from "./home";
@@ -12,6 +13,7 @@ export const uk = {
 	about,
 	admin,
 	auth,
+	billing,
 	common,
 	games,
 	home,

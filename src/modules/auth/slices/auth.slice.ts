@@ -6,6 +6,7 @@ import { type ThunkErrorPayload, type ValueOf } from "~/libs/types/types";
 import { type User } from "../libs/types/types";
 import {
 	acceptConsents,
+	declineConsents,
 	getAuthenticatedUser,
 	login,
 	loginWithGoogle,
@@ -16,6 +17,8 @@ import {
 type State = {
 	/** Whether the user has accepted the current legal-document versions. */
 	consentCurrent: boolean;
+	/** Refused the current versions, as opposed to never having answered them. */
+	consentDeclined: boolean;
 	dataStatus: ValueOf<typeof DataStatus>;
 	error: null | ThunkErrorPayload;
 	isAuthenticated: boolean;
@@ -24,6 +27,7 @@ type State = {
 
 const initialState: State = {
 	consentCurrent: true,
+	consentDeclined: false,
 	dataStatus: DataStatus.IDLE,
 	error: null,
 	isAuthenticated: false,
@@ -37,6 +41,12 @@ const { actions, reducer } = createSlice({
 		// would falsely log the user out.
 		builder.addCase(acceptConsents.fulfilled, (state) => {
 			state.consentCurrent = true;
+			state.consentDeclined = false;
+		});
+
+		builder.addCase(declineConsents.fulfilled, (state, action) => {
+			state.consentCurrent = action.payload.consent_current;
+			state.consentDeclined = action.payload.consent_declined;
 		});
 
 		builder.addCase(login.pending, (state) => {
@@ -52,6 +62,7 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = true;
 			state.user = action.payload.user;
 			state.consentCurrent = action.payload.consent_current;
+			state.consentDeclined = action.payload.consent_declined;
 			state.error = null;
 		});
 		builder.addCase(getAuthenticatedUser.rejected, (state) => {
@@ -59,6 +70,7 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = false;
 			state.user = null;
 			state.consentCurrent = true;
+			state.consentDeclined = false;
 			state.error = null;
 		});
 
@@ -67,6 +79,7 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = true;
 			state.user = action.payload.user;
 			state.consentCurrent = action.payload.consent_current;
+			state.consentDeclined = action.payload.consent_declined;
 			state.error = null;
 			// Token is stored in async thunk via storage.set()
 		});
@@ -88,6 +101,7 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = false;
 			state.user = null;
 			state.consentCurrent = true;
+			state.consentDeclined = false;
 			state.error = null;
 		});
 		builder.addCase(logout.rejected, (state) => {
@@ -95,6 +109,7 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = false;
 			state.user = null;
 			state.consentCurrent = true;
+			state.consentDeclined = false;
 			state.error = null;
 		});
 
@@ -107,6 +122,7 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = true;
 			state.user = action.payload.user;
 			state.consentCurrent = action.payload.consent_current;
+			state.consentDeclined = action.payload.consent_declined;
 			state.error = null;
 		});
 		builder.addCase(loginWithGoogle.rejected, (state, action) => {
@@ -127,6 +143,7 @@ const { actions, reducer } = createSlice({
 			state.isAuthenticated = true;
 			state.user = action.payload.user;
 			state.consentCurrent = action.payload.consent_current;
+			state.consentDeclined = action.payload.consent_declined;
 			state.error = null;
 			// Token is stored in async thunk via storage.set()
 		});

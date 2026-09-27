@@ -63,6 +63,7 @@ describe("AuthApi.register", () => {
 		const responseData: RegisterResponseDto = {
 			access_token: "fake-token",
 			consent_current: true,
+			consent_declined: false,
 			user: {
 				email: "test@example.com",
 				has_password: true,
@@ -139,6 +140,7 @@ describe("AuthApi.login", () => {
 		const responseData: LoginResponseDto = {
 			access_token: "fake-token",
 			consent_current: true,
+			consent_declined: false,
 			user: {
 				email: "test@example.com",
 				has_password: true,
