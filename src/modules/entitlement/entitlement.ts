@@ -11,6 +11,7 @@ const entitlementApi = new EntitlementApi({
 });
 
 export { entitlementApi };
+/** @planned FE-15 renders the allowance indicator on top of this. */
 export { useEntitlement } from "./hooks/hooks";
 export { getEntitlement } from "./slices/actions";
 export { reducer } from "./slices/entitlement.slice";

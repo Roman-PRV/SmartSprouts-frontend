@@ -23,13 +23,19 @@ type UseEntitlementReturn = {
  * the status alone would hide exactly the snapshot the slice kept.
  */
 const useEntitlement = (): UseEntitlementReturn => {
+	const user = useAppSelector(({ auth }) => auth.user);
 	const { dataStatus, entitlement, error } = useAppSelector((state) => state.entitlement);
 
 	return {
 		data: entitlement,
 		error,
 		isError: entitlement === null && dataStatus === DataStatus.REJECTED,
-		isLoading: dataStatus === DataStatus.IDLE || dataStatus === DataStatus.PENDING,
+		// IDLE counts as loading only where the shell is going to fetch. It guards
+		// on a user, so without one nothing is coming and a spinner would never
+		// stop — the same predicate is used here so the two cannot drift apart.
+		isLoading:
+			dataStatus === DataStatus.PENDING ||
+			(dataStatus === DataStatus.IDLE && user !== null),
 	};
 };
 

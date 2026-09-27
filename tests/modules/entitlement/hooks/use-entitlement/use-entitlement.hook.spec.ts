@@ -40,9 +40,11 @@ type SliceState = {
 	error: null | { message: string };
 };
 
-const selectFrom = (state: SliceState): void => {
+const USER = { email: "test@example.com", has_password: true, id: 1, is_admin: false, name: "Test User" };
+
+const selectFrom = (state: SliceState, user: null | typeof USER = USER): void => {
 	mockUseAppSelector.mockImplementation((selector: unknown) =>
-		(selector as (root: unknown) => unknown)({ entitlement: state })
+		(selector as (root: unknown) => unknown)({ auth: { user }, entitlement: state })
 	);
 };
 
@@ -64,6 +66,18 @@ describe("useEntitlement", () => {
 
 		expect(result.current.isLoading).toBe(true);
 		expect(result.current.isError).toBe(false);
+	});
+
+	// Without a signed-in account the shell never fetches, so calling IDLE
+	// "loading" would leave a spinner turning for the rest of the session.
+	it("is not loading for a visitor nobody will fetch for", () => {
+		selectFrom({ dataStatus: DataStatus.IDLE, entitlement: null, error: null }, null);
+
+		const { result } = renderHook(() => useEntitlement());
+
+		expect(result.current.isLoading).toBe(false);
+		expect(result.current.isError).toBe(false);
+		expect(result.current.data).toBeNull();
 	});
 
 	// The whole reason the hook reports readiness instead of the raw status: a

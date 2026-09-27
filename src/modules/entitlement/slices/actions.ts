@@ -8,9 +8,10 @@ import { type EntitlementResponseDto } from "../libs/types/types";
 /**
  * Fetches the account's tier state and both remaining allowances.
  *
- * Dispatched once the session is known and again after anything that moves a
- * counter or the tier. Nothing gates the interface on the result: `remaining`
- * is advisory, and the server is the authority on every refusal.
+ * Dispatched once from the app shell as soon as the session is known — the hook
+ * that reads this only selects, so two mounted readers stay one request. Nothing
+ * gates the interface on the result: `remaining` is advisory, and the server is
+ * the authority on every refusal.
  */
 const getEntitlement = createAsyncThunk<EntitlementResponseDto, undefined, AsyncThunkConfig>(
 	"entitlement/getEntitlement",
