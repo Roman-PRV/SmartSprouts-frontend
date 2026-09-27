@@ -3,6 +3,7 @@ import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { normalizeError } from "~/libs/helpers/helpers";
 import { StorageKey } from "~/libs/modules/storage/storage";
 import { type AsyncThunkConfig } from "~/libs/types/types";
+import { type ConsentStateResponseDto } from "~/modules/profile/profile";
 
 import {
 	type AuthenticatedUserResponseDto,
@@ -33,6 +34,26 @@ const acceptConsents = createAsyncThunk<null, undefined, AsyncThunkConfig>(
 			await profileApi.acceptConsents();
 
 			return null;
+		} catch (error) {
+			return rejectWithValue(normalizeError(error));
+		}
+	}
+);
+
+/**
+ * Records refusal of the current legal-document versions.
+ *
+ * Unlike acceptConsents it returns the resulting state instead of flipping a
+ * flag locally: an acceptance already on record for the same version outranks
+ * the refusal, and only the server knows whether that happened.
+ */
+const declineConsents = createAsyncThunk<ConsentStateResponseDto, undefined, AsyncThunkConfig>(
+	"auth/declineConsents",
+	async (_payload, { extra, rejectWithValue }) => {
+		const { profileApi } = extra;
+
+		try {
+			return await profileApi.declineConsents();
 		} catch (error) {
 			return rejectWithValue(normalizeError(error));
 		}
@@ -156,6 +177,7 @@ const loginWithGoogle = createAsyncThunk<AuthenticatedUserResponseDto, string, A
 
 export {
 	acceptConsents,
+	declineConsents,
 	fetchGoogleRedirectUrl,
 	getAuthenticatedUser,
 	login,

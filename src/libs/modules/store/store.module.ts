@@ -30,12 +30,17 @@ import {
 	reducer as trueFalseAdminReducer,
 } from "~/modules/admin/games/true-false/true-false-admin";
 import { authApi, reducer as authReducer, logout, sessionExpired } from "~/modules/auth/auth";
+import {
+	entitlementApi,
+	reducer as entitlementReducer,
+} from "~/modules/entitlement/entitlement";
 import { gamesApi, reducer as gamesReducer } from "~/modules/games/games";
 import { profileApi, reducer as profileReducer } from "~/modules/profile/profile";
 
 type ExtraArguments = {
 	arithmeticGameApi: typeof arithmeticGameApi;
 	authApi: typeof authApi;
+	entitlementApi: typeof entitlementApi;
 	findTheWrongAdminApi: typeof findTheWrongAdminApi;
 	findTheWrongGameApi: typeof findTheWrongGameApi;
 	gamesApi: typeof gamesApi;
@@ -48,6 +53,7 @@ type ExtraArguments = {
 type RootReducer = {
 	arithmeticLevels: ReturnType<typeof arithmeticGameReducer>;
 	auth: ReturnType<typeof authReducer>;
+	entitlement: ReturnType<typeof entitlementReducer>;
 	findTheWrongAdmin: ReturnType<typeof findTheWrongAdminReducer>;
 	findTheWrongLevels: ReturnType<typeof findTheWrongGameReducer>;
 	games: ReturnType<typeof gamesReducer>;
@@ -59,6 +65,7 @@ type RootReducer = {
 const rootReducer = combineReducers({
 	arithmeticLevels: arithmeticGameReducer,
 	auth: authReducer,
+	entitlement: entitlementReducer,
 	findTheWrongAdmin: findTheWrongAdminReducer,
 	findTheWrongLevels: findTheWrongGameReducer,
 	games: gamesReducer,
@@ -91,6 +98,7 @@ class Store {
 		return {
 			arithmeticGameApi,
 			authApi,
+			entitlementApi,
 			findTheWrongAdminApi,
 			findTheWrongGameApi,
 			gamesApi,

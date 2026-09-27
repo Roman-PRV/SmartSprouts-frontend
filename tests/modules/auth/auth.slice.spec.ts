@@ -6,7 +6,7 @@ import { StorageKey } from "~/libs/modules/storage/storage";
 import { type AsyncThunkConfig } from "~/libs/types/async-thunk-config.type";
 import { type ThunkErrorPayload } from "~/libs/types/types";
 import { actions, getAuthenticatedUser, login, loginWithGoogle, logout, register } from "~/modules/auth/auth";
-import { fetchGoogleRedirectUrl } from "~/modules/auth/slices/actions";
+import { acceptConsents, declineConsents, fetchGoogleRedirectUrl } from "~/modules/auth/slices/actions";
 import { reducer } from "~/modules/auth/slices/auth.slice";
 
 type ThunkDispatch = AsyncThunkConfig["dispatch"];
@@ -20,6 +20,7 @@ const TEST_USER_CREDENTIALS = { secret: "Str0ng-test-value" }; // NOSONAR
 describe("auth slice", () => {
 	const initialState = {
 		consentCurrent: true,
+		consentDeclined: false,
 		dataStatus: DataStatus.IDLE,
 		error: null,
 		isAuthenticated: false,
@@ -221,6 +222,7 @@ describe("auth slice", () => {
 		it("handles logout.fulfilled action", () => {
 			const authenticatedState = {
 				consentCurrent: true,
+				consentDeclined: false,
 				dataStatus: DataStatus.FULFILLED,
 				error: { message: "Some error" },
 				isAuthenticated: true,
@@ -246,6 +248,7 @@ describe("auth slice", () => {
 		it("handles logout.rejected action", () => {
 			const authenticatedState = {
 				consentCurrent: true,
+				consentDeclined: false,
 				dataStatus: DataStatus.FULFILLED,
 				error: { message: "Some error" },
 				isAuthenticated: true,
@@ -521,6 +524,65 @@ describe("auth slice", () => {
 
 			const thunk = login(payload);
 			const result = await thunk(mockDispatch, mockGetState, extra);
+
+			expect(result.meta.requestStatus).toBe("rejected");
+			expect((result.payload as ThunkErrorPayload).message).toBe(errorMessage);
+		});
+	});
+
+	describe("consent refusal", () => {
+		it("restricts the account when the refusal is the answer that stands", () => {
+			const action = {
+				payload: { consent_current: false, consent_declined: true },
+				type: declineConsents.fulfilled.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.consentCurrent).toBe(false);
+			expect(state.consentDeclined).toBe(true);
+		});
+
+		// The reason the endpoint answers with a body at all: an acceptance
+		// already on record for the same version outranks the refusal, and a
+		// client that assumed "refused means restricted" would show a lie.
+		it("leaves access intact when an acceptance outranks the refusal", () => {
+			const action = {
+				payload: { consent_current: true, consent_declined: false },
+				type: declineConsents.fulfilled.type,
+			};
+			const state = reducer(initialState, action);
+
+			expect(state.consentCurrent).toBe(true);
+			expect(state.consentDeclined).toBe(false);
+		});
+
+		it("clears the refusal once the terms are accepted", () => {
+			const declinedState = { ...initialState, consentCurrent: false, consentDeclined: true };
+			const state = reducer(declinedState, { type: acceptConsents.fulfilled.type });
+
+			expect(state.consentCurrent).toBe(true);
+			expect(state.consentDeclined).toBe(false);
+		});
+
+		it("calls profileApi.declineConsents and returns the resulting state", async () => {
+			const consentState = { consent_current: false, consent_declined: true };
+			const profileApiMock = { declineConsents: vi.fn().mockResolvedValue(consentState) };
+			const extra = { profileApi: profileApiMock } as unknown as ThunkExtra;
+
+			const result = await declineConsents()(mockDispatch, mockGetState, extra);
+
+			expect(profileApiMock.declineConsents).toHaveBeenCalled();
+			expect(result.payload).toEqual(consentState);
+		});
+
+		it("returns rejected value on api error", async () => {
+			const errorMessage = "API error";
+			const profileApiMock = {
+				declineConsents: vi.fn().mockRejectedValue(new Error(errorMessage)),
+			};
+			const extra = { profileApi: profileApiMock } as unknown as ThunkExtra;
+
+			const result = await declineConsents()(mockDispatch, mockGetState, extra);
 
 			expect(result.meta.requestStatus).toBe("rejected");
 			expect((result.payload as ThunkErrorPayload).message).toBe(errorMessage);

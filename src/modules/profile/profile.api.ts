@@ -6,6 +6,7 @@ import { type Storage } from "~/libs/modules/storage/storage";
 
 import { ProfileApiPath } from "./libs/enums/enums";
 import {
+	type ConsentStateResponseDto,
 	type DeleteAccountRequestDto,
 	type UpdatePasswordRequestDto,
 	type UpdatePasswordResponseDto,
@@ -30,6 +31,12 @@ class ProfileApi extends BaseHTTPApi {
 			method: HTTPMethod.POST,
 			payload: { accepted_terms: true },
 		});
+	}
+
+	public async declineConsents(): Promise<ConsentStateResponseDto> {
+		const url = this.getFullEndpoint(ProfileApiPath.CONSENTS_DECLINE, {});
+
+		return await this.requestJson<ConsentStateResponseDto>(url, { method: HTTPMethod.POST });
 	}
 
 	public async deleteAccount(payload: DeleteAccountRequestDto): Promise<void> {

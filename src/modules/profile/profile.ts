@@ -12,6 +12,7 @@ const profileApi = new ProfileApi({
 
 export { profileApi };
 export {
+	type ConsentStateResponseDto,
 	type DeleteAccountWithCodeRequestDto,
 	type DeleteAccountWithPasswordRequestDto,
 	type UpdatePasswordRequestDto,
